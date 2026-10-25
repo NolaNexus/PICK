@@ -1,0 +1,149 @@
+from fastapi import APIRouter, Depends, HTTPException, Query
+from sqlalchemy import func, or_, select
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.database import get_session
+from app.models import Item
+from app.schemas import ItemResponse, PaginatedResponse
+
+router = APIRouter()
+
+
+@router.get("", response_model=PaginatedResponse, tags=["items"])
+async def list_items(
+    type: str | None = Query(None, description="Filter by item type (e.g., pan, shovel, mineral)"),
+    search: str | None = Query(None, description="Search in item name and description"),
+    page: int = Query(1, ge=1, description="Page number"),
+    size: int = Query(20, ge=1, le=100, description="Items per page"),
+    db: AsyncSession = Depends(get_session),  # noqa: B008
+):
+    """List wiki items with optional type filter and text search."""
+    query = select(Item)
+    count_query = select(func.count(Item.id))
+
+    if type:
+        query = query.where(Item.type == type)
+        count_query = count_query.where(Item.type == type)
+
+    if search:
+        search_term = f"%{search}%"
+        query = query.where(or_(Item.name.ilike(search_term), Item.description.ilike(search_term)))
+        count_query = count_query.where(or_(Item.name.ilike(search_term), Item.description.ilike(search_term)))
+
+    # Get total count
+    total_result = await db.execute(count_query)
+    total = total_result.scalar() or 0
+
+    # Apply pagination
+    offset = (page - 1) * size
+    query = query.offset(offset).limit(size).order_by(Item.name)
+
+    # Execute query
+    result = await db.execute(query)
+    items = result.scalars().all()
+
+    # Convert to response models
+    item_responses = [
+        ItemResponse(
+            id=item.id,
+            type=item.type,
+            wiki_id=item.wiki_id,
+            name=item.name,
+            slug=item.slug,
+            data=item.data,
+            image_url=item.image_url,
+            description=item.description,
+            created_at=item.created_at,
+            updated_at=item.updated_at,
+        )
+        for item in items
+    ]
+
+    return PaginatedResponse(
+        items=item_responses,
+        total=total,
+        page=page,
+        size=size,
+        pages=(total + size - 1) // size,
+    )
+
+
+@router.get("/{slug}", response_model=ItemResponse, tags=["items"])
+async def get_item(
+    slug: str,
+    db: AsyncSession = Depends(get_session),  # noqa: B008
+):
+    """Get a single item by its URL-safe slug."""
+    result = await db.execute(select(Item).where(Item.slug == slug))
+    item = result.scalar_one_or_none()
+
+    if not item:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    return ItemResponse(
+        id=item.id,
+        type=item.type,
+        wiki_id=item.wiki_id,
+        name=item.name,
+        slug=item.slug,
+        data=item.data,
+        image_url=item.image_url,
+        description=item.description,
+        created_at=item.created_at,
+        updated_at=item.updated_at,
+    )
+
+
+@router.get("/types", response_model=list[str], tags=["items"])
+async def list_item_types(
+    db: AsyncSession = Depends(get_session),  # noqa: B008
+):
+    """List distinct item types found in the database."""
+    result = await db.execute(select(Item.type).distinct().order_by(Item.type))
+    types = result.scalars().all()
+    return list(types)
+
+
+@router.get("/type/{type}", response_model=PaginatedResponse, tags=["items"])
+async def list_items_by_type(
+    type: str,
+    page: int = Query(1, ge=1, description="Page number"),
+    size: int = Query(20, ge=1, le=100, description="Items per page"),
+    db: AsyncSession = Depends(get_session),  # noqa: B008
+):
+    """List all items of a given type."""
+    query = select(Item).where(Item.type == type).order_by(Item.name)
+    count_query = select(func.count(Item.id)).where(Item.type == type)
+
+    total_result = await db.execute(count_query)
+    total = total_result.scalar() or 0
+
+    offset = (page - 1) * size
+    query = query.offset(offset).limit(size)
+
+    result = await db.execute(query)
+    items = result.scalars().all()
+
+    item_responses = [
+        ItemResponse(
+            id=item.id,
+            type=item.type,
+            wiki_id=item.wiki_id,
+            name=item.name,
+            slug=item.slug,
+            data=item.data,
+            image_url=item.image_url,
+            description=item.description,
+            created_at=item.created_at,
+            updated_at=item.updated_at,
+        )
+        for item in items
+    ]
+
+    return PaginatedResponse(
+        items=item_responses,
+        total=total,
+        page=page,
+        size=size,
+        pages=(total + size - 1) // size,
+    )

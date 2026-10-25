@@ -1,0 +1,406 @@
+<tabber>
+Active Codes=
+{| class="fandom-table sortable" style="width:100%; text-align:center;"
+! style="text-align:left; width:18%;" | Code
+! style="width:14%;" | <span style="color:#f7f794;">'''Money'''</span>
+! style="width:14%;" | '''[[Meteor_Shards|<span style="color:#ed9eff;">Meteor Shards</span>]]'''
+! style="width:14%;" | [[Stats|<span style="color:#C4FFB4;">Luck</span>]]
+! style="width:14%;" | [[Stats|<span style="color:#FFDD19;">Sell Boost</span>]]
+! style="width:14%;" | [[Stats|<span style="color:#FF4646;">Size Boost</span>]]
+! style="width:14%;" | [[Stats|<span style="color:#FEC0AD;">Dig Strength</span>]]
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">stuff</code>
+| $10,000
+| 200
+| 30m&nbsp;2×
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">delay</code>
+| —
+| 250
+| 3h&nbsp;2×
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">rebuild</code>
+| $20,000
+| 200
+| 1h&nbsp;2×
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">oneyear</code>
+| $50,000
+| 400
+| 2h&nbsp;2×
+| 2h&nbsp;1.5×
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">starfall</code>
+| $20,000
+| 200
+| 1h&nbsp;2×
+| —
+| —
+| —
+|-
+|}
+|-| Expired Codes =
+{| class="fandom-table sortable" style="width:100%; text-align:center;"
+! style="text-align:left; width:18%;" | Code
+! style="width:14%;" | <span style="color:#f7f794;">'''Money'''</span>
+! style="width:14%;" | '''[[Meteor_Shards|<span style="color:#ed9eff;">Meteor Shards</span>]]'''
+! style="width:14%;" | [[Stats|<span style="color:#C4FFB4;">Luck</span>]]
+! style="width:14%;" | [[Stats|<span style="color:#FFDD19;">Sell Boost</span>]]
+! style="width:14%;" | [[Stats|<span style="color:#FF4646;">Size Boost</span>]]
+! style="width:14%;" | [[Stats|<span style="color:#FEC0AD;">Dig Strength</span>]]
+! style="width:14%;" | <span style="color:#ff3232;">'''Ornaments'''</span>
+! style="width:14%;" | <span style="color:#F2B5D1;">'''Heart Crystals'''</span>
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">treasure</code>
+| $15,000
+| 200
+| —
+| 30m&nbsp;100%
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">automation</code>
+| $20,000
+| 250
+| 30m&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">shiny</code>
+| $20,000
+| 250
+| 30m&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">happyhalloween</code>
+| —
+| —
+| 2h&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">water</code>
+| $20,000
+| 250
+| 30m&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">newbeginning</code>
+| $5,000
+| —
+| 30m&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">sorry</code>
+| —
+| —
+| 3h&nbsp;2×
+| —
+| —
+| 3h&nbsp;2×
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">sorrytwo</code>
+| —
+| —
+| 3h&nbsp;2×
+| —
+| —
+| 3h&nbsp;2×
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">updateone</code>
+| $10,000
+| —
+| 30m&nbsp;1.5×
+| 30m&nbsp;100%
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">coolupdate</code>
+| $20,000
+| 200
+| 30m&nbsp;2×
+| —
+| 30m&nbsp;50%
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">fossilized</code>
+| $20,000
+| 200
+| 30m&nbsp;2×
+| —
+| 30m&nbsp;50%
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">millions</code>
+| $10,000
+| —
+| 30m&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">volcanic</code>
+| $15,000
+| —
+| 30m&nbsp;2×
+| 30m&nbsp;100%
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">traveler</code>
+| $20,000
+| 250
+| 30m&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">collection</code>
+| —
+| —
+| 1h&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">plants</code>
+| $20,000
+| 200
+| 20m&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">ancient</code>
+| $30,000
+| —
+| 30m&nbsp;2×
+| 30m&nbsp;100%
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">anotherweek</code>
+| $20,000
+| 200
+| 30m&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">spookyseason</code>
+| $20,000
+| 250
+| 1h&nbsp;2×
+| —
+| —
+| 1h&nbsp;2×
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">deeper</code>
+| $20,000
+| 250
+| 30m&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">hundredmillion</code>
+| $25,000
+| 400
+| 1h&nbsp;2×
+| 1h&nbsp;50%
+| 1h&nbsp;50%
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">happynewyear</code>
+| $25,000
+| 300
+| 1h&nbsp;2×
+| 1h&nbsp;50%
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">festive</code>
+| $20,000
+| 200
+| 1h&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">happyholidays</code>
+| $20,000
+| 200
+| 1h&nbsp;2×
+| —
+| —
+| —
+| 200 {{Ornaments}}
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">winter</code>
+| $20,000
+| 200
+| 30m&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">200klikes</code>
+| —
+| —
+| 2h&nbsp;1.5×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">morestuff</code>
+| $20,000
+| 200
+| 30m&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">qolqolqol</code>
+| $20,000
+| 200
+| 30m&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">anothercode</code>
+| $20,000
+| 200
+| 1h&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+|-
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">modlock</code>
+| $20,000
+| 200
+| 1h&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">infinity</code>
+| $20,000
+| 200
+| 30m&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">200mvisits</code>
+| $50,000
+| 400
+| 2h&nbsp;2×
+| 2h&nbsp;1.5×
+| 2h&nbsp;1.5×
+| —
+| —
+| 100
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">stacks</code>
+| $20,000
+| 200
+| 30m&nbsp;2×
+| —
+| —
+| —
+| —
+| —
+|-
+| style="text-align:left;" | <code style="background:transparent; border:none; color:inherit;">egghunt</code>
+| $20,000
+| 200
+| 1h&nbsp;2×
+| —
+| —
+| —
+|-
+|}
+</tabber>

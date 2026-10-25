@@ -1,0 +1,969 @@
+<templatestyles src="Template:Equipment/styles.css" />
+[[File:Prospector_Kit_Equipment_Equip.png|100px|thumb|The stat popup for a necklace in the Prospector Kit]]
+There are three types of equipment (jewelry) in the game: Necklaces, Charms, and Rings. You can wear one necklace and one charm, and up to 8 rings. Use the [[Prospector Kit]] to equip and unequip your jewelry, and/or to save or load a particular arrangement ("loadout").
+
+Equipment can be crafted at the [[Crafting Anvil]] near the [[Blacksmith]] in multiple locations. Some equipment needs a [[Blueprint]] to be obtained before it can be crafted, while other equipment can be crafted by all players, provided they have the ingredients.
+
+Equipment can be [[Crafting_Anvil#Quality|improved]] in multiple ways.
+* When crafting, use larger/better ores to get more stars.
+* Ask the Blacksmith to '''reforge''' the equipment. This has a chance (though not a guarantee unless you use a [[Perfect Reforge Token]] or pay the Blacksmith with Robux) to raise the percentage score.
+* Merge two five-star equipment into one six-star equipment at the [[Magma Forge]].
+* [[Mutations|Mutate]] the equipment at the forge at {{Frozen Peak}}.
+
+== List of Equipment ==
+<sup>&nbsp;c</sup> = Catalyst for [[Mutations]]
+<tabber>
+|-|Common=
+{| class="wikitable sortable equip-table" style="width:100%"
+! Appearance !! Name/Description !! Slot !! Recipe !! Stats !! Cost $
+{{Equipment row
+ | image=Gold Ring.png
+ | name=Gold Ring
+ | description=A shiny gold ring.
+ | name color=#FFE88B
+ | slot=Ring
+ | recipe=3&nbsp;[[Gold]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=0.3 – 0.8 | s6val1=0.3 – 0.9
+ | price=500
+}}
+{{Equipment row
+ | image=Garden Glove.png
+ | name=Garden Glove
+ | description=A tough glove that protects the hands.
+ | name color=#DAA78A
+ | slot=Charm
+ | recipe=1&nbsp;[[Titanium]]<sup>&nbsp;c</sup><br />5&nbsp;[[Gold]]<br />5&nbsp;[[Pyrite]]
+ | stat1=Dig Strength | val1=0.2 – 1 | s6val1=0.2 – 1.1
+ | stat2=Capacity | val2=0 – 5 | s6val2=0 – 5.5
+ | stat3=Inventory Size | val3=10 – 50 | s6val3=10 – 55
+ | price=4000
+}}
+{{Equipment row
+ | image=Amethyst Pendant.png
+ | name=Amethyst Pendant
+ | description=An amethyst necklace made from platinum.
+ | name color=#F1BDFF
+ | slot=Necklace
+ | recipe=8&nbsp;[[Platinum]]<br />2&nbsp;[[Amethyst]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=1 – 2.5 | s6val1=1 – 2.8
+ | stat2=Sell Boost | val2=0 – 15% | s6val2=0 – 18%
+ | price=5000
+}}
+{{Equipment row
+ | image=Titanium Ring.png
+ | name=Titanium Ring
+ | description=A tough titanium Ring.
+ | name color=#7C868D
+ | slot=Ring
+ | recipe=5&nbsp;[[Titanium]]<sup>&nbsp;c</sup>
+ | stat1=Capacity | val1=1 – 13 | s6val1=1 – 15
+ | price=10000
+}}
+|}
+
+|-|Uncommon=
+{| class="wikitable sortable equip-table" style="width:100%"
+! Appearance !! Name/Description !! Slot !! Recipe !! Stats !! Cost $
+{{Equipment row
+ | image=Smoke Ring.png
+ | name=Smoke Ring
+ | description=A ring made from smoky quartz. Its obscuring nature brings out the hidden properties of gems.
+ | name color=#999999
+ | slot=Ring
+ | recipe=4&nbsp;[[Smoky Quartz]]<sup>&nbsp;c</sup>
+ | stat1=Inventory Size | val1=10 – 40 | s6val1=10 – 45
+ | stat2=Modifier Boost | val2=5 – 15% | s6val2=5 – 16%
+ | price=20000
+}}
+{{Equipment row
+ | image=Pearl Necklace.png
+ | name=Pearl Necklace
+ | description=A pearl necklace.
+ | name color=#FFFFFF
+ | slot=Necklace
+ | recipe=8&nbsp;[[Pearl]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=2 – 5 | s6val1=2 – 5.5
+ | stat2=Dig Strength | val2=0 – 4 | s6val2=0 – 4.5
+ | price=22000
+}}
+{{Equipment row
+ | image=Jade Armband.png
+ | name=Jade Armband
+ | description=A simple jade armband.
+ | name color=#6FFF47
+ | slot=Charm
+ | recipe=4&nbsp;[[Jade]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=2 – 9 | s6val1=2 – 10
+ | stat2=Capacity | val2=1 – 10 | s6val2=1 – 11
+ | stat3=Inventory Size | val3=10 – 70 | s6val3=10 – 80
+ | price=50000
+}}
+{{Equipment row
+ | image=Topaz Necklace.png
+ | name=Topaz Necklace
+ | description=A simple necklace with a large topaz gem.
+ | name color=#FFC779
+ | slot=Necklace
+ | recipe=3&nbsp;[[Titanium]]<br />1&nbsp;[[Topaz]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=1 – 5 | s6val1=1 – 5.5
+ | stat2=Dig Strength | val2=1 – 4 | s6val2=1 – 4.5
+ | stat3=Shake Strength | val3=0.2 – 1 | s6val3=0.2 – 1.1
+ | price=60000
+}}
+|}
+
+|-|Rare=
+{| class="wikitable sortable equip-table" style="width:100%"
+! Appearance !! Name/Description !! Slot !! Recipe !! Stats !! Cost $
+{{Equipment row
+ | image=Ruby Ring.png
+ | name=Ruby Ring
+ | description=A platinum ring embedded with a ruby gemstone.
+ | name color=#FF9B9B
+ | slot=Ring
+ | recipe=5&nbsp;[[Platinum]]<br />1&nbsp;[[Ruby]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=2 – 6 | s6val1=2 – 6.4
+ | stat2=Size Boost | val2=0 – 18% | s6val2=0 – 20%
+ | price=45000
+}}
+{{Equipment row
+ | image=Lapis Armband.png
+ | name=Lapis Armband
+ | description=An enchanted armband carved from Lapis Lazuli.
+ | name color=#587CFF
+ | slot=Charm
+ | recipe=2&nbsp;[[Lapis Lazuli]]<sup>&nbsp;c</sup><br />4&nbsp;[[Gold]]
+ | stat1=Luck | val1=4 – 11 | s6val1=4 – 12
+ | stat2=Dig Speed | val2=0 – 40% | s6val2=0 – 45%
+ | stat3=Shake Speed | val3=0 – 40% | s6val3=0 – 45%
+ | stat4=Inventory Size | val4=10 – 70 | s6val4=10 – 80
+ | price=111000
+}}
+{{Equipment row
+ | image=Speed Coil.png
+ | name=Speed Coil
+ | description=A coil that improves the speed and efficiency of the wearer.
+ | name color=#FF595C
+ | slot=Charm
+ | recipe=1&nbsp;[[Meteoric Iron]]<sup>&nbsp;c</sup><br />3&nbsp;[[Neodymium]]<br />5&nbsp;[[Titanium]]
+ | stat1=Dig Speed | val1=0 – 70% | s6val1=0 – 80%
+ | stat2=Shake Speed | val2=0 – 70% | s6val2=0 – 80%
+ | price=120000
+}}
+{{Equipment row
+ | image=Meteor Ring.png
+ | name=Meteor Ring
+ | description=A ring made from meteoric iron.
+ | name color=#FF8418
+ | slot=Ring
+ | recipe=3&nbsp;[[Meteoric Iron]]<sup>&nbsp;c</sup>
+ | stat1=Dig Strength | val1=0.5 – 3 | s6val1=0.5 – 3.2
+ | stat2=Shake Strength | val2=0 – 1 | s6val2=0 – 1.1
+ | stat3=Inventory Size | val3=10 – 50 | s6val3=10 – 55
+ | price=150000
+}}
+|}
+
+|-|Epic=
+{| class="wikitable sortable equip-table" style="width:100%"
+! Appearance !! Name/Description !! Slot !! Recipe !! Stats !! Cost $
+{{Equipment row
+ | image=Opal Amulet.png
+ | name=Opal Amulet
+ | description=An opal amulet.
+ | name color=#D7EEFF
+ | slot=Necklace
+ | recipe=1&nbsp;[[Opal]]<sup>&nbsp;c</sup><br />3&nbsp;[[Jade]]
+ | stat1=Luck | val1=5 – 16 | s6val1=5 – 18
+ | stat2=Inventory Size | val2=10 – 80 | s6val2=10 – 90
+ | stat3=Modifier Boost | val3=0 – 90% | s6val3=0 – 100%
+ | price=400000
+}}
+{{Equipment row
+ | image=Moon Ring.png
+ | name=Moon Ring
+ | description=A ring from the stars. Wearing it makes you feel light on your feet.
+ | name color=#FFE0C1
+ | slot=Ring
+ | recipe=1&nbsp;[[Moonstone]]<sup>&nbsp;c</sup><br />1&nbsp;[[Iridium]]
+ | stat1=Luck | val1=2 – 8 | s6val1=2 – 9
+ | stat2=Dig Speed | val2=10 – 40% | s6val2=10 – 45%
+ | stat3=Shake Speed | val3=10 – 40% | s6val3=10 – 45%
+ | price=500000
+}}
+{{Equipment row
+ | image=Gravity Coil.png
+ | name=Gravity Coil
+ | description=A coil that reduces the weight of the wearer, increasing the amount they can hold.
+ | name color=#4EB2FF
+ | slot=Charm
+ | recipe=1&nbsp;[[Aurorite]]<br />1&nbsp;[[Moonstone]]<br />1&nbsp;[[Osmium]]<sup>&nbsp;c</sup>
+ | stat1=Capacity | val1=10 – 140 | s6val1=10 – 160
+ | stat2=Inventory Size | val2=100 – 250 | s6val2=100 – 275
+ | price=1000000
+}}
+{{Equipment row
+ | image=Heart of the Ocean.png
+ | name=Heart of the Ocean
+ | description=A ring that brings out the power of the sea in the wearer.
+ | name color=#1273EA
+ | slot=Ring
+ | recipe=10&nbsp;[[Coral]]<br />5&nbsp;[[Silver Clamshell]]<br />3&nbsp;[[Golden Pearl]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=3 – 10 | s6val1=3 – 11
+ | stat2=Shake Speed | val2=0 – 20% | s6val2=0 – 22%
+ | stat3=Sell Boost | val3=10 – 20% | s6val3=10 – 22%
+ | price=1000000
+}}
+{{Equipment row
+ | image=Lava_lantern.png
+ | name=Lava Lantern
+ | description=A lantern used by miners venturing deep into the volcanic caverns.
+ | name color=#c4951d
+ | slot=Charm
+ | recipe=5&nbsp;[[Peridot]]<br />5&nbsp;[[Onyx]]<br />3&nbsp;[[Pyronium]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=5 – 22 | s6val1=5 – 25
+ | stat2=Capacity | val2=10 – 40 | s6val2=10 – 45
+ | price=1500000
+}}
+|}
+
+|-|Legendary=
+{| class="wikitable sortable equip-table" style="width:100%"
+! Appearance !! Name/Description !! Slot !! Recipe !! Stats !! Cost $
+{{Equipment row
+ | image=Guiding Light.png
+ | name=Guiding Light
+ | description=A wisp of light.
+ | name color=#FFF395
+ | slot=Charm
+ | recipe=1&nbsp;[[Catseye]]<sup>&nbsp;c</sup><br />2&nbsp;[[Golden Pearl]]
+ | stat1=Luck | val1=10 – 25 | s6val1=10 – 27
+ | stat2=Capacity | val2=10 – 40 | s6val2=10 – 45
+ | stat3=Inventory Size | val3=50 – 200 | s6val3=50 – 225
+ | stat4=Modifier Boost | val4=0 – 45% | s6val4=0 – 50%
+ | price=1500000
+}}
+{{Equipment row
+ | image=Lightkeeper's Ring.png
+ | name=Lightkeeper's Ring
+ | description=A brightly glowing ring made from luminum. Lights the way, even during the darkest nights.
+ | name color=#FFE770
+ | slot=Ring
+ | recipe=2&nbsp;[[Opal]]<br />1&nbsp;[[Luminum]]<sup>&nbsp;c</sup>
+ | stat1=Dig Speed | val1=5 – 25% | s6val1=5 – 27%
+ | stat2=Inventory Size | val2=30 – 100 | s6val2=30 – 110
+ | stat3=Sell Boost | val3=5 – 25% | s6val3=5 – 27%
+ | stat4=Modifier Boost | val4=5 – 25% | s6val4=5 – 27%
+ | price=2000000
+}}
+{{Equipment row
+ | image=Mass Accumulator.png
+ | name=Mass Accumulator
+ | description=A powerful device that emits intense radiation, increasing the size of items.
+ | name color=#9DFF52
+ | slot=Necklace
+ | recipe=1&nbsp;[[Aurorite]]<br />1&nbsp;[[Uranium]]<sup>&nbsp;c</sup><br />2&nbsp;[[Osmium]]
+ | stat1=Capacity | val1=20 – 60 | s6val1=20 – 65
+ | stat2=Inventory Size | val2=150 – 400 | s6val2=150 – 450
+ | stat3=Size Boost | val3=10 – 80% | s6val3=10 – 90%
+ | price=3000000
+}}
+{{Equipment row
+ | image=Eye_of_fire.png
+ | name=Eye of Fire
+ | description=A ring embedded with a precious fire opal. 
+ | name color=#fa0202
+ | slot=Ring
+ | recipe=1&nbsp;[[Cinnabar]]<br />1&nbsp;[[Fire Opal]]<sup>&nbsp;c</sup><br />10&nbsp;[[Pyrelith]]
+ | stat1=Luck | val1=4 – 24 | s6val1=4 – 28
+ | stat2=Dig Speed | val2=0 – 20% | s6val2=0 – 22%
+ | stat3=Size Boost | val3=10 – 20% | s6val3=10 – 22%
+ | price=4000000
+}}
+{{Equipment row
+ | image=Crown.png
+ | name=Crown
+ | description=A crown with embedded gems. Fit for a king.
+ | name color=#FFCC00
+ | slot=Charm
+ | recipe=3&nbsp;[[Ruby]]<br />8&nbsp;[[Gold]]<br />2&nbsp;[[Emerald]]<br />1&nbsp;[[Diamond]]<sup>&nbsp;c</sup><br />3&nbsp;[[Sapphire]]
+ | stat1=Luck | val1=5 – 30 | s6val1=5 – 35
+ | stat2=Size Boost | val2=0 – 45% | s6val2=0 – 50%
+ | stat3=Sell Boost | val3=0 – 90% | s6val3=0 – 100%
+ | price=5000000
+}}
+{{Equipment row
+ | image=Dragon Claw.png
+ | name=Dragon Claw
+ | description=Grants the wearer the strength of a dragon.
+ | name color=#DAA78A
+ | slot=Charm
+ | recipe=5&nbsp;[[Ammonite Fossil]]<br />2&nbsp;[[Dragon Bone]]<sup>&nbsp;c</sup>
+ | stat1=Dig Strength | val1=15 – 35 | s6val1=15 – 40
+ | stat2=Shake Strength | val2=2 – 9 | s6val2=2 – 10
+ | stat3=Inventory Size | val3=100 – 400 | s6val3=100 – 450
+ | price=10000000
+}}
+|}
+
+|-|Mythic=
+{| class="wikitable sortable equip-table" style="width:100%"
+! Appearance !! Name/Description !! Slot !! Recipe !! Stats !! Cost $
+{{Equipment row
+ | image=helm.PNG
+ | name=Helm of the Round
+ | description=Worn by an order of Chivalric Knights who vanished long ago. '''Requires the [[Blueprint#Helm of the Round Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#FFE0C1
+ | slot=Charm
+ | recipe=5&nbsp;[[Rose Gold]] (+2.5kg)<br />1&nbsp;[[Mythril]] (+1.25kg)<br />1&nbsp;[[Radiant Gold]]<sup>&nbsp;c</sup><br />5&nbsp;[[Gold]] (+5kg)
+ | stat1=Luck | val1=15 – 90 | s6val1=15 – 100
+ | stat2=Capacity | val2=15 – 90 | s6val2=15 – 100
+ | stat3=Size Boost | val3=50 – 150% | s6val3=50 – 160%
+ | stat4=WalkSpeed | val4=-4 – -0.75 | s6val4=-4 – -0.75
+ | price=15,000,000
+}}
+{{Equipment row
+ | image=Royal Federation Crown.png
+ | name=Royal Federation Crown
+ | description=A crown with embedded gems. Fit for a king.
+ | name color=#FFD5FC
+ | slot=Charm
+ | recipe=3&nbsp;[[Rose Gold]]<br />5&nbsp;[[Golden Pearl]]<br />1&nbsp;[[Pink Diamond]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=10 – 90 | s6val1=10 – 100
+ | stat2=Size Boost | val2=0 – 90% | s6val2=0 – 100%
+ | stat3=Sell Boost | val3=0 – 180% | s6val3=0 – 200%
+ | price=30000000
+}}
+{{Equipment row
+ | image=Phoenix Heart.png
+ | name=Phoenix Heart
+ | description=An infernal artifact that burns through gemstones, leaving only the most valuable behind.
+ | name color=#FF4102
+ | slot=Necklace
+ | recipe=3&nbsp;[[Uranium]]<br />1&nbsp;[[Inferlume]]<sup>&nbsp;c</sup><br />2&nbsp;[[Starshine]]
+ | stat1=Luck | val1=100 – 300 | s6val1=100 – 325
+ | stat2=Inventory Size | val2=100 – 400 | s6val2=100 – 450
+ | stat3=Size Boost | val3=−70 – −40% | s6val3=−70 – −35%
+ | price=40000000
+}}
+{{Equipment row
+ | image=Celestial Rings.png
+ | name=Celestial Rings
+ | description=The power of the stars.
+ | name color=#FFDC52
+ | slot=Necklace
+ | recipe=1&nbsp;[[Vortessence]]<sup>&nbsp;c</sup><br />8&nbsp;[[Meteoric Iron]]<br />5&nbsp;[[Moonstone]]<br />2 [[Catseye]]
+ | stat1=Luck | val1=30 – 90 | s6val1=30 – 100
+ | stat2=Capacity | val2=50 – 250 | s6val2=50 – 275
+ | stat3=Size Boost | val3=0 – 45% | s6val3=0 – 50%
+ | stat4=Modifier Boost | val4=20 – 140% | s6val4=20 – 150%
+ | price=50000000
+}}
+{{Equipment row
+ | image=Apocalypse Bringer.png
+ | name=Apocalypse Bringer
+ | description=An ancient ring that signals the end of days.
+ | name color=#A20000
+ | slot=Ring
+ | recipe=4&nbsp;[[Ashvein]]<br />10&nbsp;[[Ruby]]<br />2&nbsp;[[Palladium]]<br />1&nbsp;[[Painite]]<sup>&nbsp;c</sup>
+ | stat1=Dig Strength | val1=5 – 20 | s6val1=5 – 22
+ | stat2=Luck | val2=10 – 40 | s6val2=10 – 45
+ | stat3=Shake Strength | val3=2 – 5 | s6val3=2 – 5.5
+ | stat4=Sell Boost | val4=10 – 40% | s6val4=10 – 45%
+ | price=50000000
+}}
+{{Equipment row
+ | image=Mythril Ring.png
+ | name=Mythril Ring
+ | description=A legendary mythril ring. '''Requires the [[Blueprint#Mythril Ring Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#3EFF85
+ | slot=Ring
+ | recipe=2&nbsp;[[Tourmaline]]<br />2&nbsp;[[Cinnabar]]<br />1&nbsp;[[Starshine]]<br />1&nbsp;[[Mythril]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=20 – 80 | s6val1=20 – 90
+ | stat2=Dig Speed | val2=20 – 40% | s6val2=20 – 42%
+ | stat3=Shake Speed | val3=20 – 40% | s6val3=20 – 42%
+ | stat4=Sell Boost | val4=5 – 24% | s6val4=5 – 26%
+ | price=60000000
+}}
+{{Equipment row
+ | image=Phoenix Wings.png
+ | name=Phoenix Wings
+ | description=Death and rebirth.
+ | name color=#FF4102
+ | slot=Charm
+ | recipe=1&nbsp;[[Flarebloom]]<sup>&nbsp;c</sup><br />2&nbsp;[[Cinnabar]]<br />2&nbsp;[[Fire Opal]]
+ | stat1=Luck | val1=100 – 300 | s6val1=100 – 325
+ | stat2=Capacity | val2=−80 – −40 | s6val2=−80 – −35
+ | stat3=Inventory Size | val3=100 – 400 | s6val3=100 – 450
+ | price=65000000
+}}
+{{Equipment row
+ | image=Prismatic Star.png
+ | name=Prismatic Star
+ | description=A luminescent ring infused with the light of the world.
+ | name color=#3EFF85
+ | slot=Ring
+ | recipe=1&nbsp;[[Diamond]]<br />1&nbsp;[[Prismara]]<sup>&nbsp;c</sup><br />1&nbsp;[[Pink Diamond]]<br />5&nbsp;[[Borealite]]<br />1&nbsp;[[Luminum]]<br />1&nbsp;[[Starshine]]
+ | stat1=Luck | val1=5 – 20 | s6val1=5 – 22
+ | stat2=Dig Strength | val2=2 – 10 | s6val2=2 – 11
+ | stat3=Capacity | val3=10 – 40 | s6val3=10 – 45
+ | stat4=Dig Speed | val4=5 – 20% | s6val4=5 – 22%
+ | stat5=Shake Strength | val5=1 – 3 | s6val5=1 – 3.2
+ | stat6=Inventory Size | val6=15 – 50 | s6val6=15 – 55
+ | stat7=Shake Speed | val7=5 – 20% | s6val7=5 – 22%
+ | stat8=Sell Boost | val8=10 – 20% | s6val8=10 – 22%
+ | stat9=Size Boost | val9=5 – 20% | s6val9=5 – 22%
+ | stat10=Modifier Boost | val10=5 – 20% | s6val10=5 – 22%
+ | price=75000000
+}}
+{{Equipment row
+ | image=Cryogenic Preserver.png
+ | name=Cryogenic Preserver
+ | description=A device that freezes the body of the user, improving their strength... and maybe their lifespan. '''Requires the [[Blueprint#Cryogenic Preserver Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#79D5FF
+ | slot=Charm
+ | recipe=5&nbsp;[[Borealite]]<br />1&nbsp;[[Frostshard]]<sup>&nbsp;c</sup><br />3&nbsp;[[Aetherite]]<br />1&nbsp;[[Mythril]]
+ | stat1=Luck | val1=100 – 250 | s6val1=100 – 275
+ | stat2=Shake Strength | val2=10 – 40 | s6val2=10 – 45
+ | stat3=Shake Speed | val3=−40 – −20% | s6val3=−40 – −18%
+ | stat4=Sell Boost | val4=0 – 50% | s6val4=0 – 55%
+ | price=75000000
+}}
+{{Equipment row
+ | image=Ring of Thorns.png
+ | name=Ring of Thorns
+ | description=A thorny ring made from vines. '''Requires the [[Blueprint#Ring of Thorns Blueprint|Blueprint]] before it can be crafted..'''
+ | name color=#77FF3D
+ | slot=Ring
+ | recipe=1&nbsp;[[Chrysoberyl]]<sup>&nbsp;c</sup><br />2&nbsp;[[Painite]]<br />5&nbsp;[[Lightshard]]<br />5&nbsp;[[Glowmoss]]<br />5&nbsp;[[Firefly Stone]]
+ | stat1=Luck | val1=20 – 100 | s6val1=20 – 110
+ | stat2=Dig Strength | val2=5 – 40 | s6val2=5 – 45
+ | stat3=Inventory Size | val3=40 – 150 | s6val3=40 – 170
+ | stat4=Size Boost | val4=10 – 30% | s6val4=10 – 32%
+ | stat5=Modifier Boost | val5=20 – 60% | s6val5=20 – 65%
+ | price=75000000
+}}
+{{Equipment row
+ | image=PurifyingRing.png
+ | name=Purifying Ring
+ | description=A ring that protects the wearer from toxins. '''Requires the [[Blueprint#Purifying Ring Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#8BFFF7
+ | slot=Ring
+ | recipe=5&nbsp;[[Diamond]]<br />1&nbsp;[[Chrysoberyl]]<sup>&nbsp;c</sup><br />10&nbsp;[[Diopside]]<br />1&nbsp;[[Bismuth]]<br />5&nbsp;[[Mercury]]
+ | stat1=Luck | val1=20 – 80 | s6val1=20 – 90
+ | stat2=Dig Strength | val2=10 – 80 | s6val2=10 – 90
+ | stat3=Capacity | val3=20 – 100 | s6val3=20 – 110
+ | stat4=Shake Strength | val4=5 – 27 | s6val4=5 – 30
+ | stat5=Inventory Size | val5=20 – 80 | s6val5=20 – 90
+ | price=80000000
+}}
+{{Equipment row
+ | image=Solar Ring.png
+ | name=Solar Ring
+ | description=A blessed solar ring.
+ | name color=#FF7418
+ | slot=Ring
+ | recipe=1&nbsp;[[Vortessence]]<br />2&nbsp;[[Fire Opal]]<br />1&nbsp;[[Volcanic Core]]<sup>&nbsp;c</sup><br />10&nbsp;[[Pyronium]]
+ | stat1=Luck | val1=20 – 100 | s6val1=20 – 110
+ | stat2=Dig Strength | val2=2 – 8 | s6val2=2 – 9
+ | stat3=Dig Speed | val3=−30 – −10% | s6val3=−30 – −8%
+ | stat4=Shake Strength | val4=0 – 2 | s6val4=0 – 2.2
+ | stat5=Shake Speed | val5=−30 – −10% | s6val5=−30 – −8%
+ | stat6=Modifier Boost | val6=5 – 20% | s6val6=5 – 22%
+ | price=90000000
+}}
+{{Equipment row
+ | image=Amulet of Life.png
+ | name=Amulet of Life
+ | description=An ancient amulet infused with the power of life. '''Requires the [[Blueprint#Amulet of Life Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#AAFF0B
+ | slot=Necklace
+ | recipe=5&nbsp;[[Specterite]]<br />1&nbsp;[[Chrysoberyl]]<br />1&nbsp;[[Prismara]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=200 – 400 | s6val1=100 – 425
+ | stat2=Modifier Boost | val2=50 – 150% | s6val2=50 – 160%
+ | price=150000000
+}}
+|}
+
+|-|Exotic=
+{| class="wikitable sortable equip-table" style="width:100%"
+! Appearance !! Name/Description !! Slot !! Recipe !! Stats !! Cost $
+{{Equipment row
+ | image=Fossilized Crown.png
+ | name=Fossilized Crown
+ | description=...
+ | name color=#FFE3CA
+ | slot=Charm
+ | recipe=1&nbsp;[[Dinosaur Skull]]<sup>&nbsp;c</sup><br />5&nbsp;[[Cinnabar]]<br />1&nbsp;[[Volcanic Core]]<br />5&nbsp;[[Dragon Bone]]
+ | stat1=Luck | val1=100 – 250 | s6val1=100 – 260
+ | stat2=Capacity | val2=50 – 200 | s6val2=50 – 225
+ | stat3=Shake Speed | val3=10 – 30% | s6val3=10 – 32%
+ | stat4=Size Boost | val4=0 – 50% | s6val4=0 – 55%
+ | stat5=Sell Boost | val5=0 – 100% | s6val5=0 – 110%
+ | price=100000000
+}}
+{{Equipment row
+ | image=Frostthorn Pendant.png
+ | name=Frostthorn Pendant
+ | description=An icy pendant. '''Requires the [[Blueprint#Frostthorn Pendant Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#05A7FF
+ | slot=Necklace
+ | recipe=5&nbsp;[[Tourmaline]]<br />10&nbsp;[[Cobalt]]<br />2&nbsp;[[Frostshard]]<br />5&nbsp;[[Aquamarine]]<br />1&nbsp;[[Cryonic Artifact]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=100 – 400 | s6val1=100 – 450
+ | stat2=Dig Strength | val2=100 – 200 | s6val2=100 – 215
+ | stat3=Capacity | val3=50 – 200 | s6val3=50 – 225
+ | stat4=Dig Speed | val4=−50 – −30% | s6val4=−50 – −28%
+ | stat5=Size Boost | val5=30 – 100% | s6val5=30 – 110%
+ | price=200000000
+}}
+{{Equipment row
+ | image=Antlers of Life.png
+ | name=Antlers of Life
+ | description=A massive pair of antlers resembling those of a mythical beast. '''Requires the [[Blueprint#Antlers of Life Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#67C800
+ | slot=Charm
+ | recipe=3&nbsp;[[Chrysoberyl]]<br />1&nbsp;[[Vineheart]]<sup>&nbsp;c</sup><br />2&nbsp;[[Radiant Gold]]<br />10&nbsp;[[Firefly Stone]]
+ | stat1=Dig Speed | val1=10 – 40% | s6val1=10 – 44%
+ | stat2=Luck | val2=100 – 580 | s6val2=100 – 640
+ | stat3=Size Boost | val3=20 – 60% | s6val3=20 – 65%
+ | stat4=Modifier Boost | val4=50 – 200% | s6val4=50 – 220%
+ | price=300000000
+}}
+{{Equipment row
+ | image=Vortex Ring.png
+ | name=Vortex Ring
+ | description=A ring with intense gravitational force, increasing capacity and power. '''Requires the Vortex Ring [[Blueprint#Vortex Ring Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#3C00FF
+ | slot=Ring
+ | recipe=1&nbsp;[[Voidstone]]<sup>&nbsp;c</sup><br />2&nbsp;[[Prismara]]<br />3&nbsp;[[Vortessence]]
+ | stat1=Dig Strength | val1=20 – 80 | s6val1=20 – 90
+ | stat2=Luck | val2=50 – 140 | s6val2=50 – 155
+ | stat3=Capacity | val3=100 – 300 | s6val3=100 – 325
+ | stat4=Shake Strength | val4=3 – 10 | s6val4=3 – 11
+ | price=333000000
+}}
+{{Equipment row
+ | image=UmbriteRing.png
+ | name=Umbrite Ring
+ | description=A cursed umbrite ring. '''Requires the [[Blueprint#Umbrite Ring Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#3A19BE
+ | slot=Ring
+ | recipe=3&nbsp;[[Chrysoberyl]] <br />3&nbsp;[[Painite]]<br />1&nbsp;[[Dinosaur Skull]]<br />5&nbsp;[[Specterite]]<br />1&nbsp;[[Umbrite]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=50 – 220 | s6val1=50 – 245
+ | stat2=Dig Strength | val2=5 – 45 | s6val2=5 – 50
+ | stat3=Capacity | val3=20 – 200 | s6val3=20 – 220
+ | stat4=Shake Strength | val4=5 – 20 | s6val4=5 – 22
+ | stat5=Size Boost | val5=5 – 15% | s6val5=5 – 16%
+ | price=400000000
+}}
+{{Equipment row
+ | image=otherwordlyring.png
+ | name=Otherworldly Ring
+ | description= '''Requires the [[Blueprint#Otherworldly Ring Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#3A19BE
+ | slot=Ring
+ | recipe=1&nbsp;[[Astral Spore]]<sup>&nbsp;c</sup><br />1&nbsp;[[Vineheart]]<br />3&nbsp;[[Red Beryl]]<br />10&nbsp;[[Gloomcap]]
+ | stat1=Luck | val1=150 – 350 | s6val1=150 – 375
+ | stat2=Dig Speed | val2=0 – 20% | s6val2=0 – 22%
+ | stat3=Shake Speed | val3=0 – 20% | s6val3=0 – 22%
+ | stat4=Size Boost | val4=10 – 25% | s6val4=10 – 26%
+ | stat5=Sell Boost | val5=10 – 30% | s6val5=10 – 32%
+ | price=400000000
+}}
+{{Equipment row
+ | image=Venomshank.png
+ | name=Venomshank
+ | description=A lethal curse that drains the wearer's strength in exchange for immense luck. '''Requires the [[Blueprint#Venomshank Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#17613C
+ | slot=Necklace
+ | recipe=3&nbsp;[[Star Garnet]] <br />10&nbsp;[[Bismuth]]<br />3&nbsp;[[Mythril]]<br />1&nbsp;[[Bloodstone]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=600 – 1200 | s6val1=600 – 1300
+ | stat2=Dig Strength | val2=−100 – −50 | s6val2=−100 – −45
+ | stat3=Dig Speed | val3=−60 – −40% | s6val3=−60 – −38%
+ | stat4=Inventory Size | val4=100 – 300 | s6val4=100 – 325
+ | stat5=Size Boost | val5=20 – 50% | s6val5=20 – 55%
+ | stat6=Sell Boost | val6=20 – 50% | s6val6=20 – 55%
+ | price=500000000
+}}
+{{Equipment row
+ | image=excal.png
+ | name=Excalibur
+ | description=A legend made manifest. '''Requires the [[Blueprint#Excalibur Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#FFFF00
+ | slot=Charm
+ | recipe=2&nbsp;[[Prismara]]<br />1&nbsp;[[Adamantine]]<sup>&nbsp;c</sup><br />10&nbsp;[[Radiant Gold]] (+0.5kg)<br />5&nbsp;[[Mythril]] (+0.5kg)
+ | stat1=Luck | val1=100 – 500 | s6val1=100 – 550
+ | stat2=Dig Strength | val2=75 – 300 | s6val2=75 – 325
+ | stat3=Treasure Map Chance | val3=50 – 160% | s6val3=50% – 175%
+ | stat4=Modifier Boost | val4=50 – 150% | s6val4=50% – 160%
+ | stat5=WalkSpeed | val5=1 – 5 | s6val5=1 – 5.5
+ | price=650000000
+}}
+{{Equipment row
+ | image=Lockedsoul.png
+ | name=Timelocked Soul
+ | description=A charm that harnesses the power of time. '''Requires the [[Blueprint#Timelocked Soul Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#34eb92
+ | slot=Charm
+ | recipe=1&nbsp;[[Eternium]]<sup>&nbsp;c</sup> <br />1&nbsp;[[Astral Spore]]<br />3&nbsp;[[Red Beryl]]<br />5&nbsp;[[Radiant Gold]]<br />1&nbsp;[[Umbrite]]
+ | stat1=Luck | val1=222 – 888 | s6val1=222 – 999
+ | stat2=Dig Speed | val2=30 – 100% | s6val2=30 – 110%
+ | stat3=Inventory Size | val3=100 – 450 | s6val3=100 – 500
+ | stat4=Shake Speed | val4=30 – 100% | s6val4=30 – 110%
+ | stat5=Size Boost | val5=10 – 50% | s6val5=10 – 55%
+ | price=1000000000
+}}
+{{Equipment row
+| image=Sun's Gift.png
+| name=Sun's Gift
+| description=A sun-shaped ring carved from Solarium. '''Requires the [[Blueprint#Sun's Gift Blueprint|Blueprint]] before it can be crafted.'''
+| name color=#f7620c
+| slot=Ring
+| recipe=10&nbsp;[[Inferlume]]<br>5&nbsp;[[Agate]]<br>1&nbsp;[[Solarium]]<br>1&nbsp;[[Starpiercer]]<sup>&nbsp;c</sup>
+| stat1=Luck | val1=125 – 450 | s6val1=125 – 500
+| stat2=Dig Strength | val2=5 – 50 | s6val2=5 – 55
+| stat3=Capacity | val3=40 – 120 | s6val3=40 – 135
+| stat4=Size Boost | val4=10 – 45% | s6val4=10 – 50%
+| stat5=Sell Boost | val5=20 – 60% | s6val5=20 – 65%
+| price=1000000000
+}}
+{{Equipment row
+ | image=StarlightWings.png
+ | name=Starlight Wings
+ | description=A futuristic piece of alien technology that boosts the wearer's strength. '''Requires the [[Blueprint#Starlight Wings Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#93cbf6
+ | slot=Charm
+ | recipe=5&nbsp;[[Vortessence]] <br />5&nbsp;[[Star Garnet]]<br />1&nbsp;[[Starpiercer]]<sup>&nbsp;c</sup><br />10&nbsp;[[Depleted Shard]]
+ | stat1=Luck | val1=300 – 780 | s6val1=300 – 850
+ | stat2=Dig Strength | val2=200 – 500 | s6val2=200 – 550
+ | stat3=Shake Strength | val3=60 – 180 | s6val3=60 – 200
+ | stat4=Size Boost | val4=10 – 40% | s6val4=10 – 45%
+ | stat5=Walkspeed | val5=1 – 2 | s6val5=1 – 2
+ | price=1250000000
+}}
+{{Equipment row
+ | image=MeteorCore.png
+ | name=Meteor Core
+ | description=A core held together by extreme gravity. '''Requires the [[Blueprint#Meteor Core Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#ff91c1
+ | slot=Necklace
+ | recipe=5&nbsp;[[Sunstone]] <br />1&nbsp;[[Astral Spore]]<br />1&nbsp;[[Singularium]]<sup>&nbsp;c</sup><br />10&nbsp;[[Depleted Shard]]
+ | stat1=Luck | val1=200 – 800 | s6val1=200 – 900
+ | stat2=Capacity | val2=200 – 600 | s6val2=200 – 650
+ | stat3=Inventory Size | val3=100 – 400 | s6val3=100 – 450
+ | stat4=Size Boost | val4=20 – 100% | s6val4=20 – 115%
+ | stat5=Status Timer Speed | val5=-30 - -30% | s6val5=-30 - -30% 
+ | stat6=Modifier Boost | val6=10 – 40% | s6val6=10 – 45%
+ | price=2000000000
+}}
+{{Equipment row
+ | image=DredgeRing.png
+ | name=Dredge Master's Ring
+ | description=The powerful ring of the Dredge Master. ONLY ONE CAN BE WORN AT THE SAME TIME<ref name="stet">stet</ref>. '''Requires the [[Blueprint#Dredge Master's Ring Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#6f7d6e
+ | slot=Ring
+ | recipe=1&nbsp;[[Adamantine]]<sup>&nbsp;c</sup> <br />3&nbsp;[[Chrysoberyl]]<br />3&nbsp;[[Prismara]]<br />5&nbsp;[[Aquamarine]]<br />1&nbsp;[[Umbrite]]
+ | stat1=Dig Strength | val1=20 – 120 | s6val1=20 – 135
+ | stat2=Capacity | val2=100 – 500 | s6val2=100 – 550
+ | stat3=Shake Strength | val3=10 – 28 | s6val3=10 – 30
+ | stat4=Size Boost | val4=10 – 50% | s6val4=10 – 55%
+ | stat5=Modifier Boost | val5=10 – 70% | s6val5=10 – 75%
+ | price=2500000000
+}}
+{{Equipment row
+ | image=accretiondisk.png
+ | name=Accretion Disk
+ | description=A ring formed from orbiting debris. '''Requires the [[Blueprint#Accretion_Disk_Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#ffcc33
+ | slot=Ring
+ | recipe=1&nbsp;[[Celestium]] <br />5&nbsp;[[Sunstone]] <br />1&nbsp;[[Eternium]]<sup>&nbsp;c</sup> <br />10&nbsp;[[Mythril]]
+ | stat1=Luck | val1=125 - 360 | s6val1=125 - 400
+ | stat2=Dig Speed | val2=20 - 46% | s6val2=20 - 50%
+ | stat3=Shake Speed | val3=20 - 46% | s6val3=20 - 50%
+ | stat4=Inventory Size | val4=25 - 90 | s6val4=25 - 100
+ | stat5=Modifier Boost | val5=5 - 15% | s6val5=5 - 16%
+ | stat6=Size Boost | val6=5 - 15% | s6val6=5 - 16%
+ | price= 2800000000
+}}
+{{Equipment row
+ | image=Lunar Mask.png
+ | name=Lunar Mask
+ | description=A mask used in rituals, often during a full moon. '''Requires the [[Blueprint#Lunar_Mask_Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#8181fd
+ | slot=Charm
+ | recipe=1&nbsp;[[Singularium]]<br>3&nbsp;[[Umbrite]]<br>1&nbsp;[[Eye of the Sands]]<sup>&nbsp;c</sup><br>5&nbsp;[[Aetherium]]
+ | stat1=Luck | val1=300 - 1,250 | s6val1=300 - 1,400
+ | stat2=Dig Speed | val2=20 - 80% | s6val2=20 - 85%
+ | stat3=Shake Speed | val3=20 - 80% | s6val3=20 - 85%
+ | stat4=Modifier Boost | val4=20 - 145% | s6val4=20 - 170%
+ | stat5=Size Boost | val5=40 - 90% | s6val5=40 - 100%
+ | stat6=WalkSpeed | val6=4 | s6val6=4.5
+ | stat7=Jump Power | val7=9 | s6val7=10
+ | price= 4000000000
+}}
+{{Equipment row
+ | image=Guardian Pendant.png
+ | name=Guardian Pendant
+ | description=An ancient artifact used to purify waters and preserve life. '''Requires the [[Blueprint#Guardian_Pendant_Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#fc770e
+ | slot=Necklace
+ | recipe=5&nbsp;[[Catseye]]<br>5&nbsp;[[Agate]]<br>5&nbsp;[[Prismara]]<br>1&nbsp;[[Key of Life]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=1,000 - 2,700 | s6val1=1000 - 3,000
+ | price= 6000000000
+}}
+|-|Ascended=
+{| class="wikitable sortable equip-table" style="width:100%"
+! Appearance !! Name/Description !! Slot !! Recipe !! Stats !! Cost $
+{{Equipment row
+ | image=ringofchampions.png
+ | name=Ring of Champions
+ | description=A legendary ring only worn by the greatest of prospectors. ONLY ONE CAN BE WORN AT THE SAME TIME.<ref name="stet">stet</ref> '''Requires the [[Blueprint#Ring of Champions Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#ffcc00
+ | slot=Ring
+ | recipe=1&nbsp;[[Dinosaur Skull]] <br />1&nbsp;[[Eternium]]<sup>&nbsp;c</sup><br />1&nbsp;[[Cryonic Artifact]]<br />1&nbsp;[[Astral Spore]]<br />1&nbsp;[[Vineheart]]<br />1&nbsp;[[Umbrite]]<br />1&nbsp;[[Bloodstone]]
+ | stat1=Luck | val1=100 – 500 | s6val1=100 – 550
+ | stat2=Dig Strength | val2=20 – 160 | s6val2=20 – 180
+ | stat3=Capacity | val3=100 – 400 | s6val3=100 – 450
+ | stat4=Dig Speed | val4=20 – 90% | s6val4=20 – 100%
+ | stat5=Shake Strength | val5=10 – 50 | s6val5=10 – 55
+ | stat6=Shake Speed | val6=20 – 90% | s6val6=20 – 100%
+ | stat7=Sell Boost | val7=50 – 150% | s6val7=50 – 160%
+ | stat8=Size Boost | val8=50 – 150% | s6val8=50 – 160%
+ | stat9=Modifier Boost | val9=50 – 150% | s6val9=50 – 160%
+ | price=5,000,000,000
+}}
+{{Equipment row
+| image=clockwork.PNG
+| name=Clockwork
+| description=An impossibly complicated mechanical device. '''Requires the [[Blueprint#tabber-Clockwork_Blueprint|blueprint]] before it can be crafted.'''
+| name color=#EFC241
+| slot=Charm
+| recipe=1 [[Celestium]]<sup>&nbsp;c</sup> <br />5 [[Gold]] [+60kg] <br />3 [[Dinosaur Skull]] <br />2 [[Bloodstone]]
+| stat1=Luck | val1=50 - 200 | s6val1=50 - 225
+| stat2=Capacity | val2=100 - 250 | s6val2=100 - 275
+| stat3=Inventory Size | val3=100 - 300 | s6val3=100 - 325
+| stat4=Shake Speed | val4=40 - 90% | s6val4=40 - 100%
+| stat5=Size Boost | val5=30 - 190% | s6val5=30 - 210%
+| stat6=Sell Boost | val6=0 - 100% | s6val6=0 - 110%
+| price=9,000,000,000
+}}
+{{Equipment row
+| image=rots.PNG
+| name=Ring of the Stars
+| description=The ultimate invention of an alien civilization. ONLY ONE CAN BE WORN. '''Requires the [[Blueprint#Ring_of_the_Stars_Blueprint|Blueprint]] before it can be crafted.'''
+| name color=#ff3377
+| slot=Ring
+| recipe=1&nbsp;[[Celestium]]<sup>&nbsp;c</sup> <br />1&nbsp;[[Starpiercer]] <br />1&nbsp;[[Singularium]]
+| stat1=Luck | val1=400 – 700 | s6val1=400 - 750
+| stat2=Dig Speed | val2=10 - 28% | s6val2=10 - 30%
+| stat3=Shake Speed | val3=10 - 28% | s6val3=10 - 30%
+| stat4=Modifier Boost | val4=20 - 100% | s6val4=20 - 110%
+| stat5=Size Boost | val5=10 - 50% | s6val5=10 - 55%
+| stat6=WalkSpeed | val6=1 - 3.8 | s6val6=1 - 4
+| stat7=Jump Power | val7=1 - 5 | s6val7=1 - 5.5
+| price=10,000,000,000
+}}
+|}
+</tabber>
+<references />
+
+== Limited-Time Equipment ==
+Note: equipment that requires a blueprint can still be crafted after the event ends, assuming you acquired said blueprint during the event, and you have (or can get via {{The Void}}) the required ores. Equipment that does not have a blueprint can '''not''' be crafted after the event ends.
+
+<sup>&nbsp;c</sup> = Catalyst for [[Mutations]]
+<tabber>
+|-|Legendary=
+{| class="wikitable sortable equip-table" style="width:100%"
+! Appearance !! Name/Description !! Slot !! Recipe !! Stats !! Cost
+{{Equipment row
+ | image=ringofharvest.webp
+ | name=Ring of Harvest
+ | description=A ring often worn during the Harvest Moon as a good luck charm. '''Requires the [[Blueprint#Ring of Harvest Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#FA901E
+ | slot=Ring
+ | recipe=5&nbsp;[[Lapis Lazuli]]<br />3&nbsp;[[Bone]]<br />10&nbsp;[[Rock Candy]]<br />1&nbsp;[[Lost Soul]]<sup>&nbsp;c</sup>
+ | stat1=Luck | val1=5 – 18 | s6val1=5 – 20
+ | stat2=Capacity | val2=10 – 30 | s6val2=10 – 32
+ | stat3=Inventory Size | val3=10 – 40 | s6val3=10 – 45
+ | stat4=WalkSpeed| val4=0.5 – 1 | s6val4=0.5 – 1
+ | price=5000000
+}}
+{{Equipment row
+ | image=Spiderbowtie.webp
+ | name=Spider Bowtie
+ | description=A realistic spider bowtie. '''Can only be crafted at the [[Halloween Forge]].'''
+ | name color=#F0D749
+ | slot=Necklace
+ | recipe=3&nbsp;[[Emerald]]<br />2&nbsp;[[Diamond]]<br />5&nbsp;[[Bone]]<br />1&nbsp;[[Catseye]]<sup>&nbsp;c</sup><br />
+ | stat1=Luck | val1=10 – 80 | s6val1=10 – 85
+ | stat2=Capacity | val2=40 – 100 | s6val2=40 – 110
+ | stat3=Sell Boost | val3=20 – 50% | s6val3=20 – 55%
+ | stat4=Modifier Boost | val4=20 – 50% | s6val4=20 – 55%
+ | candy=300
+}}
+{{Equipment row
+ | image=5_gold_rings.jpg
+ | name=5 Gold Rings
+ | description=On the 5th day of Christmas... '''Can only be crafted in [[North_Pole|Santa's Workshop]].'''
+ | name color=#DAA78A
+ | slot=Ring
+ | recipe=7&nbsp;[[Candy Cane]]<br />2&nbsp;[[Peppermint Prism]]<sup>&nbsp;c</sup><br />20&nbsp;[[Gold]]
+ | stat1=Luck | val1=5 – 20 | s6val1=22
+ | stat2=Capacity | val2=5 – 20 | s6val2=45
+ | stat3=Shake Speed | val3=0 – 20% | s6val3=22%
+ | stat4=Sell Boost | val4=0 – 20% | s6val4=22%
+ | ornaments=500
+}}
+|}
+
+|-|Mythic=
+{| class="wikitable sortable equip-table" style="width:100%"
+! Appearance !! Name/Description !! Slot !! Recipe !! Stats !! Cost
+{{Equipment row
+ | image=amuletofspirits.webp
+ | name=Amulet of Spirits
+ | description=A spooky amulet worn by those celebrating Halloween.. '''Requires the [[Blueprint#Amulet of Spirits Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#FA901E
+ | slot=Necklace
+ | recipe=1&nbsp;[[Vortessence]]<br />1&nbsp;[[Painite]]<sup>&nbsp;c</sup><br />10&nbsp;[[Bone]]<br />5&nbsp;[[Lost Soul]]
+ | stat1=Luck | val1=50 – 140 | s6val1=50 – 150
+ | stat2=Dig Speed | val2=20 – 40% | s6val2=20 – 42%
+ | stat3=Shake Speed| val3=20 – 40% | s6val3=20 – 42%
+ | stat4=Size Boost| val4=10 – 30% | s6val4=10 – 32%
+ | price=50000000
+}}
+{{Equipment row
+ | image=Candysack.webp
+ | name=Candy Sack
+ | description=A sack full of candy. '''Can only be crafted at the [[Halloween Forge]].'''
+ | name color=#E80D8E
+ | slot=Charm
+ | recipe=2&nbsp;[[Vortessence]]<sup>&nbsp;c</sup><br />5&nbsp;[[Cinnabar]]<br />10&nbsp;[[Lost Soul]]
+ | stat1=Luck | val1=30 – 100 | s6val1=30 – 110
+ | stat2=Capacity | val2=100 – 300 | s6val2=100 – 325
+ | stat3=Inventory Size | val3=300 – 1,000 | s6val3=300 – 1,100
+ | stat4=Size Boost | val4=30 – 70% | s6val4=30 – 75%
+ | candy=600
+}}
+{{Equipment row
+ | image=Santa_hat.png
+ | name=Santa Hat
+ | description=A festive hat that protects against the cold. '''Can only be crafted at [[North_Pole|Santa's Workshop]].'''
+ | name color=#ff2317
+ | slot=Charm
+ | recipe=1&nbsp;[[Frostshard]]<sup>&nbsp;c</sup><br />8&nbsp;[[Candy Cane]]<br />4&nbsp;[[Peppermint Prism]]
+ | stat1=Luck | val1=5 – 140 | s6val1=150
+ | stat2=Capacity | val2=50 – 200 | s6val2=225
+ | stat3=Shake Strength | val3=2 – 8 | s6val3=9
+ | stat4=WalkSpeed | val4=0.5 – 2 | s6val4=2.2
+ | ornaments=1,000
+}}
+{{Equipment row
+ | image=Bunny_ears.png
+ | name=Bunny Ears
+ | description=A pair of bunny ears. Boosts your agility... not very useful for a prospector, though. '''Requires the [[Blueprint#tabber-Bunny_Ears_Blueprint|Bunny Ears blueprint]] before it can be crafted.'''
+ | name color=#93B881
+ | slot=Charm
+ | recipe=2&nbsp;[[Flarebloom]]<sup>&nbsp;c</sup><br />5&nbsp;[[Catseye]]<br />5&nbsp;[[Luminum]]<br />3&nbsp;[[Pink Diamond]]
+ | stat1=Luck | val1=50 – 180 | s6val1=50 – 200
+ | stat2=Inventory Size | val2=50 – 180 | s6val2=50 – 200
+ | stat3=Modifier Boost | val3=20%-50% | s6val3=20%-55%
+ | stat4=Walkspeed | val4=2 – 6 | s6val4=2 – 6.5
+ | stat5=Jump Power | val5=2 – 10 | s6val5=2 – 11
+ | price=40000000
+}}
+{{Equipment row
+ | image=Shell_necklace.png
+ | name=Shell Necklace
+ | description=A necklace of exotic shells. '''Requires the [[Blueprint#tabber-Shell_Necklace_Blueprint|blueprint]] before it can be crafted.'''
+ | name color=#ff7e14
+ | slot=Necklace
+ | recipe=5&nbsp;[[Ammonite Fossil]]<br>1&nbsp;[[Inferlume]]<sup>&nbsp;c</sup><br>5&nbsp;[[Nautilus Shell]]
+ | stat1=Luck | val1=100 – 280 | s6val1=100 – 300
+ | stat2=Dig Strength | val2=5 – 18 | s6val2=5 – 20
+ | stat3=Shake Strength | val3=1 – 4.5 | s6val3=1 – 5
+ | stat4=Inventory Size | val4=50 – 180 | s6val4=50 – 200
+ | stat5=Modifier Boost | val5=20 – 90% | s6val5=20 – 100%
+ | stat6=Size Boost | val6=10 – 45% | s6val6=10 – 50%
+ | price=140000000
+}}
+|}
+
+|-|Exotic=
+{| class="wikitable sortable equip-table" style="width:100%"
+! Appearance !! Name/Description !! Slot !! Recipe !! Stats !! Cost
+{{Equipment row
+ | image=pumpkinlord.webp
+ | name=Pumpkin Lord
+ | description=Who doesn't want to wear a pumpkin on their head? '''Requires the [[Blueprint#Pumpkin Lord Blueprint|Blueprint]] before it can be crafted.'''
+ | name color=#FA901E
+ | slot=Charm
+ | recipe=1&nbsp;[[Pumpkin Soul]]<br />1&nbsp;[[Radiant Gold]]<br />10&nbsp;[[Lost Soul]]<br /><span style="font-size:smaller;">(Catalyst: [[Astral Spore]])</span>
+ | stat1=Dig Strength | val1=80 – 200 | s6val1=80 – 220
+ | stat2=Shake Strength | val2=20 – 50 | s6val2=20 – 54
+ | stat3=Inventory Size | val3=200 – 500 | s6val3=200 – 550
+ | stat4=Size Boost | val4=30 – 180% | s6val4=50 – 200%
+ | stat5=WalkSpeed | val5=1 – 4 | s6val5=1 – 4.5
+ | price=220000000
+}}
+{{Equipment row
+ | image=Witchhat.webp
+ | name=Witch Hat
+ | description=A witch's hat, imbued with magic and halloween spirit. '''Can only be crafted at the [[Halloween Forge]].'''
+ | name color=#4e2073
+ | slot=Charm
+ | recipe=1&nbsp;[[Pumpkin Soul]]<br />1&nbsp;[[Volcanic Core]]<br />1&nbsp;[[Inferlume]]<br />1&nbsp;[[Prismara]]<br />1&nbsp;[[Cryonic Artifact]]<sup>&nbsp;c</sup><br />
+ | stat1=Luck | val1=400 – 1,000 | s6val1=400 – 1,100
+ | stat2=Inventory Size| val2=100 – 400 | s6val2=100 – 450
+ | stat3=Modifier Boost | val3=40 – 100% | s6val3=40 – 110%
+ | stat4=Walkspeed | val4=1 – 5 | s6val4=1 – 5.5
+ | candy=1,000
+}}
+{{Equipment row
+ | image=Dullahan's_Curse.png
+ | name=Dullahan's Curse
+ | description = The curse of a ghostly rider. Gain immense power during night at the cost of... your head. '''Can only by crafted at the [[Halloween Forge]].'''
+ | name color=#50a5ff
+ | slot=Charm
+ | recipe=4&nbsp;[[Pumpkin Soul]]<br />10&nbsp;[[Lost Soul]]<br />1&nbsp;[[Moonspire]]<br /><span style="font-size:smaller;">(Catalyst: [[Celestium]])</span>
+ | stat1=Luck           | val1=200 – 500   | s6val1=200 – 550
+ | stat2=Night Luck     | val2=400 – 1,500 | s6val2=400 – 1,700
+ | stat3=Dig Strength   | val3=150 – 410   | s6val3=150 – 450
+ | stat4=Shake Speed    | val4=20 – 60%    | s6val4=20 – 65%
+ | stat5=Modifier Boost | val5=10 – 110%   | s6val5=10 – 130%
+ | stat6=Size Boost     | val6=10 – 70%    | s6val6=10 – 80%
+ | stat7=WalkSpeed      | val7=-8 – -2     | s6val7=-8 – -1.7?
+ | candy=1,500
+}}
+{{Equipment row
+ | image=Santa_bag.png
+ | name=Santa's Bag
+ | description=A sack filled with magical presents. Status effects decrease 50% slower when equipped. '''Can only be crafted at [[North_Pole|Santa's Workshop]].'''
+ | name color=#f71407
+ | slot=Necklace
+ | recipe=1&nbsp;[[North Star]]<br />2&nbsp;[[Frostshard]]<br />6&nbsp;[[Peppermint Prism]]<br /><span style="font-size:smaller;">(Catalyst: [[Eternium]])</span>
+ | stat1=Luck | val1=200 – 600 | s6val1=675
+ | stat2=Capacity | val2=200 – 500 | s6val2=550
+ | stat3=Inventory Size | val3=100 – 500 | s6val3=550
+ | stat4=Size Boost | val4=20 – 80% | s6val4=90%
+ | stat5=Status Timer Speed | val5=-50 - -50% | s6val5=-50%
+ | ornaments=2,000
+}}
+{{Equipment row
+ | image = Waverider.png
+ | name = Waverider
+ | description = A custom-made surfboard. '''Requires the [[Blueprint#tabber-Waverider Blueprint|Blueprint]] before it can be crafted.'''
+ | name color = #1a39ff
+ | slot = Necklace
+ | recipe = 1&nbsp;[[Forgotten Totem]]<sup>&nbsp;c</sup><br>2&nbsp;[[Painite]]<br>2&nbsp;[[Inferlume]]<br>10&nbsp;[[Nautilus Shell]]
+ | stat1 = Luck | val1 = 50 – 180 | s6val1 = 50 – 200
+ | stat2 = Dig Speed | val2 = 20 – 60% | s6val2 = 20 – 65%
+ | stat3 = Shake Speed | val3 = 20 – 60% | s6val3 = 20 – 65%
+ | stat4 = Modifier Boost | val4 = 30 – 140% | s6val4 = 30 – 150%
+ | stat5 = Size Boost | val5 = 20 – 110% | s6val5 = 20 – 120%
+ | stat6 = WalkSpeed | val6 = 1 – 5 | s6val6 = 1 – 5.5
+ | stat7 = Jump Power | val7 = 2 – 10 | s6val7 = 2 – 11
+ | price = 300000000
+}}
+|}
+</tabber>

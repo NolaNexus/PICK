@@ -1,0 +1,877 @@
+= Quests by Location =
+
+<tabber>
+Rubble Creek=
+; NPC: [[John]]
+{{Quest
+|Quest = Getting Started!
+|QuestSub = Welcome to Prospecting!
+|QuestStep1 = Complete the tutorial.
+|Rewards = {{$|500}} • {{Meteor Shards|25}}
+}}
+
+{{Quest
+|Quest = Rubble Creek Collection
+|QuestSub = Prove your skills to John by completing his challenges!
+|QuestStep1 = Collect 3 [[Gold]].
+|QuestStep2 = Collect 2 [[Platinum]].
+|QuestStep3 = Collect 1 [[Amethyst]].
+|QuestStep4 = Craft a [[Equipment#tabber-Common|Gold Ring]].
+|Rewards = {{$|25,000}} • {{EXP| 500}} • {{Meteor Shards|40}}
+}}
+
+{{Quest
+|Quest = New Deposits
+|QuestSub = Prove your skills to John by completing his challenges!
+|QuestStep1 = Collect 10 [[Platinum]].
+|QuestStep2 = Collect 5 [[Titanium]].
+|QuestStep3 = Collect 1 [[Topaz]].
+|Rewards = {{$|60,000}} • {{EXP| 1,000}} • {{Meteor Shards|50}}
+}}
+
+{{Quest
+|Quest = Fortune River Collection [1]
+|QuestSub = Collect minerals from the Fortune River.
+|QuestStep1 = Talk to Steve in Fortune River.
+}}
+
+; NPC: [[Trader]]
+{{Quest
+|Quest = Special Order 1
+|QuestSub = Help the Trader complete their order.
+|QuestStep1 = Bring a [[Ruby|ruby]] to the Trader.
+|Rewards = {{$|30,000}} • {{EXP| 2,000}} • {{Meteor Shards|25}}
+}}
+
+{{Quest
+|Quest = Special Order 2
+|QuestSub = Help the Trader complete another order.
+|QuestStep1 = Bring an [[Emerald|emerald]] to the [[Trader]].
+|Rewards = {{$|200,000}} • {{EXP| 10,000}} • {{Meteor Shards|50}} 
+|Buffs = [[File:Trader's Recommendation.png|20px]] '''Trader's Recommendation''': +10% Sell Boost (Permanent)
+}}
+
+{{Quest
+|Quest = Special Order 3
+|QuestSub = Help the Trader complete... ANOTHER order.
+|QuestStep1 = Bring a [[Diamond|diamond]] to the [[Trader]].
+|Rewards = {{$|1,000,000}} • {{EXP| 25,000}} • {{Meteor Shards|200}}
+|Buffs = [[File:Trader's Recommendation.png|20px]] '''Trader's Recommendation''': +10% Sell Boost (Permanent)
+}}
+
+; NPC: Sluice Mechanic
+{{Quest
+|Quest = New Sluice [1]
+|QuestSub = Get familiar with using a sluice!
+|QuestStep1 = Purchase a Wood Sluice Box.
+}}
+{{Quest
+|Quest = New Sluice [2]
+|QuestSub = Get familiar with using a sluice!
+|QuestStep1 = Collect 5 items using a Sluice.
+|Rewards = {{$|3,500}} • {{EXP|10,000}} • {{Meteor Shards|50}}
+}}
+
+|-|
+Fortune River =
+; NPC: [[Tired Prospector]]
+{{Quest
+|Quest = Prospector’s Bet 1
+|QuestSub = Prove the Tired Prospector wrong!
+|QuestStep1 = Collect 5 [[Lapis Lazuli]].
+|QuestStep2 = Collect 1 [[Emerald]].
+|QuestStep3 = Collect 1 [[Opal]].
+|Rewards = {{$|250,000}} • {{EXP| 20,000}} • {{Meteor Shards|200}}
+}}
+
+{{Quest
+|Quest = Prospector’s Bet 2
+|QuestSub = Prove the Tired Prospector wrong one more time!
+|QuestStep1 = Collect 10 [[Meteoric Iron]].
+|QuestStep2 = Collect 2 [[Osmium]].
+|QuestStep3 = Collect 1 [[Rose Gold]].
+|Rewards = {{$|3,000,000}} • {{EXP| 50,000}} • {{Meteor Shards|500}}
+}}
+
+; NPC: [[Steve]]
+{{Quest
+|Quest = Fortune River Collection [2]
+|QuestSub = Collect minerals from the Fortune River.
+|QuestStep1 = Collect 30 [[Titanium]].
+|QuestStep2 = Collect 5 [[Jade]].
+|QuestStep3 = Collect 5 [[Ruby]].
+|QuestStep4 = Collect 1 [[Iridium]].
+|Rewards = {{$|75,000}} • {{EXP| 1,500}} • {{Meteor Shards|60}}
+}}
+
+{{Quest
+|Quest = He sells Sea Shells [1]
+|QuestSub = Find cool shells for Drake!
+|QuestStep1 = Talk to Drake.
+}}
+
+{{Quest
+|Quest = Uncanny Resemblance [1]
+|QuestSub = Help Anne and the Geologist with their research.
+|QuestStep1 = Find and Talk to Anne.
+}}
+
+{{Quest
+|Quest = Calydoscope [1]
+|QuestSub = Clyde needs your help!
+|QuestStep1 = Visit Clyde outside of the Crystal Caverns.
+}}
+
+; NPC: [[Clyde]]
+{{Quest
+|Quest = Calydoscope [2]
+|QuestSub = Help Clyde collect his much needed materials.
+|QuestStep1 = Collect 1 [[Luminum]]. 
+|QuestStep2 = COLLECT 100 [[Azuralite]].  
+|QuestStep3 = Collect 40 [[Ashvein]]. 
+|QuestStep4 = Collect 10 [[Borealite]]. 
+|Rewards = {{$|2,500,000}} • {{EXP| 5,000}} • {{Meteor Shards|800}}
+}}
+
+; NPC: [[Vagrant]]
+{{Quest
+|Quest = Charity Work 1
+|QuestSub = Help out the Vagrant with his situation.
+|QuestStep1 = Give a 1.5+ kg [[Gold]] to the Vagrant.
+|Rewards = {{EXP| 20,000}} • {{Meteor Shards|150}}
+}}
+
+{{Quest
+|Quest = Charity Work 2
+|QuestSub = The Vagrant needs a bit more help.
+|QuestStep1 = Give a 3+ kg [[Gold]] to the Vagrant.
+|Rewards = {{EXP| 40,000}} • {{Meteor Shards|300}}
+}}
+
+{{Quest
+|Quest = Charity Work 3
+|QuestSub = ...Am I getting scammed?
+|QuestStep1 = Give a 5+ kg [[Gold]] to the Vagrant.
+|Rewards = {{EXP| 75,000}} • {{Meteor Shards|600}}
+}}
+
+; NPC: [[Engineer]]
+{{Quest
+|Quest = Repairing the Generator
+|QuestSub = The Engineer needs help repairing the broken generator.
+|QuestStep1 = Bring 1 [[Iridium]] to the Engineer.
+|QuestStep2 = Bring 1 [[Osmium]] to the Engineer.
+|Rewards = {{$|1,000,000}} • {{EXP| 30,000}} • {{Meteor Shards|200}}
+}}
+
+; NPC: [[Fisherman]]
+{{Quest
+|Quest = River Cleaning
+|QuestSub = 'Clean' out all the gold from the river for the Fisherman.
+|QuestStep1 = Collect 200 [[Gold]].
+|QuestStep2 = Collect 75 [[Platinum]].
+|QuestStep3 = Collect 25 [[Jade]].
+|Rewards = {{$|300,000}} • {{EXP| 15,000}} • {{Meteor Shards|200}}
+}}
+
+; NPC: [[Archaeologist]]
+{{Quest
+|Quest = Mysterious Altar
+|QuestSub = Find out the purpose of the mysterious altar.
+|QuestStep1 = [[Enchanting#tabber-Pans|Enchant]] your [[Pans|pan]] (using [[Aetherite]] or [[Aurorite]]).
+|Rewards = {{$|250,000}} • {{EXP| 10,000}} • {{Meteor Shards|250}}
+}}
+
+; NPC: [[Dredge Master]]
+{{Quest
+|Quest = Dredge Master
+|QuestStep1 = Collect [random amount] [random ore].
+|QuestStep2 = Collect [random amount] [random ore].
+|QuestStep3 = Collect [random amount] [random ore].
+|Rewards = {{$|?}} • {{EXP|?}} • {{Meteor Shards|?}} <span style='font-weight:normal;>[scaled with level and number of quests completed] • additional rewards at milestones</span>
+|Buffs = [[File:Dredge.png|20px]] '''Dredge Master''': +3 Luck per quest completed (Permanent)
+}} <div style='margin-top:0;margin-left:2em;font-weight:normal;font-style:italic;'>Complete 100 quests to get [[Blueprint#Dredge_Master's_Ring_Blueprint|1 blueprint]].</div>
+
+|-|
+Museum=
+
+; NPC: [[Bored Resident]]
+{{Quest
+|Quest = Museum Restoration
+|QuestSub = Restore the Museum to its former glory!
+|QuestStep1 = Talk to the Museum Receptionist.
+}}
+
+; NPC: [[Receptionist|Museum Receptionist]]
+{{Quest
+|Quest = Museum Restoration [2]
+|QuestSub = Restore the Museum to its former glory!
+|QuestStep1 = Place a common item in a museum display.
+|Rewards = {{$|50,000}} • {{EXP|1,000}} • {{Meteor Shards|200}}
+}}
+
+|-|
+Fortune River Delta=
+
+; NPC: [[Anne]]
+{{Quest
+|Quest = Uncanny Resemblance [2]
+|QuestSub = Help Anne and the Geologist with their research.
+|QuestStep1 = Talk to the Geologist.
+}}
+
+; NPC: [[Geologist]]
+{{Quest
+|Quest = Uncanny Resemblance [3]
+|QuestSub = Help Anne and the Geologist with their research.
+|QuestStep1 = Collect 50 [[Smoky Quartz]]. 
+|QuestStep2 = Collect 20 [[Neodymium]]. 
+|QuestStep3 = Collect 15 [[Onyx]]. 
+|QuestStep4 = Collect 15 [[Jade]]. 
+|Rewards = {{$|200,000}} • {{EXP| 5,000}} • {{Meteor Shards|500}}
+}}
+
+; NPC: [[Anne]]
+{{Quest
+|Quest = Uncanny Resemblance [4]
+|QuestSub = Speak to Anne.
+|QuestStep1 = Talk to Anne.
+}}
+
+{{Quest
+|Quest = Uncanny Resemblance [5]
+|QuestSub = Help Anne find a moonstone.
+|QuestStep1 = Give 1 [[Moonstone]] to Anne.
+}}
+
+{{Quest
+|Quest = Uncanny Resemblance [6]
+|QuestSub = Go back to Steve.
+|QuestStep1 = Return to Steve.
+}}
+
+; NPC: [[Old Prospector]]
+{{Quest
+|Quest = Mesmerizing Red
+|QuestSub = Find the mysterious red gem for the Old Prospector.
+|QuestStep1 = Collect 1 [[Painite]].
+|Rewards = {{$|25,000,000}} • {{EXP| 100,000}} • {{Meteor Shards|750}}
+}}
+|-|
+Sunset Beach=
+; NPC: [[Drake]]
+{{Quest
+|Quest = He Sells Sea Shells [2]
+|QuestSub = Find cool shells for Drake!
+|QuestStep1 = Bring 5 [[Seashell|Sea shells]] to Drake. 
+|QuestStep2 = Bring 5 [[Pearl|Pearls]] to Drake. 
+|QuestStep3 = Bring 3 [[Coral]] to Drake. 
+|QuestStep4 = Bring 1 [[Silver Clamshell]] to Drake. 
+|Rewards = {{$|150,000}} • {{EXP| 2,000}} • {{Meteor Shards|200}}
+}}
+
+{{Quest
+|Quest = Unpearlelled Beauty <span style='font-weight:normal;font-size:smaller;'>(Only available after completing He Sells Sea Shells [2]</span>
+|QuestSub = Help Drake with another task.
+|QuestStep1 = Bring 1 [[Golden Pearl]] to Drake. 
+|Rewards = {{$|750,000}} • {{EXP| 1,000}}
+}}
+
+; NPC: [[Lightkeeper]]
+{{Quest
+|Quest = Restoring the Lighthouse
+|QuestSub = The lightkeeper needs help with repairing the broken lighthouse.
+|QuestStep1 = Bring 1 [[Luminum]] to the Lightkeeper.
+|Rewards = {{$|3,000,000}} • {{EXP| 100,000}} • {{Meteor Shards|300}}
+|Buffs = '''Lighthouse Blessing''': +3 Luck (Permanent)
+}}
+
+
+; NPC: [[Pirate]]
+{{Quest
+|Quest = Heart of the Sea
+|QuestSub = Find the treasures of the sea before the Pirate does!
+|QuestStep1 = Collect 1 [[Golden Pearl]].
+|QuestStep2 = Collect 5 [[Silver Clamshell|Silver Clamshells]].
+|QuestStep3 = Collect 20 [[Coral|Corals]].
+|Rewards = {{$|200,000}} • {{EXP| 10,000}} • {{Meteor Shards|100}}
+}}
+; NPC: '''Pirate Captain'''
+{{Quest
+|Quest = X Marks the spot
+|QuestSub = Learn about treasure hunting from the Pirate Captain.
+|QuestStep1 = Follow the map to find treasure.
+|Rewards = {{EXP|10,000}} • {{Meteor Shards|50}}
+}}
+|-|
+Crystal Caverns=
+; NPC: [[Head Researcher]]
+{{Quest
+|Quest = Cavern Research
+|QuestSub = The researcher needs cavern samples.
+|QuestStep1 = Collect 80 [[Azuralite]].
+|QuestStep2 = Collect 10 [[Borealite]].
+|QuestStep3 = Collect 1 [[Starshine]].
+|Rewards = {{$|5,000,000}} • {{EXP| 100,000}} • {{Meteor Shards|50}}
+}}
+; NPC: [[Mad Scientist]]
+{{Quest
+|Quest = Going Nuclear [4]
+|QuestSub = Help the Nuclear Scientist build his reactor.
+|QuestStep1 = Collect 250 [[Uranium]].
+|QuestStep2 = Collect 100 [[Radium]].
+|QuestStep3 = Collect 25 [[Prismara]].
+|QuestStep4 = Collect 5 [[Volcanic Core]].
+}}
+{{Quest
+|Quest = Going Nuclear [5]
+|QuestSub = Help the Nuclear Scientist build his reactor.
+|QuestStep1 = Talk to the Mad Scientist.
+}}
+{{Quest
+|Quest = Going Nuclear [6]
+|QuestSub = Help the Nuclear Scientist build his reactor.
+|QuestStep1 = Talk to the Nuclear Scientist.
+}}
+|-|
+Azuralite Oasis=
+; NPC: [[Botanist]]
+{{Quest
+|Quest = The Seed of Light
+|QuestSub = A rare crystal seed for research.
+|QuestStep1 = Bring a [[Prismara]] to the [[Botanist]].
+|Rewards = {{$|50,000,000}} • {{EXP| 200,000}} • {{Meteor Shards|1,000}} • [[Runes|Purity Rune]]
+}}
+|-|
+Volcanic Sands=
+; NPC: [[Ranger]]
+{{Quest
+|Quest = Monitoring the Volcano
+|QuestSub = Gather volcanic minerals for research.
+|QuestStep1 = Collect 50 [[Zircon]].
+|QuestStep2 = Collect 30 [[Peridot]].
+|QuestStep3 = Collect 10 [[Pyronium]].
+|QuestStep4 = Collect 2 [[Cinnabar]].
+|Rewards = {{$|10,000,000}} • {{EXP| 200,000}} • {{Meteor Shards|1,000}}
+}}
+; NPC: [[Disgruntled Local]]
+{{Quest
+|Quest = Fireproofing
+|QuestSub = The heat’s unbearable — bring materials that can handle it.
+|QuestStep1 = Collect 100 [[Obsidian]].
+|QuestStep2 = Collect 100 [[Copper]].
+|QuestStep3 = Collect 20 [[Pyronium]].
+|QuestStep4 = Collect 1 [[Cinnabar]].
+|Rewards = {{$|5,000,000}} • {{EXP| 100,000}} • {{Meteor Shards|600}}
+}}
+
+; NPC: [[Flame Priest]]
+{{Quest
+|Quest = Fire Protection
+|QuestSub = A sacred gem wards off the flames.
+|QuestStep1 = Bring 1 [[Fire Opal]] to the Flame Priest.
+|Rewards = {{EXP| 100,000}} • {{Meteor Shards|500}}
+}}
+
+; NPC: [[Chief Archaeologist]]
+{{Quest
+|Quest = Excavation
+|QuestSub = Fund and participate in an excavation at the Volcanic Ruins.
+|QuestStep1 = Complete [[Excavations#Excavation_Sites|an excavation at the Volcanic Ruins]].
+|Rewards = {{EXP|50,000}}
+}}
+
+; NPC: [[Jones]]
+{{Quest
+|Quest = Ancient Skull
+|QuestStep1 = Give a 10kg+ [[Dinosaur Skull]] to Jones.
+|Rewards = [[Titles#Quest_Titles|Title]] <span style="color:#e5ddb0;">Paleontologist</span> • {{$|25,000,000,000}} • {{EXP|5,000,000}} • {{Meteor Shards|5,000}}
+}}
+; NPC: [[Arctic Traveler]]
+{{Quest
+|Quest = Icebreaker
+|QuestSub = Melt the ice and unlock passage to the Snowy Shores.
+|QuestStep1 = Talk to the Arctic Traveler while holding the [[Shovels#tabber-Magma_Furnace|Dragonflame Shovel]]
+|Rewards = {{$|1,000,000}} • {{EXP|100,000}} • {{Meteor Shards|250}} • Access to {{Snowy Shores}}
+}}
+|-|
+Windswept Beach=
+; NPC: [[Paleontologist]]
+{{Quest
+|Quest = Fossil Investigation
+|QuestSub = Fossils reveal ancient secrets.
+|QuestStep1 = Collect 10 [[Ammonite Fossil|Ammonite Fossils]].
+|QuestStep2 = Collect 2 [[Dragon Bone|Dragon Bones]].
+|Rewards = {{$|3,000,000}} • {{EXP| 200,000}} • {{Meteor Shards|800}}
+}}
+; NPC: [[Veteran Ranger]]
+{{Quest
+|Quest = S.O.S.
+|QuestStep1 = Bring [[Treasure Map|a map of Windswept Beach]] to the Veteran Ranger.
+|Rewards = [[Titles#Quest_Titles|Title]] <span style="color:#64b36b;">Ranger</span> • {{EXP|750,000}} • {{Meteor Shards|1,500}}
+}}
+|-|
+Volcanic Springs=
+; NPC: [[Volcanic Researcher]]
+{{Quest
+|Quest = Volcanic Springs
+|QuestStep1 = Collect 100 [[Zircon]].
+|QuestStep2 = Collect 10 [[Osmium]].
+|QuestStep3 = Collect 1 [[Radium]].
+|Rewards = {{$|4,000,000}} • {{EXP|80,000}} • {{Meteor Shards|400}}
+}}
+
+; NPC: [[Chief Volcanologist]]
+{{Quest
+|Quest = Ring of Fire
+|QuestStep1 = Bring 1 [[Equipment#tabber-Legendary|Eye of Fire]] to the Chief Volcanologist.
+|Rewards = {{$|45,000,000}} • {{EXP|25,000}} • {{Meteor Shards|250}}
+}}
+|-|
+The Magma Furnace=
+; NPC: [[Master of the Forge]]
+{{Quest
+|Quest = The Deep Forge
+|QuestStep1 = Combine two items of 5 star quality at the Forge 
+|Rewards = [[Titles#Quest_Titles|Title]] <span style="color:#ffa000;">Forged in Fire</span> • {{EXP|100,000}} • {{Meteor Shards|250}}
+}}
+|-|
+Snowy Shores=
+; NPC: [[Researcher]]
+{{Quest
+|Quest = Arctic Survey
+|QuestSub = Survey northern materials.
+|QuestStep1 = Collect 100 [[Lapis Lazuli]].
+|QuestStep2 = Collect 50 [[Aurorite]].
+|QuestStep3 = Collect 10 [[Aquamarine]].
+|Rewards = {{$|3,000,000}} • {{EXP| 100,000}} • {{Meteor Shards|500}}
+}}
+
+; NPC: [[Apprentice Blacksmith]]
+{{Quest
+|Quest = Finding Mythril
+|QuestSub = The apprentice needs a mythical metal sample.
+|QuestStep1 = Collect 1 [[Mythril]].
+|Rewards = {{$|25,000,000}} • {{EXP| 200,000}} • <i style="color:#86C080;">[[Blueprint#Mythril_Ring_Blueprint|1 Blueprint]]</i> • {{Meteor Shards|750}}
+}}
+
+; NPC: [[Builder]]
+{{Quest
+|Quest = Repairing the Bridge
+|QuestSub = Rebuild the crossing near the waterfall.
+|QuestStep1 = Collect 250 [[Blue Ice]].
+|QuestStep2 = Collect 200 [[Titanium]].
+|QuestStep3 = Collect 100 [[Glacial Quartz]].
+|QuestStep4 = Collect 50 [[Cobalt]].
+|Rewards = {{$|10,000,000}} • {{EXP| 250,000}} • <i style="color:#86C080;">[[Blueprint#Cryogenic_Preserver_Blueprint|1 Blueprint]]</i> • {{Meteor Shards|800}}
+}}
+; <div style='margin-top:0;margin-left:2em;font-weight:normal;font-style:italic;'>After completing the quest, a bridge appears in front of the Frostbite Waterfall, letting you continue the journey up the mountain.</div>
+|-|
+Frostbitten Path=
+; NPC: [[Mountain Surveyor]]
+{{Quest
+|Quest = Clearing the Path [1]
+|QuestSub = Open the way to the Frozen Peak.
+|QuestStep1 = Collect 500 [[Blue Ice]].
+|QuestStep2 = Collect 200 [[Glacial Quartz]].
+|QuestStep3 = Collect 20 [[Aquamarine]].
+|QuestStep4 = Collect 20 [[Tourmaline]].
+}}
+
+{{Quest
+|Quest = Clearing The Path [3]
+|QuestSub = Help the Mountain Surveyor weaken the debris blocking the trail.
+|QuestStep1 = Bring 1 [[Volcanic Core]] to the Surveyor.
+|QuestStep2 = Bring 1 [[Vortessence]] to the Surveyor.
+|Rewards = {{$|25,000,000}} • {{EXP|500,000}} • <i style="color:#86C080;">[[Blueprint#Frostthorn_Pendant_Blueprint|1 Blueprint]]</i> • {{Meteor Shards|1,500}}
+}} <div style='margin-top:0;margin-left:2em;font-weight:normal;font-style:italic;'>After completing the quest, the debris is cleared, opening the path to {{Frozen Peak}}.</div>
+
+; NPC: [[Freezing Prospector]]
+{{Quest
+|Quest = Rekindled Heart
+|QuestStep1 = Bring 1 [[Equipment#tabber-Mythic|Phoenix Heart]] to the Freezing Prospector
+|Rewards = {{$|125,000,000}} • {{EXP|250,000}} • {{Meteor Shards|500}}
+}}
+|-|
+Frozen Peak=
+; NPC: [[Mountain Climber]]
+{{Quest
+|Quest = Peak Trading
+|QuestSub = Complete the trade with the Mountain Climber.
+|QuestStep1 = Give 1 [[Frostshard]] to the Mountain Climber
+|Rewards = {{EXP|250,000}} • {{Meteor Shards|2,500}}
+}}
+; NPC: [[Fallen Artificer]]
+{{Quest
+|Quest = Gift of the Artificer
+|QuestStep1 = Reroll a [[Mutations|mutation]] on a piece of equipment
+|Rewards = [[Titles#Quest_Titles|Title]] <span style="color:#38d4ff;">Artificer</span> • {{EXP|100,000}} • {{Meteor Shards|250}}
+}}
+; NPC: [[Frozen Explorer]]
+{{Quest
+|Quest = Ice and Fire [1]
+|QuestStep1 = Unlock the Icebreaker Shovel
+|QuestStep2 = Unlock the Dragonflame Shovel
+}}
+{{Quest
+|Quest = Ice and Fire [2]
+|QuestStep1 = Unseal the Cavern Gate
+|Rewards = {{$|1,000,000}} • {{EXP|100,000}} • {{Meteor Shards|250}}
+}}
+|-|
+Overgrown Grotto=
+; NPC: [[Professor]]
+{{Quest
+|Quest = Terra Incognita
+|QuestSub = Help the Professor explore what the grotto has to offer..
+|QuestStep1 = Collect 150 [[Glowmoss]]. 
+|QuestStep2 = Collect 25 [[Specterite]]. 
+|QuestStep3 = Collect 5 [[Starshine]]. 
+|Rewards = {{$|50,000,000}} • {{EXP| 100,000}} • <i style="color:#86C080;">[[Blueprint#Amulet_of_Life_Blueprint|1 Blueprint]]</i>• {{Meteor Shards|600}}
+}}
+
+; NPC: [[Disgruntled Explorer]]
+{{Quest
+|Quest = To Boldly Go
+|QuestSub = Help the Disgruntled Explorer get what he needs.
+|QuestStep1 = Collect 500 [[Amber]].
+|QuestStep2 = Collect 15 [[Luminum]]. 
+|QuestStep3 = Collect 3 [[Radiant Gold]]. 
+|Rewards = {{$|5,000,000}} • {{EXP| 200,000}} • <i style="color:#86C080;">[[Blueprint#Ring_of_Thorns_Blueprint|1 Blueprint]]</i> • {{Meteor Shards|1,000}}
+}}
+
+; NPC: [[Old Druid]]
+{{Quest
+|Quest = Cutting Through
+|QuestSub = Help the Old Druid safely cut through the vines.
+|QuestStep1 = Bring 1 [[Firefly Stone]] to the Old Druid. 
+|QuestStep2 = Collect 5 [[Specterite]]. 
+|QuestStep3 = Collect 10 [[Lightshard|Lightshards]].
+|Rewards = <i style="color:#FFECA0;">1x [[Relics#Miscellaneous_Relics|Enchanted Scissors]]</i>
+}}
+|-|
+Deeproot Spring=
+; NPC: [[Druid]]
+{{Quest
+|Quest = Spirits of the Grotto
+|QuestSub = Feel the magic?
+|QuestStep1 = Bring 1 [[Vineheart]] to the Druid. 
+|QuestStep2 = Bring 1 [[Chrysoberyl]] to the Druid. 
+|Rewards = {{EXP| 250,000}} • <i style="color:#86C080;">[[Blueprint#Antlers_of_Life_Blueprint|1 Blueprint]]</i> • {{Meteor Shards|5,000}}
+|Buffs = [[File:Blessing_of_the_Spirits.png|20px]] '''Blessing of the Spirits''': +50 Luck (Permanent)
+}}
+|-|
+Enchanted Ruins=
+; NPC: [[Ruins Archaeologist]]
+{{Quest
+|Quest = Legacy of the Round table [1]
+|QuestSub = Help the Ruins Archaeologist gather samples of varying metals found within the ruins.
+|QuestStep1 = Collect 500 [[Gold]].
+|QuestStep2 = Collect 250 [[Silver]].
+|QuestStep3 = Collect 25 [[Luminum]].
+|QuestStep4 = Collect 1 [[Radiant Gold]].
+|QuestStep5 = Collect 1 [[Mythril]].
+}}
+
+{{Quest
+|Quest = Legacy of the Round table [2]
+|QuestSub = Continue assisting the Archaeologist with his research.
+|QuestStep1 = Talk to the Ruins Archaeologist.
+}}
+
+{{Quest
+|Quest = Legacy of the Round table [3]
+|QuestSub = Bring the required artifact to decipher the ancient text.
+|QuestStep1 = Bring 1 [[Equipment#tabber-Mythic|Amulet of Life]] to the Ruins Archaeologist. 
+|QuestStepSub1 = &rArr; The [[Blueprint#Amulet_of_Life_Blueprint|Amulet of Life blueprint]] comes from the [[Quests#tabber-Overgrown_Grotto|Terra Incognita]] quest given by the [[Professor]] in the {{Overgrown Grotto}}.
+|Rewards = {{$|25,000,000}} • {{EXP|500,000}} • <span style="color:#86C080;">[[Blueprint#Helm_of_the_Round|1 Blueprint]]</span> • {{Meteor Shards|1,500}}
+}} 
+
+; NPC: [[Ancient Sword]]
+{{Quest
+|Quest = Caliburn's Rest [1]
+|QuestSub = Collect materials for the first stage of proving your worth.
+|QuestStep1 = Collect 250 [[Gold]].
+|QuestStep2 = Collect 250 [[Rose Gold]].
+|QuestStep3 = Collect 100 [[Luminum]].
+|QuestStep4 = Collect 10 [[Radiant Gold]].
+|QuestStep5 = Collect 10 [[Mythril]].
+}}
+{{Quest
+|Quest = Caliburn's Rest [2]
+|QuestSub = Return to the blade.
+|QuestStep1 = Return to the [[Ancient Sword]].
+}}
+
+{{Quest
+|Quest = Caliburn's Rest [3]
+|QuestSub = Bring a powerful heat source to the blade.
+|QuestStep1 = Bring 1 [[Volcanic Core]] to the Ancient Sword.
+}}
+{{Quest
+|Quest = Caliburn's Rest [4]
+|QuestSub = Bring a powerful cold source to the blade.
+|QuestStep1 = Bring 1 [[Frostshard]] to the Ancient Sword.
+}}
+{{Quest
+|Quest = Caliburn's Rest [5]
+|QuestSub = Bring a rare gem to the blade.
+|QuestStep1 = Bring 1 [[Chrysoberyl]] to the Ancient Sword.
+}}
+{{Quest
+|Quest = Caliburn's Rest [6]
+|QuestSub = The final material required for the blade.
+|QuestStep1 = Collect 1 [[Adamantine]].
+|QuestStepSub1 = &rArr; Note that unlike the previous steps, this step says "Collect".
+}} 
+{{Quest
+|Quest = Caliburn's Rest [7]
+|QuestSub = Claim the blade.
+|QuestStep1 = Pull the Sword
+|Rewards = [[Titles#Quest_Titles|Title]] '''<span style="color:#ffeeab;">Knight of the Round</span>''' • {{EXP|500,000}} • <span style="color:#86C080;">[[Blueprint#Excalibur_Blueprint|1 Blueprint]]</span> • {{Meteor Shards|1,000}}
+}}
+
+|-|
+The Void=
+; NPC: [[Interdimensional Traveler]]
+{{Quest
+|Quest = Void Searcher
+|QuestSub = Help the Interdimensional Traveler with the voidtorn items.
+|QuestStep1 = Collect 400 [[Minerals#Modifiers|Voidtorn]] items
+|Rewards = {{$|50,000,000}} • {{EXP| 250,000}} • <i style="color:#86C080;">[[Blueprint#Vortex_Ring_Blueprint|1 Blueprint]]</i> • {{Meteor Shards|1,000}}
+}}
+|-|
+Rotwood Swamp=
+; NPC: [[Familiar Fisherman]]
+{{Quest
+|Quest = Murky Waters
+|QuestStep1 = Collect 450 [[Mercury]]
+|Rewards = {{$|250,000,000}} • {{EXP|200,000}} • <span style="color:#86C080;">[[Blueprint#Purifying_Ring_Blueprint|1 Blueprint]]</span> • {{Meteor Shards|500}}
+}}
+
+; NPC: [[Ecologist]]
+{{Quest
+|Quest = Ecological Survey
+|QuestSub = Help the Ecologist with his survey.
+|QuestStep1 = Collect 500 Legendary Materials from Rotwood Swamp.
+|QuestStep2 = Collect 1000 [[Diopside]].
+|QuestStep3 = Collect 150 [[Bismuth]].
+|Rewards = {{$|250,000,000}} • {{EXP|200,000}} • {{Meteor Shards|500}}
+}}
+
+; NPC: [[Swamp Man]]
+{{Quest
+|Quest = Ominous Stones
+|QuestStep1 = Collect 2 [[Bloodstone|Bloodstones]]
+|Rewards = {{$|1,000,000}} • {{EXP|500,000}} • <span style="color:#86C080;">[[Blueprint#Venomshank_Blueprint|1 Blueprint]]</span> • {{Meteor Shards|1,000}}
+}}
+
+; NPC: [[Swamp Kid]]
+{{Quest
+|Quest = Help In The Swamp
+|QuestStep1 = Collect 1 [[Star Garnet]].
+|Rewards = {{$|1,000,000,000}} • {{EXP|200,000}} • {{Meteor Shards|500}}
+}}
+
+; NPC: [[Nuclear Scientist]]
+{{Quest
+|Quest = Going Nuclear [1]
+|QuestSub = Help the Nuclear Scientist build his reactor.
+|QuestStep1 = Collect 200 [[Bismuth]].
+|QuestStep2 = Collect 1000 [[Cobalt]].
+|QuestStep3 = Collect 2500 [[Electrum]].
+}}
+{{Quest
+|Quest = Going Nuclear [2]
+|QuestSub = Help the Nuclear Scientist build his reactor.
+|QuestStep1 = Talk to the Nuclear Scientist.
+}}
+{{Quest
+|Quest = Going Nuclear [3]
+|QuestSub = Help the Nuclear Scientist build his reactor.
+|QuestStep1 = Talk to the Mad Scientist.
+}}
+{{Quest
+|Quest = Going Nuclear [7]
+|QuestSub = Help the Nuclear Scientist build his reactor.
+|QuestStep1 = Collect 5 [[Vineheart]].
+|QuestStep2 = Collect 3 [[Umbrite]].
+|QuestStep3 = Collect 1 [[Eternium]].
+}}
+{{Quest
+|Quest = Going Nuclear [8]
+|QuestSub = Help the Nuclear Scientist build his reactor.
+|QuestStep1 = Talk to the Nuclear Scientist.
+|Rewards = {{$|10,000,000,000}} • {{EXP|1,000,000}} • {{Meteor Shards|2,500}} • [[Trinkets|Mass Reactor trinket]]
+}}
+
+|-|
+Fungal Marsh=
+
+; NPC: [[Mushroom Man]]
+{{Quest
+|Quest = Mushroom Mania
+|QuestStep1 = Collect 250 [[Gloomcap|Gloomcap]].
+|QuestStep2 = Collect 5 [[Red Beryl|Red Beryl]].
+|QuestStep3 = Collect 100 Mythics.
+|QuestStep4 = Collect 1 [[Astral Spore|Astral Spore]].
+|Rewards = {{$|1,000,000,000}} • {{EXP|300,000}} • <span style="color:#86C080;">[[Blueprint#Otherworldly_Ring_Blueprint|1 Blueprint]]</span> • {{Meteor Shards|1,000}}
+}}
+
+; NPC: [[The Greatest Prospector]]
+{{Quest
+|Quest = The Grand Challenge [1]
+|QuestStep1 = Collect 100 Exotic Minerals from the Swamp.
+|QuestStep2 = Collect 100 Exotic Minerals from the Overgrown Caves.
+|QuestStep3 = Collect 100 Exotic Minerals from the Snowy Mountain.
+|QuestStep4 = Collect 100 Exotic Minerals from Caldera Island.
+}}
+{{Quest
+|Quest = The Grand Challenge [2]
+|QuestStep1 = Bring a 25kg+ [[Eternium]] to the GREATEST Prospector.
+|QuestStep2 = Bring a 50kg+ [[Umbrite]] to the GREATEST Prospector.
+|QuestStep3 = Bring a 25kg+ [[Cryonic Artifact]] to the GREATEST Prospector.
+|Rewards = [[Titles#Quest_Titles|Title]] <span style="color:#ffcc00;">Champion of Prospectors</span> • {{$|50,000,000,000,000}} • {{EXP|100,000,000}} • <span style="color:#86C080;">[[Blueprint#Ring_of_Champions_Blueprint|1 Blueprint]]</span> • {{Meteor Shards|20,000}}
+}}
+; NPC: [[Froggy]]
+{{Quest
+|Quest = Feed Froggy The Frog
+|QuestStep1 = Collect 1,000 [[Gloomcap]].
+|Rewards = {{$|1,000,000,000}} • {{EXP|200,000}} • {{Meteor Shards|500}}
+}}
+|-|
+Timelocked Sanctuary =
+; NPC: [[Timelocked Spirit]]
+{{Quest
+|Quest = Lost in Time
+|QuestStep1 = Collect 1 [[Eternium|Eternium]].
+|QuestStep2 = Collect 111 Mythic Materials from the Timelocked Sanctuary.
+|QuestStep3 = Collect 222 Legendary Materials from the Timelocked Sanctuary.
+|QuestStep4 = Collect 333 Epic Materials from the Timelocked Sanctuary.
+|Rewards = {{EXP|1,000,000}} • <span style="color:#86C080;">[[Blueprint#Timelocked_Soul_Blueprint|1 Blueprint]]</span> • {{Meteor Shards|4,000}}
+}}
+
+|-|
+Meteor Valley=
+; NPC: [[Valley Girl]]
+{{Quest
+|Quest = Help the Valley Girl
+|QuestStep1 = Bring 1 [[Vortessence]] to the Valley Girl in Meteor Valley.
+|QuestStep2 = Bring 1 [[Star Garnet]] to the Valley Girl in Meteor Valley.
+|QuestStep3 = Bring 1 [[Sunstone]] to the Valley Girl in Meteor Valley.
+|Rewards = {{$|500,000,000,000}} • {{EXP|1,000,000}} • {{Meteor Shards|400}}}}
+; NPC: [[Concussed Resident]]
+{{Quest
+|Quest = Good Samaritan
+|QuestStep1 = Collect 2000 Legendary Materials from Meteor Valley.
+|QuestStep2 = Collect 200 Mythic Materials from Meteor Valley.
+|QuestStep3 = Collect 10 Exotic Materials from Meteor Valley.
+|Rewards = {{$|5,000,000,000}} • {{EXP|2,000,000}} • {{Meteor Shards|1,000}} }}
+; NPC: [[Valley Golem]]
+{{Quest
+|Quest = Help The Valley Golem
+|QuestStep1 = Collect 3000 [[Gold]].
+|QuestStep2 = Collect 2000 [[Sapphire]].
+|QuestStep3 = Collect 100 [[Jade]].
+|QuestStep4 = Collect 100 [[Aquamarine]].
+|QuestStep5 = Collect 10 [[Star Garnet]].
+|Rewards = {{$|0}} • {{EXP|5,000,000}} • {{Meteor Shards|3,000}} }}
+; NPC: [[Familiar Merchant]]
+{{Quest
+|Quest = The Merchant's Request
+|QuestStep1 = Bring 1 [[Starpiercer]] to the Familiar Merchant in Meteor Valley.
+|Rewards = {{$|2,500,000,000}} • {{EXP|5,000,000}} • {{Meteor Shards|2,000}} • <i style="color:#86C080;">[[Blueprint#Starlight_Wings_Blueprint|1 Blueprint]]</i>}}
+; NPC: [[Clockmaker]]
+{{Quest
+|Quest = Clockwork Coolant
+|QuestSub = The clockmaker needs a coolant for their new invention.
+|QuestStep1 = Bring a 75kg+ Cryonic Artifact to the Clockmaker.
+|Rewards = {{$|3,000,000,000}} • {{EXP|10,000,000}} • <i style="color:#86C080;">[[Blueprint#Clockwork_Blueprint|1 Blueprint]]</i> • {{Meteor Shards|2,000}}
+}}
+; NPC: [[Astronomer]]
+{{Quest
+|Quest = Valley Anomaly
+|QuestStep1 = Collect 1 Singularium.
+|Rewards = {{$|2,000,000,000}} • {{EXP|4,000,000}} • {{Meteor Shards|1,500}} • <i style="color:#86C080;">[[Blueprint#tabber-Meteor_Core_Blueprint|1 Blueprint]]</i></span>
+}}
+; NPC: [[Meteor Wisp]]
+{{Quest
+|Quest = Help The Meteor Wisp
+|QuestStep1 = Bring 10 [[Sunstone]] to the Meteor Wisp in Meteor Valley.
+|Rewards = {{$|50,000,000,000}} • {{EXP|3,000,000}} • {{Meteor Shards|1,000}} }}
+; NPC: [[Meteor Guardian]]
+{{Quest
+|Quest = Galactic Guardian
+|QuestSub = Restore the valley's protective blessing.
+|QuestStep1 = Collect 1 [[Celestium]].
+|QuestStep2 = Collect 100 [[Sunstone]].
+|QuestStep3 = Collect 25000 Materials from Meteor Valley.
+|Rewards = {{$|4,000,000,000}} • {{EXP|5,000,000}} • <i style="color:#86C080;">[[Blueprint#Accretion_Disk_Blueprint|1 Blueprint]]</i> • {{Meteor Shards|2,000}}
+}}
+; NPC: [[Fallen Crate]]
+{{Quest
+|Quest = Mysterious Crate
+|QuestSub = If I acclimate to the valley, I may be able to open the crate...
+|QuestStep1 = Collect 10 [[Starpiercer]].
+|QuestStep2 = Collect 10 [[Singularium]].
+|QuestStep3 = Collect 10 [[Celestium]].
+|QuestStep4 = Collect 3,000 Mythic Materials from Meteor Valley.
+|Rewards = {{$|5,000,000,000}} • {{EXP|10,000,000}} • <i style="color:#86C080 !important;">[[Blueprint#Ring_of_the_Stars_Blueprint|1 Blueprint]]</i> • {{Meteor Shards|2,500}}
+}}
+; NPC: [[Cave Diver]]
+{{Quest
+|Quest = Underground Passage [1]
+|QuestSub = Repair the boat to traverse the flooded cavern.
+|QuestStep1 = Collect 50 [[Mythril]].
+|QuestStep2 = Collect 500 [[Palladium]].
+}}
+{{Quest
+|Quest = Underground Passage [3]
+|QuestSub = Repair the boat to traverse the flooded cavern.
+|QuestStep1 = Collect 200 [[Inferlume]].
+|QuestStep2 = Collect 100 [[Volcanic Core]].
+}}
+{{Quest
+|Quest = Underground Passage [5]
+|QuestSub = Repair the boat to traverse the flooded cavern.
+|QuestStep1 = Bring 3 [[Umbrite]] to the Cave Diver.
+|QuestStep2 = Bring 3 [[Adamantine]] to the Cave Diver.
+|Rewards = {{$|0}} • {{EXP|1,000,000}} • {{Meteor Shards|1,000}} • Unlock passage to {{Sunscorched Desert}}
+}}
+|-|
+Sunscorched Desert=
+; NPC: [[Craftsman]]
+{{Quest
+|Quest = Priority Supplies
+|QuestSub = Collect the Craftsman's monthly supplies.
+|QuestStep1 = Collect 10000 Sandsteel.
+|QuestStep2 = Collect 1000 Jasper.
+|QuestStep3 = Collect 100 Agate.
+|Rewards = {{$|10,000,000,000}} • {{EXP|2,000,000}} • [[Blueprint#Sun's_Gift_Blueprint|1 Blueprint]] • {{Meteor Shards|750}}
+}}
+; NPC: [[River Researcher]]
+{{Quest
+| Quest = River Monitoring
+|QuestSub = Ensure that there are no irregularities in the river's flow.
+|QuestStep1 = Collect 10,000 Legendary Materials from {{Sunscorched Desert}}.
+|QuestStep2 = Collect 1,000 Mythic Materials from Sunscorched Desert.
+|QuestStep3 = Collect 25 Exotic Materials from Sunscorched Desert.
+|Rewards = {{$|25,000,000,000}} • {{EXP|2,000,000}} • {{Meteor Shards|1,000}}
+}}
+; NPC: [[Resting Traveler]]
+{{Quest
+|Quest = Eye of the Sands
+|QuestSub = The resting traveler is searching for an ancient artifact.
+|QuestStep1 = Bring 1 [[Eye of the Sands]] to the Resting Traveler.
+|Rewards = {{$|25,000,000,000}} • {{EXP|5,000,000}} • [[Blueprint#Lunar_Mask_Blueprint|1 Blueprint]] • {{Meteor Shards|1,000}}
+}}
+; NPC: [[Environmentalist]]
+{{Quest
+|Quest = Purifying the Oasis
+|QuestSub = Search for the long-lost method of preserving the oasis.
+|QuestStep1 = Collect 100,000 Materials from {{Sunscorched Desert}}.
+|QuestStep2 = Collect 1 [[Key of Life]].
+|Rewards = {{$|50,000,000,000}} • {{EXP|5,000,000}} • <span style="color:#86C080;">[[Blueprint#tabber-Guardian_Pendant_Blueprint|1 Blueprint]]</span> • {{Meteor Shards|2,000}}
+}}
+
+</tabber>

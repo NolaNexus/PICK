@@ -1,0 +1,283 @@
+{{Tocright}}
+
+= Mineral Modifiers =
+'''Modifiers''' are special qualities that can appear on [[Minerals]] and affect their sell value, appearance, and [[Museum]] bonus. 
+
+Limited-event modifiers often have different uses during the event, but do not affect sell value and do not give a Museum bonus. 
+
+The {{Stat|Modifier Boost}} [[Stats|stat]] increases the chance of getting a modified ore from panning.
+
+== Perfect ==
+* '''Sell Price Multiplier:''' 24×
+* '''Color:''' <span style="color:#00ffe1;">Cyan</span>
+* '''Description:''' A glowing and rotating white halo around a four-pointed star
+* '''Image:''' [[File:Modifier Perfect.png|64px]]
+* '''Tools:''' None
+* '''Equipment:''' None
+* '''Location Boosts:''' None
+* '''Event Boosts:''' None
+* '''Museum Bonus:''' {{Stat|Luck}} + {{Stat|Capacity}} + {{Stat|Size Boost}} 
+* '''Chance:''' 0.003736% (~1 in 26764)
+
+== Treasured ==
+* '''Sell Price Multiplier:''' 15×
+* '''Color:''' <span style="color:#FFD849;">Gold</span>
+* '''Description:''' A subtle golden sheen
+* '''Image:''' [[File:Modifier Treasured.png|64px]]
+* '''Tools:''' None
+* '''Equipment:''' None
+* '''Location Boosts:''' None
+* '''Event Boosts:''' None
+* '''Museum Bonus:''' 2&times;{{Stat|Luck}}
+* '''Chance:''' 0% from panning, 100% from [[Treasure Chest|Treasure chests]]
+
+== Lunar ==
+* '''Sell Price Multiplier:''' 14×
+* '''Color:''' <span style="color:#FFE99B;">Light Yellow</span>
+* '''Description:''' A spiky eight-petaled flower of pulsating pinkish light
+* '''Image:''' [[File:Modifier Lunar.png|64px]]
+* '''Tools:''' None
+* '''Equipment:''' None
+* '''Location Boosts:''' None
+* '''Event Boosts:''' None
+* '''Museum Bonus:''' {{Stat|Dig Speed}} + {{Stat|Shake Speed}} + {{Stat|Walkspeed}}
+* '''Chance:''' 0.009341% (~1 in 10705) at night, 0% otherwise
+
+== Voidtorn ==
+* '''Sell Price Multiplier:''' 11×  
+* '''Color:''' <span style="color:#8307FF;">Deep Purple</span>  
+* '''Description:''' Distorted by void energy, cracked with glowing purple fissures.  
+* '''Image:''' [[File:Modifier Voidtorn.png|64px]]  
+* '''Tools:''' [[Galactic Pan]] or [[Galactic Shovel|Shovel]]; any other shovel with [[Enchanting#tabber-Shovels|Voidtouched enchant]]  
+* '''Equipment:''' None  
+* '''Location Boosts:''' [[The Void]]  
+* '''Event Boosts:''' None  
+* '''Museum Bonus:''' {{Stat|Luck}} + {{Stat|Capacity}}
+* '''Chance:''' 0 (with exceptions noted above)
+
+== Mutated ==
+* '''Sell Price Multiplier:''' 9×
+* '''Color:''' <span style="color:#7F43FF;">Purple</span>
+* '''Description:''' Tentacles of dark purple light in constant motion
+* '''Image:''' [[File:Modifier Mutated.png|64px]]
+* '''Tools:''' None
+* '''Equipment:''' None
+* '''Location Boosts:''' None
+* '''Event Boosts:''' None
+* '''Museum Bonus:''' {{Stat|Luck}} + {{Stat|Dig Strength}} + {{Stat|Modifier Boost}}
+* '''Chance:''' 0.03736% (~1 in 2676)
+
+== Cosmic ==
+* '''Sell Price Multiplier:''' 6×
+* '''Color:''' <span style="color:#FF478E;">Vibrant Pink</span>
+* '''Description:''' Flashes of pink sparks with halos
+* '''Image:''' [[File:Modifier Cosmic.png|64px]]
+* '''Tools:''' None
+* '''Equipment:''' None
+* '''Location Boosts:''' None
+* '''Event Boosts:''' None
+* '''Museum Bonus:''' {{Stat|Capacity}} + {{Stat|Shake Strength}}
+* '''Chance:''' 0.1868% (~1 in 535)
+
+== Electrified ==
+* '''Sell Price Multiplier:''' 5×  
+* '''Color:''' <span style="color:#FFEB0B;">Bright Yellow</span>  
+* '''Description:''' Crackles with small electric sparks and intermittent flashes.  
+* '''Image:''' [[File:Modifier Electrified.png|64px]]  
+* '''Tools:''' None  
+* '''Equipment:''' None  
+* '''Location Boosts:''' None  
+* '''Event Boosts:''' Thunderstorm  
+* '''Museum Bonus:''' {{Stat|Dig Speed}} + {{Stat|Shake Speed}}
+* '''Chance:''' 0 (Panning during [[Events#tabber-Thunderstorm|Thunderstorm]] Admin-exclusive event only)
+
+== Iridescent ==
+* '''Sell Price Multiplier:''' 3.5×  
+* '''Color:''' <span style="color:#F36BFF;">Pink-Violet</span>  
+* '''Description:''' Shimmers with purple light beams.  
+* '''Image:''' [[File:Modifier Iridescent.png|64px]]  
+* '''Tools:''' None  
+* '''Equipment:''' None  
+* '''Location Boosts:''' None  
+* '''Event Boosts:''' None  
+* '''Museum Bonus:''' {{Stat|Luck}}
+* '''Chance:''' 0.7473% (~1 in 134)
+
+== Irradiated ==
+* '''Sell Price Multiplier:''' 2.5×  
+* '''Color:''' <span style="color:#67FF20;">Green</span>  
+* '''Description:''' Pulses with radioactive energy and specks of light.  
+* '''Image:''' [[File:Modifier Irradiated.png|64px]]  
+* '''Tools:''' None  
+* '''Equipment:''' None  
+* '''Location Boosts:''' None  
+* '''Event Boosts:''' None  
+* '''Museum Bonus:''' {{Stat|Modifier Boost}}
+* '''Chance:''' 3.736% (~1 in 27)
+
+== Crystalline ==
+* '''Sell Price Multiplier:''' 2×  
+* '''Color:''' <span style="color:#B7E6FF;">Baby Blue</span>  
+* '''Description:''' A faceted, amethyst-tinted crystal lattice that refracts light into soft purple hues, its glassy facets shimmering like cut gemstone.  
+* '''Image:''' [[File:Modifier Crystalline.png|64px]]  
+* '''Tools:''' {{Enchant|Crystal Touch}} (or, indirectly, {{Enchant|Geothermal}}) enchanted [[Shovels|shovel]]  
+* '''Equipment:''' None
+* '''Location Boosts:''' None  
+* '''Event Boosts:''' None
+* '''Museum Bonus:''' {{Stat|Size Boost}}
+* '''Chance:''' 0% from regular panning, 10% with {{Enchant|Crystal Touch}} shovel, 100% from [[Geodes|geodes]]
+
+== Scorching ==
+* '''Sell Price Multiplier:''' 2×  
+* '''Color:''' <span style="color:#FF861C;">Orange-Red</span>  
+* '''Description:''' Radiates heat, with ember-like effects.  
+* '''Image:''' [[File:Modifier Scorching.png|64px]]  
+* '''Tools:''' None  
+* '''Equipment:''' None  
+* '''Location Boosts:''' Volcanic areas may naturally increase odds.  
+* '''Event Boosts:''' Solar Flare  
+* '''Museum Bonus:''' {{Stat|Dig Strength}}
+* '''Chance:''' 9.341% (~1 in 11)
+
+== Glowing ==
+* '''Sell Price Multiplier:''' 1.6×  
+* '''Color:''' <span style="color:#FFF292;">Yellow</span>  
+* '''Description:''' Emits a soft glow.  
+* '''Image:''' [[File:Modifier Glowing.png|64px]]  
+* '''Tools:''' None  
+* '''Equipment:''' None  
+* '''Location Boosts:''' None  
+* '''Event Boosts:''' None  
+* '''Museum Bonus:''' {{Stat|Shake Speed}}
+* '''Chance:''' 18.68% (~1 in 5)
+
+== Pure ==
+* '''Sell Price Multiplier:''' 1.35×  
+* '''Color:''' <span style="color:#ffffff;">White</span>  
+* '''Description:''' Clean, flawless surface with reduced blemishes.  
+* '''Image:''' [[File:Modifier Pure.png|64px]]  
+* '''Tools:''' None  
+* '''Equipment:''' None  
+* '''Location Boosts:''' None  
+* '''Event Boosts:''' None  
+* '''Museum Bonus:''' {{Stat|Dig Speed}}
+* '''Chance:''' 29.89% (~1 in 3)
+
+== Shiny ==
+* '''Sell Price Multiplier:''' 1.2×  
+* '''Color:''' <span style="color:#D4E7FF;">Blue</span>  
+* '''Description:''' Gives the mineral a subtle glint with small sparkles.  
+* '''Image:''' [[File:Modifier Shiny.png|64px]]  
+* '''Tools:''' None  
+* '''Equipment:''' None  
+* '''Location Boosts:''' None  
+* '''Event Boosts:''' None  
+* '''Museum Bonus:''' {{Stat|Shake Strength}}
+* '''Chance:''' 37.36% (~1 in 3)
+
+== Purified ==
+* '''Sell Price Multiplier:''' 1×
+* '''Color:''' <span style="color:#FFFFFF;">white</span>
+* '''Description:''' no visual effect
+* '''Tools:''' None
+* '''Equipment:''' [[Runes|Purity Rune]]
+* '''Location Boosts:''' None
+* '''Event Boosts:''' None
+* '''Museum Bonus:''' None
+* '''Chance:''' 100% with Purity rune, 0% without
+
+== Ghostly ==
+* '''Sell Price Multiplier:''' 1×  
+* '''Color:''' <span style="color:#79E252;">Light Green</span>  
+* '''Description:''' green smoke with occasional ghostly faces
+* '''Image:''' [[File:ghostly.png|64px]]  
+* '''Tools:''' None  
+* '''Equipment:''' None  
+* '''Location Boosts:''' {{Haunted Creek}} 
+* '''Event Boosts:''' (Halloween event)
+* '''Museum Bonus:''' None
+* '''Chance:''' (only during Halloween event)
+
+== Spooky ==
+* '''Sell Price Multiplier:''' 1×  
+* '''Color:''' <span style="color:#3FF9B2;">Turquoise</span>  
+* '''Description:''' white flashes of light
+* '''Image:''' [[File:spooky.png|64px]]  
+* '''Tools:''' None 
+* '''Equipment:''' None  
+* '''Location Boosts:''' {{Haunted Creek}}  
+* '''Event Boosts:''' [[Events#tabber-Hallows'_Eve_-_Limited|Hallows' Eve]]
+* '''Museum Bonus:''' None
+* '''Chance:''' (only during Halloween event)
+
+== Jolly ==
+* '''Sell Price Multiplier:''' 1×  
+* '''Color:''' <span style="color:#FF4040;">Red</span>  
+* '''Description:''' n/a  
+* '''Image:''' n/a  
+* '''Tools:''' None 
+* '''Equipment:''' None  
+* '''Location Boosts:''' {{North Pole}} 
+* '''Event Boosts:''' (during Christmas event)
+* '''Museum Bonus:''' None
+* '''Chance:''' (only during Christmas event)
+ 
+== Charming ==
+* '''Sell Price Multiplier:''' 1×  
+* '''Color:''' <span style="color:#FFA7DC;">Pink</span>  
+* '''Description:''' Gives the mineral a subtle glint with small pink sparkles.  
+* '''Image:''' [[File:Modifier Charming.png|64px]]  
+* '''Tools:''' None 
+* '''Equipment:''' None  
+* '''Location Boosts:''' None  
+* '''Event Boosts:''' [[Events#tabber-Rose_Rain-_Limited|Rose Rain]]
+* '''Museum Bonus:''' None
+* '''Chance:''' (only during Valentine's event)
+
+== Rosy ==
+* '''Sell Price Multiplier:''' 1×  
+* '''Color:''' <span style="color:#AC1441;">Red</span>  
+* '''Description:''' Gives the mineral a subtle glint with small pink sparkles.  
+* '''Image:''' [[File:Modifier Rosy.png|64px]]  
+* '''Tools:''' None 
+* '''Equipment:''' None  
+* '''Location Boosts:''' None  
+* '''Event Boosts:''' [[Events#tabber-Rose_Rain-_Limited|Rose Rain]]
+* '''Museum Bonus:''' None
+* '''Chance:''' (only during Valentine's event)
+
+== Summer ==
+* '''Sell Price Multiplier:''' 1×  
+* '''Color:''' <span style="color:#e18114;">Gold</span>  
+* '''Description:''' ...  
+* '''Image:''' ...  
+* '''Tools:''' None 
+* '''Equipment:''' None  
+* '''Location Boosts:''' None  
+* '''Event Boosts:''' None
+* '''Museum Bonus:''' None
+* '''Chance:''' (only during [[Seashell Isle|Summer event]])
+
+== Tidal ==
+* '''Sell Price Multiplier:''' 1×  
+* '''Color:''' <span style="color:#1c4899;">Navy</span>  
+* '''Description:''' ...  
+* '''Image:''' ...  
+* '''Tools:''' None 
+* '''Equipment:''' None  
+* '''Location Boosts:''' Beaches  
+* '''Event Boosts:''' [[Events#tabber-Shifting_Tides_-_Limited|Shifting Tides]]
+* '''Museum Bonus:''' None
+* '''Chance:''' only obtainable by panning at a beach that has Shifting Tides circles (Summer event)
+
+== Hearthflame ==
+* '''Sell Price Multiplier:''' 1×  
+* '''Color:''' <span style="color:#e2400b;">Dark red</span>  
+* '''Description:''' ...  
+* '''Image:''' ...  
+* '''Tools:''' None 
+* '''Equipment:''' None  
+* '''Location Boosts:''' None  
+* '''Event Boosts:''' [[Events#tabber-Night_of_the_Bonfire_-_Limited|Night of the Bonfire]]
+* '''Museum Bonus:''' None
+* '''Chance:''' only obtainable during the Night of the Bonfire Event (Summer event)

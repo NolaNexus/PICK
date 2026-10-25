@@ -1,0 +1,447 @@
+
+[[File:Blueprints.png|thumb|300px|left|A blueprint]]
+
+= Blueprints =
+'''Blueprints''' are special unlockable items in ''Prospecting!''.  
+They are required for certain high-tier [[Equipment]] to appear in the crafting menu at the [[Blacksmith]].  
+
+== How Blueprints Work ==
+* Once obtained, a blueprint permanently unlocks the ability to craft its associated equipment.  
+* Blueprints are consumed upon use and cannot be traded or sold.  
+* Equipment that requires a blueprint will '''not show up in the crafting menu''' until the blueprint has been used.  
+
+== How to Obtain Blueprints ==
+Most blueprints can be obtained through [[Quests|quests]], though some can be purchased, and at least one can be found just lying around on the ground.  
+
+<tabber>
+Accretion Disk Blueprint=
+===== [[Equipment#tabber-Exotic|Accretion Disk]] Blueprint =====
+[[File:Accretion DiskBP.png|100px|frameless|right]]  
+* '''Quest Giver:''' [[Meteor Guardian]] in {{Astral Caverns}}
+* '''Quest Name:''' [[Quests#tabber-Meteor_Valley|Galactic Guardian]]
+{{Quest
+|Quest = Galactic Guardian
+|QuestSub = Restore the valley's protective blessing.
+|QuestStep1 = Collect 1 [[Celestium]].
+|QuestStep2 = Collect 100 [[Sunstone]].
+|QuestStep3 = Collect 25000 Materials from Meteor Valley.
+|Rewards = {{$|4,000,000,000}} • {{EXP|5,000,000}} • <i style="color:#86C080;">1 Blueprint</i> • {{Meteor Shards|2,000}}
+}}
+
+|-|
+Amulet of Life Blueprint=
+===== [[Equipment#tabber-Mythic|Amulet of Life]] Blueprint =====
+[[File:Amulet of Life Blueprint.png|100px|frameless|right]]  
+* '''Quest Giver:''' [[Professor]] in {{Overgrown Grotto}}
+* '''Quest Name:''' [[Quests#tabber-Overgrown_Grotto|Terra Incognita]]
+{{Quest
+|Quest = Terra Incognita
+|QuestSub = Help the Professor explore what the grotto has to offer..
+|QuestStep1 = Collect 150 [[Glowmoss]]. 
+|QuestStep2 = Collect 25 [[Specterite]]. 
+|QuestStep3 = Collect 5 [[Starshine]]. 
+|Rewards = {{$|50,000,000}} • {{EXP| 100,000}} • <i style="color:#86C080;">1 Blueprint</i>• {{Meteor Shards|600}}
+}}
+
+|-|
+Amulet of Spirits Blueprint=
+===== [[Equipment#tabber-Mythic_2|Amulet of Spirits]] Blueprint =====
+[[File:Amuletofspiritsblueprint.webp|100px|frameless|right]]
+* This blueprint can be bought in the {{Haunted Creek}} shop for <span style="color:orange;">550</span> {{Candy}}
+
+|-|
+Antlers of Life Blueprint=
+===== [[Equipment#tabber-Exotic|Antlers of Life]] Blueprint =====
+[[File:Antlers of Life Blueprint.png|100px|frameless|right]]  
+* '''Quest Giver:''' [[Druid]] in {{Deeproot Spring}}
+* '''Quest Name:''' [[Quests#tabber-Deeproot_Spring|Spirits of the Grotto]]
+{{Quest
+|Quest = Spirits of the Grotto
+|QuestSub = Feel the magic?
+|QuestStep1 = Bring 1 [[Vineheart]] to the Druid. 
+|QuestStep2 = Bring 1 [[Chrysoberyl]] to the Druid. 
+|Rewards = {{EXP| 250,000}} • <i style="color:#86C080;">1 Blueprint</i> • {{Meteor Shards|5,000}}
+}}
+
+|-|
+Bunny Ears Blueprint=
+===== [[Equipment#tabber-Mythic_2|Bunny Ears]] Blueprint =====
+* This blueprint can be purchased in the [[EasterEvent|Easter Event shop]] for <span style="color:#7FEEF2;">100</span> {{Eggs}}
+
+|-|
+Clockwork Blueprint=
+===== [[Equipment#tabber-Ascended|Clockwork]] Blueprint =====
+* '''Quest Giver:''' [[Clockmaker]] in {{Meteor Falls}}
+* '''Quest Name:''' [[Quests#tabber-Meteor_Valley|Clockwork Coolant]]
+{{Quest
+|Quest = Clockwork Coolant
+|QuestSub = The clockmaker needs a coolant for their new invention.
+|QuestStep1 = Bring a 75kg+ Cryonic Artifact to the Clockmaker.
+|Rewards = {{$|3,000,000,000}} • {{EXP|10,000,000}} • <i style="color:#86C080;">1 Blueprint</i> • {{Meteor Shards|2,000}}
+}}
+
+|-|
+Cryogenic Preserver Blueprint=
+===== [[Equipment#tabber-Mythic|Cryogenic Preserver]] Blueprint =====
+[[File:Cryogenic Preserver Blueprint.png|100px|frameless|right]]  
+* '''Quest Giver:''' [[Builder]] in {{Snowy Shores}}
+* '''Quest Name:''' [[Quests#tabber-Snowy_Shores|Repairing the Bridge]]
+{{Quest
+|Quest = Repairing the Bridge
+|QuestSub = Rebuild the crossing near the waterfall.
+|QuestStep1 = Collect 250 [[Blue Ice]].
+|QuestStep2 = Collect 200 [[Titanium]].
+|QuestStep3 = Collect 100 [[Glacial Quartz]].
+|QuestStep4 = Collect 50 [[Cobalt]].
+|Rewards = {{$|10,000,000}} • {{EXP| 250,000}} • <i style="color:#86C080;">1 Blueprint</i> • {{Meteor Shards|800}}
+}}
+
+|-|
+Dredge Master's Ring Blueprint=
+===== [[Equipment#tabber-Exotic|Dredge Master's Ring]] Blueprint =====
+[[File:DredgeBP.png|100px|frameless|right]]  
+* '''Quest Giver:''' [[Dredge Master]] in {{Fortune River}}
+* '''Quest Name:''' [[Quests#tabber-Fortune_River_—_Town|Dredge Master]]
+* Complete 100 quests to obtain the blueprint.
+{{Quest
+|Quest = Dredge Master
+|QuestStep1 = Collect [random amount] [random ore].
+|QuestStep2 = Collect [random amount] [random ore].
+|QuestStep3 = Collect [random amount] [random ore].
+|Rewards = {{$|?}} • {{EXP|?}} • {{Meteor Shards|?}} <span style='font-weight:normal;>[scaled with level and number of quests completed]</span>
+}}
+
+|-|
+Excalibur Blueprint=
+===== [[Equipment#tabber-Exotic|Excalibur]] Blueprint =====
+[[File:Excalibur_blueprint.png|100px|frameless|right]] 
+* '''Quest Giver:''' [[Ancient Sword]] in {{Enchanted Ruins}}
+* '''Quest Name:''' [[Quests#tabber-Enchanted_Ruins|Caliburn's Rest]]
+{{Quest
+|Quest = Caliburn's Rest [1]
+|QuestSub = Collect materials for the first stage of proving your worth.
+|QuestStep1 = Collect 250 [[Gold]].
+|QuestStep2 = Collect 250 [[Rose Gold]].
+|QuestStep3 = Collect 100 [[Luminum]].
+|QuestStep4 = Collect 10 [[Radiant Gold]].
+|QuestStep5 = Collect 10 [[Mythril]].
+}}
+{{Quest
+|Quest = Caliburn's Rest [2]
+|QuestSub = Return to the blade.
+|QuestStep1 = Return to the [[Ancient Sword]].
+}}
+{{Quest
+|Quest = Caliburn's Rest [3]
+|QuestSub = Bring a powerful heat source to the blade.
+|QuestStep1 = Bring 1 [[Volcanic Core]] to the Ancient Sword.
+}}
+{{Quest
+|Quest = Caliburn's Rest [4]
+|QuestSub = Bring a powerful cold source to the blade.
+|QuestStep1 = Bring 1 [[Frostshard]] to the Ancient Sword.
+}}
+{{Quest
+|Quest = Caliburn's Rest [5]
+|QuestSub = Bring a rare gem to the blade.
+|QuestStep1 = Bring 1 [[Chrysoberyl]] to the Ancient Sword.
+}}
+{{Quest
+|Quest = Caliburn's Rest [6]
+|QuestSub = The final material required for the blade.
+|QuestStep1 = Collect 1 [[Adamantine]].
+|QuestStepSub1 = &rArr; Note that unlike the previous steps, this step says "Collect".
+}}
+{{Quest
+|Quest = Caliburn's Rest [7]
+|QuestSub = Claim the blade.
+|QuestStep1 = Pull the Sword
+|Rewards = Title: '''Knight of the Round''' • {{EXP|500,000}} • <span style="color:#86C080;">1 Blueprint</span> • {{Meteor Shards|1,000}}
+}}
+
+|-|
+Frostthorn Pendant Blueprint=
+===== [[Equipment#tabber-Exotic|Frostthorn Pendant]] Blueprint =====
+[[File:Frostthorn Pendant Blueprint.png|100px|frameless|right]]  
+* '''Quest Giver:''' [[Mountain Surveyor]] in {{Frostbitten Path}}
+* '''Quest Name:''' [[Quests#tabber-Frostbitten_Path|Clearing The Path]]
+{{Quest
+|Quest = Clearing the Path [1]
+|QuestSub = Open the way to the Frozen Peak.
+|QuestStep1 = Collect 500 [[Blue Ice]].
+|QuestStep2 = Collect 200 [[Glacial Quartz]].
+|QuestStep3 = Collect 20 [[Aquamarine]].
+|QuestStep4 = Collect 20 [[Tourmaline]].
+}}
+
+{{Quest
+|Quest = Clearing The Path [3]
+|QuestSub = Help the Mountain Surveyor weaken the debris blocking the trail.
+|QuestStep1 = Bring 1 [[Volcanic Core]] to the Surveyor.
+|QuestStep2 = Bring 1 [[Vortessence]] to the Surveyor.
+|Rewards = {{$|25,000,000}} • {{EXP|500,000}} • <i style="color:#86C080;">1 Blueprint</i> • {{Meteor Shards|1,500}}
+}} 
+
+|-|
+Guardian Pendant Blueprint=
+===== [[Equipment#tabber-Exotic|Guardian Pendant]] Blueprint =====
+[[File:Guardian_Pendant_blueprint.png|100px|frameless|right]]
+* '''Quest Giver:''' [[Environmentalist]] in {{Lifespring Oasis}}
+* '''Quest Name:''' [[Quests#tabber-Sunscorched_Desert|Purifying the Oasis]]
+{{Quest
+|Quest = Purifying the Oasis
+|QuestSub = Search for the long-lost method of preserving the oasis.
+|QuestStep1 = Collect 100,000 Materials from {{Sunscorched Desert}}.
+|QuestStep2 = Collect 1 [[Key of Life]].
+|Rewards = {{$|50,000,000,000}} • {{EXP|5,000,000}} • <i style="color:#86C080;">1 Blueprint</i> • {{Meteor Shards|2,000}}
+}}
+
+|-|
+Helm of the Round Blueprint=
+===== [[Equipment#tabber-Mythic|Helm of the Round]] Blueprint =====
+[[File:Helm_of_the_round.png|100px|frameless|right]]  
+* '''Quest Giver:''' [[Ruins Archaeologist]] in {{Enchanted Ruins}}
+* '''Quest Name:''' [[Quests#tabber-Enchanted_Ruins|Legacy of the Round Table]]
+{{Quest
+|Quest = Legacy of the Round table [1]
+|QuestSub = Help the Ruins Archaeologist gather samples of varying metals found within the ruins.
+|QuestStep1 = Collect 500 [[Gold]].
+|QuestStep2 = Collect 250 [[Silver]].
+|QuestStep3 = Collect 25 [[Luminum]].
+|QuestStep4 = Collect 1 [[Radiant Gold]].
+|QuestStep5 = Collect 1 [[Mythril]].
+}}
+{{Quest
+|Quest = Legacy of the Round table [2]
+|QuestSub = Continue assisting the Archaeologist with his research.
+|QuestStep1 = Talk to the Ruins Archaeologist.
+}}
+{{Quest
+|Quest = Legacy of the Round table [3]
+|QuestSub = Bring the required artifact to decipher the ancient text.
+|QuestStep1 = Bring 1 [[Equipment#tabber-Mythic|Amulet of Life]] to the Ruins Archaeologist.
+|QuestStepSub1 = &rArr; The [[#Amulet_of_Life_Blueprint|Amulet of Life blueprint]] comes from the [[Quests#tabber-Overgrown_Grotto|Terra Incognita]] quest given by the [[Professor]] in the {{Overgrown Grotto}}.
+|Rewards = {{$|25,000,000}} • {{EXP|500,000}} • <span style="color:#86C080;">1 Blueprint</span> • {{Meteor Shards|1,500}}
+}} 
+
+|-|
+Lunar Mask Blueprint=
+[[File:Lunar_Mask_blueprint.png|100px|frameless|right]]
+===== [[Equipment#tabber-Exotic|Lunar Mask]] Blueprint =====
+* '''Quest Giver:''' [[Resting Traveler]] in {{Sandstone Stream}}
+* '''Quest Name:''' [[Quests#tabber-Sunscorched_Desert|Eye of the Sands]]
+{{Quest
+|Quest = Eye of the Sands
+|QuestSub = The resting traveler is searching for an ancient artifact.
+|QuestStep1 =Bring 1 [[Eye of the Sands]] to the Resting Traveler.
+|Rewards = {{$|25,000,000,000}} • {{EXP|5,000,000}} • <i style="color:#86C080;">1 Blueprint</i> • {{Meteor Shards|1,000}}
+}}
+
+|-|
+Meteor Core Blueprint=
+[[File:MeteorCoreBP.png|100px|frameless|right]]
+===== [[Equipment#tabber-Exotic|Meteor Core]] Blueprint =====
+* '''Quest Giver:''' [[Astronomer]] in {{Starfall River}}
+* '''Quest Name:''' [[Quests#tabber-Meteor_Valley|Valley Anomaly]]
+{{Quest
+|Quest = Valley Anomaly
+|QuestStep1 = Collect 1 [[Singularium]].
+|QuestStep2 = Bring 1 [[Sunstone]] to the Astronomer in Meteor Valley.
+|QuestStep3 = Bring 1 [[Starpiercer]] to the Astronomer in Meteor Valley.
+|Rewards = {{$|1,000,000,000,000}} • {{EXP|2,500,000}} • {{Meteor Shards|600}} • <i style="color:#86C080;">1 Blueprint</i>}}</span>
+}}
+
+|-|
+Mythril Ring Blueprint=
+===== [[Equipment#tabber-Mythic|Mythril Ring]] Blueprint =====
+[[File:Mythril Ring Blueprint.png|100px|frameless|right]]  
+* '''Quest Giver:''' [[Apprentice Blacksmith]] in {{Snowy Shores}}
+* '''Quest Name:''' [[Quests#tabber-Snowy_Shores|Finding Mythril]]
+{{Quest
+|Quest = Finding Mythril
+|QuestSub = The apprentice needs a mythical metal sample.
+|QuestStep1 = Collect 1 [[Mythril]].
+|Rewards = {{$|25,000,000}} • {{EXP| 200,000}} • <i style="color:#86C080;">1 Blueprint</i> • {{Meteor Shards|750}}
+}}
+
+|-|
+Otherworldly Ring Blueprint=
+===== [[Equipment#tabber-Exotic|Otherworldly Ring]] Blueprint ===== 
+[[File:otherwordlyringblueprint.png|100px|frameless|right]] 
+* '''Quest Giver:''' [[Mushroom Man]] in {{Fungal Marsh}}
+* '''Quest Name:''' [[Quests#tabber-Fungal_Marsh|Mushroom Mania]]
+{{Quest
+|Quest = Mushroom Mania
+|QuestStep1 = Collect 250 [[Gloomcap|Gloomcap]].
+|QuestStep2 = Collect 5 [[Red Beryl|Red Beryl]].
+|QuestStep3 = Collect 100 Mythics.
+|QuestStep4 = Collect 1 [[Astral Spore|Astral Spore]].
+|Rewards = {{$|1,000,000,000}} • {{EXP|300,000}} • <span style="color:#86C080;">1 Blueprint</span> • {{Meteor Shards|1,000}}
+}}
+
+|-|
+Pumpkin Lord Blueprint=
+===== [[Equipment#tabber-Exotic_2|Pumpkin Lord]] Blueprint =====
+[[File:Pumpkinlordblueprint.webp|100px|frameless|right]]
+* This blueprint can be bought in the {{Haunted Creek}} shop for <span style="color:orange;">800</span> {{Candy}}
+
+|-|
+
+Purifying Ring Blueprint=
+===== [[Equipment#tabber-Mythic|Purifying Ring]] Blueprint =====
+[[File:purifyingringblueprint.png|100px|frameless|right]]  
+* '''Quest Giver:''' [[Familiar Fisherman]] in {{Rotwood Swamp}}
+* '''Quest Name:''' [[Quests#tabber-Rotwood_Swamp|Murky Waters]]
+{{Quest
+|Quest = Murky Waters [1]
+|QuestStep1 = Collect 450 [[Mercury]]
+|Rewards = {{$|250,000,000}} • {{EXP|200,000}} • <span style="color:#86C080;">1 Blueprint</span> • {{Meteor Shards|500}}
+}}
+
+|-|
+Ring of Champions Blueprint=
+===== [[Equipment#tabber-Ascended|Ring of Champions]] Blueprint =====
+[[File:Rocblueprint.png|100px|frameless|right]]  
+* '''Quest Giver:''' [[The Greatest Prospector]] in {{Fungal Marsh}}
+* '''Quest Name:''' [[Quests#tabber-Fungal_Marsh|The Grand Challenge]]
+{{Quest
+|Quest = The Grand Challenge [1]
+|QuestStep1 = Collect 100 Exotic Minerals from the Swamp.
+|QuestStep2 = Collect 100 Exotic Minerals from the Overgrown Caves.
+|QuestStep3 = Collect 100 Exotic Minerals from the Snowy Mountain.
+|QuestStep4 = Collect 100 Exotic Minerals from Caldera Island.
+}}
+{{Quest
+|Quest = The Grand Challenge [2]
+|QuestStep1 = Bring a 25kg+ [[Eternium]] to the GREATEST Prospector.
+|QuestStep2 = Bring a 50kg+ [[Umbrite]] to the GREATEST Prospector.
+|QuestStep3 = Bring a 25kg+ [[Cryonic Artifact]] to the GREATEST Prospector.
+|Rewards = Title: <span style="color:#ffcc00;">Champion of Prospectors</span> • {{$|50,000,000,000,000}} • {{EXP|100,000,000}} • <span style="color:#86C080;">1 Blueprint</span> • {{Meteor Shards|20,000}}
+}}
+
+|-|
+Ring of Harvest Blueprint=
+===== [[Equipment#tabber-Legendary_2|Ring of Harvest]] Blueprint =====
+[[File:Ringofharvestblueprint.webp|100px|frameless|right]]
+* This blueprint can be bought in the {{Haunted Creek}} shop for <span style="color:orange;">300</span> {{Candy}}
+
+|-|
+Ring of the Stars Blueprint=
+===== [[Equipment#tabber-Ascended|Ring of the Stars]] Blueprint =====
+* '''Quest Giver:''' [[Fallen Crate]] in {{Starfall River}}
+* '''Quest Name:''' [[Quests#tabber-Meteor_Valley|Mysterious Crate]]
+{{Quest
+|Quest = Mysterious Crate
+|QuestSub = If I acclimate to the valley, I may be able to open the crate...
+|QuestStep1 = Collect 10 [[Starpiercer]].
+|QuestStep2 = Collect 10 [[Singularium]].
+|QuestStep3 = Collect 10 [[Celestium]].
+|QuestStep4 = Collect 3,000 Mythic Materials from Meteor Valley.
+|Rewards = {{$|5,000,000,000}} • {{EXP|10,000,000}} • <i style="color:#86C080;">1 Blueprint</i> • {{Meteor Shards|2,500}}
+}}
+
+|-|
+Ring of Thorns Blueprint=
+===== [[Equipment#tabber-Mythic|Ring of Thorns]] Blueprint =====
+[[File:Ring of Thorns Blueprint.png|100px|frameless|right]]  
+* '''Quest Giver:''' [[Disgruntled Explorer]] in {{Overgrown Grotto}}
+* '''Quest Name:''' [[Quests#tabber-Overgrown_Grotto|To Boldly Go]]
+{{Quest
+|Quest = To Boldly Go
+|QuestSub = Help the Disgruntled Explorer get what he needs.
+|QuestStep1 = Collect 500 [[Amber]].
+|QuestStep2 = Collect 15 [[Luminum]]. 
+|QuestStep3 = Collect 3 [[Radiant Gold]]. 
+|Rewards = {{$|5,000,000}} • {{EXP| 200,000}} • <i style="color:#86C080;">1 Blueprint</i> • {{Meteor Shards|1,000}}
+}}
+
+|-|
+Shell Necklace Blueprint=
+===== [[Equipment#tabber-Mythic_2|Shell Necklace]] Blueprint =====
+[[File:Shell Necklace Blueprint.png|100px|frameless|right]]
+This blueprint can be purchased for {{Sand Dollars|500}} at the [[Seashell_Isle#Blueprint_and_Trinket_Vendor|Blueprint and Trinket Vendor]] on {{Seashell Isle}}.
+
+|-|
+Starlight Wings Blueprint=
+===== [[Equipment#tabber-Exotic|Starlight Wings]] Blueprint =====
+[[File:StarlightWingsBP.png|100px|frameless|right]]
+* '''Quest Giver:''' [[Familiar Merchant]] in {{Meteor Falls}}
+* '''Quest Name:''' [[Quests#tabber-Meteor_Valley|The Merchant's Request]]
+{{Quest
+|Quest = The Merchant's Request
+|QuestStep1 = Bring 1 [[Starpiercer]] to the Familiar Merchant in Meteor Valley.
+|Rewards = {{$|2,500,000,000}} • {{EXP|5,000,000}} • {{Meteor Shards|2,000}} • <i style="color:#86C080;">1 Blueprint</i>
+}}
+
+|-|
+Sun's Gift Blueprint=
+[[File:Sun's_Gift_blueprint.png|100px|frameless|right]]
+===== [[Equipment#tabber-Exotic|Sun's Gift]] Blueprint =====
+* '''Quest Giver:''' [[Craftsman]] in {{Sandstone Stream}}
+* '''Quest Name:''' [[Quests#tabber-Sunscorched_Desert|Priority Supplies]]
+{{Quest
+|Quest = Priority Supplies
+|QuestSub = Collect the Craftsman's monthly supplies.
+|QuestStep1 = Collect 10000 Sandsteel.
+|QuestStep2 = Collect 1000 Jasper.
+|QuestStep3 = Collect 100 Agate.
+|Rewards = {{$|10,000,000,000}} • {{EXP|2,000,000}} • <i style="color:#86C080;">1 Blueprint</i> • {{Meteor Shards|750}}
+}}
+
+|-|
+Timelocked Soul Blueprint=
+===== [[Equipment#tabber-Exotic|Timelocked Soul]] Blueprint =====
+[[File:timelockedsoul.png|100px|frameless|right]]  
+* '''Quest Giver:''' [[Timelocked Spirit]] in {{Timelocked Sanctuary}}
+* '''Quest Name:''' [[Quests#tabber-Timelocked_Sanctuary|Lost in Time]]
+{{Quest
+|Quest = Lost in Time
+|QuestStep1 = Collect 1 [[Eternium|Eternium]].
+|QuestStep2 = Collect 111 Mythic Materials from the Timelocked Sanctuary.
+|QuestStep3 = Collect 222 Legendary Materials from the Timelocked Sanctuary.
+|QuestStep4 = Collect 333 Epic Materials from the Timelocked Sanctuary.
+|Rewards = {{EXP|1,000,000}} • <span style="color:#86C080;">1 Blueprint</span> • {{Meteor Shards|4,000}}
+}}
+
+|-|
+Umbrite Ring Blueprint=
+===== [[Equipment#tabber-Exotic|Umbrite Ring]] Blueprint =====
+[[File:Umbrite Ring Blueprint.png|100px|frameless|right]]
+* This blueprint is located within the [[Abyssal Depths|maze]] inside {{Abyssal Depth|Abyssal Depths}}.
+
+|-|
+Venomshank Blueprint=
+===== [[Equipment#tabber-Exotic|Venomshank]] Blueprint =====
+[[File:venomshankblueprint.png|100px|frameless|right]]  
+* '''Quest Giver:''' [[Swamp Man]] in {{Rotwood Swamp}}
+* '''Quest Name:''' [[Quests#tabber-Rotwood_Swamp|Ominous Stones]]
+{{Quest
+|Quest = Ominous Stones
+|QuestStep1 = Collect 2 [[Bloodstone|Bloodstones]]
+|Rewards = {{$|1,000,000}} • {{EXP|500,000}} • <span style="color:#86C080;">1 Blueprint</span> • {{Meteor Shards|1,000}}
+}}
+
+|-|
+Vortex Ring Blueprint=
+===== [[Equipment#tabber-Exotic|Vortex Ring]] Blueprint =====
+[[File:Vortex Ring Blueprint.png|100px|frameless|right]]  
+* '''Quest Giver:''' [[Interdimensional Traveler]] in {{The Void}}
+* '''Quest Name:''' [[Quests#tabber-The_Void|Void Searcher]]
+{{Quest
+|Quest = Void Searcher
+|QuestSub = Help the Interdimensional Traveler with the voidtorn items.
+|QuestStep1 = Collect 400 [[Minerals#Modifiers|Voidtorn]] items
+|Rewards = {{$|50,000,000}} • {{EXP| 250,000}} • <i style="color:#86C080;">1 Blueprint</i> • {{Meteor Shards|1,000}}
+}}
+
+|-|
+Waverider Blueprint=
+===== [[Equipment#tabber-Exotic|Waverider]] Blueprint =====
+[[File:Waverider blueprint.png|100px|frameless|right]]
+* This blueprint can be purchased for {{Sand Dollars|1000}} at the [[Seashell_Isle#Blueprint_and_Trinket_Vendor|Blueprint and Trinket Vendor]] on {{Seashell Isle}}.
+
+</tabber>
+
+
+[[Category:Equipment]]  
+[[Category:Blueprints]]

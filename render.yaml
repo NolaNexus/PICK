@@ -1,0 +1,63 @@
+services:
+  - type: web
+    name: pick-api
+    env: python
+    region: frankfurt
+    buildCommand: "pip install -r requirements.txt && alembic upgrade head"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: MEDIAWIKI_API_URL
+        value: "https://prospecting.miraheze.org/w/api.php"
+      - key: REDDIT_USER_AGENT
+        value: "PICK/1.0 (Prospecting Information & Community Kit)"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pick-db
+          property: connectionString
+      - key: WEBHOOK_SECRET
+        sync: false
+      - key: REDDIT_CLIENT_ID
+        sync: false
+      - key: REDDIT_CLIENT_SECRET
+        sync: false
+
+  - type: cron
+    name: pick-daily-scrape
+    env: python
+    region: frankfurt
+    buildCommand: "pip install -r requirements.txt && alembic upgrade head"
+    startCommand: "python -m scripts.scraper"
+    schedule: "0 3 * * *"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pick-db
+          property: connectionString
+      - key: MEDIAWIKI_API_URL
+        value: "https://prospecting.miraheze.org/w/api.php"
+      - key: REDDIT_USER_AGENT
+        value: "PICK/1.0 (Prospecting Information & Community Kit)"
+
+  - type: cron
+    name: pick-weekly-full-scrape
+    env: python
+    region: frankfurt
+    buildCommand: "pip install -r requirements.txt && alembic upgrade head"
+    startCommand: "python -m scripts.scraper --full"
+    schedule: "0 4 * * 0"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pick-db
+          property: connectionString
+      - key: MEDIAWIKI_API_URL
+        value: "https://prospecting.miraheze.org/w/api.php"
+      - key: REDDIT_USER_AGENT
+        value: "PICK/1.0 (Prospecting Information & Community Kit)"
+
+databases:
+  - name: pick-db
+    plan: free
+    region: frankfurt
+    version: "16"

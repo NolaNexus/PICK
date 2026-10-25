@@ -1,0 +1,343 @@
+<templatestyles src="Template:Stat/styles.css" />
+
+'''Pans''' are one of the key tools used by the player in ''Prospecting!''  They are vital for progression.
+
+They can typically be found near [[Shopkeepers]], alongside their [[Shovels|shovel]] counterparts.
+
+'''Pans''' have [[Stats|four core stats]]: {{Stat|Luck}}, {{Stat|Capacity}}, {{Stat|Shake Strength}}, and {{Stat|Shake Speed}}. Some pans also include unique passive stats or abilities.
+
+You can [[Enchanting|enchant]] your pans and/or add [[Trinkets|Trinkets]] to them for extra perks.
+
+You can change your equipped pan using the [[Prospector Kit]].
+
+<templatestyles src="Template:Pan_row/styles.css" />
+
+== List of Pans ==
+<templatestyles src="Template:Pan_row/styles.css" />
+{| class="wikitable sortable" style="width:100%"
+! Appearance !! Name/Description !! data-sort-type="number" | Price !! Stats !! Location
+
+{{Pan row
+| image=RustyPan.png
+| name=Rusty Pan
+| description=A rusty pan for gold panning.
+| name color=#f8cea8
+| price=Free
+| price_sort=0
+| luck=1
+| capacity=5
+| strength=0.2
+| speed=0.8
+| location=Given to the player upon joining.
+}}
+
+{{Pan row
+| image=PlasticPan.png
+| name=Plastic Pan
+| description=A lightweight pan made from wear-resistant plastic.
+| name color=#f6ffbe
+| price=501
+| luck=1.25
+| capacity=10
+| strength=0.6
+| speed=1
+| location={{Rubble Creek}}
+}}
+
+{{Pan row
+| image=MetalPan.png
+| name=Metal Pan
+| description=A large and heavy metal pan made from sheet metal.
+| name color=#e2f6ff
+| price=12,000
+| luck=2
+| capacity=20
+| strength=0.8
+| speed=0.8
+| location={{Rubble Creek}}
+}}
+
+{{Pan row
+| image=SilverPan.png
+| name=Silver Pan
+| description=A shining silver pan.
+| name color=#f8f8f8
+| price=55,000
+| luck=4
+| capacity=30
+| strength=0.8
+| speed=1
+| location={{Rubble Creek}}
+}}
+
+{{Pan row
+| image=GoldenPan.png
+| name=Golden Pan
+| description=A gold-plated pan carved with intricate designs. Provides a strong boost to luck.
+| name color=#fed02a
+| price=333,000
+| luck=10
+| capacity=35
+| strength=1
+| speed=0.8
+| location={{Fortune River}}
+}}
+
+{{Pan row
+| image=MagneticPan.png
+| name=Magnetic Pan
+| description=A pan with a built-in magnet. Collected minerals have 25% more weight.
+| name color=#d6bbfb
+| price=1,000,000
+| luck=15
+| capacity=50
+| strength=1
+| speed=0.75
+| passive=+25% {{Stat|Size Boost}}
+| location={{Fortune River}}
+}}
+
+{{Pan row
+| image=MeteoricPan.png
+| name=Meteoric Pan
+| description=A pan forged from meteoric iron. Has a higher chance to find modifiers.
+| name color=#ff9640
+| price=3,500,000
+| luck=22
+| capacity=70
+| strength=2
+| speed=1
+| passive=+25% {{Stat|Modifier Boost}}
+| location={{Fortune River}}
+}}
+
+{{Pan row
+| image=DiamondPan.png
+| name=Diamond Pan
+| description=A diamond-encrusted pan with incredible durability and strength.
+| name color=#9eeafa
+| price=10,000,000
+| luck=40
+| capacity=100
+| strength=3
+| speed=1
+| passive=+10% {{Stat|Modifier Boost}}, +10% {{Stat|Size Boost}}
+| location={{Fortune River}}
+}}
+
+{{Pan row
+| image=AuroraPan.png
+| name=Aurora Pan
+| description=A pan infused with light.
+| name color=#35ef88
+| price=35,000,000
+| luck=60
+| capacity=130
+| strength=3
+| speed=1.25
+| passive=+25% {{Stat|Modifier Boost}}
+| location={{Crystal Cavern River}}
+}}
+
+{{Pan row
+| image=Obsidian_Pan.png
+| name=Obsidian Pan
+| description=An obsidian pan. Special enchantments make the normally brittle obsidian extremely strong.
+| name color=#808080
+| price=90,000,000
+| luck=80
+| capacity=140
+| strength=3
+| speed=1.25
+| passive=+10% {{Stat|Size Boost}}
+| location={{Caldera Park}}
+}}
+
+{{Pan row
+| image=WorldshakerPan.png
+| name=Worldshaker
+| description=A relic from an ancient civilization. Despite its age, immense power still lies within.
+| name color=#ff9831
+| price=125,000,000
+| luck=125
+| capacity=160
+| strength=5
+| speed=1
+| passive=+25% {{Stat|Size Boost}}
+| location={{Waterfall Temple}}
+}}
+
+{{Pan row
+| image=DragonflamePan.png
+| name=Dragonflame Pan
+| description=A scorching pan that melts through sand. However, its heat reduces the size of ore by 10%.
+| name color=#d61009
+| price=400,000,000
+| luck=160
+| capacity=180
+| strength=10
+| speed=1.1
+| passive=-10% {{Stat|Size Boost}}
+| location={{The Magma Furnace}}
+}}
+
+{{Pan row
+| image=FossilizedPan.png
+| name=Fossilized Pan
+| description=An ancient bone pan that has been fossilized with age.
+| name color=#dfc5a2
+| price=1,000,000,000
+| luck=250
+| capacity=225
+| strength=8
+| speed=1
+| passive=+50% {{Stat|Modifier Boost}}
+| location={{Ancient Ruins|Windswept_Beach#Ancient_Ruins}}
+}}
+
+{{Pan row
+| image=FrostbitePan.png
+| name=Frostbite Pan
+| description=A frozen pan from deep within the mountain.
+| name color=#AFE6FF
+| price=10,000,000,000
+| luck=300
+| capacity=250
+| strength=15
+| speed=0.8
+| passive=+25% {{Stat|Size Boost}}
+| location={{Frozen Peak}}
+}}
+
+{{Pan row
+| image=LifetouchedPan.png
+| name=Lifetouched Pan
+| description=A pan formed by nature.
+| name color=#35FF90
+| price=100,000,000,000
+| luck=400
+| capacity=300
+| strength=8
+| speed=1.1
+| passive=+50% {{Stat|Modifier Boost}}
+| location={{Deeproot Spring}}
+}}
+
+{{Pan row
+| image=Abyssal Pan.png
+| name= Abyssal Pan
+| description= ...
+| name color=#580FBF
+| price=200,000,000,000
+| luck=700
+| capacity=250
+| strength=8
+| speed=1.1
+| passive=+20% {{Stat|Size Boost}}
+| location={{Abyssal Depth}}
+}}
+
+{{Pan row
+| image=blightflowpan.png
+| name= Blightflow Pan
+| description=A cursed pan that is corrosive to the touch
+| name color=#00FF00
+| price=500,000,000,000
+| luck=500
+| capacity=400
+| strength=30
+| speed=2
+| passive=+25% {{Stat|Size Boost}}
+| location={{Fungal Marsh}}
+}}
+
+{{Pan row
+| image=nebula.PNG
+| name=Nebula Pan
+| description=A pan forged from astral materials. Resonates with nearby totems, benefitting more from their effects.
+| name color=#d236f0
+| price=10,000,000,000,000
+| luck=800
+| capacity=500
+| strength=80
+| speed=1.25
+| passive=+25% {{Stat|Modifier Boost}}, +33% {{Stat|Size Boost}}, Increased buffs from Totems, 1.1&times; additional Luck 
+| location={{Starfall River}}
+}}
+
+{{Pan row
+| image=Pharaoh's pan.png
+| name=Pharaoh's Pan
+| description=A pan once used by the ruler of a long-lost civilization.
+| name color=#ffc800
+| price=100,000,000,000,000
+| luck=1000
+| capacity=700
+| strength=150
+| speed=1
+| passive=+20% {{Stat|Modifier Boost}}, +40% {{Stat|Sell Boost}}, +40% {{Stat|Size Boost}}, [[Pharaoh's_Pan|Sun Blessing]]
+| location={{Lifespring Oasis}}
+}}
+|}
+
+== Limited-Time Pans ==
+{| class="wikitable sortable" style="width:100%"
+|+ Click a header to sort (A→Z by default; click “Price” to sort by value)
+! Appearance !! Name/Description !! data-sort-type="number" | Price !! Stats !! Location
+
+{{Pan row
+| image=GalacticPan.png
+| name=Galactic Pan
+| description=A pan with immense capacity formed from the stars. Has a chance to give 'Voidtorn' to found items.
+| name color=#8307FF
+| price=2,000,000,000
+| luck=100
+| capacity=500
+| strength=25
+| speed=1
+| passive=+25% Size Boost, and has a chance to give Voidtorn items
+| location={{The Void}}
+}}
+
+{{Pan row
+| image=PumpkinPan.png
+| name=Pumpkin Pan
+| description=The pan of the Pumpkin King. Summons a ghostly spirit to assist with panning. This spirit is boosted when used with the Pumpking Shovel.
+| name color=#FF781E
+| candy=1,000
+| luck=350
+| capacity=350
+| strength=20
+| speed=1
+| passive=Summons a ghostly spirit.
+| location={{Haunted Creek}}
+}}
+
+{{Pan row
+| image=GingerbreadPan.png
+| name=Gingerbread Pan
+| description=A tasty gingerbread pan. Has a chance to give the effects of an XP cookie after panning.
+| name color=#FF781E
+| ornament=2000
+| luck=400
+| capacity=400
+| strength=25
+| speed=1.2
+| passive=Chance to give XP cookie effects
+| location={{North Pole}}
+}}
+
+{{Pan row
+| image=Rose_Pan.png
+| name=Rose Pan
+| description=A pan made from rose petals. Gains 25% of a nearby player's luck and shares 25% of your luck back to them. 
+| name color=#fa395a
+| heart crystal=2000
+| luck=300
+| capacity=350
+| strength=20
+| speed=120%
+| passive=25% Luck Boost from nearby player
+| location={{Fortune River}}
+}}
+|}

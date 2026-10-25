@@ -1,0 +1,270 @@
+'''NPCs''' in '''Prospecting!''' provide quests, services, or add flavor to the world.  
+Some offer dialogue and tasks, while others simply contribute to the atmosphere.
+
+<tabber>
+Regionless NPCs=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Merchantfort.png|link=Merchant|[[Merchant]]
+Blacksmithfort.png|link=Blacksmith|[[Blacksmith]]
+Shopkeeperfort.png|link=Shopkeepers|[[Shopkeepers]]
+Traveling Merchant.png|link=Traveling Merchant|[[Traveling Merchant]]
+</gallery>
+|-|
+Rubble Creek=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+John.png|link=John|[[John]]
+Mechanic.png|link=Mechanic|[[Mechanic]]
+Trader.png|link=Trader|[[Trader]]
+WarStatue.png|link=War Statue|[[War Statue]]
+Cat.png|link=Cat|[[Cat]]
+</gallery>
+|-|
+Fortune River=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Shardmerchant.png|link=Shard Merchant|[[Shard Merchant]]
+Alchemist.png|link=Alchemist|[[Alchemist]]
+Tired Prospector.png|link=Tired Prospector|[[Tired Prospector]]
+Engineer.png|link=Engineer|[[Engineer]]
+Resident.png|link=Resident|[[Resident]]
+Kid.png|link=Kid|[[Kid]]
+Fisherman.png|link=Fisherman|[[Fisherman]]
+Vagrant.png|link=Vagrant|[[Vagrant]]
+Steve.png|link=Steve|[[Steve]]
+Dredge Master.png|link=Dredge Master|[[Dredge Master]]
+</gallery>
+|-|
+Enchant Altar=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Archaeologist.png|link=Archaeologist|[[Archaeologist]]
+Archaeologist2.png|link=Archaeologist?|[[Archaeologist?]]
+</gallery>
+|-|
+Museum=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Receptionist.png|link=Receptionist|[[Receptionist]]
+</gallery>
+|-|
+Sunset Beach=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Pirate.png|link=Pirate|[[Pirate]]
+Beachgoer.png|link=Beachgoer|[[Beachgoer]]
+Surfer.png|link=Surfer|[[Surfer]]
+Lightkeeper.png|link=Lightkeeper|[[Lightkeeper]]
+Drake.png|link=Drake|[[Drake]]
+Pirate_Captain.png|link=Pirate Captain|[[Pirate Captain]]
+</gallery>
+|-|
+Fortune Delta=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Shady Merchant.png|link=Shady Merchant|[[Shady Merchant]]
+Old Prospector.png|link=Old Prospector|[[Old Prospector]]
+Geologist.png|link=Geologist|[[Geologist]]
+Rock Climber.png|link=Rock Climber|[[Rock Climber]]
+Anne.png|link=Anne|[[Anne]]
+</gallery>
+|-|
+Crystal Caverns=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Security Guard.png|link=Security Guard|[[Security Guard]]
+Clyde.png|link=Clyde|[[Clyde]]
+Head Researcher.png|link=Head Researcher|[[Head Researcher]]
+Miner.png|link=Miner|[[Miner]]
+Scientist.png|link=Scientist|[[Scientist]]
+Unknown.png|link=???|[[???]]
+Mad Scientist.png|link=Mad Scientist|[[Mad Scientist]]
+</gallery>
+|-|
+Azuralite Oasis=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Botanist.png|link=Botanist|[[Botanist]]
+</gallery>
+|-|
+Volcanic Sands=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Alchemist2.png|link=Alchemist|[[Alchemist]]
+Ranger.png|link=Ranger|[[Ranger]]
+Tourist.png|link=Tourist|[[Tourist]]
+Disgruntled Local.png|link=Disgruntled Local|[[Disgruntled Local]]
+Arctic Traveler.png|link=Arctic Traveler|[[Arctic Traveler]]
+Chief Archaeologist.png|link=Chief Archaeologist|[[Chief Archaeologist]]
+A Site Manager.png|link=A Site Manager|[[A Site Manager]]
+Jones.png|link=Jones|[[Jones]]
+</gallery>
+|-|
+Volcanic Springs=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Volcanic_researcher.png|link=Volcanic Researcher|[[Volcanic Researcher]]
+Chiefvolcanogist.png|link=Chief Volcanologist|[[Chief Volcanologist]]
+</gallery>
+|-|
+Windswept Beach=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Paleontologist.png|link=Paleontologist|[[Paleontologist]]
+Lightkeeper2.png|link=Lightkeeper (Caldera Island)|[[Lightkeeper (Caldera Island)]]
+B Site Manager.png|link=B Site Manager|[[B Site Manager]]
+Veteran_ranger.png|link=Veteran Ranger|[[Veteran Ranger]]
+</gallery>
+|-|
+Magma Furnace=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Flame Priest.png|link=Flame Priest|[[Flame Priest]]
+Master_of_the_Forge.png|link=Master of the Forge|[[Master of the Forge]]
+</gallery>
+|-|
+Snowy Shores=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Arctic Traveler 2.png|link=Arctic Traveler|[[Arctic Traveler|Arctic Traveler (Snowy Shores)]]
+Researcher.png|link=Researcher|[[Researcher]]
+Apprentice Blacksmith.png|link=Apprentice Blacksmith|[[Apprentice Blacksmith]]
+Sherpa.png|link=Sherpa|[[Sherpa]]
+Builder.png|link=Builder|[[Builder]]
+C Site Manager.png|link=C Site Manager|[[C Site Manager]]
+</gallery>
+|-|
+Frostbitten Path=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Mountain Surveyor.png|link=Mountain Surveyor|[[Mountain Surveyor]]
+Freezing Prospector.png|link=Freezing Prospector|[[Freezing Prospector]]
+</gallery>
+|-|
+Frozen Peak=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Rock Climber 2.png|link=Rock Climber (Frozen Peak)|[[Rock Climber (Frozen Peak)]]
+Mountain Climber.png|link=Mountain Climber|[[Mountain Climber]]
+Fallen_artificier.png|link=Fallen Artificer|[[Fallen Artificer]]
+Frozen_Explorer.png|link=Frozen Explorer|[[Frozen Explorer]]
+</gallery>
+|-|
+The Void=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Interdimensional Traveler.png|link=Interdimensional Traveler|[[Interdimensional Traveler]]
+Interdimensional Wanderer.png|link=Interdimensional Wanderer|[[Interdimensional Wanderer]]
+</gallery>
+|-|
+Overgrown Grotto=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Professor.png|link=Professor|[[Professor]]
+Explorer_Female.png|link=Explorer_(Female)|[[Explorer (Female)]]
+Explorer_Male.png|link=Explorer_(Male)|[[Explorer (Male)]]
+Disgruntled_Explorer.png|link=Disgruntled_Explorer|[[Disgruntled Explorer]]
+Old_Druid.png|link=Old_Druid|[[Old Druid]]
+ExplorerAbyss.png|link=Explorer|[[Explorer]]
+</gallery>
+|-|
+Deeproot Spring=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Druid.png|link=Druid|[[Druid]]
+</gallery>
+|-|
+Enchanted Ruins=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Merchantfort.png|link=Merchant|[[Merchant]]
+ruinsarch.png|link=Ruins Archaeologist|[[Ruins Archaeologist]]
+sword.png|link=Ancient Sword|[[Ancient Sword]]
+</gallery>
+|-|
+Abyssal Depths=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+SkeletonAbyss.png|link=Skeleton|[[Skeleton]]
+</gallery>
+|-|
+Haunted Creek=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Vampiremerchant.webp|link=Merchant|[[Merchant]]
+Hauntedskeleton.webp|link=Haunted_Skeleton|[[Haunted Skeleton]]
+Ghost.webp|link=Ghost|[[Ghost]]
+Thereaper.webp|link=The_Reaper|[[The Reaper]]
+HeadlessMerchant.png|link=Headless_Merchant|[[Headless Merchant]]
+Halloween Spirit.png|link=Halloween_Spirit|[[Halloween Spirit]]<ref>Yes, yes, I know, technically the Spirit appears everywhere EXCEPT at Haunted Creek</ref>
+</gallery>
+<references />
+|-|
+Rotwood Swamp=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+rotwoodmerchant.png|link=Merchant|[[Merchant]]
+rotwoodblacksmith.png|link=Blacksmith|[[Blacksmith]]
+witch.png|link=Alchemist|[[Alchemist]]
+ecologist.png|link=Ecologist|[[Ecologist]]
+swampman.png|link=SwampMan|[[Swamp Man]]
+familiarfisherman.png|link=Familiar_Fisherman|[[Familiar Fisherman]]
+fishermansfriend.png|link=Fisherman's_Friend|[[Fisherman's Friend]]
+Swamp_Kid.png|link=Swamp_Kid|[[Swamp Kid]]
+Nuclear_Scientist.png|link=Nuclear_Scientist|[[Nuclear Scientist]]
+</gallery>
+|-|
+Fungal Marsh=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Mushroom_man.png|link=Mushroom_Man|[[Mushroom Man]]
+Timelockedspirit.png|link=Timelocked_Spirit|[[Timelocked Spirit]]
+Timelockedmerchant.png|link=Merchant|[[Merchant]]
+thegreatestprospecto.png|link=The_Greatest_Prospector|[[The Greatest Prospector]]
+froggythefrog.png|link=Froggy|[[Froggy]]
+</gallery>
+|-|
+North Pole=
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Merchant_elf.png|link=Merchant|[[Merchant]]
+Blacksmith_elf.png|link=Blacksmith|[[Blacksmith]]
+ShopkeeperElf.png|link=Guard Elf|[[Shopkeeper Elf]]
+Gardener Elf.png|link=Gardener Elf|[[Gardener Elf]]
+ManagerElf.png|link=Manager Elf|[[Manager Elf]]
+GuardElf.png|link=Guard Elf|[[Guard Elf]]
+Advent_Calendar_elf.png|link=Advent Calendar Elf|[[Advent Calendar Elf]]
+Santa.png|link=Santa|[[Santa]]
+</gallery>
+|-| Meteor Falls =
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+valleygirl.png|link=Valley_Girl|[[Valley Girl]]
+MERCHANTF.png|link=Familiar_Merchant|[[Familiar Merchant]]
+concussed.PNG|link=Concussed_Resident|[[Concussed Resident]]
+</gallery>
+|-| Starfall River =
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+meteorwisp.png|link=Meteor_Wisp|[[Meteor Wisp]]
+astronomerr.png|link=Astronomer|[[Astronomer]]
+golemvalley.PNG|link=Valley_Golem|[[Valley Golem]]
+</gallery>
+|-| Astral Caverns =
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+meteorguardian.png|link=Meteor_Guardian|[[Meteor Guardian]]
+astralcavernsmerchant.png|link=Merchant|[[Merchant]]
+Cave_Diver.png|link=Cave Diver|[[Cave Diver]]
+</gallery>
+|-| Seashell Isle =
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Trader_SI.png|link=Trader|[[Trader]]
+Vagrant_SI.png|link=Vagrant|[[Vagrant]]
+Resident_SI.png|link=Resident|[[Resident]]
+Beachgoer_SI.png|link=Beachgoer|[[Beachgoer]]
+Surfer_SI.png|link=Surfer|[[Surfer]]
+DRAKE_SI.png|link=Drake|[[Drake]]
+Merchant_SI.png|link=Merchant|[[Merchant]]
+Photographer2.png|link=Photographer|[[Photographer]]
+Island_Guide.png|link=Island Guide|[[Island Guide]]
+Blueprint_Vendor_closeup.png|[[Blueprint & Trinket Vendor]]
+Relic_Vendor_closeup.png|[[Relic Vendor]]
+</gallery>
+|-| Sandstone Stream =
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Cave_Diver_desert.png|link=Cave Diver|[[Cave Diver]]
+Craftsman.png|link=Craftsman|[[Craftsman]]
+River_Researcher.png|link=River Researcher|[[River Researcher]]
+Desert_Kid.png|link=Desert Kid|[[Desert_Kid|Kid]]
+Resident_stream.png|link=Desert_Resident|[[Desert_Resident|Resident]]
+Resting_Traveler.png|link=Resting Traveler|[[Resting Traveler]]
+Camel.png|link=Camel|[[Camel]]
+Chief_Archaeologist_desert.png|link=Chief Archaeologist|[[Chief Archaeologist]]
+Left_Tourist.png|link=Two Tourists|[[Two Tourists|Left Tourist]]
+Right_Tourist.png|link=Two Tourists|[[Two Tourists|Right Tourist]]
+</gallery>
+|-| Mystic Floodplains =
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Resident_pyramid.png|link=Pyramid_Resident|[[Pyramid_Resident|Resident]]
+</gallery>
+|-| Lifespring Oasis =
+<gallery class="custom-gallery" heights="150" widths="200" mode="nolines">
+Experienced_Explorer.png|link=Experienced_Explorer|[[Experienced Explorer]]
+Environmentalist.png||link=Environmentalist|[[Environmentalist]]
+</gallery>
+
+</tabber>

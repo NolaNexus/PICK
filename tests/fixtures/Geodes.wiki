@@ -1,0 +1,75 @@
+{{Tocright}}
+
+[[File:Geode.png|thumb|280px|''A Geode on the ground'']]
+
+= Geodes =
+'''Geodes''' are a special type of ground item.  
+They can be collected by walking over them. They can also be dug up with a Geothermal [[Enchanting#tabber-Shovels|enchanted]] shovel. 
+
+== Overview ==
+* Each digsite/area (except the Museum) has its own Geode variant.  
+* Opening a Geode rolls from that area's deposit loot table, respecting ore rarities.  
+* Each Geode also has a flat '''10% chance''' to drop [[Meteor_Shards|shards]].  
+* Geodes are '''not deposits''' — they are quick single-roll nodes.  
+* All ores obtained from Geodes will have the <span style="color:#B7E6FF;">Crystalline</span> modifier. Crystalline modifier is only obtainable from Geodes.
+* Geodes de-spawn after 20 minutes (or when the server decides there are too many objects spawned, whichever comes first).
+
+== Availability ==
+* Geodes can spawn in almost every area, except:  
+** '''{{The Void}}'''  
+** '''{{Infernal Heart}}'''  
+** '''{{Museum}}''' 
+** '''{{Timelocked Sanctuary}}'''  
+* Geodes can also be dug up in ''any'' digsite, including {{The Void}}, {{Infernal Heart}}, and {{Timelocked Sanctuary}}, using a Geothermal-enchanted shovel.
+* The Geode Shower [[Events|event]] will cause lots of geodes to spawn in certain locations.
+
+== Collection ==
+To collect a Geode:  
+# Walk over the geode lying on the ground. <br>&nbsp; - OR -<br>Dig — as slowly as possible — using a Geothermal-enchanted shovel.
+# Use the geode from your inventory.
+
+== Loot ==
+* Loot is pulled from the '''same rarity table''' as the area's deposit.  
+* Rarer ores have the same rarity as they do when panning normally.  
+* Flat '''10% chance''' to also grant [[Meteor_Shards|shards]].
+
+== Geode Variants ==
+Each area has its own Geode type:
+
+* '''Rubble Creek Geode''' - found in {{Rubble Creek Sands}}  
+* '''Deposits Geode''' - found in {{Rubble Creek Deposits}}  
+* '''Fortune River Geode''' - found in {{Fortune River}}  
+* '''Sunset Geode''' - found in {{Sunset Beach}}  
+* '''Delta Geode''' - found in {{Fortune River Delta}}  
+* '''Crystal Cavern Geode''' - found in {{Crystal Cavern River}}
+* '''Overgrown Grotto Geode''' - found in {{Overgrown Grotto}}
+* '''Deeproot Spring Geode''' - found in {{Deeproot Spring}}  
+* '''Azuralite Geode''' - found in {{Azuralite Oasis}}  
+* '''Volcanic Geode''' - found in {{Volcanic Sands}}
+* '''Volcanic Springs Geode''' - found in {{Volcanic Springs}}    
+* '''Windswept Geode''' - found in {{Windswept Beach}}  
+* '''Magma Geode''' - found in {{The Magma Furnace}}  
+* '''Frostbite Geode''' - found in {{Frostbite River}}  
+* '''Waterfall Geode''' - found in {{Frostbite Waterfall}}  
+* '''Frozen Peak Geode''' - found in {{Frozen Peak}}
+* '''Abyssal Depths Geode''' - found in {{Abyssal Depth}}
+* '''Haunted Creek Geode''' - found in {{Haunted Creek}}
+* '''Rotwood Swamp Geode''' - found in {{Rotwood Swamp}}
+* '''Fungal Marsh Geode''' - found in {{Fungal Marsh}}
+* '''North Pole Geode''' - found in {{North Pole}}
+* '''Enchanted Ruins Geode''' - found in {{Enchanted Ruins}}
+* '''Meteor Falls Geode''' - found in {{Meteor Falls}}
+* '''Starfall River Geode''' - found in {{Starfall River}}
+* '''Astral Caverns Geode''' - found in {{Astral Caverns}}
+* '''Sandstone Stream Geode''' - found in {{Sandstone Stream}}
+* '''Mystic Floodplains Geode''' - found in {{Mystic Floodplains}}
+* '''Lifespring Oasis Geode''' - found in {{Lifespring Oasis}}
+
+Geodes obtainable only by using the '''Geothermal''' shovel enchant:
+* '''Infernal Heart Geode''' - found in {{Infernal Heart}}
+* '''The Void Geode''' - found in {{The Void}}
+* '''Timelocked Sanctuary Geode''' - found in {{Timelocked Sanctuary}}
+
+[[Category:Items]]  
+[[Category:Ground Items]]  
+[[Category:Geodes]]

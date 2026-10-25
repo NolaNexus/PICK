@@ -1,0 +1,265 @@
+{{Tocright}}
+'''Excavations''' are activities that give rewards after a set amount of time. Excavations improve the more you do them. To unlock a site for excavation, you must pay the permit fee.
+
+* Excavation sites can be found in {{Caldera Park}}, {{Snowy Shores}}, {{Deeproot Spring}}, {{Fungal Marsh}}, and [[Meteor Valley]].
+* The level cap for Excavations is level 15.
+
+== Excavation Sites ==
+<tabber>
+|-|Caldera Park=
+There are two excavation sites in Caldera Park.  
+
+=== Volcanic Ruins (A-Site) ===
+This site is located on the hill between the potion shop and the cabins.
+* Permit Cost: <span style="color:lightyellow">'''$50,000,000'''</span>
+* Excavation Cost: <span style="color:lightyellow">'''$10,000,000'''</span>
+* Number of items (base): 4 to 8
+* Duration (base): 10h
+
+=== Magma Temple (B-Site) ===
+This site is located between the [[Museum]], {{Volcanic Springs}}, and the volcano.
+* Permit Cost: <span style="color:lightyellow">'''$2,000,000,000'''</span>
+* Excavation Cost: <span style="color:lightyellow">'''$50,000,000'''</span>
+* Number of items (base): 4 to 10
+* Duration (base): 16h
+
+|-|Snowy Mountain=
+There is one excavation site on Snowy Mountain. It is located at {{Snowy Shores}}, behind the [[Blacksmith|Blacksmith's shop]]. 
+
+=== Frozen Fortress (C-Site) ===
+* Permit Cost: <span style="color:lightyellow">'''$10,000,000,000'''</span>
+* Excavation Cost: <span style="color:lightyellow">'''$500,000,000'''</span>
+* Number of items (base): 5 to 12
+* Duration (base): 22h
+
+|-|Deeproot Spring=
+There is one excavation site in the {{Deeproot Spring}} (grotto) area.  
+
+=== Lost City (D-Site) ===
+* Permit Cost: <span style="color:lightyellow">'''$100,000,000,000'''</span>
+* Excavation Cost: <span style="color:lightyellow">'''$1,000,000,000'''</span>
+* Number of items (base): 5 to 12
+* Duration (base): 28h
+
+|-|Fungal Marsh=
+There is one excavation site in the {{Fungal Marsh}} area. To find it, head left from {{Rotwood Swamp}} Town, follow the path around and to the left, and look for purple mushrooms and a big purple/black meteor. 
+
+=== Mysterious Meteor (E-Site) ===
+* Permit Cost: <span style="color:lightyellow">'''$1,000,000,000,000'''</span>
+* Excavation Cost: <span style="color:lightyellow">'''$10,000,000,000'''</span>
+* Number of items (base): 5 to 12
+* Duration (base): 34h
+
+|-|Meteor Valley=
+[[File:Excavation F.png|none|300px]]
+There is one excavation site in the Meteor Valley. It is located at the upstream end of {{Starfall River}}.
+
+=== Alien Wreckage (F-Site) ===
+* Permit Cost: <span style="color:lightyellow">'''$10,000,000,000,000'''</span>
+* Excavation Cost: <span style="color:lightyellow">'''$1,000,000,000,000'''</span>
+* Number of items (base): 5 to 12
+* Duration (base): 40h
+</tabber>
+
+----
+== Excavation Levels ==
+Excavations have the following stats:
+* Level
+* Luck
+* Items
+* Speed
+
+The Level influences the other three. XP is based on the excavation duration.
+
+{| class="wikitable"
+!rowspan="2"|Level
+|rowspan="2"|
+!rowspan="2"|Luck
+|rowspan="2"|
+!colspan="3"|Number of Items
+|rowspan="2"|
+!colspan="7"|Excavation Speed
+|-
+! Site A !! Site B !! Sites C–F !! Multiplier !! Site A !! Site B !! Site C !! Site D !! Site E !! Site F
+|-
+| 1 || || +1 || || 4–8 (+0) || 4–10 (+0) || 5–12 (+0) || || 1× || 10h || 16h || 22h || 28h || 34h || 40h
+|-
+| 2 || || +1.2 || || 5–9 (+1) || 5–11 (+1) || 6–13 (+1) || || 1.1× || 9h 5m || 14h 33m || 20h || 25h 27m || 30h 55m || 36h 22m
+|-
+| 3 || || +1.5 || || 5–9 (+1) || 5–11 (+1) || 6–13 (+1) || || 1.2× || 8h 20m || 13h 20m || 18h 20m || 23h 20m || 28h 20m || 33h 20m
+|-
+| 4 || || +1.8 || || 6–10 (+2) || 6–12 (+2) || 7–14 (+2) || || 1.3× || 7h 42m || 12h 18m || 16h 55m || 21h 32m || 26h 9m || 30h 46m
+|-
+| 5 || || +2 || || 6–10 (+2) || 6–12 (+2) || 7–14 (+2) || || 1.4× || 7h 9m || 11h 26m || 15h 43m || 20h || 24h 17m || 28h 34m
+|-
+| 6 || || +2.2 || || 7–11 (+3) || 7–13 (+3) || 8–15 (+3) || || 1.5× || 6h 40m || 10h 40m || 14h 40m || 18h 40m || 22h 40m || 26h 40m
+|-
+| 7 || || +2.5 || || 7–11 (+3) || 7–13 (+3) || 8–15 (+3) || || 1.6× || 6h 15m || 10h || 13h 45m || 17h 30m || 21h 15m || 25h
+|-
+| 8 || || +2.8 || || 8–12 (+4) || 8–14 (+4) || 9–16 (+4) || || 1.7× || 5h 53m || 9h 25m || 12h 56m || 16h 28m || 20h || 23h 32m
+|-
+| 9 || || +3 || || 8–12 (+4) || 8–14 (+4) || 9–16 (+4) || || 1.8× || 5h 33m || 8h 53m || 12h 13m || 15h 33m || 18h 53m || 22h 13m
+|-
+| 10 || || +3.2 || || 9–13 (+5) || 9–15 (+5) || 10–17 (+5) || || 1.9× || 5h 16m || 8h 25m || 11h 35m || 14h 44m || 17h 54m || 21h 3m
+|-
+| 11 || || +3.5 || || 9–13 (+5) || 9–15 (+5) || 10–17 (+5) || || 2× || 5h || 8h || 11h || 14h || 17h || 20h
+|-
+| 12 || || +3.8 || || 10–14 (+6) || 10–16 (+6) || 11–18 (+6) || || 2.1× || 4h 46m || 7h 37m || 10h 29m || 13h 20m || 16h 11m || 19h 3m
+|-
+| 13 || || +4 || || 10–14 (+6) || 10–16 (+6) || 11–18 (+6) || || 2.2× || 4h 33m || 7h 16m || 10h || 12h 44m || 15h 27m || 18h 10m
+|-
+| 14 || || +4.2 || || 11–15 (+7) || 11–17 (+7) || 12–19 (+7) || || 2.3× || 4h 21m || 6h 57m || 9h 34m || 12h 10m || 14h 47m || 17h 23m
+|-
+| 15 || || +4.5 || || 11–15 (+7) || 11–17 (+7) || 12–19 (+7) || || 2.4× || 4h 10m || 6h 40m || 9h 10m || 11h 40m || 14h 10m || 16h 40m
+|}
+
+== Excavation Rewards ==
+Each Excavation site has a reward pool of its own. The Excavation Level will influence the number of items you get per excavation. The rewards pool will stay the same regardless of Excavation Level.
+
+<tabber>
+|-|Volcanic Ruins=
+
+{| class="wikitable sortable mineral-table chances" style="width:100%; text-align:center;"
+|+ Possible Rewards
+|-
+! Item !! Description !! Upon Activation !! Chances
+|-
+| [[Divine Enchant Book]] || A tome that enchants the user's equipped pan. || Applies the enchant {{Enchant|Divine}} to currently equipped pan. || 1.12%
+|-
+| [[Blessed Enchant Book]] || A tome that enchants the user's equipped pan. || Applies the enchant {{Enchant|Blessed|solid}} to currently equipped pan. || 2.25%
+|-
+| {{Rain Stone}} || An artifact that causes the rivers to overflow. || Spawns [[Events#tabber-River_Rapids|River Rapids]] event. || 6.74%
+|-
+| {{Solar Token}} || A relic that can begin a solar flare. || Spawns [[Events#tabber-Solar_Flare|Solar Flare]] event. || 8.99%
+|-
+| {{Solar Magnifier}} || A device that focuses a condensed solar flare at your position for 10 minutes. || Spawns a singular Solar Flare at your position that lasts for 10 minutes. || 13.48%
+|-
+| {{Volcanic Sands}} [[Geodes|Geode]] || A geode filled with valuable minerals. Crack it open and see what's inside. || Gives the player random ore from Volcanic Sands loot pool or a 10% chance to get [[Meteor_Shards|shards]]. || 67.42%
+|}
+
+|-|Magma Temple=
+
+{| class="wikitable sortable mineral-table chances" style="width:100%; text-align:center;"
+|+ Possible Rewards
+|-
+! Item !! Description !! Upon Activation !! Chances
+|-
+| [[Infernal Enchant Book]] || A tome that enchants the user's equipped pan. || Applies the enchant {{Enchant|Infernal}} to currently equipped pan. || 0.26%
+|-
+| {{Meteor Fragment}} || A relic that can call down a meteor shower. || Spawns [[Events#tabber-Meteor_Showe|Meteor Shower]] event. || 0.53%
+|-
+| [[Cosmic Enchant Book]] || A tome that enchants the user's equipped pan. || Applies the enchant {{Enchant|Cosmic}} to currently equipped pan. || 1.58%
+|-
+| {{Infernal Idol}} || An artifact that brings forth the wrath of the volcano. || Spawns [[Events#tabber-Volcanic_Eruption|Volcanic Eruption]] event. || 5.28%
+|-
+| {{Solar Magnifier}} || A device that focuses a condensed solar flare at your position for 10 minutes. || Spawns a singular Solar Flare at your position that lasts for 10 minutes. || 13.19%
+|-
+| {{Magma Furnace}} [[Geodes|Geode]] || A geode filled with valuable minerals. Crack it open and see what's inside. || Gives the player random ore from Magma Furnace loot pool or a 10% chance to get [[Meteor_Shards|shards]]. || 79.16%
+|}
+
+
+|-|Frozen Fortress=
+
+{| class="wikitable sortable mineral-table chances" style="width:100%; text-align:center;"
+|+ Possible Rewards
+|-
+! Item !! Description !! Upon Activation !! Chances
+|-
+| [[Prismatic Enchant Book]] || A tome that enchants the user's equipped pan. || Applies the enchant {{Enchant|Prismatic}} to currently equipped pan. || 0.25%
+|-
+| {{Mythic Summon}} || Summons a mythic rift at your location. || Spawns [[Events#tabber-Mythic_Rift|Mythic Rift]] event at your location. || 2.49%
+|-
+| {{Snow Globe}} || A magical snow globe that starts a blizzard once broken. || Spawns [[Events#tabber-Blizzard|Blizzard]] event. || 4.99%
+|-
+| [[Midas Enchant Book]] || A tome that enchants the user's equipped pan. || Applies the enchant {{Enchant|Midas|solid}} to currently equipped pan. || 9.98%
+|-
+| {{Cosmic Resonator}} || An extraterrestrial artifact that attracts geodic meteors. || Spawns [[Events#tabber-Geode_Shower|Geode Shower]] event. || 7.48%
+|-
+| {{Frostbite Waterfall}} [[Geodes|Geode]] || A geode filled with valuable minerals. Crack it open and see what's inside. || Gives the player random ore from Frostbite Waterfall loot pool or a 10% chance to get [[Meteor_Shards|shards]]. || 74.81%
+|}
+
+|-|Lost City=
+
+{| class="wikitable sortable mineral-table chances" style="width:100%; text-align:center;"
+|+ Possible Rewards
+|-
+! Item !! Description !! Upon Activation !! Chances
+|-
+| {{Perfect Reforge Token}} || A token that can be exchanged with the blacksmith to perfectly reforge a piece of equipment. || Perfectly reforges a piece of equipment of your choice.  || 0.02%
+|-
+| {{Meteor Fragment}} || A relic that can call down a meteor shower. || Spawns [[Events#tabber-Meteor_Showe|Meteor Shower]] event. || 0.24%
+|-
+| {{Mythic Summon}} || Summons a mythic rift at your location. || Spawns [[Events#tabber-Mythic_Rift|Mythic Rift]] event at your location. || 2.43%
+|-
+| {{Spirit Orb}} || The physical form of a spirit. Can be released to call Nimue's Blessing. || Spawns [[Events#tabber-Nimue's_Blessing|Nimue's Blessing]] event at your location. || 2.43%
+|-
+| {{Rain Stone}} || An artifact that causes the rivers to overflow. || Spawns [[Events#tabber-River_Rapids|River Rapids]] event. || 9.71%
+|-
+| {{Solar Token}} || A relic that can begin a solar flare. || Spawns [[Events#tabber-Solar_Flare|Solar Flare]] event. || 12.13%
+|-
+| {{Warp Device}} || A device that allows you to resonate with waypoints around the world. || Lets you teleport to any teleport waypoint on the map from anywhere. || 48.53%
+|-
+| {{Overgrown Grotto}} [[Geodes|Geode]] || A geode filled with valuable minerals. Crack it open and see what's inside. || Gives the player random ore from Overgrown Grotto loot pool or a 10% chance to get [[Meteor_Shards|shards]]. || 24.51%
+|}
+
+|-|Mysterious Meteors=
+
+{| class="wikitable sortable mineral-table chances" style="width:100%; text-align:center;"
+|+ Possible Rewards
+|-
+! Item !! Description !! Upon Activation !! Chances
+|-
+| {{Perfect Reforge Token}} || A token that can be exchanged with the blacksmith to perfectly reforge a piece of equipment. || Perfectly reforges a piece of equipment of your choice.  || 0.02%
+|-
+| {{Void Shard}} || A relic that can trigger a Void Portal. || Spawns [[Events#tabber-Void|Void]] event. || 0.12%
+|-
+| {{Mythic Summon}} || Summons a mythic rift at your location. || Spawns [[Events#tabber-Mythic_Rift|Mythic Rift]] event at your location. || 2.41%
+|-
+| {{Sealed Fog}} || A relic that can summon [[Events#tabber-Swamp_Fog|Swamp Fog]] || Spawns [[Events#tabber-Swamp_Fog|Swamp Fog]] event. || 2.89%
+|-
+| {{Concentrated Chaos}} || A relic that spawns [[Events#tabber-Modifier_Surge|Modifier Surge]] event. || Spawns [[Events#tabber-Modifier_Surge|Modifier Surge]] event.|| 2.89%
+|-
+| {{Luck Booster}} || A consumable that can grant a player a 2x Luck Booster for 15m. || Grants the player a 2x Luck boost for 15 minutes.|| 7.24%
+|-
+| {{Cosmic Resonator}} || An extraterrestrial artifact that attracts geodic meteors. || Spawns [[Events#tabber-Geode_Shower|Geode Shower]] event. || 12.06%
+|-
+| {{Warp Device}} || A device that allows you to resonate with waypoints around the world. || Lets you teleport to any teleport waypoint on the map from anywhere. || 24.12%
+|-
+| {{Fungal Marsh}} [[Geodes|Geode]] || A geode filled with valuable minerals. Crack it open and see what's inside. || Gives the player random ore from Fungal Marsh loot pool or a 10% chance to get [[Meteor_Shards|shards]]. || 48.25%
+|}
+|-|Alien Wreckage=
+
+{| class="wikitable sortable chances" 
+|-
+! Possible Rewards !! Chances
+|-
+| {{Perfect Reforge Token}} || 0.02%
+|-
+| {{Meteor Fragment}} || 0.25%
+|-
+| {{Diamond Catalyst}} || 0.25%
+|-
+| {{Starcaller}} || 1.24%
+|-
+| {{Mythic Summon}} || 4.97%
+|-
+| {{Luck Booster}} || 8.70%
+|-
+| {{Solar Magnifier}} || 12.43%
+|-
+| {{Warp Device}} || 34.81%
+|-
+| {{Meteor Falls}} [[Geodes|Geode]] || 37.30%
+|}
+</tabber>
+
+----
+
+== Credits ==
+* Level 4 Excavation stats by '''reaper0749''' (on discord).
+* Level 5 Excavation stats by '''mr.rento''' (on discord).
+* Level 6 Excavation stats by '''krono_rl''' and '''reaper0749''' (on discord).
+* Level 7 Excavation stats by '''krono_rl''' (on discord).
+* Level 8 Excavation stats by '''krono_rl''' and '''panteight.''' (on discord).
+* Level 9 Excavation stats by '''krono_rl''' (on discord).
+* Level 10 Excavation stats by '''krono_rl''' (on discord).

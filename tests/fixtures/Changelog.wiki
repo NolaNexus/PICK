@@ -1,0 +1,684 @@
+__NOTOC__
+[[Category:Changelog]]
+
+=== Changelog ===
+This page contains all updates and patch notes for '''Prospecting'''.  
+The most recent changes will always appear at the top.  
+
+----
+
+== October 2026 ==
+
+----
+
+<div class="mw-collapsible">
+'''October 2026 Week 3'''
+<div class="mw-collapsible-content">
+* [[Haunted Creek|Halloween event]] rerun
+** Returning: 6 [[Equipment#Limited-Time_Equipment|Equipment]], [[Pumpkin Pan|Pan]]/[[Pumpkin Shovel|Shovel]], {{Haunted Creek}}
+** New [[Trinkets|Trinket]]
+** New [[Halloween_Forge#Dullahan's_Curse|Equipment]]
+* Inventory is split into categories for easier sorting, can be disabled in [[Settings Menu|settings]]
+* Some early game / tutorial changes
+* Bug fixes
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''October 2026 Week 1'''
+<div class="mw-collapsible-content">
+* New ([[Aetherium]]) [[Enchanting#tabber-Shovels|Shovel Enchants]]: {{Enchant|Overdrive}}, {{Enchant|Tempered}}, {{Enchant|Crystalline}}
+* Common shovel enchants cannot be obtained when rolling with Aetherium
+* {{Enchant|Void Touched}} and {{Enchant|Mastered}} enchants require Aetherium to roll
+* Removed the modifier requirement from [[Aetherite]] for shovel enchanting
+* [[Crafting_Anvil|Crafting Recommendations]]: Certain equipment are recommended in the crafting menu based on your progression/build (can be disabled in [[Settings_Menu|settings]])
+* If you are able to craft an item, it is highlighted in the crafting menu
+* [[Pharaoh's_Pan|Pharaoh Set]] Passive: Gain up to +2x Luck and +100% dig/shake speed by gaining energy in the sun/{{Luminant Totem}}s; also get up to +0.4x capacity at max charge, starting from 50% charge
+* [[Dredge Master]] [[Waypoints#tabber-Dredge_Master|waypoint]]
+* Onboarding improvements
+* [[Museum]] stat boosts at lowest weight increased (stat boost at highest weight is still the same)
+* Challenge/progression [[Quests|quests]] are also different colors in the quest menu
+* Certain quests give [[Potions|potions]] as rewards
+* Drinking a potion has an animation
+* Potion stats are displayed in the tooltip
+* Other miscellaneous UI improvements
+* {{Abyssal Depth}} maze gate removed
+</div></div>
+
+----
+
+== September 2026 ==
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''September 2026 Week 3'''
+<div class="mw-collapsible-content">
+* Onboarding improvements
+* [[Events#tabber-The_Void|The Void]] added to the natural event pool; [[Events#tabber-Mythic_Rift|Mythic Rift]] removed from natural event pool
+* [[MVP#tabber-Event_Planner|Event Planner]] grants 5% increased friend luck
+* [[Treasure Map]] minimum level to find raised to 15
+* [[Quests#tabber-Volcanic_Sands|Icebreaker]] quest has more detailed waypoints
+* Added a small UI bounce effect when shaking/panning
+* Some early game [[Equipment|equipment]] buffed
+* Some early-mid game [[Pans|pans]] buffed
+* Collection now displays the best location for ores that the player is capable of digging in
+* Vote booths do not show up in new players' servers (haven't completed Rubble Creek 2)
+* [[MVP#Voting|"Momentum" system to voting]]: When an MVP wins, they lose 20% vote weight in future votes, stacking up to 80%. If they lose a vote, they gain 20% lost vote weight back
+* Potentially fixed some issues with auto pan
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''September 2026 Week 1'''
+<div class="mw-collapsible-content">
+* 📒 [[Settings_Menu|Item Log]]: Displays a brief summary of all ores collected in the past 12 hours
+* ❄️ 1 new mid-game [[Frozen_Explorer|quest]]
+* 💪 New sluice [[Sluices#tabber-Sluice_Upgrades_(Crystal_Caverns)|upgrade]] for [[Starblossom_Sluice|Starblossom]] and [[Pharaoh%27s_Sluice|Pharaoh's]] sluices: Empowering
+* 🎁 [[Treasure_Map|Treasure]] [[Treasure_Chest|chests]] can spawn in {{Starfall River}}
+* 🩷 100k coins removed from and {{Friendship Totem}} added to [[Prospector%27s_Shop|Forever Pack]]
+* 🍪 {{XP Cookie}} can be sold by [[Traveling Merchant]]
+* 🔍 {{Solar Magnifier}} duration can be stacked
+* 🚪 {{Infernal Heart}} no longer forces players out when closing
+* 🗳 Players gain +1 weight to their [[MVP]] vote for every 20 [[Level|levels]] they have
+</div></div>
+
+----
+
+== August 2026 ==
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🐪 August 2026 Week 4 - Desert Part 2'''
+<div class="mw-collapsible-content">
+* 🌪 New hourly event: [[Events#tabber-Sandstorm|Sandstorm]]
+* 🗿 New craftable relic: {{Sand Spirit}}
+* 🍶 [[Potions#Desert_Alchemist|Desert Alchemist/potions]]
+* 🔕 [[Settings_Menu#Audio|Setting]] to turn off your own panning sounds
+* 🌒 [[Equipment#tabber-Exotic|Lunar Mask]] buffed
+* ☄️ [[Events#tabber-Meteor_Shower|Meteor Shower]] timers now stack 
+* 🔑 Raised [[Key of Life]] odds
+* 🔋 High capacity increases the chance of the amount of items per pan being higher than average (independent of the base increase from capacity)
+* 🐞 Fixed [[Key of Life]] and [[Eye of the Sands]] facing the wrong way in Collection
+* 🪳 High shake speeds should no longer be affected by FPS
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🐪 August 2026 Week 2 - Desert Part 1'''
+<div class="mw-collapsible-content">
+* 🌵 New Area: {{Sunscorched Desert}} (Part 1)
+* 💍 3 New [[Equipment]]
+* 📝 4 New [[Quests]]
+* 🧰 New [[Pharaoh's Pan|Pan]], [[Pharaoh's Shovel|Shovel]], [[Pharaoh's Sluice|Sluice]]
+* 🪽 [[Equipment#tabber-Exotic|Starlight Wings]] {{Stat|Luck}} reduced
+* 🔀 {{Stat|Modifier Boost}} added to [[Equipment#tabber-Exotic|Dredge Master's Ring]]
+* 🔆 [[Equipment#tabber-Ascended|Ring of the Stars]] {{Stat|Luck}} increased
+* 💎 [[Depleted Shard]] [[Museum#Legendary_Ores|museum]] effect changed
+</div></div>
+
+----
+
+== July 2026 ==
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🎆 July 2026 - Week 3'''
+<div class="mw-collapsible-content">
+* 🔧 2 New [[Trinkets|Trinkets]]
+* ⛏️ New [[Excavations#tabber-Meteor_Valley|Excavation Site]]
+* 📜 1 New [[Nuclear_Scientist#Quest|Quest]]
+* 🔮 3 New [[Runes]]
+* ❗ [[Relic Crafting]] has a visual indicator when finished
+* 💰 Money over 100B should no longer be cut off in the Roblox leaderboard tab
+* 🐜 Bug fixes
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🎆 July 2026 - Week 1'''
+<div class="mw-collapsible-content">
+* 🏺 [[Relic Crafting]]: Craft stronger relics using unused relics as materials, located at {{Rotwood Swamp}}
+* 🏆 New [[Trinkets|Trinket]]: Golden Chalice, unlocked by [[Mastery#Treasure_Map_Mastery|Treasure Mastery 5]]
+* 🌠 New Relic: [[Relics#tabber-Starcaller|Starcaller]]
+* 🫙 [[Potions]] give a physical item instead of being immediately consumed
+* ⚫ New [[Obsidian Shovel|shovel]] and [[Obsidian Pan|pan]] at {{Caldera Park|Volcano Town}}
+* ⚒️ Forge and blacksmith added to {{Caldera Park|Volcano Town}}
+* 🐦‍🔥 [[Dragonflame Shovel]] {{Stat|toughness}} raised to 6
+* 🪏 Slightly adjusted some [[Pans|pan]] and [[Shovels|shovel]] stats
+* 💎 [[Treasure Chest|Treasure chests]] are separated based on where they were found and no longer merge into one stack
+* 💰 Daily reward money scales with your current money
+* ❓ Challenging [[Quests|quests]] (ex. Grand Challenge) have a red question mark
+* 🧭 [[Treasure Map|Treasure maps]] have a higher chance to be in the deposit where you dug it from
+* 🏖️ [[Seashell Isle|Summer Event]] Ended
+</div></div>
+
+----
+
+== June 2026 - Summer Event ==
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''⚙ June 2026 - Week 4'''
+<div class="mw-collapsible-content">
+* 🦗 Bug fixes
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🏄 June 2026 - Week 3'''
+<div class="mw-collapsible-content">
+* 🔥 Bonfire Update: Bonfire event can be extended if enough {{Sand Dollars|Sand Dollars}} are collected before it ends
+* 💎 Number of items visually appearing while panning is limited to 15 to prevent visual clutter. Excess items are hidden but still obtained
+* 🩷 Friendship Totem sold by vendor changed to daily stock - Max 50 per day
+* 🍪 XP Cookie sold by vendor changed to daily stock - Max 200 per day
+* 🪨 Crystalline modifier multiplier nerfed from 3x to 2x
+* 🌑 Geodes nerfed overall for early game
+* ❓ Important progression/main quests have a different colored question mark above the NPC
+* ✨ Hovering over the EXP bar shows the exact amount of EXP needed to level up
+* 🐜 Bug fixes
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🏄 June 2026 - Week 2'''
+<div class="mw-collapsible-content">
+* 🔆 New Summer Event - Lasts for 3 weeks
+* 🏝️ New Location: [[Seashell Isle|Seashell Isle]]
+* 🐚 2 New Ores: [[Nautilus Shell]] & [[Forgotten Totem]]
+* 📿 2 New Equipment: [[Blueprint#tabber-Shell_Necklace_Blueprint|Shell Necklace]] & [[Blueprint#tabber-Waverider_Blueprint|Waverider]]
+* ⛱️ [[trinkets|Trinkets]] added
+* 🌊 2 New Limited Events [[Events#tabber-Shifting_Tides_-_Limited|Shifting Tides]] & [[Events#tabber-Night_of_the_Bonfire_-_Limited|Night of the Bonfire]]
+* ✨ 3 New Ore Modifiers: [[Modifiers#Summer|Summer]], [[Modifiers#Tidal|Tidal]] & [[Modifiers#Hearthflame|Hearthflame]]
+* 🌐 Global Objective: [[Seashell Isle#Bonfire|Bonfire]] — activated when enough {{Sand Dollars|Sand Dollars}} are collected across all servers and starts a special event
+* 🔎 Search Bar added to Ore Collection
+* 📜 Bring Quest auto-submit prioritizes lower weight ores
+* ⏳ Timer added for meteor showers
+* 🐜 Bug fixes
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''⚙ June 2026 - Week 1'''
+<div class="mw-collapsible-content">
+* 🐜 Bug fixes
+</div></div>
+
+----
+
+== May 2026 - Clockmaker; Caldera Changes ==
+
+<div class="mw-collapsible mw-collapsed">
+'''🔧 May 2026 - Week 5'''
+<div class="mw-collapsible-content">
+* 🪨 New Ore: [[Aetherium]]
+* 🪄 6 New Pan [[Enchanting|Enchants]]
+* 👱 [[NPCs]] with 'bring' [[quests]] allow submitting items all at once
+* 🟢 {{Stat|Modifier Boost}} changes
+* 📊 The [[Pans|pan]]/[[Shovels|shovel]] menu displays all stats
+* 🍀 Maximum Luck setting
+* 💔 Misfortune [[Runes|rune]] is now unobtainable because of the above ^
+* 🐜 Bug fixes
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🌋 May 2026 - Week 4'''
+<div class="mw-collapsible-content">
+* 💀 New [[Runes|Rune]]: Annihilation III
+* ⛯ [[Equipment#tabber-Ascended|Clockwork]] buffed
+* 💗 [[Traveling Merchant]] has a chance to sell {{Friendship Totem}}s
+* 🚧 [[Caldera Park|Volcano]] level requirement reduced to 20
+* ᯓ☁︎ Fixed big ores flinging you
+* 👑 [[Treasure Chest|Treasure chests]] are not collidable when opening
+* ⚠️ Warning label that [[Crafting_Anvil#Tracking_a_Recipe|tracked recipes]] prevent auto sell
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🌋 May 2026 - Week 3'''
+<div class="mw-collapsible-content">
+* 🏝️ [[Caldera Park|Caldera Island]] completely rebuilt, now connected to the mainland and much more condensed
+* 🚧 Caldera requires level 25+ to access instead of completing the lighthouse quest
+* 🎙️ New exotic + mythic find sounds
+* 🔊 Other sound effect changes
+* 📝 [[Steve]] questline slightly adjusted
+* 🐞 Bug fixes
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''⚙ May 2026 - Week 2'''
+<div class="mw-collapsible-content">
+* 💬 No 3s delay after talking to an [[NPCs|NPC]] where you can't interact with anything
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''⚙ May 2026 - Week 1'''
+<div class="mw-collapsible-content">
+* 🔩 1 New Equipment
+* 📜 1 New Quest
+* 🏆 Leaderboards for the Largest Size per ore, accessed at the [[Museum|museum]] receptionist
+* 🌱 Improvements for new players
+* 🪲 Bug fixes
+</div></div>
+
+----
+
+== April 2026 – Meteor Valley Expansion & UI Refinement ==
+
+<div class="mw-collapsible mw-collapsed">
+'''🌸 April 2026 – Week 4'''
+<div class="mw-collapsible-content">
+* 🪄 Higher tier [[Enchanting#tabber-Pans|pan enchants]] give additional stats equal to a percentage of the pan's stats
+* 🧰 Equipment loadout limit raised to 10
+* 🚩 [[Dredge Master]] gives set rewards on certain milestones
+* 🏺 Dredge Master gives random relics every few quests completed
+* 🔇 Setting to mute digging/panning sounds from other players
+* 🔀 Sort by item type sorts ores by weight, also some sort optimizations
+* 🐛 Bug fixes
+</div>
+</div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🌸 April 2026 – Week 3'''
+<div class="mw-collapsible-content">
+* 🪄 '''Enchanting UI:''' Enchanting now uses a dedicated interface instead of requiring you to hold every material
+* 🍶 Added a potion shop to [[Meteor Valley]]
+* 🏛️ [[Museum]] loadout limit increased to 10
+* 🌌 More vault access spots have been added around the map
+* 🎣 [[Dredge Master]] scaling with quests completed has been decreased
+* 🗳️ Prospector [[MVP]] change: No longer buffs capacity; luck boost increased to +20%
+* 🥚 Easter event ended
+* 🛠️ Various optimizations and bug fixes
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🌸 April 2026 – Week 2'''
+<div class="mw-collapsible-content">
+* 🔮 2 new runes: Annihilation I and II
+* 📜 Dredge Master quests scale better (easier at low quest counts, scaling difficulty at higher counts)
+* 🎒 Inventory Sorts fixed and improved; fewer misplaced ores
+* 🥘 Auto-sell rarity is now displayed directly on the panning UI
+* 🗿 Totems can now be purchased in bulk
+* ⚡ Inventory optimization to reduce memory usage and load times
+* 🌌 Vault limit can now be upgraded to 2000
+* 💧 Sluice size boost now applies as a final multiplier instead of an addition
+* 🥚 Easter Event extended by one week
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🌸 April 2026 – Week 1'''
+<div class="mw-collapsible-content">
+* ☄️ New area unlocked in Meteor Valley
+* ✨ New sluice added
+* 📜 2 new quests
+* 💍 2 new rings
+* 🏆 Meteor Valley mastery added
+* 🔄 Auto panning should now return you to the same server upon rejoining
+* 🌠 New Meteor Valley event added
+* ⚙️ Miscellaneous small tweaks and changes
+</div></div>
+
+----
+
+== March 2026 – Meteor Valley & Optimizations ==
+
+<div class="mw-collapsible mw-collapsed">
+'''🍀 March 2026 – Week 4 (Easter)'''
+<div class="mw-collapsible-content">
+* 🥚 '''Easter Event:''' Collect eggs found on the ground or from excavations
+* 🪏 New Easter equipment and sluice
+* 🐣 Egg Hunt Hourly Event: Boosts luck and egg spawn rates
+* 🔢 Setting added to abbreviate large numbers
+* 💫 Added a passive effect to Starcrusher and Nebula Pan
+* 📈 Level cap raised
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🍀 March 2026 – Week 3'''
+<div class="mw-collapsible-content">
+* ☄️ '''New Area:''' Meteor Valley (Part 1)
+* 🛡️ 2 new equipment pieces
+* 📜 6 new quests
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🍀 March 2026 – Week 2'''
+<div class="mw-collapsible-content">
+* 🔮 New rune added
+* 🧪 2 new mutations
+* 🎥 Panning camera zoom speed now scales with shake speed (less time staring at the pan)
+* 📜 Added small descriptions for most quests
+* 🛒 Robux shop money products now scale based on your current wealth
+* 🍀 2x Luck event
+* 🐛 Various bug fixes
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🍀 March 2026 – Week 1'''
+<div class="mw-collapsible-content">
+* 💍 New ring unlocked for completing 100 Dredge Master quests
+* 🪄 3 new shovel enchants
+* 🚫 Setting to hide popups when finding new items
+* 📱 Mobile UI improvements
+* 💍 Umbrite ring buffed
+* ⚡ Significantly reduced lag spikes when starting to pan
+* 🛠️ Rendering, memory, and general optimizations
+</div></div>
+
+----
+
+== February 2026 – Valentines & The Dredge Master ==
+
+<div class="mw-collapsible mw-collapsed">
+'''💖 February 2026 – Week 4'''
+<div class="mw-collapsible-content">
+* 📖 Collection now displays the best location to find specific ores
+* 🗺️ Collection now hides unvisited areas
+* 🗿 Placing a totem on top of another now extends its duration
+* 📜 Improved information for several quests
+* ℹ️ Added tooltips for Quality and Auto-pan stats
+* 🏚️ Enchanted Ruins drop rates adjusted
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''💖 February 2026 – Week 3'''
+<div class="mw-collapsible-content">
+* 🎣 '''The Dredge Master:''' Infinite scaling quests located at Fortune River; rewards permanent stackable luck boosts
+* 💰 Total inventory sell value is now displayed in the backpack
+* 🎒 Inventory space is now visible next to the panning UI
+* 🎨 Auto-lock modifier buttons updated for better visibility
+* 🥄 Valentines pan connection reliability improved
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''💖 February 2026 – Week 2 (Valentines)'''
+<div class="mw-collapsible-content">
+* 💝 '''Valentines Mini-Event:''' Collect heart crystals by starting events or selling modified ores
+* 🥄 New pan and shovel
+* 🗿 New totem
+* 🌹 Hourly Event: Rose Rain
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''💖 February 2026 – Week 1'''
+<div class="mw-collapsible-content">
+* 🔒 '''Modifier Auto-Lock:''' Lock specific modifiers directly from the Collection menu
+* ⛏️ Added Excavation Site E
+* 📜 2 new quests
+* 🎨 Auto-locked items now use a different color for easy identification
+* ✨ New visual effect when leveling up
+</div></div>
+
+----
+
+== January 2026 – Overgrown Grotto Rework & Optimizations ==
+<div class="mw-collapsible mw-collapsed">
+'''🌋 January 2026 – New Modifiers Surge Event'''
+<div class="mw-collapsible-content">
+* ✨ New event: Modifier surge
+* ⛩️ Shrines in Infernal Heart and Timelocked Sanctuary which can be used to extend their duration
+* 💎 Collection tracks total amount collected per ore (wasn't tracked until now so it'll start at 0)
+* 👤 A few more wandering NPCs added to different locations
+* 🎅 Santa bag uses Eternium as catalyst instead of North Star now
+</div></div>
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🌋 January 2026 – New Modifiers'''
+<div class="mw-collapsible-content">
+* ✨ 4 new ore modifiers
+* 🌌 Vault sorts by item type now
+* 🦟 Firefly flares fuse with nearby flares to increase their timer
+* 🗺️ Treasure map capacity increased to 5 (10 with treasure hunter)
+* 🚪 Rarer sluices now have higher sluice upgrade points (up to 30 with corroded sluice)
+* 📍 Waypoint added to Timelocked Sanctuary
+* 💫 Iridescent modifier has a particle now
+* 🏆 Added 5 more daily reward days (now loops every 10 days instead of 5)
+* ✅ Select all for mutation reroll no longer selects catalysts
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🌋 January 2026 – Enchanted Ruins'''
+<div class="mw-collapsible-content">
+* ✨ 1 New deposit
+* 📜 New [[Quests]]
+* 💍 New equipment
+* 🐊 Swamp Fog now applies a 1.5x final multiplier instead of adding 0.5x
+* 🕰️ Timelocked Sanctuary now counts for 'collect from the swamp' quests
+* 🌟 Testing some changes that should make it more likely to be matched into servers with players who have similar progression
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🌋 January 2026 – Volcanic Sands'''
+<div class="mw-collapsible-content">
+* 📜 7 new [[Quests]] 
+* 💍 1 new [[Equipment]]: Ring Of Champions
+* 🚶 Wandering NPCs that walk around, currently added to [[Locations|Caldera Island]]
+* ✨ Small visual effects and particles when digging
+* ⚙️ Settings for hiding individual [[Equipment]] types
+* 🔊 Ambient sounds added to certain [[Locations|areas]] during day and night (can be turned off in settings)
+* 💎 Rubble Creek Balance: Pyrite drops from deposits instead of sands
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🌋 January 2026 – Volcanic Springs Update'''
+<div class="mw-collapsible-content">
+* ❄️ Christmas event ended 🙁
+* 🏛️ Museum Loadouts: Added the "Manage Museums" board
+* 🌐 Global Museums: You can now visit other players' museums via The Museums Global
+* 🌋 Volcanic Springs: New mid-game volcano deposit added
+* ☢️ New Ore: Radium added to Volcanic Springs
+* 👁️ 2 new [[Equipment]]: Eye Of Fire and Lava Lantern 
+* 📜 1 new [[Quests|quest]] added
+* 🌌 Vault storage can be upgraded by meteor shards
+* ⚡ Various optimizations
+</div></div>
+
+----
+== December 2025 – Christmas Event ==
+
+<div class="mw-collapsible mw-collapsed">
+'''🎄 December 2025 – Christmas'''
+<div class="mw-collapsible-content">
+* 🎄 Christmas Event (Part 1)
+* ⛄ New Christmas area
+* 🪏 New shovel + pan
+* 🎁 Present Orders: Complete orders for ornaments and other rewards
+* 🍬 New hourly event: Candy Canes
+* 🎉 New event mutation
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''November 2025 – December 2025'''
+<div class="mw-collapsible-content">
+* 💍 Equipment mutations, have a low chance to be applied to equipment when crafting or using the Frozen Peak mutation forge, boosting stats 
+* 📅 Advent Calendar: Log in every day during December and complete quests for special rewards
+* ✨ New Sluice
+* 🛒 Traveling merchant items increased from 4 -> 6
+* 🧰 Equipment can be sold in bulk using the "Sell all of this type" option
+* 🦟 Firefly stones no longer need to be collected from panning next to fireflies, but they are much more common from fireflies
+* 🪏 Voidtouched enchant buffed to 5%
+* 🖼️ Quest added that introduces museum to new players
+* 🖱️ Small tutorial changes
+* 🎮 Equipment and crafting button sizes increased on console
+</div></div>
+
+----
+== November 2025 – MVP and Masteries ==
+<div class="mw-collapsible mw-collapsed">
+'''November 2025 – MVP System'''
+<div class="mw-collapsible-content">
+* 🗳️ MVP System: Vote every week for an MVP to boost all servers for a week 
+* 🥘 Auto panning added
+* ⚙️ Stats UI moved to Settings
+* 🛒 Traveling merchant is now always active and refreshes once per day, chances of certain items and stock sizes have been increased
+* ♾️ Forever Pack Added to Shop
+* 📈 Auto Sell set to Mythic
+* 🌱 Reduced the amount of vines in Overgrown Grotto
+* ⛯ Treasure mastery added
+* 🌊 Swamp water level raised so there isn't massive bumps
+* 💍 Otherworldly Ring buffed
+* 🍪 AA event: Cookie Time
+* 📱 Topbar no longer moves to the side on mobile
+* 🏆 Added a total items panned leaderboard
+* 🔧 Mostly fixed treasure maps appearing in unreachable areas (applies to new treasure maps)
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''November 2025 – Mastery'''
+<div class="mw-collapsible-content">
+* 🏆 '''[[Masteries|Mastery System]]:''' Complete tiers to unlock permanent boosts and unique titles  
+* 🪶 '''[[Level#Titles|Titles]]:''' You can now equip any unlocked title — new titles added (accessible in Settings)
+* 🎬 Cutscene now plays when crafting an item
+* 🧰 Loadouts increased from 3 to 5 slots
+* 🎒 Inventory Sort: Added a new sort option for locked items
+* 👁️ Setting to view your own nametag added
+* 🔓 Mass Unlock button added in Settings
+* 📱 Double tap to lock items on mobile
+* 🛍️ You can now only own two of each limited stock item at a time to prevent instant buyouts
+</div></div>
+
+----
+== October 2025 – Halloween Event and Runes ==
+<div class="mw-collapsible mw-collapsed">
+'''🎃 October 2025 – Halloween Event'''
+<div class="mw-collapsible-content">
+* 🎃 '''[[Halloween Event]]''' (Part 1)
+** 👻 New limited-time [[Locations|location]]
+** 🥄 New limited [[Pans|pan]] and [[Shovels|shovel]]
+** ⚙️ 3 new limited [[Equipment|equipment]] pieces
+** 🪶 New [[Relics|relic]] and [[Totems|totem]]
+** 🧭 Added a '''Hide Quests''' button
+** 🎒 The order of your [[Inventory|hotbar]] now saves between servers
+** 💬 Fixed issue with tooltip clipping
+** 🎨 Other small visual changes and fixes
+** 🧰 You can now drag equipment to equip it in the [[Toolkit]]  
+''There’s too much to list in the Halloween event — play to find out!''
+
+* 🕸️ '''Halloween Event (Part 2)'''
+** 🧙‍♀️ Added a '''[[Merchants|Halloween Merchant]]''' that appears only during [[Events|AA Events]] — sells limited stock [[Equipment|equipment]]
+** ⛏️ Added '''[[Excavation Sites|Excavation Site D]]'''
+** 🪣 New stat type: '''[[Stats|Inventory Size]]''' added to select equipment (auto-granted at 100% for existing items when equipped)
+** 🍶 '''Potion Seller''' added at [[Snowy Mountain]]
+** 🏷️ Small price tags now appear above purchasable items
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🔮 October 2025 – Runes Update'''
+<div class="mw-collapsible-content">
+* 🔮 '''[[Runes]]:''' Can be found around the map or by completing certain quests to obtain unique boosts (more will be added in the future)
+* 🧪 '''Crafting recipes''' can now be pinned and tracked
+* 🎨 Improved icons for events
+* 🎁 '''Daily Reward:''' Permanent luck increased to 5 per stack
+* 🌱 Numerous early-game changes and improvements to help ease in new players
+* 🌀 A few new '''AA [[Events|events]]''' added
+* 💎 '''[[Modifiers]]''' are now displayed in item find notifications
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🪸 October 2025 – Abyssal Depths Update'''
+<div class="mw-collapsible-content">
+* 🌊 '''New sub-location:''' {{Abyssal Depth}}
+* 🥄 New pan and shovel
+* 💍 New ring
+* 🪶 Increased the chance of obtaining [[Firefly Stone]]s — more fireflies now spawn
+* 📺 '''Rewarded Ads:''' Ads can be watched for temporary access to '''Sell Anywhere''' once per day (uses Roblox’s rewarded ad system)
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🔮 October 2025 – Enchants & Sluice Upgrades Update'''
+<div class="mw-collapsible-content">
+* 🪄 '''7 new shovel enchants:''' Can be obtained by using '''Iridescent''', '''Voidtorn''', or '''Electric [[Aetherite]]''' at the {{Azuralite Oasis}} enchanting table
+* Certain enchants are locked behind the '''Seed of Light Quest'''
+* 💧 '''Sluice upgrades:''' Individual stats can now be upgraded, with unique upgrades for stronger sluices
+* ⚒️ Some early-game equipment buffed
+* ⚙️ Various optimizations — panning in large groups should cause less lag
+* 📱 '''Mobile UI improvements:''' Boost and Museum stats can now be viewed while chat is closed (tap on the icon)
+* 🎒 Inventory text now scales slightly better on mobile
+</div></div>
+
+----
+== September 2025 – Excavations and Overgrown Grotto ==
+<div class="mw-collapsible mw-collapsed">
+'''⛏️ September 2025 – Excavations & Events Update'''
+<div class="mw-collapsible-content">
+* ⛏️ '''[[Excavations]]:''' Excavations can be started at excavation sites to earn relics and geodes after a period of time, sites are around {{Volcano}} and [[Snowy Mountain]]
+* Excavations can be leveled up the more you do them
+* New relics added for excavations, more will be added in the future
+* 🌟 Two new events: [[Events|Nimue's Blessing]] and [[Events|Geode Shower]]
+* ⏱️ Events now occur every 30 minutes instead of every hour due to the increased number of events
+* 📍 Quests now have location markers for certain steps
+* 💬 Dialog can be skipped by clicking again
+* 🏛️ The weight required for maximum [[Museum]] stats has been significantly increased, boost from exotic ores reduced
+* 🔒 Setting: Auto lock new discoveries — auto locks ores that:
+** have not been discovered
+** have a new modifier
+** break your weight record for that ore
+* 💎 Geodes can now be picked up by simply walking on them
+* 🎒 Some optimizations for backpack
+* 🌿 Vineheart rate increased
+</div></div>
+
+----
+
+<div class="mw-collapsible mw-collapsed">
+'''🌿 September 2025 – Overgrown Grotto Update'''
+<div class="mw-collapsible-content">
+* 🌿 New locations: [[Overgrown Grotto]] and [[Deeproot Spring]]
+* ⛏️ New equipment
+* 🥄 New pan, shovel, sluice
+* 🍶 Potions can now be bought in mass
+* 🧰 Loadouts are now renamable
+* 🌌 Void event no longer occurs naturally – [[Shovels|Galactic Shovel]] and [[Pans|Galactic Pan]] are now unobtainable (other Void equipment still obtainable)
+</div></div>

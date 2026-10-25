@@ -1,0 +1,37 @@
+[[File:Broken_device.png|150px|thumb|The broken device]]
+[[File:Mysterious_X.png|150px|thumb|The mysterious X]]
+[[File:Beach_Umbrella_Trinket.png|100px|none]]
+'''Trinkets''' are pan accessories that grant bonus perks.
+
+To equip a '''Trinket''', open your [[Prospector Kit]], go to '''Pans''', and underneath the [Equipped] button, you will find an orange button that says "'''Trinket: None'''" (or the name of your previous trinket if you already had one equipped for that pan).
+
+
+== List of Trinkets ==
+{| class="wikitable" style="width:100%; text-align:center;"
+! Trinket !! Perk/Function !! Obtainment !! Location
+|- 
+| <span style="color:#EC722C;">Beach Umbrella</span>
+| [[File:Beach Umbrella description.png|alt=Every modified item panned increases your base luck by 25 for the next pan.]]
+| {{Sand Dollars|1000}} at [[Blueprint_%26_Trinket_Vendor|Blueprint & Trinket Vendor]]
+| {{Seashell Isle}}
+|-
+| <span style="color:#5fd2ff;">Duplicator</span>
+| [[File:Duplicator_effect.png|350px|alt=Mythic and Exotic ores have a 10% chance to be duplicated.]]
+| Repair the Broken Device behind the house in Meteor Valley. Must have [[Mastery#Crafting_Mastery|Crafting Mastery 5]].
+| {{Starfall River}}
+|-
+| <span style="color:#ffda59;">Golden Chalice</span>
+| [[File:Golden_Chalice_effect.png|350px|alt=Digging up a treasure map gives a +100% luck boost for 2 minutes.]]
+| Dig at the red X in the Delta. Must have [[Mastery#Treasure_Map_Mastery|Treasure Mastery 5]].
+| {{Fortune River Delta}}
+|-
+| <span style="color:#69ff81;">Mass Reactor</span>
+| [[File:Mass Reactor.png|350px|alt=Pans with more than 20 ores destroy the excess and give 25 base luck on the next pan per destroyed item.]]
+| Complete the [[Quests#tabber-Rotwood_Swamp|Going Nuclear]] quest for the [[Nuclear Scientist]].
+| {{Rotwood Swamp}}
+|-
+| <span style="color:#96ffbe;">Tombstone</span>
+| [[File:Tombstone.png|350px|alt=Summons the Halloween Spirit to pan items for you. Empowers the Pumpkin Set.]]
+| {{Candy|1,000 Candy}} next to the [[Pumpkin_Pan|pan]] &amp; [[Pumpkin_Shovel|shovel]] mentioned in the description
+| {{Haunted Creek}}
+|}

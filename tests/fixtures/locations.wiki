@@ -1,0 +1,240 @@
+Here are a lot of the important locations you can find around the map!  
+
+See the [[Waypoints]] page for the fast-travel locations.  
+
+== '''Regular Areas''' ==
+<div><tabber>
+|-| Rubble Creek =
+; {{Rubble Creek}}  
+[[File:Starter_Area.png|300px|center]]  
+* NPCs: [[John]], [[Trader]], [[Mechanic]]  
+* This is where your journey begins! Speaking with [[John]] starts the tutorial and first quest. [[Trader]] also begins a series of three quests.  
+* {{Rubble Creek}} - '''Toughness 1'''
+* {{Rubble Creek Deposits}} - '''Toughness 2'''
+
+|-| Fortune River =
+; {{Fortune River}}  
+[[File:Town.png|300px|center]]  
+* NPCs: [[Shard Merchant]], [[Archaeologist]], [[Archaeologist?]], [[Kid]], [[Resident]], [[Steve]], [[Fisherman]], [[Dredge Master]]  
+* Small town, big purpose!  
+* {{Fortune River}} - '''Toughness 3'''
+
+|-| Fortune River Delta =
+; {{Fortune River Delta}}
+[[File:Fortune_River_Delta.png|300px|center]]
+* NPCs: [[Shady Merchant]], [[Old Prospector]], [[Geologist]], [[Rock Climber]], [[Anne]]
+* Area known for its rich sediment, Fortune River flows into the ocean here.
+* {{Fortune River Delta}} - '''Toughness 4'''
+
+|-| Crystal Caverns =
+; {{Crystal Caverns}}  
+[[File:Crystal Caverns.png|300px|center]]  
+* NPCs: [[Security Guard]], [[Clyde]], [[Head Researcher]], [[Miner]], [[Mad Scientist]]  
+* A place rich with [[Minerals|Azuralite]] that only experienced prospectors may enter.
+* {{Crystal Cavern River}} - '''Toughness 4'''
+* {{Azuralite Oasis}} - '''Toughness 5'''
+
+; {{Azuralite Oasis}}  
+[[File:Azuralite Oasis.png|300px|center]]  
+* NPC: [[Botanist]]  
+* ???
+* {{Azuralite Oasis}} - '''Toughness 5'''
+
+|-| Sunset Beach =
+; {{Sunset Beach}}
+[[File:Beach.png|300px|center]]
+* NPCs: [[Pirate]], [[Beachgoer]], [[Surfer]], [[Lightkeeper]], [[Drake]], [[Pirate Captain]]
+* Once a tourist spot, now crowded by prospectors. 
+* {{Sunset Beach}} - '''Toughness 3'''
+
+|-| Museum =
+; {{Museum}}  
+[[File:Museum.png|300px|center]]  
+* NPCs: [[Receptionist]], [[Bored Resident]] 
+* The somewhat empty museum of Prospecting.
+
+|-| Caldera Park =
+[[File:Recommended Luck - Caldera Park.png|300px|center|Recommended Luck: 200+]]
+
+; {{Volcanic Sands}}  
+[[File:volcanichuts.png|300px|center]]  
+* NPCs: [[Ranger]], [[Tourist]], [[Surfer]], [[Disgruntled Local]], [[Arctic Traveler]]  
+* The only place before the {{Magma Furnace}} where you can find a [[Fire Opal]].
+* {{Volcanic Sands}} - '''Toughness 4'''  
+
+; {{Volcanic Springs}}  
+[[File:volcanicsprings.png|300px|center]]  
+* NPCs: [[Volcanic Researcher]] 
+* {{Volcanic Springs}} - '''Toughness 5'''
+
+; {{Windswept Beach}}
+[[File:windsweptbeach.png|300px|center]]  
+* NPCs: [[Paleontologist]], [[Lightkeeper]]  
+* The area where you can find the {{Ancient Ruins}}.  
+* {{Windswept Beach}} - '''Toughness 4'''
+
+; {{Magma Furnace}}  
+<div style="text-align:center;">[[File:magmafurnace.png|300px|frameless]][[File:Magma Furnace requirement.png|300px|frameless|Requires Quest: Fire Protection]]</div>
+
+* NPCs: [[Flame Priest]], [[Master of the Forge]]  
+* Extremely hot deposit area. You’ll need protection from [[Flame Priest]].
+* {{Magma Furnace}} - '''Toughness 5'''  
+
+; {{Infernal Heart}}  
+[[File:infernalheart.png|300px|center]]  
+* It opens once per hour (XX:15) for 30 minutes before closing.  
+* {{Infernal Heart}} - '''Toughness 5'''
+
+|-| Snowy Mountains =
+[[File:Recommended Luck - Snowy Mountain.png|300px|center|Recommended Luck: 1,000+]]
+
+; {{Snowy Shores}}
+[[File:Frostbite River.png|300px|center]]  
+* NPCs: [[Arctic Traveler]], [[Researcher]], [[Apprentice Blacksmith]], [[Sherpa]], [[Builder]]  
+* The base of the mountain — daring you to climb.
+* {{Frostbite River}} - '''Toughness 5'''  
+
+; {{Frostbitten Path}}  
+[[File:Frostbite Waterfall.png|300px|center]]  
+* NPCs: [[Freezing Prospector]], [[Mountain Surveyor]]  
+* A dangerous path winding up the icy cliffs.
+* {{Frostbite Waterfall}} - '''Toughness 6'''  
+
+; {{Frozen Peak}}
+[[File:Frozen Peak.png|300px|center]]  
+* NPCs: [[Rock Climber]], [[Mountain Climber]], [[Fallen Artificer]]  
+* The summit of the snowy mountain.   
+* {{Frozen Peak}} - '''Toughness 6'''
+
+|-| Overgrown Caves =
+[[File:Recommended Luck - Overgrown Caverns.png|300px|center|Recommended Luck: 2,000+]]
+
+; {{Overgrown Grotto}}  
+[[File:Overgrown Grotto.png|300px|center]]  
+* NPCs: [[Explorer_(Male)|Male Explorer]], [[Explorer_(Female)|Female Explorer]], [[Professor]], [[Disgruntled Explorer]], [[Old Druid]], [[Explorer]]
+* A lush cavern filled with life from the Tree of Light.
+* {{Overgrown Grotto}} - '''Toughness 6'''
+
+; {{Deeproot Spring}}  
+[[File:Deeproot Spring.png|300px|center]]  
+* NPC: [[Druid]]
+* Underground roots curl around this precious fountain.
+* {{Deeproot Spring}} - '''Toughness 6'''
+
+; {{Enchanted Ruins}}  
+[[File:Enchanted_ruins_2.jpg|300px|center]]  
+* NPCs: [[Ruins Archaeologist]], [[Ancient Sword]]
+* The power of the ruins pulls you in.
+* {{Enchanted Ruins}} - '''Toughness 6'''
+
+; {{Abyssal Depth}}
+[[File:Abyssal Depths.png|300px|center]]
+[[File:Abyss Main.png|300px|center]]
+* NPC: [[Skeleton]]
+* The darkness wraps around you.
+* {{Abyssal Depth}} - '''Toughness 7'''
+
+|-| Swamp & Marsh =
+[[File:Recommended Luck - Rotwood Swamp.png|300px|center|Recommended Luck: 5,000+]]
+
+; {{Rotwood Swamp}}
+[[File:rotwoodswamp.png|300px|center]]
+* NPCs: [[Swamp Man]], [[Ecologist]], [[Familiar Fisherman]], [[Fisherman's Friend]], [[Nuclear Scientist]], [[Swamp Kid]]
+* A thick fog covers hangs over the murky waters of the swamp.
+* {{Rotwood Swamp}} - '''Toughness 7'''
+
+; {{Fungal Marsh}}
+[[File:fungalmarsh.png|300px|center]]
+* NPCs: [[Mushroom Man]], [[Froggy]], [[The Greatest Prospector]]
+* Toxic spores obscure your vision.
+* {{Fungal Marsh}} - '''Toughness 7'''
+
+; {{Timelocked Sanctuary}}  
+[[File:Timelocked_sanctuary.png|300px|center]]  
+* It opens once per hour (XX:45) for 30 minutes before closing.
+* NPC: [[Timelocked Spirit]]
+* {{Timelocked Sanctuary}} - '''Toughness 8'''
+
+|-| Meteor Valley =
+<div style="width=100%;text-align:center;">[[File:Meteor Valley description.png|400px|frameless|The unending rain of meteors fills this valley with fortune.]][[File:Recommended Luck - Meteor Valley.png|300px|frameless|Recommended Luck: 10,000+]]</div>
+
+; {{Meteor Falls}}
+[[File:METEORFALLS.png|300px|center]]  
+* NPCs: [[Valley Girl]], [[Familiar Merchant]], [[Concussed Resident]], [[Clockmaker]]  
+* {{Meteor Falls}} - '''Toughness 8'''
+
+; {{Starfall River}}  
+[[File:starfall.png|300px|center]]  
+* NPCs: [[Meteor Wisp]], [[Astronomer]], [[Valley Golem]]  
+* {{Starfall River}} - '''Toughness 9'''
+
+; {{Astral Caverns}}
+[[File:astralcaverns.png|300px|center]]
+* NPC: [[Meteor Guardian]]
+* {{Astral Caverns}} - '''Toughness 10'''
+
+|-| Sunscorched Desert =
+[[File:Sunscorched Desert description.png|400px|center|The sun relentlessly beats down on those who traverse these sands.]]
+; {{Sandstone Stream}}
+[[File:Sandstone Stream banner.png|300px|center]]
+* NPCs: [[Craftsman]], [[River Researcher]], [[Resting Traveler]]
+* {{Sandstone Stream}} - Toughness 10
+
+; {{Mystic Floodplains}}
+[[File:Mystic Floodplains.png|300px|center]]
+* [[Pharaoh's Sluice]]
+* {{Mystic Floodplains}} - Toughness 10
+
+; {{Lifespring Oasis}}
+[[File:Lifespring Oasis.png|300px|center]]
+* NPCs: [[Environmentalist]], [[Experienced Explorer]]
+* [[Pharaoh's Shovel]], [[Pharaoh's Pan]]
+* {{Lifespring Oasis}} - Toughness 11
+</tabber></div>
+
+== '''Limited Time Areas''' ==
+
+<div><tabber>
+
+|-| The Void =
+; {{The Void}}  
+[[File:TheVoid.png|300px|center]]  
+* NPCs: [[Interdimensional Traveler]], [[Interdimensional Wanderer]]  
+* An island at the edge of reality... 
+* {{The Void}} - '''Toughness ???''' (no requirement)
+
+|-| Haunted Creek =
+; {{Haunted Creek}}  
+[[File:Hauntedcreek.Webp|300px|center]]  
+* NPCs: [[Haunted Skeleton|Haunted Skeleton]], [[The Reaper]], [[Ghost]], [[Headless Merchant]]  
+* A limited-time Halloween area.
+* {{Haunted Creek}} - '''Toughness ???''' (no requirement)
+
+|-| North Pole =
+; {{North Pole}}  
+[[File:Northpole.png|300px|center]]  
+* NPCs: [[Gardener Elf]], [[Manager Elf]], [[Guard Elf]], [[Shopkeeper Elf]], [[Santa]]
+* A limited-time Christmas area.
+* {{North Pole}} - '''Toughness ???''' (no requirement)
+
+|-| Valentine's Event Shop=
+; {{Fortune River}}  
+[[File:Valentine's_Event_Shop.png|300px|center]]  
+* NPCs: [[Merchant]]
+* A limited-time Valentine's area.
+* See [[Valentines Event Shop]] for more information.
+
+|-| Easter Event Shop=
+; {{Fortune River}}  
+[[File:easterevent.png|300px|center]]  
+* NPCs: [[Merchant]]
+* A limited-time Easter area.
+* See [[Easter Event Shop]] for more information.
+
+|-| Seashell Isle=
+; {{Seashell Isle}}
+[[File:Bonfire_-_in_progress.png|300px|center]]
+* A floating island that's only accessible in the summer.
+* NPCs: [[Island Guide]], [[Drake]], [[Photographer]], [[Vagrant]], [[Resident]], [[Beachgoer]], [[Surfer]]
+* {{Seashell Beach}} - Toughness 1
+</tabber></div>

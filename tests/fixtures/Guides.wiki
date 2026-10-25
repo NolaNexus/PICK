@@ -1,0 +1,59 @@
+{{Tocright}}
+This page collects the '''main progression and farming guides''' for ''Prospecting!''.  
+Use the tabs below to switch between '''tool progression''', '''equipment builds''', and the '''best farming spots'''.
+
+<tabber>
+|-| Pan & Shovel Progression =
+
+== Pan Progression ==
+Pan quality generally corresponds to price - more expensive means better - so progression is pretty much identical to the order they're listed on the [[Pans|pans page]]. However, '''you are not required to buy every pan'''. If you can afford to buy a pan a couple of rows down from your current pan, it's fine to skip the intervening one(s). 
+* If getting to the pan requires unlocking something, and you're having trouble obtaining the ore needed - e.g. [[Starshine]] for [[Worldshaker]] or [[Flarebloom]] for [[Fossilized Pan]] - ''just skip it''.
+
+== Shovel Progression == 
+Shovels are similar: more expensive means better, so progression is in the order they're listed on the [[Shovels|shovels page]], and you are not required to buy every shovel.
+* As with pans, if you're having trouble getting a particular ore - for example, [[Starshine]] for [[Earthbreaker]] or [[Flarebloom]] for [[Fossilized Shovel]] - just skip those shovels.
+
+However, there are some shovels that are '''required for progression''':
+* The [[Dragonflame Shovel]] is needed for unlocking the [[Snowy Mountain]] - talk to the [[Arctic Traveler]] at {{Caldera Park}}.
+* Both the Dragonflame Shovel and [[Icebreaker]] are needed for opening the door between {{Azuralite Oasis}} and {{Overgrown Grotto}}.
+* The [[Lifetouched Shovel]] is needed for cutting the vines at the entrance to {{Rotwood Swamp}}.
+
+== Tips ==
+In general, you should buy the next pan before you buy the next shovel, with two exceptions:
+# The next shovel is needed for unlocking the next area.
+# Your current shovel is not tough enough for the area you just unlocked.
+
+
+|-| Best Farming Places =
+This guide highlights the '''best farming spots''' for money, modifiers, and late-game ores.
+
+== The Void (if opened) ==
+[[File:TheVoid.png|center|700px]]
+* Special location: It can be opened with a [[Void Shard]] for 30 minutes with the portal appearing in {{Fortune River}}. 
+* Best for: money, because of the '''[[Modifiers#Voidtorn|Voidtorn]] modifier multiplier''' (11x).  
+* Only farm here when it’s available; otherwise, use the spots below.
+
+== Infernal Heart ==
+[[File:Infernal Heart.png|center|700px]]
+* Endgame, extremely profitable.  
+* Best for: '''highest-value ores''', rare exotic.  
+* Needs strong '''Pan & Shovel''' sets.
+
+== Magma Furnace ==
+[[File:Magma Furnace SWP.png|center|700px]]
+* Great '''modifier''' and '''size''' density.  
+* Ideal mid→late-game farm; source of '''Dragonflame tools'''.
+
+== Azuralite Oasis / Frozen Peak ==
+[[File:Azuralite Oasis.png|center|700px]]
+[[File:Frozen Peak.png|center|700px]]
+* '''Azuralite Oasis''' — recommended midgame starter farm.  
+* '''Frozen Peak''' — endgame route; source of '''Frostbite tools'''.
+
+|-| Build/Museum Guide =
+
+This guide gives museum and equipment suggestions for various goals at various game stages. It is constantly being updated, so if you like a build, maybe take a screenshot.
+
+'''[https://docs.google.com/document/d/1qh68P12Pm1nz80jbKLZloVgapCXxVRoarM_pAs-5aVY/edit?usp=sharing Prospecting! Build Guide]'''
+
+</tabber>

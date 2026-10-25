@@ -1,0 +1,365 @@
+{{Tocright}}
+'''Events''' are limited-time happenings that give special effects to all players in the server.  
+
+* They have a chance to occur every 30 minutes on the dot (XX:00 or XX:30), and are the same ''globally'' across all servers. 
+* Players can use [[Relics]] to start certain events. (Those events are local to the server.)
+* Some are manually initiated by Developers during "Admin Abuse" times.  
+<!-- uh, yeah, not lately they're not. ** Announcements for these are posted on the [https://discord.gg/prospecting Discord].  -->
+
+== Regular Events ==
+<tabber>
+|-|Blizzard =
+The '''Blizzard''' is an every-30-minute event lasting 15 minutes on [[Snowy Mountain]] only. It can also be spawned using the [[Relics#tabber-Snow_Globe|Snow Globe]] relic.
+
+=== Effects ===
+* Multiplicative 1.5&times; '''[[Stats|Luck]]''' and '''1.5&times; items''' from panning at following locations:
+** '''{{Frostbite River}}'''  
+** '''{{Frostbite Waterfall}}'''  
+** '''{{Frozen Peak}}'''  
+
+=== Dialogue ===
+* Arrival: ''"Increased luck and amount on Snowy Island!"''  
+
+[[File:BlizzardProspecting.png|center|500px]]
+
+|-|Geode Shower=
+The '''Geode Shower''' is an every-30-minute event lasting 15 minutes. The Geode shower drops down meteors that contains a lot of geodes.  It can also be spawned using the [[Relics#tabber-Cosmic_Resonator|Cosmic Resonator]] relic.
+
+=== Effects ===
+* Meteors containing [[Geodes]] drop over the course of 15 minutes. Each has at most 20 geodes each.
+* Meteors can only fall at the following locations:
+** '''{{Fortune River}}'''
+** '''{{Sunset Beach}}'''
+** '''{{Fortune River Delta}}'''
+** '''{{Windswept Beach}}'''
+** '''{{Frostbite River}}'''
+
+=== Dialogue ===
+* Arrival: ''"Look up! Meteors are coming down bringing tons of geodes with them!"''  
+
+[[File:GeodeEvent.png|center|500px]]
+
+|-|Meteor Shower=
+The '''Meteor Shower''' is an every-30-minute event lasting '''20 minutes'''. It can also be purchased with Robux or spawned with a [[Meteor Fragment]], sending a server-wide message naming the buyer/spawner. Unlike other events, Meteor Showers can be "stacked", i.e. starting an additional one adds to the existing time. 
+
+=== Effects ===
+* Multiplicative 2&times; [[Stats|Luck]] for everyone in the server.  
+* 1-4 [[Meteor Shards]] can be obtained commonly from panning.  
+
+=== Dialogue ===
+* Arrival: ''"A meteor shower has begun!"''  
+* Player-started: ''"A meteor shower has been started by [Player]!"''  
+* Departure: ''"The meteor shower has ended!"''  
+
+[[File:MeteorShower.png|center|500px]]
+
+|-|Mythic Rift =
+A '''Mythic Rift''' can be spawned using the [[Relics#tabber-Mythic_Summon|Mythic Summon]] relic.
+
+=== Effects ===
+* Guarantees that one player will find a '''mythic ore''' from that area.  
+* Once obtained by one player, a server-wide message announces it, and the Rift disappears.  
+
+=== Dialogue ===
+* Arrival: Dig in the zone for a chance to obtain the mythic gem!  
+
+[[File:MythicRift.png|center|500px]]
+
+|-|Nimue's Blessing=
+'''Nimue's Blessing''' is an every-30-minute event lasting '''15 minutes''' in the Overgrown Caves ('''not''' including Abyssal Depths). It can also be spawned using the [[Relics#tabber-Spirit_Orb|Spirit Orb]] relic.  
+
+=== Effects ===
+* Multiplicative 1.5&times; '''[[Stats|Luck]]''' and increased [[Modifiers|modifier]] chance from panning at following locations:
+** '''{{Overgrown Grotto}}'''  
+** '''{{Deeproot Spring}}'''  
+** '''{{Enchanted Ruins}}''' 
+
+
+=== Dialogue ===
+* Arrival: ''"Increased Luck and Modifier chance."''  
+
+[[File:Nimue's Blessing.png|center|500px]]
+
+|-|River Rapids=
+'''River Rapids''' is an every-30-minute event lasting '''15 minutes''' in {{Fortune River}} and {{Fortune River Delta}}. It can also be spawned using the [[Relics#tabber-Rain_Stone|Rain Stone]] Relic.
+
+=== Effects ===
+* Provides '''2&times; items''' from panning at the following locations:
+** '''{{Fortune River}}'''
+** '''{{Fortune River Delta}}'''  
+
+=== Dialogue ===
+* Arrival: ''"2x items from Fortune River and Fortune River Delta!"''  
+
+[[File:RiverRapids.png|center|500px]]
+
+|-|Solar Flare=
+The '''Solar Flare''' is an every-30-minute event lasting '''15 minutes'''. It can also be spawned with a [[Solar Token]] relic.  A focused 10-minute Solar Flare can also be summoned with a [[Relics#tabber-Solar_Magnifier|Solar Magnifier]] relic.
+
+=== Effects ===
+* Small glowing patches spawn randomly on deposit areas.  
+* Digging in these spots increases mineral '''weight''' by 2&times; and increases [[Modifiers|modifier]] chance.  
+
+=== Dialogue ===
+* Arrival: Dig in the flare zones for improved size and modifier chance!  
+
+[[File:SolarFlare.png|center|500px]]
+
+|-|Volcanic Eruption =
+The '''Volcanic Eruption''' is an every-30-minute event lasting '''15 minutes''' on {{Caldera Island}}.  It can also be spawned using the [[Relics#tabber-Infernal_Idol|Infernal Idol]] relic.
+
+=== Effects ===
+* Increases mineral '''size''' by 2&times; and grants '''1.5&times; items''' from panning at the following locations:  
+** '''{{Volcanic Sands}}'''  
+** '''{{Windswept Beach}}'''  
+** '''{{Volcanic Springs}}'''
+** '''{{Magma Furnace}}'''  
+** '''{{Infernal Heart}}'''  
+
+=== Dialogue ===
+* Arrival: ''"Increased size and amount on Caldera Island!"''  
+
+[[File:VolcanicEruption.png|center|500px]]
+
+|-|Swamp Fog =
+The '''Swamp Fog''' is an every-30-minute event lasting '''15 minutes''' in {{Rotwood Swamp}} and {{Fungal Marsh}}. It can also be spawned using the [[Relics#tabber-Sealed_Fog|Sealed Fog]] relic.
+
+=== Effects ===
+* Multiplicative 1.5&times; [[Stats|Luck]] and hides you from beasts while panning at the following locations:  
+** '''{{Rotwood Swamp}}'''  
+** '''{{Fungal Marsh}}'''  
+
+[[File:SwampFog.png|500px|center]]
+
+|-|Modifier Surge =
+The '''Modifier Surge''' is an every-30-minute event lasting 15 minutes that applies to every location. It can also be spawned using the [[Relics#tabber-Concentrated_Chaos|Concentrated Chaos]] relic.
+
+=== Effects ===
+* Provides a '''2&times; modifier chance''' for all items obtained.
+* Increases Modifier Luck by 2&times;, meaning rarer [[Modifiers|modifiers]] appear significantly more often.
+
+=== Dialogue ===
+* Arrival: ''"2x modifier chance and rare modifiers appear more often!"''
+
+[[File:ModifierSurge.png|500px|center]]
+
+|-|Starfall =
+The '''Starfall''' event is a '''15 minute''' event in [[Meteor Valley]]. It can also be spawned using the [[Relics#tabber-Starcaller|Starcaller]] relic.
+
+=== Effects ===
+* Multiplicative 1.5&times; to both '''{{Stat|Luck}}''' and '''{{Stat|Modifier Boost}}''' from panning at the following locations.
+** '''{{Meteor Falls}}'''  
+** '''{{Starfall River}}'''
+** '''{{Astral Caverns}}'''  
+
+[[File:Starfallevent.png|center|500px]]
+
+|-|Sandstorm =
+The '''Sandstorm''' event lasts '''15 minutes''' and affects the {{Sunscorched Desert}}. It can also be spawned using the [[Relics#tabber-Sand_Spirit|Sand Spirit]] relic.
+
+=== Effects ===
+* Multiplicative 1.5&times; to both '''{{Stat|Luck}}''' and '''{{Stat|Modifier Boost}}''' from panning at the following locations.
+** '''{{Sandstone Stream}}'''  
+** '''{{Mystic Floodplains}}'''
+** '''{{Lifespring Oasis}}'''
+
+[[File:Sandstorm banner.png|center|500px]]
+
+|-|The Void =
+[[The Void]] is an event lasting 30 minutes. It can spawn naturally or it can be started by an admin during Admin Abuse, or by a player using a [[Void Shard]] relic. Players can also open the portal by purchasing it from the Robux shop.
+
+[[File:TheVoidBanner.png|400px|center]]
+
+</tabber>
+
+-----
+
+== Limited-Time Events ==
+<tabber>
+|-|Hallows' Eve =
+The '''Hallows' Eve''' event happens every hour at XX:00 during the '''Halloween Event''' and lasts '''15 minutes'''.
+
+=== Effects ===
+* Additive 2&times; (+1&times;) '''[[Stats|Luck]]''' across the whole map. 
+* Chance of getting the Spooky modifier on your ores.
+
+=== Dialogue ===
+* Arrival: ''THE NIGHT HAS COME MY SERVANTS! SPOOKY MODIFIER CHANCE AND 2x LUCK!''  
+
+[[File:Hallowseve.webp|center|500px]]
+
+|-|Candy Canes =
+The '''Candy Canes''' event happens every hour at XX:00 during the '''Christmas Event''' and lasts '''15 minutes'''.
+
+=== Effects ===
+* Allows the {{Enchant|Festive}} [[Mutations|Mutation]] to be obtained at base chance of 2.2%
+* Base {{Enchant|Prismatic}} Mutation chances decreased from 0.63% -> 0.57%
+* Base {{Enchant|Diamond}} Mutation chances decreased from 2.4% -> 2.2%
+* Base {{Enchant|Gold}} Mutation chances decreased from 6.3% -> 5.7%
+* Base {{Enchant|Silver}} Mutation chances decreased from 16% -> 14%
+
+== Dialogue ==
+* Arrival: ''Chance for a powerful Equipment mutation!'' 
+
+|-|Rose Rain=
+The '''Rose Rain''' event happens every hour at XX:00 during the '''Valentine's Event''' and lasts '''15 minutes'''.
+
+=== Effects ===
+* Luck Boost
+* Chance of getting Rosy and Charming modifier on ores
+
+== Dialogue ==
+* Arrival: ''Petals are falling, boosting luck and modifying ores'' 
+
+[[File:Rose_Rain.png|center|500px]]
+
+|-|Egg Hunt =
+The '''Egg Hunt''' event happens every hour at XX:00 during the '''Easter Event''' and lasts '''15 minutes'''.
+
+=== Effects ===
+* Luck Boost
+* Increased spawn rate for Easter Eggs
+
+== Dialogue ==
+* Arrival: ''Boosted Luck! Easter Eggs spawn more often.'' 
+
+[[File:EggHunt.png|center|500px]]
+
+|-|Shifting Tides =
+[[File:Shifting tides at Windswept beach.png|300px|right]]
+The '''Shifting Tides''' event happens every hour at XX:05 during the '''Summer Event''' and lasts '''15 minutes'''.
+
+=== Effects ===
+* Additive +1&times; {{Stat|Luck}} Boost
+** The luck boost applies to all locations, not just beaches.
+* Chance of [[Modifiers#Tidal|Tidal modifier]] on ores collected at beach deposits.
+** Beach deposits will have large swirling circles, but it is not necessary to dig/pan in those circles - the Tidal modifier chance applies to the whole deposit.
+
+== Dialogue ==
+* Arrival: ''+1x luck and Tidal modifier chance at beach deposits!'' 
+
+[[File:Shifting Tides.png|center|500px]]
+
+|-|Night of the Bonfire =
+The '''Night of the Bonfire''' event has a chance of occurring every time the [[Seashell Isle#Bonfire|Bonfire]] is lit during the '''Summer Event'''. It lasts 15 minutes.
+
+=== Effects ===
+* Multiplicative 2&times; {{Stat|Luck}} Boost
+* Chance of [[Modifiers#Hearthflame|Hearthflame modifier]] on ores
+
+== Dialogue ==
+* Arrival: ''2x Luck, +Hearthflame mod chance'' 
+
+[[File:Night of the Bonfire.png|center|500px]]
+
+</tabber>
+
+-----
+
+== Admin-Exclusive Events ==
+<tabber>
+|-|Admin Shower=
+An '''admin-only''' event. ''"Increases luck and Dig/Shake Strength by 2x."''
+
+=== Effects ===
+* Additive 2&times; (+1&times;) Luck 
+* Additive 2&times; (+1&times;) Dig Amount  
+* Additive 2&times; (+1&times;) Shake Strength  
+
+=== Dialogue ===
+* Arrival: ''"2x Luck and 2x Dig/Shake Strength!"''  
+
+[[File:AdminShower.png|center|500px]]
+
+|-|Thunderstorm=
+An '''admin-only''' event. A giant bolt strikes a player's pan, electrifying minerals.  
+
+=== Effects ===
+* Applies the '''[[Modifiers#Electrified|Electrified]] modifier''' to all ores in the pan.  
+* Electrified modifier = '''5&times; value boost'''.  
+
+=== Dialogue ===
+* Arrival: ''"Lightning has a chance to strike filled pans, electrifying ores!"''  
+
+[[File:LightningEvent.png|center|500px]]
+
+|-|4× Luck=
+An '''admin-only''' event. Increases luck by 4&times;.
+
+=== Effects ===
+* Luck is increased by an additive 4&times; (+3&times;)
+
+=== Dialogue ===
+* Arrival: ''"Quadruple the luck! Wow!"'' 
+
+[[File:4luck.webp|center|500px]]
+
+|-|8× Luck=
+An '''admin-only''' event. Increases luck by 8&times;.
+
+=== Effects ===
+* Luck is increased by an additive 8&times; (+7&times;)
+
+=== Dialogue ===
+* Arrival: ''"Octuple the luck! Look at those numbers!"'' 
+
+[[File:8luck.webp|center|500px]]
+
+|-|Admin Blessing=
+An '''admin-only''' event. Spawns all regular events.
+
+=== Effects ===
+* Activates all events except admin-exclusive events and limited events.
+
+=== Dialogue ===
+* Arrival: ''"All events are now active!"''
+
+[[File:Adminblessing.webp|center|500px]]
+
+|-|Dul Dul Dul!=
+An '''admin-only''' event. 
+
+=== Effects ===
+* Makes you <span style="text-decoration:line-through">convulse</span> [ahem, sorry] dance.
+
+=== Dialogue ===
+* Arrival: 🐵?????
+
+[[File:Dulduldul.webp|center|500px]]
+
+|-|Cookie Time!=
+An '''admin-only''' event. 
+
+=== Effects ===
+* You get a small chance of obtaining an [[Relics#tabber-XP_Cookie|XP Cookie]] while digging.
+
+=== Dialogue ===
+* Arrival: Small chance to obtain XP Cookies!
+
+[[File:cookietime.png|center|500px]]
+
+|-|Rainbow!=
+An '''admin-only''' event that changes the chances for getting certain [[Mutations|mutations]]. 
+
+=== Effects ===
+* Base {{Enchant|Prismatic}} [[Mutations|Mutation]] chances increased from 0.44% -> 1.6%
+* {{Enchant|Overclocked}} and {{Enchant|Granite}} Mutation chances decreased slightly from .88% -> .8%
+* Base {{Enchant|Diamond}} Mutation chances increased from 2.2% -> 3%
+* Base {{Enchant|Gold}} Mutation chances decreased from 5.9% -> 5.4%
+* Base {{Enchant|Silver}} Mutation chances decreased from 15% -> 13%
+
+[[File:RainbowEvent.png|300px|center]]
+
+|-|Christmas Blessing=
+An '''admin only''' event. Increases luck by 12&times;.
+
+=== Effects ===
+* Luck is increased by an additive 12&times; (+11&times;)
+
+=== Dialogue ===
+* Arrival: ''"Ho ho ho! 12x Luck!"'' 
+
+[[File:christmasblessing.png|center|500px]]
+
+
+</tabber>

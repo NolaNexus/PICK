@@ -1,0 +1,352 @@
+<templatestyles src="Template:Sluice/styles.css"/>
+<templatestyles src="Template:Stat/styles.css"/>
+
+'''Sluices''' are automated devices that sift valuables from running water in ''Prospecting!''. Great for passive income and progression.
+
+They can be placed in flowing water to collect while you explore or are offline.
+
+'''Sluices''' have [[Stats|four core stats]]: {{Stat|Luck}}, {{Stat|Capacity}}, {{Stat|Efficiency}}, and {{Stat|Toughness}}. Many sluices can be upgraded by talking to the [[Mad Scientist]] in the small workshop near the {{Crystal Caverns}} [[Waypoints|waypoint]].
+
+Use the [[Prospector Kit]] to equip or unequip your sluice.
+
+<tabber>
+|-|List of Sluices=
+{| class="wikitable sortable sluice-table"
+! Appearance !! Name/Description !! Price !! Stats !! Location
+{{Sluice row
+ | image=WoodSluice.png
+ | name=Wood Sluice Box
+ | description=A box that automatically filters valuables from running water, even when offline!
+ | price=5,000
+ | luck=80
+ | capacity=30
+ | efficiency=1
+ | toughness=1
+ | location={{Rubble Creek}}
+ | name color=#f8cea8
+}}
+{{Sluice row
+ | image=SteelSluice.png
+ | name=Steel Sluice Box
+ | description=A standard sluice box used by prospectors to filter for gold. Collects offline!
+ | price=100,000
+ | luck=200
+ | capacity=60
+ | efficiency=1.5
+ | toughness=2
+ | location={{Rubble Creek}}
+ | name color=#d6d6d6
+}}
+{{Sluice row
+ | image=GoldSluice.png
+ | name=Gold Sluice Box
+ | description=A high quality sluice plated with gold, protecting it from corrosion.
+ | price=655,000
+ | luck=400
+ | capacity=75
+ | efficiency=2
+ | toughness=3
+ | location={{Rubble Creek}}
+ | name color=#fed02a
+}}
+{{Sluice row
+ | image=ObsidianSluice.png
+ | name=Obsidian Sluice Box
+ | description=A sleek obsidian sluice that cuts through the water, allowing it to sift valuables with ease.
+ | price=4,000,000
+ | luck=1,000
+ | capacity=100
+ | efficiency=2
+ | toughness=4
+ | location=[[Shady Merchant]]
+ | name color=#cfc8ff
+}}
+{{Sluice row
+ | image=EnchantedSluice.png
+ | name=Enchanted Sluice
+ | description=A sluice enchanted with a variety of powerful spells, boosting its luck and efficiency at the cost of capacity.
+ | price=12,000,000
+ | luck=2,500
+ | capacity=75
+ | efficiency=3
+ | toughness=4
+ | location=[[Shady Merchant]]
+ | name color=#d6bbfb
+}}
+{{Sluice row
+ | image=DragonflameSluice.png
+ | name=Dragonflame Sluice
+ | description=A draconic sluice that turns ore into fuel, leaving only the most valuable behind.
+ | price=200,000,000
+ | luck=5,000
+ | capacity=125
+ | efficiency=2
+ | toughness=5
+ | location={{Magma Furnace}}
+ | name color=#d61009
+}}
+{{Sluice row
+ | image=FossilizedSluice.png
+ | name=Fossilized Sluice
+ | description=An ancient sluice that has been fossilized with age. Incredibly slow, but provides great yield once full.
+ | price=800,000,000
+ | luck=30,000
+ | capacity=200
+ | efficiency=1
+ | toughness=6
+ | location={{Ancient Ruins}}
+ | name color=#dfc5a2
+}}
+{{Sluice row
+ | image=Arctic Sluice.png
+ | name=Arctic Sluice
+ | description=An icy and fast sluice designed for cold arctic waters.
+ | price=10,000,000,000
+ | luck=25,000
+ | capacity=200
+ | efficiency=4
+ | toughness=6
+ | location={{Frozen Peak}}
+ | name color=#AFE6FF
+}}
+{{Sluice row
+ | image=Lifetouched Sluice.png
+ | name=Lifetouched Sluice
+ | description=A living sluice that feeds on sediment, leaving valuable ore behind.
+ | price=50,000,000,000
+ | luck=60,000
+ | capacity=250
+ | efficiency=5
+ | toughness=7
+ | location={{Deeproot Spring}}
+ | name color=#B8FF20
+}}
+{{Sluice row
+ | image=Corrodedsluice.png
+ | name=Corroded Sluice
+ | description=A standard sluice box used by prospectors to filter for gold. Collect offline!
+ | price=500,000,000,000
+ | luck=110,000
+ | capacity=300
+ | efficiency=10
+ | toughness=8
+ | location={{Fungal Marsh}}
+ | name color=#16330d
+}}
+{{Sluice row
+ | image=starblossom.png
+ | name=Starblossom Sluice
+ | description=A sluice with an strange alien flower growing on it, feeding on ores that pass through.
+ | price=25,000,000,000,000
+ | luck=250,000
+ | capacity=400
+ | efficiency=20
+ | toughness=9
+ | location={{Astral Caverns}}
+ | name color=#16330d
+}}
+{{Sluice row
+ | image=Pharaoh_sluice.png
+ | name=Pharaoh's Sluice
+ | description=A sluice box forged for the ruler of an ancient empire.
+ | price=100,000,000,000,000
+ | luck=600,000
+ | capacity=500
+ | toughness=10
+ | efficiency=25
+ | location={{Mystic Floodplains}}
+ | name color=#ffc800
+}}
+|}
+
+==Limited-Time Sluices==
+{| class="wikitable sortable sluice-table" style="width:100%"
+|+ Limited-time
+! Appearance !! Name/Description !! Price !! Stats !! Location
+
+{{Sluice row
+ | image=Eastersluice.png
+ | name=Easter Sluice
+ | description=An easter-themed sluice. Grants a powerful temporary boost to your stats when collected based on how full it is.
+ | eggs=100
+ | luck=40,000
+ | capacity=200
+ | efficiency=4
+ | toughness=8
+ | location={{Fortune River}}
+}}
+
+|-|Sluice Upgrades (Crystal Caverns)=
+''How upgrades work''
+* Upgradeable sluices have a set amount of '''Upgrade Points''' to allocate across their stats.
+* Most stats cost '''1 point per tier''' up to '''10 tiers'''.
+* Some perks have special costs (for example, '''Autocollect = 5 points''', while '''Size Boost = 2 points per tier'''). 
+* Each tier also requires the listed '''cash''' and '''material'''.
+
+''Special Upgrades''
+; {{Stat|Autocollect}}
+: Ores go directly into your backpack while you are online (subject to your auto-sell settings and/or Annihilation [[Runes]]). Offline sluice behavior is not affected.
+; {{Stat|Empowering}}
+: The sluice grants boosts when emptied. The duration of the boost is proportional to the amount of time the sluice spent collecting ores: <pre>Capacity &times; (480 collecting seconds &div; Efficiency) &times; (3  boost seconds &div; 60 collecting seconds)</pre>
+; {{Stat|Self-propulsion}}
+: The sluice can be placed in non-flowing water.
+
+''Not upgradeable''
+* '''Wood Sluice Box''' – ❌
+* '''Steel Sluice Box''' – ❌
+
+{| class="wikitable sortable sluice-upgrades" style="width:100%"
+! Sluice !! Upgrade Points !! Stat !! Cost $ !! Material !! Point Cost !! Gain (+per-tier / +max)
+|-
+| rowspan="3" | [[Gold Sluice Box]]
+| rowspan="3" | 15
+|| {{Stat|Luck}}           || {{$|300,000}} || [[Lapis Lazuli]]  || 1 || +100 / +1,000
+|-
+|| {{Stat|Capacity}}       || {{$|300,000}} || [[Meteoric Iron]] || 1 || +10 / +100
+|-
+|| {{Stat|Efficiency}}     || {{$|300,000}} || [[Onyx]]          || 1 || +0.3 / +3
+|-
+| rowspan="4" | [[Obsidian Sluice Box]]
+| rowspan="4" | 15
+|| {{Stat|Luck}}           || {{$|300,000}}   || [[Lapis Lazuli]]  || 1 || +250 / +2,500
+|-
+|| {{Stat|Capacity}}       || {{$|300,000}}   || [[Meteoric Iron]] || 1 || +10 / +100
+|-
+|| {{Stat|Efficiency}}     || {{$|300,000}}   || [[Osmium]]        || 1 || +0.5 / +5
+|-
+|| {{Stat|Self-Propulsion}}|| {{$|1,000,000}} || [[Diamond]]       || 5 || +1 
+|-
+| rowspan="5" | [[Enchanted Sluice]]
+| rowspan="5" | 15
+|| {{Stat|Luck}}           || {{$|1,000,000}} || [[Aurorite]]    || 1 || +500 / +5,000
+|-
+|| {{Stat|Capacity}}       || {{$|1,000,000}} || [[Iridium]]     || 1 || +15 / +150
+|-
+|| {{Stat|Efficiency}}     || {{$|1,000,000}} || [[Moonstone]]   || 1 || +0.5 / +5
+|-
+|| {{Stat|Autocollect}}    || {{$|5,000,000}}  || [[Catseye]]    || 5 || +1 
+|-
+|| {{Stat|Self-Propulsion}}|| {{$|5,000,000}}  || [[Diamond]]    || 5 || +1 
+|-
+| rowspan="6" | [[Dragonflame Sluice]]
+| rowspan="6" | 25
+|| {{Stat|Luck}}           || {{$|50,000,000}} || [[Fire Opal]]    || 1 || +1,000 / +10,000
+|-
+|| {{Stat|Capacity}}       || {{$|50,000,000}} || [[Cinnabar]]     || 1 || +15 / +150
+|-
+|| {{Stat|Efficiency}}     || {{$|50,000,000}} || [[Volcanic Key]] || 1 || +0.4 / +4
+|-
+|| {{Stat|Size Boost}}     || {{$|10,000,000,000}} || [[Volcanic Core]] || 2 per tier || +0.1 / +0.5
+|-
+|| {{Stat|Autocollect}}    || {{$|100,000,000}} || [[Inferlume]] || 5 || +1 
+|-
+|| {{Stat|Self-Propulsion}}|| {{$|100,000,000}} || [[Painite]]    || 5 || +1 
+|-
+| rowspan="6" | [[Arctic Sluice]]
+| rowspan="6" | 25
+|| {{Stat|Luck}}           || {{$|2,000,000,000}} || [[Mythril]]      || 1 || +2,500 / +25,000
+|-
+|| {{Stat|Capacity}}       || {{$|2,000,000,000}} || [[Vortessence]] || 1 || +20 / +200
+|-
+|| {{Stat|Efficiency}}     || {{$|2,000,000,000}} || [[Frostshard]]   || 1 || +0.5 / +5
+|-
+|| {{Stat|Size Boost}}     || {{$|2,000,000,000}} || [[Flarebloom]]   || 2 per tier || +0.15 / +0.75
+|-
+|| {{Stat|Autocollect}}    || {{$|5,000,000,000}} || [[Frostshard]] || 5 || +1 
+|-
+|| {{Stat|Self-Propulsion}}|| {{$|5,000,000,000}} || [[Mythril]]     || 5 || +1 
+|-
+| rowspan="6" | [[Fossilized Sluice]]
+| rowspan="6" | 25
+|| {{Stat|Luck}}           || {{$|300,000,000}} || [[Fire Opal]]    || 1 || +3,000 / +30,000
+|-
+|| {{Stat|Capacity}}       || {{$|300,000,000}} || [[Cinnabar]]     || 1 || +20 / +200
+|-
+|| {{Stat|Efficiency}}     || {{$|300,000,000}} || [[Painite]]      || 1 || +0.2 / +2
+|-
+|| {{Stat|Size Boost}}     || {{$|300,000,000}} || [[Volcanic Core]] || 2 per tier || +0.1 / +0.5
+|-
+|| {{Stat|Autocollect}}    || {{$|1,000,000,000}} || [[Flarebloom]] || 5 || +1 
+|-
+|| {{Stat|Self-Propulsion}}|| {{$|500,000,000}}    || [[Painite]]      || 5 || +1 
+|-
+| rowspan="6" | [[Lifetouched Sluice]]
+| rowspan="6" | 25
+|| {{Stat|Luck}}           || {{$|10,000,000,000}} || [[Radiant Gold]] || 1 || +5,000 / +50,000
+|-
+|| {{Stat|Capacity}}       || {{$|10,000,000,000}} || [[Chrysoberyl]] || 1 || +25 / +250
+|-
+|| {{Stat|Efficiency}}     || {{$|10,000,000,000}} || [[Prismara]]     || 1 || +1 / +10
+|-
+|| {{Stat|Size Boost}}     || {{$|10,000,000,000}} || [[Volcanic Core]] || 2 per tier || +0.2 / +1
+|-
+|| {{Stat|Autocollect}}    || {{$|25,000,000,000}} || [[Vineheart]]   || 5 || +1 
+|-
+|| {{Stat|Self-Propulsion}}|| {{$|10,000,000,000}} || [[Mythril]]     || 5 || +1 
+|-
+| rowspan="6" | [[Corroded Sluice]]
+| rowspan="6" | 30
+|| {{Stat|Luck}}           || {{$|30,000,000,000}} || [[Chrysoberyl]] || 1 || +10,000 / +100,000
+|-
+|| {{Stat|Capacity}}       || {{$|30,000,000,000}} || [[Star Garnet]] || 1 || +30 / +300
+|-
+|| {{Stat|Efficiency}}     || {{$|50,000,000,000}} || [[Red Beryl]]    || 1 || +2 / +20
+|-
+|| {{Stat|Size Boost}}     || {{$|100,000,000,000}} || [[Cryonic Artifact]] || 1 || +0.2 / +1
+|-
+|| {{Stat|Autocollect}}    || {{$|250,000,000,000}} || [[Astral Spore]]  || 5 || +1 
+|-
+|| {{Stat|Self-Propulsion}}|| {{$|250,000,000,000}} || [[Bloodstone]]    || 5 || +1 
+|-
+| rowspan="7" | [[Starblossom Sluice]]
+| rowspan="7" | 30
+|| {{Stat|Luck}}           || {{$|30,000,000,000}} || [[Bloodstone]]     || 1 || +40,000 / +400,000
+|-
+|| {{Stat|Capacity}}       || {{$|30,000,000,000}} || [[Astral Spore]]   || 1 || +40 / +400
+|-
+|| {{Stat|Efficiency}}     || {{$|50,000,000,000}} || [[Eternium]]       || 1 || +3 / +30
+|-
+|| {{Stat|Size Boost}}     || {{$|500,000,000,000}} || [[Starpiercer]]   || 2 || +0.2 / +1
+|-
+|| {{Stat|Autocollect}}    || {{$|2,000,000,000,000}} || [[Singularium]] || 5 || +1 
+|-
+|| {{Stat|Empowering}}     || {{$|2,500,000,000,000}} || [[Celestium]]   || 5 || +1
+|-
+|| {{Stat|Self-Propulsion}}|| {{$|2,000,000,000,000}} || [[Celestium]]   || 5 || +1 
+|-
+| rowspan="7" | [[Pharaoh's Sluice]]
+| rowspan="7" | 35
+|| {{Stat|Luck}}           ||     {{$|80,000,000,000}} || [[Eternium]]         || 1 || +40,000 / +400,000
+|-
+|| {{Stat|Capacity}}       ||     {{$|80,000,000,000}} || [[Singularium]]      || 1 || +40 / +400
+|-
+|| {{Stat|Efficiency}}     ||    {{$|100,000,000,000}} || [[Starpiercer]]      || 1 || +3 / +30
+|-
+|| {{Stat|Size Boost}}     ||  {{$|2,000,000,000,000}} || [[Solarium]]         || 2 || +0.2 / +1
+|-
+|| {{Stat|Autocollect}}    || {{$|10,000,000,000,000}} || [[Eye of the Sands]] || 5 || +1 
+|-
+|| {{Stat|Empowering}}     || {{$|15,000,000,000,000}} || [[Key of Life]]      || 5 || +1
+|-
+|| {{Stat|Self-Propulsion}}|| {{$|10,000,000,000,000}} || [[Key of Life]]      || 5 || +1 
+|}
+
+==Limited-Time Sluices==
+{| class="wikitable sortable sluice-upgrades" style="width:100%"
+! Sluice !! Upgrade Points !! Stat !! Cost $ !! Material !! Point Cost !! Gain (+per-tier / +max)
+|-
+| rowspan="6" | [[Easter Sluice]]
+| rowspan="6" | 30
+|| {{Stat|Luck}}           || {{$|30,000,000,000}} || [[Mythril]] || 1 || +10,000 / +100,000
+|-
+|| {{Stat|Capacity}}       || {{$|30,000,000,000}} || [[Vortessence]] || 1 || +30 / +300
+|-
+|| {{Stat|Efficiency}}     || {{$|50,000,000,000}} || [[Red Beryl]]    || 1 || +4 / +40
+|-
+|| {{Stat|Size Boost}}     || {{$|100,000,000,000}} || [[Dinosaur Skull]] || 2 || +0.2 / +1
+|-
+|| {{Stat|Autocollect}}    || {{$|250,000,000,000}} || [[Vineheart]]  || 5 || +1 
+|-
+|| {{Stat|Self-Propulsion}}|| {{$|250,000,000,000}} || [[Umbrite]]    || 5 || +1 
+|}
+</tabber>

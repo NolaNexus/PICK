@@ -1,5 +1,12 @@
 import sqlalchemy as sa
+
 from alembic import op
+
+# revision identifiers, used by Alembic.
+revision = "001_initial_schema"
+down_revision = None
+branch_labels = None
+depends_on = None
 
 
 def upgrade() -> None:
@@ -113,10 +120,7 @@ def upgrade() -> None:
         sa.Column("error_log", sa.Text),
     )
 
-    # Add indexes
-    op.create_index("ix_items_slug", "items", "slug", unique=True)
-    op.create_index("ix_items_type", "items", "type")
-    op.create_index("ix_news_published_at", "news_articles", "published_at")
+    # Indexes are defined inline via Column(index=...) above
 
 
 def downgrade() -> None:

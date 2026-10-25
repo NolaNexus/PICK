@@ -17,6 +17,8 @@ class Settings(BaseSettings):
     # Reddit
     reddit_user_agent: str = "PICK/1.0 (Prospecting Information & Community Kit)"
     reddit_subreddit: str = "Prospecting"
+    reddit_client_id: str | None = None
+    reddit_client_secret: str | None = None
 
     # Webhooks
     webhook_secret: str | None = None

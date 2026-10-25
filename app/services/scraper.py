@@ -9,42 +9,12 @@ from typing import TYPE_CHECKING
 from sqlalchemy import select
 
 from app.utils.mw_api import MediaWikiClient
-from scrapers import PARSERS  # type: ignore
+from scrapers import PARSERS, TRACKED_PAGES  # type: ignore
 
 if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
-
-# Pages to track from the wiki
-TRACKED_PAGES = [
-    "Pans",
-    "Shovels",
-    "Minerals",
-    "Sluices",
-    "Equipment",
-    "Enchanting",
-    "Locations",
-    "Traveling_Merchant",
-    "NPCs",
-    "Events",
-    "Quests",
-    "Museum",
-    "Excavations",
-    "Relics",
-    "Geodes",
-    "Runes",
-    "Mastery",
-    "Mutations",
-    "Treasure_Map",
-    "Stat_Systems_Guide",
-    "Blueprint",
-    "Trinkets",
-    "Modifiers",
-    "Codes",
-    "Changelog",
-    "Guides",
-]
 
 
 async def check_for_game_update(db: "AsyncSession", client: MediaWikiClient) -> bool:
@@ -176,9 +146,15 @@ async def scrape_page(
     db: "AsyncSession",
     client: MediaWikiClient,
     title: str,
+    parser=None,
 ) -> bool:
     """Scrape a single page, upsert items if content changed."""
     from app.models import Item, WikiPage
+
+    parser = parser or PARSERS.get(title)
+    if not parser:
+        logger.warning("No parser for %s", title)
+        return False
 
     page_info = await client.get_page_info(title)
     wikitext = page_info.get("wikitext", "")
@@ -188,16 +164,13 @@ async def scrape_page(
 
     content_hash = hashlib.sha256(wikitext.encode("utf-8")).hexdigest()
     page_id = page_info.get("page_id")
-    revision_id = page_info.get("revision_id")
+    revision_id = page_info.get("revision_id") or 0  # Default to 0 if None
 
-    wiki_page = await db.get(WikiPage, title)
+    # Query by title (unique column), not by primary key
+    result = await db.execute(select(WikiPage).where(WikiPage.title == title))
+    wiki_page = result.scalar_one_or_none()
     if wiki_page and wiki_page.content_hash == content_hash:
         logger.debug("No change for %s", title)
-        return False
-
-    parser = PARSERS.get(title)
-    if not parser:
-        logger.warning("No parser for %s", title)
         return False
 
     items = parser(wikitext)
@@ -239,6 +212,20 @@ async def scrape_page(
             item.image_url = item_data.get("image_url")
             item.description = item_data.get("description")
             item.updated_at = datetime.now(UTC)
+
+    # Remove items from this page that no longer exist on the wiki page
+    parsed_slugs = [item_data.get("slug") or item_data["name"].lower().replace(" ", "-") for item_data in items]
+    if parsed_slugs:
+        await db.execute(
+            Item.__table__.delete().where(
+                Item.source_page_id == wiki_page.id,
+                Item.slug.notin_(parsed_slugs),
+            )
+        )
+    else:
+        await db.execute(
+            Item.__table__.delete().where(Item.source_page_id == wiki_page.id)
+        )
 
     wiki_page.last_revision_id = revision_id
     wiki_page.content_hash = content_hash

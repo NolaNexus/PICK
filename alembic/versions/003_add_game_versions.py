@@ -1,7 +1,14 @@
 """Add game_versions table for patch detection."""
 
 import sqlalchemy as sa
+
 from alembic import op
+
+# revision identifiers, used by Alembic.
+revision = "003_add_game_versions"
+down_revision = "001_initial_schema"
+branch_labels = None
+depends_on = None
 
 
 def upgrade() -> None:

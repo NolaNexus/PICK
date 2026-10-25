@@ -1,7 +1,7 @@
 """Alembic environment configuration."""
 import sys
-from pathlib import Path
 from logging.config import fileConfig
+from pathlib import Path
 
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
@@ -12,6 +12,7 @@ from alembic import context
 # Add project root to Python path so we can import app
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+import app.models  # noqa: F401  register all models with Base.metadata
 from app.database import Base
 
 config = context.config
@@ -34,22 +35,26 @@ def run_migrations_offline():
 
 def run_migrations_online():
     """Run migrations in 'online' mode with async engine."""
+
+    def do_run_migrations(connection: Connection) -> None:
+        context.configure(
+            connection=connection, target_metadata=target_metadata
+        )
+        with context.begin_transaction():
+            context.run_migrations()
+
     connectable = create_async_engine(
         db_url,
         poolclass=pool.NullPool,
     )
 
-    async def do_run_migrations():
+    async def run_async() -> None:
         async with connectable.connect() as connection:
-            await connection.run_sync(
-                lambda conn: context.configure(
-                    connection=conn, target_metadata=target_metadata
-                )
-            )
-            await connection.run_sync(lambda conn: context.run_migrations())
+            await connection.run_sync(do_run_migrations)
 
     import asyncio
-    asyncio.run(do_run_migrations())
+
+    asyncio.run(run_async())
 
 
 if context.is_offline_mode():

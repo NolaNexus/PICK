@@ -68,32 +68,6 @@ async def list_items(
     )
 
 
-@router.get("/{slug}", response_model=ItemResponse, tags=["items"])
-async def get_item(
-    slug: str,
-    db: AsyncSession = Depends(get_session),  # noqa: B008
-):
-    """Get a single item by its URL-safe slug."""
-    result = await db.execute(select(Item).where(Item.slug == slug))
-    item = result.scalar_one_or_none()
-
-    if not item:
-        raise HTTPException(status_code=404, detail="Item not found")
-
-    return ItemResponse(
-        id=item.id,
-        type=item.type,
-        wiki_id=item.wiki_id,
-        name=item.name,
-        slug=item.slug,
-        data=item.data,
-        image_url=item.image_url,
-        description=item.description,
-        created_at=item.created_at,
-        updated_at=item.updated_at,
-    )
-
-
 @router.get("/types", response_model=list[str], tags=["items"])
 async def list_item_types(
     db: AsyncSession = Depends(get_session),  # noqa: B008
@@ -146,4 +120,30 @@ async def list_items_by_type(
         page=page,
         size=size,
         pages=(total + size - 1) // size,
+    )
+
+
+@router.get("/{slug}", response_model=ItemResponse, tags=["items"])
+async def get_item(
+    slug: str,
+    db: AsyncSession = Depends(get_session),  # noqa: B008
+):
+    """Get a single item by its URL-safe slug."""
+    result = await db.execute(select(Item).where(Item.slug == slug))
+    item = result.scalar_one_or_none()
+
+    if not item:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    return ItemResponse(
+        id=item.id,
+        type=item.type,
+        wiki_id=item.wiki_id,
+        name=item.name,
+        slug=item.slug,
+        data=item.data,
+        image_url=item.image_url,
+        description=item.description,
+        created_at=item.created_at,
+        updated_at=item.updated_at,
     )

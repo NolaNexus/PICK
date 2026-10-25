@@ -5,7 +5,7 @@ import asyncio
 
 from sqlalchemy.ext.asyncio import create_async_engine
 
-from app.database import async_session_factory
+import app.database as app_database
 from app.services.scraper import run_daily_scrape, run_full_scrape
 
 
@@ -21,7 +21,9 @@ async def main(full: bool = False):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-    async with async_session_factory() as session:
+    await app_database.get_engine()
+
+    async with app_database.async_session_factory() as session:
         if full:
             result = await run_full_scrape(session)
         else:

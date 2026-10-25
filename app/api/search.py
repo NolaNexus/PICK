@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, Query
-from sqlalchemy import func, or_, select
+from sqlalchemy import String, func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_session
 from app.models import Item
 
-router = APIRouter(prefix="/search", tags=["search"])
+router = APIRouter(tags=["search"])
 
 
 @router.get("")
@@ -26,14 +26,14 @@ async def search(
         or_(
             Item.name.ilike(search_term),
             Item.description.ilike(search_term),
-            Item.data.cast(str).ilike(search_term),  # Search in JSON data
+            Item.data.cast(String).ilike(search_term),  # Search in JSON data
         )
     )
     count_query = count_query.where(
         or_(
             Item.name.ilike(search_term),
             Item.description.ilike(search_term),
-            Item.data.cast(str).ilike(search_term),
+            Item.data.cast(String).ilike(search_term),
         )
     )
 

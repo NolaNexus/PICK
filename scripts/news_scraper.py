@@ -4,7 +4,7 @@ import asyncio
 
 from sqlalchemy.ext.asyncio import create_async_engine
 
-from app.database import async_session_factory
+import app.database as app_database
 from app.services.news_scraper import fetch_reddit_news
 
 
@@ -18,7 +18,9 @@ async def main():
     async with engine.begin():
         pass  # tables already created
 
-    async with async_session_factory() as session:
+    await app_database.get_engine()
+
+    async with app_database.async_session_factory() as session:
         results = await fetch_reddit_news(session)
         print(f"Fetched {len(results)} Reddit posts")
         for r in results[:3]:

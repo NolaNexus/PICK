@@ -50,4 +50,4 @@ databases:
   - name: pick-db
     plan: free
     region: frankfurt
-    version: "16"
+    postgresMajorVersion: "16"

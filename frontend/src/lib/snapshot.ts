@@ -44,7 +44,11 @@ export interface SnapshotWikiPage {
 }
 
 export interface SnapshotMeta {
-  game_version: { version: string | null; detected_at: string | null } | null
+  game_version: {
+    version: string | null
+    detected_at: string | null
+    triggered_full_scrape: number
+  } | null
   last_scrape: {
     status: string | null
     started_at: string | null

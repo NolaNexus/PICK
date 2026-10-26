@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { snapshotCache } from '@/lib/snapshot'
+import type { SnapshotData } from '@/lib/snapshot'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/toast'
 
 export default function MetaPage() {
-  const [snapshot, setSnapshot] = useState<any>(null)
+  const [snapshot, setSnapshot] = useState<SnapshotData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [syncError, setSyncError] = useState<Error | null>(null)
   const [isSyncing, setIsSyncing] = useState(false)
@@ -60,8 +61,8 @@ export default function MetaPage() {
     if (!snapshot) return null
     const counts = snapshot.counts
     const types = snapshotCache.getTypes(snapshot)
-    const lastScrape = snapshot.last_scrape
-    const game_version = snapshot.game_version
+    const lastScrape = snapshot.meta.last_scrape
+    const game_version = snapshot.meta.game_version
 
     return {
       total_items: counts.items,

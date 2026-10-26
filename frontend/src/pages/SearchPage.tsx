@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { snapshotCache } from '@/lib/snapshot'
+import type { SnapshotData } from '@/lib/snapshot'
 import { useDebounce } from '@/hooks/useDebounce'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -14,7 +15,7 @@ export default function SearchPage() {
   const [size] = useState(15)
   const [type, setType] = useState<string | null>(null)
   const [location, setLocation] = useState('')
-  const [snapshot, setSnapshot] = useState<any>(null)
+  const [snapshot, setSnapshot] = useState<SnapshotData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [syncError, setSyncError] = useState<Error | null>(null)
   const [isSyncing, setIsSyncing] = useState(false)

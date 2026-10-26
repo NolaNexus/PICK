@@ -13,6 +13,16 @@ import {
 } from '@/lib/museum'
 import { snapshotCache } from '@/lib/snapshot'
 import type { SnapshotData } from '@/lib/snapshot'
+import type {
+  EVResponse,
+  TTGResponse,
+  ModifierOddsResponse,
+  BestPanResponse,
+  MuseumCalculatorResponse,
+  PanRecommendation,
+  PanRecommendationPan,
+  SlotRecommendation,
+} from '@/api/pick.schemas'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
@@ -92,21 +102,21 @@ export default function CalculatorsPage() {
   const [evDropTable, setEvDropTable] = useState<EvRow[]>([
     { name: '', base_price: 0, base_weight: 1, rarity: 'common' },
   ])
-  const [evResult, setEvResult] = useState<any>(null)
+  const [evResult, setEvResult] = useState<EVResponse | null>(null)
   const [evSubmitting, setEvSubmitting] = useState(false)
 
   const ttgForm = useForm<z.infer<typeof ttgSchema>>({
     resolver: zodResolver(ttgSchema),
     defaultValues: { goal_value: 1000000, location_ev_per_pan: 0, capacity: 100, dig_strength: 50, dig_speed: 100, shake_strength: 50, shake_speed: 500 },
   })
-  const [ttgResult, setTtgResult] = useState<any>(null)
+  const [ttgResult, setTtgResult] = useState<TTGResponse | null>(null)
   const [ttgSubmitting, setTtgSubmitting] = useState(false)
 
   const morForm = useForm<z.infer<typeof morSchema>>({
     resolver: zodResolver(morSchema),
     defaultValues: { panel_modifier_boost: 0, solar_magnifier: false, modifier_surge: false },
   })
-  const [morResult, setMorResult] = useState<any>(null)
+  const [morResult, setMorResult] = useState<ModifierOddsResponse | null>(null)
   const [morSubmitting, setMorSubmitting] = useState(false)
 
   const bpgForm = useForm<z.infer<typeof bpgSchema>>({
@@ -116,7 +126,7 @@ export default function CalculatorsPage() {
   const [bpgPans, setBpgPans] = useState<BpgPan[]>([
     { name: '', capacity: 50, dig_strength: 10, shake_strength: 10, shake_speed: 100, luck: 0, size_boost: 0, modifier_boost: 0 },
   ])
-  const [bpgResult, setBpgResult] = useState<any>(null)
+  const [bpgResult, setBpgResult] = useState<BestPanResponse | null>(null)
   const [bpgSubmitting, setBpgSubmitting] = useState(false)
 
   const museumForm = useForm<z.infer<typeof museumSchema>>({
@@ -126,7 +136,7 @@ export default function CalculatorsPage() {
   const [museumOres, setMuseumOres] = useState<MuseumOre[]>([
     { name: '', rarity: 'common', kg: 0, modifier: null },
   ])
-  const [museumResult, setMuseumResult] = useState<any>(null)
+  const [museumResult, setMuseumResult] = useState<MuseumCalculatorResponse | null>(null)
   const [museumSubmitting, setMuseumSubmitting] = useState(false)
 
   const [snapshot, setSnapshot] = useState<SnapshotData | null>(null)
@@ -250,9 +260,10 @@ export default function CalculatorsPage() {
       setBpgResult({
         criteria: result.criteria,
         recommendations: result.recommendations.map((rec) => ({
-          pan: rec.pan,
+          pan: rec.pan as unknown as PanRecommendationPan,
           score: rec.score,
           capacity: rec.capacity,
+          digs_per_pan: rec.digsPerPan,
           pans_per_hour: rec.pansPerHour,
           luck: rec.luck,
           size_boost: rec.sizeBoost,
@@ -306,7 +317,12 @@ export default function CalculatorsPage() {
           current_kg: rec.current_kg,
           current_modifier: rec.current_modifier,
           current_boost: rec.current_boost,
+          effective_boost: rec.current_boost,
+          ore_kg: rec.current_kg,
+          score: 0,
+          modifier: rec.current_modifier,
           best_available_ore: rec.best_available_ore,
+          recommended_ore: rec.best_available_ore ?? rec.current_ore ?? '',
           best_available_kg: rec.best_available_kg,
           best_available_modifier: rec.best_available_modifier,
           best_boost: rec.best_boost,
@@ -315,7 +331,11 @@ export default function CalculatorsPage() {
         })),
         total_stats: result.total_stats,
         by_rarity: result.by_rarity,
-        unlock_costs: result.unlock_costs,
+        unlock_costs: {
+          next_unlock: null,
+          total_remaining_money: result.unlock_costs.money_cost,
+          total_remaining_shards: result.unlock_costs.shards_cost,
+        },
         weight_gate_info: result.weight_gate_info,
       })
     } finally {
@@ -576,9 +596,9 @@ export default function CalculatorsPage() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {bpgResult.recommendations.map((rec: any, i: number) => (
+                        {bpgResult.recommendations.map((rec: PanRecommendation, i: number) => (
                           <TableRow key={i}>
-                            <TableCell className="font-medium">{rec.pan?.name ?? '—'}</TableCell>
+                            <TableCell className="font-medium">{String(rec.pan?.name) ?? '—'}</TableCell>
                             <TableCell className="text-right">{rec.score?.toFixed(1) ?? '—'}</TableCell>
                             <TableCell className="text-right">{rec.capacity ?? '—'}</TableCell>
                             <TableCell className="text-right">{rec.pans_per_hour?.toFixed(1) ?? '—'}</TableCell>
@@ -648,10 +668,10 @@ export default function CalculatorsPage() {
                     <div>
                       <h3 className="text-sm font-semibold mb-2">Slot recommendations</h3>
                       <div className="grid grid-cols-3 gap-2 text-sm">
-                        {museumResult.slot_recommendations.map((rec: any, i: number) => (
+                        {museumResult.slot_recommendations.map((rec: SlotRecommendation, i: number) => (
                           <div key={i} className="flex justify-between">
                             <span className="text-muted-foreground">{rec.slot_id ?? `Slot ${i + 1}`}</span>
-                            <span>{rec.recommended_ore ?? rec.best_available_ore ?? '—'}</span>
+                            <span>{rec.recommended_ore ?? '—'}</span>
                           </div>
                         ))}
                       </div>

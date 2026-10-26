@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { snapshotCache } from '@/lib/snapshot'
+import type { SnapshotData } from '@/lib/snapshot'
 import { useDebounce } from '@/hooks/useDebounce'
 import { toast } from '@/components/ui/toast'
 import { Button } from '@/components/ui/button'
@@ -18,7 +19,7 @@ import {
 export default function FormulasPage() {
   const [query, setQuery] = useState('')
   const [detailId, setDetailId] = useState<string | null>(null)
-  const [snapshot, setSnapshot] = useState<any>(null)
+  const [snapshot, setSnapshot] = useState<SnapshotData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [syncError, setSyncError] = useState<Error | null>(null)
   const [isSyncing, setIsSyncing] = useState(false)

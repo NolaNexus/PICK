@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { formatDistance } from 'date-fns'
 import { snapshotCache } from '@/lib/snapshot'
-import type { SnapshotNews } from '@/lib/snapshot'
+import type { SnapshotData, SnapshotNews } from '@/lib/snapshot'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
@@ -14,7 +14,7 @@ export default function NewsPage() {
   const [query, setQuery] = useState('')
   const [page, setPage] = useState(1)
   const [size] = useState(15)
-  const [snapshot, setSnapshot] = useState<any>(null)
+  const [snapshot, setSnapshot] = useState<SnapshotData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [syncError, setSyncError] = useState<Error | null>(null)
   const [isSyncing, setIsSyncing] = useState(false)

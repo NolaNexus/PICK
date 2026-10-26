@@ -429,3 +429,380 @@ class MuseumCalculatorResponse(BaseModel):
             }
         }
     }
+
+
+# =============================================================================
+# R-POWERED STATISTICAL SCHEMAS
+# =============================================================================
+
+class ModifierDistributionFitRequest(BaseModel):
+    """Request to fit a modifier drop distribution from observed data.
+
+    observed_counts: Mapping of modifier name -> observed drop count from
+    scraped wiki data or player tracking.
+    effective_mb: Player's effective modifier boost.
+    """
+    observed_counts: dict[str, int] = Field(default_factory=dict)
+    effective_mb: float = Field(default=0.0, ge=0)
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "observed_counts": {
+                    "Shiny": 100,
+                    "Pure": 50,
+                    "Glowing": 20,
+                    "Iridescent": 5,
+                    "Perfect": 1,
+                },
+                "effective_mb": 500,
+            }
+        }
+    }
+
+
+class ModifierDistributionFitResponse(BaseModel):
+    """Fitted modifier distribution percentages (0-100 scale)."""
+    modifier_distribution: dict[str, float]
+    r_used: bool
+    effective_mb: float
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "modifier_distribution": {
+                    "Perfect": 0.02,
+                    "Treasured": 0.1,
+                    "Lunar": 0.5,
+                    "Voidtorn": 1.0,
+                    "Mutated": 3.0,
+                    "Cosmic": 10.0,
+                    "Iridescent": 30.0,
+                    "Irradiated": 80.0,
+                    "Crystalline": 150.0,
+                    "Scorching": 250.0,
+                    "Glowing": 400.0,
+                    "Pure": 550.0,
+                    "Shiny": 700.0,
+                },
+                "r_used": False,
+                "effective_mb": 500,
+            }
+        }
+    }
+
+
+class MonteCarloEVRequest(BaseModel):
+    """Request for Monte Carlo EV per hour simulation.
+
+    samples: Number of simulation draws.
+    ev_per_pan_mean: Mean expected value per pan.
+    ev_per_pan_sd: Standard deviation of EV per pan.
+    pph_mean: Mean pans per hour.
+    pph_sd: Standard deviation of pans per hour.
+    """
+    samples: int = Field(default=10000, ge=1, le=1000000)
+    ev_per_pan_mean: float = Field(default=0.0, ge=0)
+    ev_per_pan_sd: float = Field(default=0.0, ge=0)
+    pph_mean: float = Field(default=0.0, ge=0)
+    pph_sd: float = Field(default=0.0, ge=0)
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "samples": 10000,
+                "ev_per_pan_mean": 5000.0,
+                "ev_per_pan_sd": 500.0,
+                "pph_mean": 120.0,
+                "pph_sd": 10.0,
+            }
+        }
+    }
+
+
+class MonteCarloEVResponse(BaseModel):
+    """Monte Carlo EV per hour simulation results."""
+    mean: float
+    p05: float
+    p95: float
+    r_used: bool
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "mean": 600000.0,
+                "p05": 540000.0,
+                "p95": 660000.0,
+                "r_used": False,
+            }
+        }
+    }
+
+
+class GearItemInput(BaseModel):
+    """A single piece of gear for recommendation scoring."""
+    name: str
+    capacity: float = Field(default=0, ge=0)
+    dig_strength: float = Field(default=0, ge=0)
+    shake_strength: float = Field(default=0, ge=0)
+    shake_speed: float = Field(default=0, ge=0)
+    luck: float = Field(default=0, ge=0)
+    size_boost: float = Field(default=0, ge=0)
+    modifier_boost: float = Field(default=0, ge=0)
+
+
+class GearRecommendationRequest(BaseModel):
+    """Request to score and rank gear using R's recommendation model.
+
+    gear: List of gear items to evaluate.
+    dig_strength/shake_strength/shake_speed: Player's build stats.
+    target_capacity/min_luck/min_size_boost/min_modifier_boost: Filters.
+    """
+    gear: list[GearItemInput] = Field(default_factory=list)
+    dig_strength: float = Field(default=0, ge=0)
+    shake_strength: float = Field(default=0, ge=0)
+    shake_speed: float = Field(default=0, ge=0)
+    target_capacity: float = Field(default=0, ge=0)
+    min_luck: float = Field(default=0, ge=0)
+    min_size_boost: float = Field(default=0, ge=0)
+    min_modifier_boost: float = Field(default=0, ge=0)
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "gear": [
+                    {
+                        "name": "Golden Pan",
+                        "capacity": 100,
+                        "dig_strength": 20,
+                        "shake_strength": 20,
+                        "shake_speed": 600,
+                        "luck": 500,
+                        "size_boost": 50,
+                        "modifier_boost": 100,
+                    }
+                ],
+                "dig_strength": 50,
+                "shake_strength": 50,
+                "shake_speed": 500,
+                "target_capacity": 80,
+                "min_luck": 100,
+                "min_size_boost": 0,
+                "min_modifier_boost": 0,
+            }
+        }
+    }
+
+
+class GearRecommendationResponse(BaseModel):
+    """Scored and ranked gear recommendations."""
+    recommendations: list[dict]
+    r_used: bool
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "recommendations": [
+                    {
+                        "name": "Golden Pan",
+                        "score": 85.5,
+                        "capacity": 100,
+                        "digs_per_pan": 3,
+                        "pans_per_hour": 150.0,
+                    }
+                ],
+                "r_used": False,
+            }
+        }
+    }
+
+
+# =============================================================================
+# LOCATION RECOMMENDATION SCHEMAS
+# =============================================================================
+
+class HuntListRequest(BaseModel):
+    """Request for location recommendations based on a mineral hunt list.
+
+    minerals: List of mineral names the player is hunting for.
+    The endpoint scores each location by how many hunt-list minerals it has,
+    weighted by mineral tier (Exotic > Mythic > ... > Common).
+    """
+    minerals: list[str] = Field(default_factory=list, min_length=1)
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "minerals": ["Diamond", "Gold", "Aetherite", "Void Crystal"]
+            }
+        }
+    }
+
+
+class HuntLocationResult(BaseModel):
+    """Score and hunt details for a single location."""
+    name: str
+    score: float
+    hunt_count: int
+    hunt_weight: float
+    exotic_count: int
+
+
+class HuntRecommendationResponse(BaseModel):
+    """Location recommendations for a mineral hunt list."""
+    recommendations: list[HuntLocationResult]
+    r_used: bool
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "recommendations": [
+                    {
+                        "name": "Crystal Caves",
+                        "score": 75.0,
+                        "hunt_count": 4,
+                        "hunt_weight": 64.0,
+                        "exotic_count": 2,
+                    }
+                ],
+                "r_used": False,
+            }
+        }
+    }
+
+
+class ExoticHuntRequest(BaseModel):
+    """Request for Exotic hunting location recommendations.
+
+    modifier_boost: Player's panel modifier boost.
+    luck: Player's panel luck.
+    solar_magnifier: Whether Solar Magnifier is active.
+    modifier_surge: Whether Modifier Surge is active.
+    """
+    modifier_boost: float = Field(default=0.0, ge=0)
+    luck: float = Field(default=0.0, ge=0)
+    solar_magnifier: bool = False
+    modifier_surge: bool = False
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "modifier_boost": 500,
+                "luck": 10000,
+                "solar_magnifier": True,
+                "modifier_surge": False,
+            }
+        }
+    }
+
+
+class ExoticLocationResult(BaseModel):
+    """Score and Exotic hunting details for a single location."""
+    name: str
+    score: float
+    exotic_rate: float
+    exotic_mod_prob: float
+
+
+class ExoticHuntResponse(BaseModel):
+    """Location recommendations for Exotic modifier hunting."""
+    recommendations: list[ExoticLocationResult]
+    r_used: bool
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "recommendations": [
+                    {
+                        "name": "Void Depths",
+                        "score": 12.5,
+                        "exotic_rate": 0.15,
+                        "exotic_mod_prob": 0.083,
+                    }
+                ],
+                "r_used": False,
+            }
+        }
+    }
+
+
+# =============================================================================
+# LUCK CAP OPTIMIZATION SCHEMAS
+# =============================================================================
+
+class LuckCapOptimizationRequest(BaseModel):
+    """Request to optimize the luck cap for Dredge Master quest completion.
+
+    current_luck: Player's current luck.
+    modifier_boost: Player's panel modifier boost.
+    solar_magnifier: Whether Solar Magnifier is active.
+    modifier_surge: Whether Modifier Surge is active.
+    bonus_interval: Quests between bonus rewards (default 10).
+    n_quests: Number of quests to simulate (default 100).
+    luck_caps: List of luck cap values to evaluate. Defaults to a standard
+        range if not provided.
+    """
+    current_luck: float = Field(default=0.0, ge=0)
+    modifier_boost: float = Field(default=0.0, ge=0)
+    solar_magnifier: bool = False
+    modifier_surge: bool = False
+    bonus_interval: int = Field(default=10, ge=1)
+    n_quests: int = Field(default=100, ge=1, le=10000)
+    luck_caps: list[float] | None = Field(default=None)
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "current_luck": 5000,
+                "modifier_boost": 200,
+                "solar_magnifier": False,
+                "modifier_surge": False,
+                "bonus_interval": 10,
+                "n_quests": 100,
+                "luck_caps": [0, 5000, 10000, 20000, 50000],
+            }
+        }
+    }
+
+
+class LuckCapResult(BaseModel):
+    """Result for a single luck cap evaluation."""
+    luck_cap: float
+    quests_done: int
+    total_time_hours: float
+    bonuses_earned: int
+    bonuses_per_hour: float
+    final_luck: float
+    avg_luck: float
+    optimal: bool
+
+
+class LuckCapOptimizationResponse(BaseModel):
+    """Luck cap optimization results."""
+    recommendations: list[LuckCapResult]
+    optimal_cap: float
+    r_used: bool
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "recommendations": [
+                    {
+                        "luck_cap": 10000,
+                        "quests_done": 100,
+                        "total_time_hours": 45.5,
+                        "bonuses_earned": 10,
+                        "bonuses_per_hour": 0.22,
+                        "final_luck": 8300,
+                        "avg_luck": 6650,
+                        "optimal": True,
+                    }
+                ],
+                "optimal_cap": 10000,
+                "r_used": False,
+            }
+        }
+    }
+
+
+

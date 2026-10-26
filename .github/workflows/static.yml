@@ -28,7 +28,7 @@ jobs:
           npm --version
           npm config get registry
       - name: Install dependencies
-        run: npm ci --verbose
+        run: npm install --legacy-peer-deps
         working-directory: frontend
       - name: Build
         run: npm run build

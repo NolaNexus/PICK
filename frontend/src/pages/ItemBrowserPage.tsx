@@ -1,10 +1,6 @@
-import { useState } from 'react'
-import {
-  useListItemsApiV1ItemsGet,
-  useListItemTypesApiV1ItemsTypesGet,
-  useGetItemApiV1ItemsSlugGet,
-} from '@/api/items/items'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { ItemResponse } from '@/api/pick.schemas'
+import { snapshotCache, type SnapshotData } from '@/lib/snapshot'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useFilterStore } from '@/stores/filterStore'
 import { toast } from '@/components/ui/toast'
@@ -52,34 +48,83 @@ export default function ItemBrowserPage() {
   const [selectedItem, setSelectedItem] = useState<ItemResponse | null>(null)
   const [page, setPage] = useState(1)
   const [size] = useState(20)
+  const [snapshot, setSnapshot] = useState<SnapshotData | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [syncError, setSyncError] = useState<Error | null>(null)
+  const [isSyncing, setIsSyncing] = useState(false)
   const debouncedSearch = useDebounce(searchQuery, 300)
+  const loadedRef = useRef(false)
 
-  const { data: typesData } = useListItemTypesApiV1ItemsTypesGet({
-    query: { refetchInterval: 30_000 },
-  })
-  const types = typesData ?? []
+  useEffect(() => {
+    if (loadedRef.current) return
+    loadedRef.current = true
 
-  const {
-    data,
-    isLoading,
-    error,
-    refetch,
-  } = useListItemsApiV1ItemsGet(
-    {
-      type: itemType || undefined,
-      search: debouncedSearch || undefined,
-      page,
-      size,
-    },
-    { query: { refetchInterval: 30_000 } }
-  )
+    let cancelled = false
+    const load = async () => {
+      setIsLoading(true)
+      setSyncError(null)
+      try {
+        const data = await snapshotCache.fetch(false)
+        if (!cancelled) {
+          setSnapshot(data)
+          setIsLoading(false)
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setSyncError(err instanceof Error ? err : new Error(String(err)))
+          setIsLoading(false)
+        }
+      }
+    }
 
-  const items = (data?.items as ItemResponse[]) ?? []
-  const totalPages = data?.pages ?? 0
+    load()
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
-  const itemDetail = useGetItemApiV1ItemsSlugGet(selectedItem?.slug ?? '', {
-    query: { enabled: !!selectedItem?.slug },
-  })
+  const syncData = useCallback(async () => {
+    setIsSyncing(true)
+    setSyncError(null)
+    try {
+      const data = await snapshotCache.fetch(true)
+      setSnapshot(data)
+      toast.success("Data synced from backend")
+    } catch (err) {
+      const e = err instanceof Error ? err : new Error(String(err))
+      setSyncError(e)
+      toast.error(`Sync failed: ${e.message}`)
+    } finally {
+      setIsSyncing(false)
+    }
+  }, [])
+
+  const items = useMemo(() => {
+    if (!snapshot) return []
+    let list = snapshot.items
+    if (itemType) list = list.filter((i) => i.type === itemType)
+    if (debouncedSearch) {
+      const term = debouncedSearch.toLowerCase()
+      list = list.filter(
+        (i) => i.name.toLowerCase().includes(term) || (i.description ?? "").toLowerCase().includes(term)
+      )
+    }
+    return list.sort((a, b) => a.name.localeCompare(b.name))
+  }, [snapshot, itemType, debouncedSearch])
+
+  const total = items.length
+  const totalPages = Math.max(1, Math.ceil(total / size))
+  const clampedPage = Math.min(Math.max(page, 1), totalPages)
+  const offset = (clampedPage - 1) * size
+  const pageItems = items.slice(offset, offset + size)
+
+  useEffect(() => {
+    if (page !== clampedPage) setPage(clampedPage)
+  }, [clampedPage, page])
+
+  const types = useMemo(() => (snapshot ? snapshotCache.getTypes(snapshot) : []), [snapshot])
+
+  const itemDetail = snapshot && selectedItem ? snapshotCache.getItem(snapshot, selectedItem.slug) : undefined
 
   if (isLoading) {
     return (
@@ -106,8 +151,8 @@ export default function ItemBrowserPage() {
     )
   }
 
-  if (error) {
-    toast.error(`Failed to load items: ${(error as { message?: string }).message ?? String(error)}`)
+  if (syncError) {
+    toast.error(`Failed to load data: ${syncError.message}`)
   }
 
   return (
@@ -116,17 +161,24 @@ export default function ItemBrowserPage() {
         <div className="flex-1">
           <h1 className="text-2xl font-semibold tracking-tight">Item Browser</h1>
           <p className="text-muted-foreground">
-            Browse prospecting items. Data refreshes every 30 seconds.
+            Browse prospecting items. Data is cached locally on your machine.
           </p>
         </div>
         <div className="flex items-center gap-2">
           <Button
-            onClick={() => refetch()}
-            disabled={isLoading}
+            onClick={syncData}
+            disabled={isSyncing}
             variant="outline"
             size="sm"
           >
-            {isLoading ? <Spinner className="h-4 w-4" /> : null} Refresh
+            {isSyncing ? <Spinner className="h-4 w-4" /> : null} Sync
+          </Button>
+          <Button
+            variant={snapshot ? "default" : "outline"}
+            size="sm"
+            disabled={!snapshot}
+          >
+            Local cache: {snapshot ? snapshot.counts.items : 0} items
           </Button>
         </div>
       </div>
@@ -142,7 +194,7 @@ export default function ItemBrowserPage() {
               <div className="flex flex-wrap gap-2">
                 <Button
                   onClick={() => setItemType(null)}
-                  variant={itemType === null ? 'default' : 'outline'}
+                  variant={itemType === null ? "default" : "outline"}
                   size="sm"
                 >
                   All
@@ -151,7 +203,7 @@ export default function ItemBrowserPage() {
                   <Button
                     key={t}
                     onClick={() => setItemType(t)}
-                    variant={itemType === t ? 'default' : 'outline'}
+                    variant={itemType === t ? "default" : "outline"}
                     size="sm"
                   >
                     {t}
@@ -173,7 +225,7 @@ export default function ItemBrowserPage() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            Items ({totalPages > 0 ? data?.total : 0} total)
+            Items ({total} total)
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -188,7 +240,7 @@ export default function ItemBrowserPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {items.map((item) => (
+                {pageItems.map((item) => (
                   <TableRow
                     key={item.id}
                     onClick={() => setSelectedItem(item)}
@@ -211,7 +263,7 @@ export default function ItemBrowserPage() {
                     </TableCell>
                   </TableRow>
                 ))}
-                {items.length === 0 && (
+                {pageItems.length === 0 && (
                   <TableRow>
                     <TableCell colSpan={4} className="text-center text-muted-foreground py-4">
                       No items found.
@@ -224,22 +276,22 @@ export default function ItemBrowserPage() {
           {totalPages > 1 && (
             <div className="flex items-center justify-between mt-4 text-sm">
               <div className="text-muted-foreground">
-                Page {page} of {totalPages}
+                Page {clampedPage} of {totalPages}
               </div>
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
                   size="sm"
-                  disabled={page <= 1}
-                  onClick={() => setPage(page - 1)}
+                  disabled={clampedPage <= 1}
+                  onClick={() => setPage(clampedPage - 1)}
                 >
                   Prev
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
-                  disabled={page >= totalPages}
-                  onClick={() => setPage(page + 1)}
+                  disabled={clampedPage >= totalPages}
+                  onClick={() => setPage(clampedPage + 1)}
                 >
                   Next
                 </Button>
@@ -258,15 +310,7 @@ export default function ItemBrowserPage() {
             <DialogTitle>{selectedItem?.name}</DialogTitle>
             <DialogDescription>{selectedItem?.description}</DialogDescription>
           </DialogHeader>
-          {itemDetail.isLoading ? (
-            <div className="py-4 flex items-center gap-2">
-              <Spinner /> Loading details...
-            </div>
-          ) : itemDetail.error ? (
-            <div className="p-4 text-destructive text-sm">
-              Failed to load details: {(itemDetail.error as { message?: string }).message ?? String(itemDetail.error)}
-            </div>
-          ) : selectedItem && itemDetail.data ? (
+          {selectedItem && itemDetail ? (
             <DialogFooter>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <div>

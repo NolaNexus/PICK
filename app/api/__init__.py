@@ -9,6 +9,9 @@ def register_api_routes(app: FastAPI) -> None:
         calculators as calculators_router,
     )
     from app.api import (
+        export as export_router,
+    )
+    from app.api import (
         formulas as formulas_router,
     )
     from app.api import (
@@ -37,3 +40,4 @@ def register_api_routes(app: FastAPI) -> None:
     app.include_router(meta_router.router, prefix=f"{api_prefix}/meta", tags=["meta"])
     app.include_router(webhooks_router.router, prefix=f"{api_prefix}/webhooks", tags=["webhooks"])
     app.include_router(search_router.router, prefix=f"{api_prefix}/search", tags=["search"])
+    app.include_router(export_router.router, prefix=f"{api_prefix}/export", tags=["export"])

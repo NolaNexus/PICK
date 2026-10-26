@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { snapshotCache } from '@/lib/snapshot'
 import { useDebounce } from '@/hooks/useDebounce'
-import { useSearchApiV1SearchGet } from '@/api/search/search'
-import type { PaginatedResponse } from '@/api/pick.schemas'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Input } from '@/components/ui/input'
@@ -15,38 +14,95 @@ export default function SearchPage() {
   const [size] = useState(15)
   const [type, setType] = useState<string | null>(null)
   const [location, setLocation] = useState('')
+  const [snapshot, setSnapshot] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [syncError, setSyncError] = useState<Error | null>(null)
+  const [isSyncing, setIsSyncing] = useState(false)
   const debounced = useDebounce(query, 300)
+  const loadedRef = useRef(false)
+
+  useEffect(() => {
+    if (loadedRef.current) return
+    loadedRef.current = true
+
+    let cancelled = false
+    const load = async () => {
+      setIsLoading(true)
+      setSyncError(null)
+      try {
+        const data = await snapshotCache.fetch(false)
+        if (!cancelled) {
+          setSnapshot(data)
+          setIsLoading(false)
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setSyncError(err instanceof Error ? err : new Error(String(err)))
+          setIsLoading(false)
+        }
+      }
+    }
+
+    load()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const syncData = useCallback(async () => {
+    setIsSyncing(true)
+    setSyncError(null)
+    try {
+      const data = await snapshotCache.fetch(true)
+      setSnapshot(data)
+      toast.success("Search index synced")
+    } catch (err) {
+      const e = err instanceof Error ? err : new Error(String(err))
+      setSyncError(e)
+      toast.error(`Sync failed: ${e.message}`)
+    } finally {
+      setIsSyncing(false)
+    }
+  }, [])
+
+  const types = useMemo(() => {
+    if (!snapshot) return []
+    return snapshotCache.getTypes(snapshot)
+  }, [snapshot])
+
   const hasQuery = debounced.length >= 2
 
-  const { data, isLoading, error, refetch } = useSearchApiV1SearchGet(
-    {
-      q: debounced,
-      type: type || undefined,
-      location: location || undefined,
-      page,
-      size,
-    },
-    { query: { enabled: hasQuery } }
-  )
+  const results = useMemo(() => {
+    if (!snapshot || !hasQuery) return []
+    return snapshotCache.searchItems(snapshot, debounced, type || undefined, location || undefined)
+  }, [snapshot, debounced, type, location, hasQuery])
 
-  const paginated = data as PaginatedResponse | undefined
-  const results = (paginated?.items as { id: number; name: string; type: string }[]) ?? []
-  const totalPages = paginated?.pages ?? 0
+  const total = results.length
+  const totalPages = Math.max(1, Math.ceil(total / size))
+  const clampedPage = Math.min(Math.max(page, 1), totalPages)
+  const offset = (clampedPage - 1) * size
+  const pageResults = results.slice(offset, offset + size)
+
+  useEffect(() => {
+    if (page !== clampedPage) setPage(clampedPage)
+  }, [clampedPage, page])
+
   const isEmpty = hasQuery && results.length === 0
-  const canPrev = page > 1
-  const canNext = totalPages > page
+  const canPrev = clampedPage > 1
+  const canNext = clampedPage < totalPages
 
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <h1 className="text-2xl font-semibold">Search</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Search</h1>
+        <p className="text-muted-foreground">Full-text search across items.</p>
         <div className="h-32 w-full bg-muted rounded animate-pulse" />
       </div>
     )
   }
 
-  if (error) {
-    toast.error(`Search failed: ${(error as { message?: string }).message ?? String(error)}`)
+  if (syncError) {
+    toast.error(`Failed to load search index: ${syncError.message}`)
   }
 
   return (
@@ -54,7 +110,12 @@ export default function SearchPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Search</h1>
-          <p className="text-muted-foreground">Full-text search across items.</p>
+          <p className="text-muted-foreground">Full-text search across items. Data cached locally.</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button onClick={syncData} disabled={isSyncing} variant="outline" size="sm">
+            {isSyncing ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-current" /> : null} Sync
+          </Button>
         </div>
       </div>
 
@@ -77,11 +138,25 @@ export default function SearchPage() {
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Type</label>
-              <Input
-                placeholder="e.g. pan"
-                value={type ?? ''}
-                onChange={(e) => setType(e.target.value || null)}
-              />
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  onClick={() => setType(null)}
+                  variant={type === null ? 'default' : 'outline'}
+                  size="sm"
+                >
+                  All
+                </Button>
+                {types.map((t) => (
+                  <Button
+                    key={t}
+                    onClick={() => setType(t)}
+                    variant={type === t ? 'default' : 'outline'}
+                    size="sm"
+                  >
+                    {t}
+                  </Button>
+                ))}
+              </div>
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Location</label>
@@ -92,7 +167,7 @@ export default function SearchPage() {
               />
             </div>
             <div className="flex items-end">
-              <Button onClick={() => refetch()} disabled={!hasQuery || isLoading}>
+              <Button onClick={() => setPage(1)} disabled={!hasQuery || isSyncing}>
                 Search
               </Button>
             </div>
@@ -103,7 +178,7 @@ export default function SearchPage() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            Results ({paginated?.total ?? 0})
+            Results ({total})
             {isEmpty && <span className="text-sm text-muted-foreground">No matches</span>}
           </CardTitle>
         </CardHeader>
@@ -125,7 +200,7 @@ export default function SearchPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {results.map((item) => (
+                  {pageResults.map((item) => (
                     <TableRow key={item.id} className="cursor-pointer hover:bg-muted/30">
                       <TableCell className="font-medium">{item.name}</TableCell>
                       <TableCell>
@@ -150,13 +225,13 @@ export default function SearchPage() {
           )}
           {hasQuery && totalPages > 1 && (
             <div className="flex items-center justify-between mt-4 text-sm">
-              <div className="text-muted-foreground">Page {page} of {totalPages}</div>
+              <div className="text-muted-foreground">Page {clampedPage} of {totalPages}</div>
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
                   size="sm"
                   disabled={!canPrev}
-                  onClick={() => setPage(page - 1)}
+                  onClick={() => setPage(clampedPage - 1)}
                 >
                   Prev
                 </Button>
@@ -164,7 +239,7 @@ export default function SearchPage() {
                   variant="outline"
                   size="sm"
                   disabled={!canNext}
-                  onClick={() => setPage(page + 1)}
+                  onClick={() => setPage(clampedPage + 1)}
                 >
                   Next
                 </Button>

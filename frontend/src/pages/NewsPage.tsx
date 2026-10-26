@@ -1,11 +1,7 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { formatDistance } from 'date-fns'
-import {
-  useListNewsApiV1NewsGet,
-  useLatestNewsApiV1NewsLatestGet,
-  useListNewsTagsApiV1NewsTagsGet,
-} from '@/api/news/news'
-import type { PaginatedResponse } from '@/api/pick.schemas'
+import { snapshotCache } from '@/lib/snapshot'
+import type { SnapshotNews } from '@/lib/snapshot'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
@@ -13,43 +9,113 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { toast } from '@/components/ui/toast'
 
-type NewsItem = {
-  id: number
-  title: string
-  author?: string | null
-  score?: number | null
-  posted_at?: string | null
-  tags?: string[]
-}
 
 export default function NewsPage() {
   const [tag, setTag] = useState<string | null>(null)
   const [query, setQuery] = useState('')
   const [page, setPage] = useState(1)
   const [size] = useState(15)
+  const [snapshot, setSnapshot] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [syncError, setSyncError] = useState<Error | null>(null)
+  const [isSyncing, setIsSyncing] = useState(false)
+  const loadedRef = useRef(false)
 
-  const { data: latestData, isLoading: latestLoading } = useLatestNewsApiV1NewsLatestGet(
-    { limit: 5 },
-    { query: { refetchInterval: 60_000 } }
-  )
+  useEffect(() => {
+    if (loadedRef.current) return
+    loadedRef.current = true
 
-  const { data, isLoading, error, refetch } = useListNewsApiV1NewsGet(
-    { tag, page, size },
-    { query: { refetchInterval: 60_000 } }
-  )
+    let cancelled = false
+    const load = async () => {
+      setIsLoading(true)
+      setSyncError(null)
+      try {
+        const data = await snapshotCache.fetch(false)
+        if (!cancelled) {
+          setSnapshot(data)
+          setIsLoading(false)
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setSyncError(err instanceof Error ? err : new Error(String(err)))
+          setIsLoading(false)
+        }
+      }
+    }
 
-  const { data: tagsData } = useListNewsTagsApiV1NewsTagsGet({
-    query: { refetchInterval: 60_000 },
-  })
+    load()
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
-  const paginated = data as PaginatedResponse | undefined
-  const news = (paginated?.items as NewsItem[]) ?? []
-  const totalPages = paginated?.pages ?? 0
+  const syncData = useCallback(async () => {
+    setIsSyncing(true)
+    setSyncError(null)
+    try {
+      const data = await snapshotCache.fetch(true)
+      setSnapshot(data)
+      toast.success("News synced")
+    } catch (err) {
+      const e = err instanceof Error ? err : new Error(String(err))
+      setSyncError(e)
+      toast.error(`Sync failed: ${e.message}`)
+    } finally {
+      setIsSyncing(false)
+    }
+  }, [])
 
-  if (isLoading || latestLoading) {
+  const allNews = useMemo(() => {
+    if (!snapshot) return []
+    let list = snapshot.news as SnapshotNews[]
+    if (tag) list = list.filter((n) => (n.tags ?? []).includes(tag))
+    if (query) {
+      const q = query.toLowerCase()
+      list = list.filter((n) => n.title.toLowerCase().includes(q))
+    }
+    return list.sort((a, b) => {
+      const pa = new Date(a.published_at ?? 0).getTime()
+      const pb = new Date(b.published_at ?? 0).getTime()
+      return pb - pa
+    })
+  }, [snapshot, tag, query])
+
+  const latest = useMemo(() => {
+    if (!snapshot) return []
+    return [...(snapshot.news as SnapshotNews[])]
+      .sort((a, b) => {
+        const pa = new Date(a.published_at ?? 0).getTime()
+        const pb = new Date(b.published_at ?? 0).getTime()
+        return pb - pa
+      })
+      .slice(0, 5)
+  }, [snapshot])
+
+  const news = useMemo(() => {
+    if (!allNews) return []
+    const start = (page - 1) * size
+    return allNews.slice(start, start + size)
+  }, [allNews, page, size])
+
+  const totalPages = useMemo(() => {
+    if (!allNews) return 1
+    return Math.max(1, Math.ceil(allNews.length / size))
+  }, [allNews, size])
+
+  const tags = useMemo(() => {
+    if (!snapshot) return []
+    const tagSet = new Set<string>()
+    for (const n of snapshot.news as SnapshotNews[]) {
+      for (const t of n.tags ?? []) tagSet.add(t)
+    }
+    return Array.from(tagSet).sort()
+  }, [snapshot])
+
+  if (isLoading) {
     return (
       <div className="space-y-4">
-        <h1 className="text-2xl font-semibold">News Feed</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">News Feed</h1>
+        <p className="text-muted-foreground">Community news from Reddit.</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <div key={i} className="h-32 bg-muted rounded animate-pulse" />
@@ -59,8 +125,8 @@ export default function NewsPage() {
     )
   }
 
-  if (error) {
-    toast.error(`Failed to load news: ${(error as { message?: string }).message ?? String(error)}`)
+  if (syncError) {
+    toast.error(`Failed to load news: ${syncError.message}`)
   }
 
   return (
@@ -68,10 +134,10 @@ export default function NewsPage() {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">News Feed</h1>
-          <p className="text-muted-foreground">Community news from Reddit.</p>
+          <p className="text-muted-foreground">Community news from Reddit. Data cached locally.</p>
         </div>
-        <Button onClick={() => refetch()} variant="outline" size="sm">
-          Refresh
+        <Button onClick={syncData} disabled={isSyncing} variant="outline" size="sm">
+          {isSyncing ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-current" /> : null} Sync
         </Button>
       </div>
 
@@ -111,8 +177,8 @@ export default function NewsPage() {
                           {item.score ?? 0}
                         </TableCell>
                         <TableCell className="text-muted-foreground text-sm">
-                          {item.posted_at
-                            ? formatDistance(new Date(item.posted_at), new Date(), { addSuffix: true })
+                          {item.published_at
+                            ? formatDistance(new Date(item.published_at), new Date(), { addSuffix: true })
                             : '—'}
                         </TableCell>
                         <TableCell>
@@ -168,18 +234,18 @@ export default function NewsPage() {
             </CardHeader>
             <CardContent className="py-3">
               <div className="space-y-3">
-                {(latestData as NewsItem[] | undefined ?? []).map((item) => (
+                {latest.map((item) => (
                   <div key={item.id} className="flex gap-3">
                     <div className="flex-shrink-0 h-8 w-8 rounded bg-muted" />
                     <div className="flex-1">
                       <div className="text-sm font-medium">{item.title}</div>
                       <div className="text-xs text-muted-foreground">
-                        {item.author ?? '—'} · {item.posted_at ? formatDistance(new Date(item.posted_at), new Date(), { addSuffix: true }) : '—'}
+                        {item.author ?? '—'} · {item.published_at ? formatDistance(new Date(item.published_at), new Date(), { addSuffix: true }) : '—'}
                       </div>
                     </div>
                   </div>
                 ))}
-                {!(latestData as NewsItem[] | undefined ?? []).length && (
+                {!latest.length && (
                   <div className="text-xs text-muted-foreground">No latest news.</div>
                 )}
               </div>
@@ -199,7 +265,7 @@ export default function NewsPage() {
                 >
                   All
                 </Button>
-                {(tagsData as string[] | undefined ?? []).map((t) => (
+                {tags.map((t) => (
                   <Button
                     key={t}
                     onClick={() => setTag(t)}

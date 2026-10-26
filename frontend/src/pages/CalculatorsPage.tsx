@@ -3,18 +3,20 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import {
-  useCalculateEvEndpointApiV1CalculatorsEvPost,
-  useCalculateTtgEndpointApiV1CalculatorsTtgPost,
-  useCalculateModifierOddsEndpointApiV1CalculatorsModifierOddsPost,
-  useCalculateBestPanEndpointApiV1CalculatorsBestPanPost,
-  useCalculateMuseumEndpointApiV1CalculatorsMuseumPost,
-} from '../api/calculators/calculators'
+  calculateEV,
+  calculateTTG,
+  calculateModifierOdds,
+  calculateBestPan,
+} from '@/lib/calculators'
+import {
+  calculateMuseumOptimizer,
+} from '@/lib/museum'
+import { snapshotCache } from '@/lib/snapshot'
+import type { SnapshotData } from '@/lib/snapshot'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Spinner } from '@/components/ui/spinner'
-import { toast } from '@/components/ui/toast'
 import {
   Table,
   TableBody,
@@ -67,7 +69,9 @@ const museumSchema = z.object({
   mode: z.enum(['optimize', 'project', 'weight_gate', 'unlock_cost']).default('optimize'),
 })
 
-type FieldError = { message?: string }
+type EvRow = { name: string; base_price: number; base_weight: number; rarity: string }
+type BpgPan = { name: string; capacity: number; dig_strength: number; shake_strength: number; shake_speed: number; luck: number; size_boost: number; modifier_boost: number }
+type MuseumOre = { name: string; rarity: string; kg: number; modifier: string | null }
 
 function statRow(label: string, value: React.ReactNode) {
   return (
@@ -77,10 +81,6 @@ function statRow(label: string, value: React.ReactNode) {
     </div>
   )
 }
-
-type EvRow = { name: string; base_price: number; base_weight: number; rarity: string }
-type BpgPan = { name: string; capacity: number; dig_strength: number; shake_strength: number; shake_speed: number; luck: number; size_boost: number; modifier_boost: number }
-type MuseumOre = { name: string; rarity: string; kg: number; modifier: string | null }
 
 export default function CalculatorsPage() {
   const [activeTab, setActiveTab] = useState('ev')
@@ -94,12 +94,6 @@ export default function CalculatorsPage() {
   ])
   const [evResult, setEvResult] = useState<any>(null)
   const [evSubmitting, setEvSubmitting] = useState(false)
-  const evMutation = useCalculateEvEndpointApiV1CalculatorsEvPost({
-    mutation: {
-      onSuccess: (res) => setEvResult((res as any)?.data ?? res),
-      onError: (err: FieldError) => toast.error(err?.message ?? 'EV calculation failed'),
-    },
-  })
 
   const ttgForm = useForm<z.infer<typeof ttgSchema>>({
     resolver: zodResolver(ttgSchema),
@@ -107,12 +101,6 @@ export default function CalculatorsPage() {
   })
   const [ttgResult, setTtgResult] = useState<any>(null)
   const [ttgSubmitting, setTtgSubmitting] = useState(false)
-  const ttgMutation = useCalculateTtgEndpointApiV1CalculatorsTtgPost({
-    mutation: {
-      onSuccess: (res) => setTtgResult((res as any)?.data ?? res),
-      onError: (err: FieldError) => toast.error(err?.message ?? 'TTG calculation failed'),
-    },
-  })
 
   const morForm = useForm<z.infer<typeof morSchema>>({
     resolver: zodResolver(morSchema),
@@ -120,12 +108,6 @@ export default function CalculatorsPage() {
   })
   const [morResult, setMorResult] = useState<any>(null)
   const [morSubmitting, setMorSubmitting] = useState(false)
-  const morMutation = useCalculateModifierOddsEndpointApiV1CalculatorsModifierOddsPost({
-    mutation: {
-      onSuccess: (res) => setMorResult((res as any)?.data ?? res),
-      onError: (err: FieldError) => toast.error(err?.message ?? 'Modifier odds calculation failed'),
-    },
-  })
 
   const bpgForm = useForm<z.infer<typeof bpgSchema>>({
     resolver: zodResolver(bpgSchema),
@@ -136,12 +118,6 @@ export default function CalculatorsPage() {
   ])
   const [bpgResult, setBpgResult] = useState<any>(null)
   const [bpgSubmitting, setBpgSubmitting] = useState(false)
-  const bpgMutation = useCalculateBestPanEndpointApiV1CalculatorsBestPanPost({
-    mutation: {
-      onSuccess: (res) => setBpgResult((res as any)?.data ?? res),
-      onError: (err: FieldError) => toast.error(err?.message ?? 'Best pan calculation failed'),
-    },
-  })
 
   const museumForm = useForm<z.infer<typeof museumSchema>>({
     resolver: zodResolver(museumSchema),
@@ -152,12 +128,8 @@ export default function CalculatorsPage() {
   ])
   const [museumResult, setMuseumResult] = useState<any>(null)
   const [museumSubmitting, setMuseumSubmitting] = useState(false)
-  const museumMutation = useCalculateMuseumEndpointApiV1CalculatorsMuseumPost({
-    mutation: {
-      onSuccess: (res) => setMuseumResult((res as any)?.data ?? res),
-      onError: (err: FieldError) => toast.error(err?.message ?? 'Museum calculation failed'),
-    },
-  })
+
+  const [snapshot, setSnapshot] = useState<SnapshotData | null>(null)
 
   const addEvRow = () => setEvDropTable([...evDropTable, { name: '', base_price: 0, base_weight: 1, rarity: 'common' }])
   const setEvRow = (i: number, field: keyof EvRow, value: string | number) => {
@@ -167,17 +139,75 @@ export default function CalculatorsPage() {
   }
   const handleEvSubmit = async (values: z.infer<typeof evSchema>) => {
     setEvSubmitting(true)
-    try { await evMutation.mutateAsync({ data: { ...values, location_drop_table: evDropTable } as any }) } finally { setEvSubmitting(false) }
+    try {
+      const result = calculateEV({
+        locationDropTable: evDropTable.map((r) => ({ base_price: r.base_price, base_weight: r.base_weight, rarity: r.rarity })),
+        luck: values.luck,
+        modifierBoost: values.modifier_boost,
+        quality: values.quality,
+        autopan: values.autopan,
+        masteredShovel: values.mastered_shovel,
+        solarMagnifier: values.solar_magnifier,
+        modifierSurge: values.modifier_surge,
+        capacity: values.capacity,
+      })
+      setEvResult({
+        ev_per_pan: result.evPerPan,
+        items_per_pan: result.itemsPerPan,
+        quality_multiplier: result.qualityMultiplier,
+        effective_modifier_boost: result.effectiveModifierBoost,
+        modifier_distribution: result.modifierDistribution,
+        pct_modified: result.pctModified,
+      })
+    } finally {
+      setEvSubmitting(false)
+    }
   }
 
   const handleTtgSubmit = async (values: z.infer<typeof ttgSchema>) => {
     setTtgSubmitting(true)
-    try { await ttgMutation.mutateAsync({ data: values as any }) } finally { setTtgSubmitting(false) }
+    try {
+      const result = calculateTTG({
+        goalValue: values.goal_value,
+        locationEvPerPan: values.location_ev_per_pan,
+        capacity: values.capacity,
+        digStrength: values.dig_strength,
+        digSpeed: values.dig_speed,
+        shakeStrength: values.shake_strength,
+        shakeSpeed: values.shake_speed,
+      })
+      setTtgResult({
+        hours_to_goal: result.hoursToGoal,
+        pans_per_hour: result.pansPerHour,
+        ev_per_hour: result.evPerHour,
+        ev_per_pan: result.evPerPan,
+        digs_per_pan: result.digsPerPan,
+        dig_time_per_dig: result.digTimePerDig,
+        shake_time: result.shakeTime,
+      })
+    } finally {
+      setTtgSubmitting(false)
+    }
   }
 
   const handleMorSubmit = async (values: z.infer<typeof morSchema>) => {
     setMorSubmitting(true)
-    try { await morMutation.mutateAsync({ data: values as any }) } finally { setMorSubmitting(false) }
+    try {
+      const result = calculateModifierOdds({
+        panelModifierBoost: values.panel_modifier_boost,
+        solarMagnifier: values.solar_magnifier,
+        modifierSurge: values.modifier_surge,
+      })
+      setMorResult({
+        effective_modifier_boost_job1: result.effectiveModifierBoostJob1,
+        effective_modifier_boost_job2: result.effectiveModifierBoostJob2,
+        pct_ores_modified: result.pctOresModified,
+        modifier_distribution: result.modifierDistribution,
+        note: result.note,
+      })
+    } finally {
+      setMorSubmitting(false)
+    }
   }
 
   const setBpgPan = (i: number, field: keyof BpgPan, value: string | number) => {
@@ -188,7 +218,50 @@ export default function CalculatorsPage() {
   const addBpgPan = () => setBpgPans([...bpgPans, { name: '', capacity: 50, dig_strength: 10, shake_strength: 10, shake_speed: 100, luck: 0, size_boost: 0, modifier_boost: 0 }])
   const handleBpgSubmit = async (values: z.infer<typeof bpgSchema>) => {
     setBpgSubmitting(true)
-    try { await bpgMutation.mutateAsync({ data: { ...values, pans: bpgPans } as any }) } finally { setBpgSubmitting(false) }
+    try {
+      const result = calculateBestPan({
+        pans: bpgPans.map((p) => ({
+          name: p.name,
+          capacity: p.capacity,
+          digStrength: p.dig_strength,
+          shakeStrength: p.shake_strength,
+          shakeSpeed: p.shake_speed,
+          luck: p.luck,
+          sizeBoost: p.size_boost,
+          modifierBoost: p.modifier_boost,
+          data: {
+            capacity: p.capacity,
+            dig_strength: p.dig_strength,
+            shake_strength: p.shake_strength,
+            shake_speed: p.shake_speed,
+            luck: p.luck,
+            size_boost: p.size_boost,
+            modifier_boost: p.modifier_boost,
+          },
+        })),
+        digStrength: values.dig_strength,
+        shakeStrength: values.shake_strength,
+        shakeSpeed: values.shake_speed,
+        targetCapacity: values.target_capacity || undefined,
+        minLuck: values.min_luck || undefined,
+        minSizeBoost: values.min_size_boost || undefined,
+        minModifierBoost: values.min_modifier_boost || undefined,
+      })
+      setBpgResult({
+        criteria: result.criteria,
+        recommendations: result.recommendations.map((rec) => ({
+          pan: rec.pan,
+          score: rec.score,
+          capacity: rec.capacity,
+          pans_per_hour: rec.pansPerHour,
+          luck: rec.luck,
+          size_boost: rec.sizeBoost,
+          modifier_boost: rec.modifierBoost,
+        })),
+      })
+    } finally {
+      setBpgSubmitting(false)
+    }
   }
 
   const setMuseumOre = (i: number, field: keyof MuseumOre, value: string | number | null) => {
@@ -199,7 +272,72 @@ export default function CalculatorsPage() {
   const addMuseumOre = () => setMuseumOres([...museumOres, { name: '', rarity: 'common', kg: 0, modifier: null }])
   const handleMuseumSubmit = async (values: z.infer<typeof museumSchema>) => {
     setMuseumSubmitting(true)
-    try { await museumMutation.mutateAsync({ data: { ...values, available_ores: museumOres } as any }) } finally { setMuseumSubmitting(false) }
+    try {
+      // Build ore database from snapshot items (matched by name + rarity)
+      const oreDb: Record<string, Record<string, unknown>> = {}
+      if (snapshot) {
+        const items = snapshotCache.getItems(snapshot)
+        for (const item of items) {
+          const data = item.data as Record<string, unknown> | undefined
+          const rarity = data?.rarity as string | undefined
+          if (rarity) {
+            oreDb[`${item.name}|${rarity}`] = data ?? {}
+          }
+        }
+      }
+
+      // Also add user-entered ores to the database (their data is minimal)
+      for (const ore of museumOres) {
+        if (!oreDb[`${ore.name}|${ore.rarity}`]) {
+          oreDb[`${ore.name}|${ore.rarity}`] = { rarity: ore.rarity }
+        }
+      }
+
+      const result = calculateMuseumOptimizer({
+        availableOres: museumOres.map((o) => ({ name: o.name, rarity: o.rarity, kg: o.kg, modifier: o.modifier ?? undefined })),
+        unlockedDisplays: [],
+        targetStats: {},
+        sizeBoost: values.size_boost,
+      })
+
+      setMuseumResult({
+        slot_recommendations: result.slot_recommendations.map((rec) => ({
+          slot_id: rec.slot_id,
+          rarity: rec.rarity,
+          slot_index: rec.slot_index,
+          current_ore: rec.current_ore,
+          current_kg: rec.current_kg,
+          current_modifier: rec.current_modifier,
+          current_boost: rec.current_boost,
+          best_available_ore: rec.best_available_ore,
+          best_available_kg: rec.best_available_kg,
+          best_available_modifier: rec.best_available_modifier,
+          best_boost: rec.best_boost,
+          stat_deltas: rec.stat_deltas,
+          recommendation: rec.recommendation,
+        })),
+        total_stats: result.total_stats,
+        by_rarity: result.by_rarity,
+        unlock_costs: result.unlock_costs,
+        weight_gate_info: result.weight_gate_info,
+      })
+    } finally {
+      setMuseumSubmitting(false)
+    }
+  }
+
+  // Load snapshot for museum ore database
+  const loadSnapshot = async () => {
+    try {
+      const data = await snapshotCache.fetch(false)
+      setSnapshot(data)
+    } catch {
+      // Non-fatal; museum will use empty ore DB
+    }
+  }
+
+  if (activeTab === 'museum' && !snapshot) {
+    void loadSnapshot()
   }
 
   return (
@@ -207,7 +345,7 @@ export default function CalculatorsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Calculators</h1>
-          <p className="text-muted-foreground">Prospecting calculators backed by the API.</p>
+          <p className="text-muted-foreground">Prospecting calculators. Runs entirely in your browser.</p>
         </div>
       </div>
 
@@ -284,7 +422,7 @@ export default function CalculatorsPage() {
                   </CardContent>
                 </Card>
                 <Button type="submit" className="w-full" disabled={evSubmitting}>
-                  {evSubmitting ? <Spinner className="h-4 w-4 mr-2" /> : null} Calculate EV
+                  {evSubmitting ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-current mr-2" /> : null} Calculate EV
                 </Button>
               </div>
             </div>
@@ -314,7 +452,7 @@ export default function CalculatorsPage() {
               <Input {...ttgForm.register('shake_strength')} type="number" placeholder="Shake strength" />
               <Input {...ttgForm.register('shake_speed')} type="number" placeholder="Shake speed" />
               <Button type="submit" className="w-full" disabled={ttgSubmitting}>
-                {ttgSubmitting ? <Spinner className="h-4 w-4 mr-2" /> : null} Calculate TTG
+                {ttgSubmitting ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-current mr-2" /> : null} Calculate TTG
               </Button>
             </div>
             {ttgResult && (
@@ -347,7 +485,7 @@ export default function CalculatorsPage() {
                 <label htmlFor="morSurge" className="text-sm">Modifier surge</label>
               </div>
               <Button type="submit" className="w-full" disabled={morSubmitting}>
-                {morSubmitting ? <Spinner className="h-4 w-4 mr-2" /> : null} Calculate Odds
+                {morSubmitting ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-current mr-2" /> : null} Calculate Odds
               </Button>
             </div>
             {morResult && (
@@ -420,7 +558,7 @@ export default function CalculatorsPage() {
                   </CardContent>
                 </Card>
                 <Button type="submit" className="w-full" disabled={bpgSubmitting}>
-                  {bpgSubmitting ? <Spinner className="h-4 w-4 mr-2" /> : null} Find Best Pan
+                  {bpgSubmitting ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-current mr-2" /> : null} Find Best Pan
                 </Button>
               </div>
             </div>
@@ -502,7 +640,7 @@ export default function CalculatorsPage() {
                   </CardContent>
                 </Card>
                 <Button type="submit" className="w-full" disabled={museumSubmitting}>
-                  {museumSubmitting ? <Spinner className="h-4 w-4 mr-2" /> : null} Calculate Museum
+                  {museumSubmitting ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-current mr-2" /> : null} Calculate Museum
                 </Button>
               </div>
             </div>
@@ -517,7 +655,7 @@ export default function CalculatorsPage() {
                         {museumResult.slot_recommendations.map((rec: any, i: number) => (
                           <div key={i} className="flex justify-between">
                             <span className="text-muted-foreground">{rec.slot_id ?? `Slot ${i + 1}`}</span>
-                            <span>{rec.recommended_ore ?? '—'}</span>
+                            <span>{rec.recommended_ore ?? rec.best_available_ore ?? '—'}</span>
                           </div>
                         ))}
                       </div>

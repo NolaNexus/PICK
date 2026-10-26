@@ -34,9 +34,6 @@ jobs:
         workdir: frontend
       - name: Build
         run: npm run build
-        env:
-          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
-          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
         workdir: frontend
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

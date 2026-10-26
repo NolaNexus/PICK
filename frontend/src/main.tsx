@@ -1,10 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <div style={{ padding: '20px' }}>
+      <h1>Hello from main.tsx directly</h1>
+      <p>If you see this, React is working.</p>
+    </div>
   </StrictMode>,
 )

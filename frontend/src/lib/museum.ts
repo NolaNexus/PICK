@@ -1,7 +1,11 @@
 /**
  * Museum calculator math ported from app/services/calculators.py
- * Pure TypeScript — no external dependencies.
+ * Uses Decimal.js for precise tiny-probability arithmetic.
  */
+
+import Decimal from 'decimal.js'
+
+Decimal.set({ precision: 50, rounding: 4 })
 
 // Display configuration: rarity -> {free, locked_money, locked_shards, total}
 export const MUSEUM_DISPLAYS: Record<string, { free: number; locked_money: number; locked_shards: number; total: number }> = {
@@ -12,10 +16,10 @@ export const MUSEUM_DISPLAYS: Record<string, { free: number; locked_money: numbe
 	Legendary: { free: 1, locked_money: 1, locked_shards: 1, total: 3 },
 	Mythic: { free: 0, locked_money: 1, locked_shards: 1, total: 2 },
 	Exotic: { free: 0, locked_money: 0, locked_shards: 1, total: 1 },
-};
+}
 
 // Rarity display order
-export const RARITY_ORDER = ["Common", "Uncommon", "Rare", "Epic", "Legendary", "Mythic", "Exotic"];
+export const RARITY_ORDER = ["Common", "Uncommon", "Rare", "Epic", "Legendary", "Mythic", "Exotic"]
 
 // Modifier base bonuses (from Stat Systems Guide)
 export const MODIFIER_BASE_BONUSES: Record<string, Record<string, number>> = {
@@ -33,7 +37,7 @@ export const MODIFIER_BASE_BONUSES: Record<string, Record<string, number>> = {
 	Glowing: { "Shake Speed": 1 },
 	Pure: { "Dig Speed": 1 },
 	Shiny: { "Shake Strength": 1 },
-};
+}
 
 // Rarity multipliers for modifier riders
 export const MODIFIER_RARITY_MULTIPLIERS: Record<string, number> = {
@@ -44,86 +48,84 @@ export const MODIFIER_RARITY_MULTIPLIERS: Record<string, number> = {
 	Legendary: 0.03,
 	Mythic: 0.05,
 	Exotic: 0.08,
-};
+}
 
 export function getModifierRider(modifier: string | null | undefined, rarity: string): Record<string, number> {
 	if (!modifier) {
-		return {};
+		return {}
 	}
 
-	const base = MODIFIER_BASE_BONUSES[modifier];
+	const base = MODIFIER_BASE_BONUSES[modifier]
 	if (!base) {
-		return {};
+		return {}
 	}
 
-	const multiplier = MODIFIER_RARITY_MULTIPLIERS[rarity] ?? 0;
-
+	const multiplier = new Decimal(MODIFIER_RARITY_MULTIPLIERS[rarity] ?? 0)
 	// Treasured gives 2x the amounts
-	const effectiveMultiplier = modifier === "Treasured" ? multiplier * 2 : multiplier;
+	const effectiveMultiplier = modifier === "Treasured" ? multiplier.times(2) : multiplier
 
-	const result: Record<string, number> = {};
+	const result: Record<string, number> = {}
 	for (const [stat, value] of Object.entries(base)) {
-		result[stat] = value * effectiveMultiplier;
+		result[stat] = new Decimal(value).times(effectiveMultiplier).toNumber()
 	}
 
-	return result;
+	return result
 }
 
 export function weightFactor(kg: number, minKg: number): number {
 	if (minKg <= 0) {
-		return 1.0;
+		return 1.0
 	}
 	if (kg >= minKg) {
-		return 1.0;
+		return 1.0
 	}
-	return kg / minKg;
+	return new Decimal(kg).div(minKg).toNumber()
 }
 
 export function parseBonusStat(bonusStr: string | null | undefined): [string, number][] {
 	if (!bonusStr) {
-		return [];
+		return []
 	}
 
-	const stats: [string, number][] = [];
-	const parts = bonusStr.replace("{{Stat|", "").replace("}}", "").split(",");
+	const stats: [string, number][] = []
+	const parts = bonusStr.replace("{{Stat|", "").replace("}}", "").split(",")
 	for (const part of parts) {
-		const trimmed = part.trim();
+		const trimmed = part.trim()
 		if (!trimmed) {
-			continue;
+			continue
 		}
 
-		let multiplier = 1.0;
-		let stat = trimmed;
+		let multiplier = 1.0
+		let stat = trimmed
 
 		if (trimmed.startsWith("+")) {
-			stat = trimmed.slice(1).trim();
+			stat = trimmed.slice(1).trim()
 		} else if (trimmed.startsWith("-")) {
-			stat = trimmed.slice(1).trim();
-			multiplier = -1.0;
+			stat = trimmed.slice(1).trim()
+			multiplier = -1.0
 		}
 
-		// Handle "0.25×" format
 		if (stat.includes("×")) {
-			const [statPart, multPart] = stat.split("×");
-			stat = statPart.trim();
+			const [statPart, multPart] = stat.split("×")
+			stat = statPart.trim()
 			try {
-				multiplier = parseFloat(multPart.replace("×", "").trim());
+				multiplier = new Decimal(multPart.replace("×", "").trim()).toNumber()
 			} catch {
-				multiplier = 1.0;
+				multiplier = 1.0
 			}
 		}
 
-		stats.push([stat, multiplier]);
+		stats.push([stat, multiplier])
 	}
 
-	return stats;
+	return stats
 }
 
 export interface OreData {
-	min_kg?: number;
-	bonus_stat?: string;
-	max_boost?: string | number;
-	[key: string]: unknown;
+	min_kg?: number
+	bonus_stat?: string
+	max_boost?: string | number
+	[key: string]: unknown
 }
 
 export function calculateEffectiveBoost(
@@ -132,198 +134,201 @@ export function calculateEffectiveBoost(
 	modifier: string | null | undefined,
 	rarity: string
 ): Record<string, number> {
-	const minKg = (oreData.min_kg as number) ?? 0;
-	const bonusStr = (oreData.bonus_stat as string) ?? "";
-	const maxBoostRaw = oreData.max_boost ?? 0;
+	const minKg = new Decimal((oreData.min_kg as number) ?? 0)
+	const bonusStr = (oreData.bonus_stat as string) ?? ""
+	const maxBoostRaw = oreData.max_boost ?? 0
 
 	// Parse max_boost - could be "0.05×" or "0.3×" or "0.75×, -0.5×"
-	let boostValues: number[] = [];
+	let boostValues: Decimal[] = []
 	if (typeof maxBoostRaw === "string") {
 		for (const part of maxBoostRaw.split(",")) {
-			const trimmed = part.trim().replace("×", "");
-			const val = parseFloat(trimmed);
-			boostValues.push(Number.isNaN(val) ? 0.0 : val);
+			const trimmed = part.trim().replace("×", "")
+			const val = new Decimal(trimmed)
+			boostValues.push(val.isNaN() ? new Decimal(0) : val)
 		}
 	} else {
-		boostValues = [Number(maxBoostRaw)];
+		boostValues = [new Decimal(maxBoostRaw)]
 	}
 
-	// Parse bonus stats
-	const bonusStats = parseBonusStat(bonusStr);
+	const bonusStats = parseBonusStat(bonusStr)
+	const wf = weightFactor(kg, minKg.toNumber())
 
-	// Calculate weight factor
-	const wf = weightFactor(kg, minKg);
-
-	// Calculate base ore boost (capped at max_boost via weight_factor)
-	const result: Record<string, number> = {};
+	const result: Record<string, Decimal> = {}
 	for (let i = 0; i < bonusStats.length; i++) {
-		const [stat, sign] = bonusStats[i];
-		const boost = i < boostValues.length ? boostValues[i] : boostValues[0];
-		result[stat] = (result[stat] ?? 0) + sign * boost * wf;
+		const [stat, sign] = bonusStats[i]
+		const boost = i < boostValues.length ? boostValues[i] : boostValues[0]
+		const weighted = boost.times(new Decimal(sign)).times(new Decimal(wf))
+		result[stat] = (result[stat] ?? new Decimal(0)).plus(weighted)
 	}
 
-	// Add modifier rider if applicable
 	if (modifier) {
-		const rider = getModifierRider(modifier, rarity);
+		const rider = getModifierRider(modifier, rarity)
 		for (const [stat, value] of Object.entries(rider)) {
-			result[stat] = (result[stat] ?? 0) + value;
+			result[stat] = (result[stat] ?? new Decimal(0)).plus(new Decimal(value))
 		}
 	}
 
-	return result;
+	const output: Record<string, number> = {}
+	for (const [k, v] of Object.entries(result)) {
+		output[k] = v.toNumber()
+	}
+
+	return output
 }
 
 export interface CurrentDisplay {
-	slot_id: string;
-	rarity: string;
-	slot_index: number;
-	ore_name: string;
-	kg: number;
-	modifier?: string | null;
+	slot_id: string
+	rarity: string
+	slot_index: number
+	ore_name: string
+	kg: number
+	modifier?: string | null
 }
 
 export interface AvailableOreInput {
-	name: string;
-	rarity: string;
-	kg: number;
-	modifier?: string | null;
+	name: string
+	rarity: string
+	kg: number
+	modifier?: string | null
 }
 
 export interface MuseumComparatorInputs {
-	currentDisplays: CurrentDisplay[];
-	availableOres: AvailableOreInput[];
-	targetStats: Record<string, number>;
-	sizeBoost: number;
-	oreDatabase: Record<string, OreData>;
+	currentDisplays: CurrentDisplay[]
+	availableOres: AvailableOreInput[]
+	targetStats: Record<string, number>
+	sizeBoost: number
+	oreDatabase: Record<string, OreData>
 }
 
 export interface SlotComparison {
-	slot_id: string;
-	rarity: string;
-	slot_index: number;
-	current_ore: string | null;
-	current_kg: number;
-	current_modifier: string | null | undefined;
-	current_boost: Record<string, number>;
-	best_available_ore: string | null;
-	best_available_kg: number | null;
-	best_available_modifier: string | null | undefined;
-	best_boost: Record<string, number>;
-	stat_deltas: Record<string, number>;
-	recommendation: string;
+	slot_id: string
+	rarity: string
+	slot_index: number
+	current_ore: string | null
+	current_kg: number
+	current_modifier: string | null | undefined
+	current_boost: Record<string, number>
+	best_available_ore: string | null
+	best_available_kg: number | null
+	best_available_modifier: string | null | undefined
+	best_boost: Record<string, number>
+	stat_deltas: Record<string, number>
+	recommendation: string
 }
 
 export interface RarityBreakdown {
-	ores_used: string[];
-	slots_filled: number;
-	total_boost: Record<string, number>;
-	total_slots: number;
+	ores_used: string[]
+	slots_filled: number
+	total_boost: Record<string, number>
+	total_slots: number
 }
 
 export interface MuseumComparatorOutput {
-	slot_comparisons: SlotComparison[];
-	current_total_stats: Record<string, number>;
-	optimized_total_stats: Record<string, number>;
-	by_rarity: Record<string, RarityBreakdown>;
+	slot_comparisons: SlotComparison[]
+	current_total_stats: Record<string, number>
+	optimized_total_stats: Record<string, number>
+	by_rarity: Record<string, RarityBreakdown>
 }
 
 export function calculateMuseumComparison(inputs: MuseumComparatorInputs): MuseumComparatorOutput {
-	const { currentDisplays, availableOres, targetStats, oreDatabase } = inputs;
+	const { currentDisplays, availableOres, targetStats, oreDatabase } = inputs
 
-	// Group available ores by rarity
-	const availableByRarity: Record<string, AvailableOreInput[]> = {};
+	const availableByRarity: Record<string, AvailableOreInput[]> = {}
 	for (const ore of availableOres) {
 		if (!availableByRarity[ore.rarity]) {
-			availableByRarity[ore.rarity] = [];
+			availableByRarity[ore.rarity] = []
 		}
-		availableByRarity[ore.rarity].push(ore);
+		availableByRarity[ore.rarity].push(ore)
 	}
 
-	// Group current displays by rarity
-	const currentByRarity: Record<string, CurrentDisplay[]> = {};
+	const currentByRarity: Record<string, CurrentDisplay[]> = {}
 	for (const display of currentDisplays) {
 		if (!currentByRarity[display.rarity]) {
-			currentByRarity[display.rarity] = [];
+			currentByRarity[display.rarity] = []
 		}
-		currentByRarity[display.rarity].push(display);
+		currentByRarity[display.rarity].push(display)
 	}
 
-	const slotComparisons: SlotComparison[] = [];
-	const currentTotalStats: Record<string, number> = {};
-	const optimizedTotalStats: Record<string, number> = {};
-	const byRarity: Record<string, RarityBreakdown> = {};
+	const slotComparisons: SlotComparison[] = []
+	const currentTotalStats: Record<string, Decimal> = {}
+	const optimizedTotalStats: Record<string, Decimal> = {}
+	const byRarity: Record<string, RarityBreakdown> = {}
+
+	const targetStatsDecimal: Record<string, Decimal> = {}
+	for (const [k, v] of Object.entries(targetStats)) {
+		targetStatsDecimal[k] = new Decimal(v)
+	}
 
 	for (const rarity of RARITY_ORDER) {
-		const displayInfo = MUSEUM_DISPLAYS[rarity];
+		const displayInfo = MUSEUM_DISPLAYS[rarity]
 		if (!displayInfo) {
-			continue;
+			continue
 		}
 
-		const totalSlots = displayInfo.total;
-		const currentSlots = currentByRarity[rarity] ?? [];
-		const availableRarityOres = availableByRarity[rarity] ?? [];
+		const totalSlots = displayInfo.total
+		const currentSlots = currentByRarity[rarity] ?? []
+		const availableRarityOres = availableByRarity[rarity] ?? []
 
-		const rarityCurrentTotal: Record<string, number> = {};
-		const rarityOptimizedTotal: Record<string, number> = {};
-		const currentOres: string[] = [];
-		const recommendedSwaps: { slot: string; from: string; to: string }[] = [];
+		const rarityCurrentTotal: Record<string, Decimal> = {}
+		const rarityOptimizedTotal: Record<string, Decimal> = {}
+		const currentOres: string[] = []
 
-		// Process each current display slot
 		for (const slot of currentSlots) {
-			const slotId = slot.slot_id ?? `${rarity.toLowerCase()}-${slot.slot_index}`;
-			const oreName = slot.ore_name;
-			const kg = slot.kg;
-			const modifier = slot.modifier;
+			const slotId = slot.slot_id ?? `${rarity.toLowerCase()}-${slot.slot_index}`
+			const oreName = slot.ore_name
+			const kg = slot.kg
+			const modifier = slot.modifier
 
-			// Get ore data from database
-			const oreDataKey = `${oreName}|${rarity}`;
-			const oreData = oreDatabase[oreDataKey] ?? {};
+			const oreDataKey = `${oreName}|${rarity}`
+			const oreData = oreDatabase[oreDataKey] ?? {}
 
-			// Calculate current ore's effective boost
-			const currentBoost = calculateEffectiveBoost(oreData, kg, modifier, rarity);
+			const currentBoost = calculateEffectiveBoost(oreData, kg, modifier, rarity)
+			const currentBoostDecimal: Record<string, Decimal> = {}
+			for (const [k, v] of Object.entries(currentBoost)) {
+				currentBoostDecimal[k] = new Decimal(v)
+			}
 
-			// Find best available ore of same rarity
-			let bestAvailable: AvailableOreInput | null = null;
-			let bestBoost: Record<string, number> = {};
-			let bestScore = -1.0;
+			let bestAvailable: AvailableOreInput | null = null
+			let bestBoost: Record<string, Decimal> = {}
+			let bestScore = new Decimal(-1)
 
 			for (const availOre of availableRarityOres) {
-				const availOreDataKey = `${availOre.name}|${rarity}`;
-				const availOreData = oreDatabase[availOreDataKey] ?? {};
-
+				const availOreDataKey = `${availOre.name}|${rarity}`
+				const availOreData = oreDatabase[availOreDataKey] ?? {}
 				const availBoost = calculateEffectiveBoost(
 					availOreData,
 					availOre.kg,
 					availOre.modifier,
 					rarity
-				);
-
-				// Score based on target stats
-				let score = 0.0;
-				for (const [stat, weight] of Object.entries(targetStats)) {
-					score += (availBoost[stat] ?? 0) * weight;
+				)
+				const availBoostDecimal: Record<string, Decimal> = {}
+				for (const [k, v] of Object.entries(availBoost)) {
+					availBoostDecimal[k] = new Decimal(v)
 				}
 
-				if (score > bestScore) {
-					bestScore = score;
-					bestAvailable = availOre;
-					bestBoost = availBoost;
+				let score = new Decimal(0)
+				for (const [stat, weight] of Object.entries(targetStatsDecimal)) {
+					score = score.plus((availBoostDecimal[stat] ?? new Decimal(0)).times(weight))
+				}
+
+				if (score.gt(bestScore)) {
+					bestScore = score
+					bestAvailable = availOre
+					bestBoost = availBoostDecimal
 				}
 			}
 
-			// Calculate stat deltas
-			const statDeltas: Record<string, number> = {};
-			const allStats = new Set([...Object.keys(currentBoost), ...Object.keys(bestBoost)]);
+			const statDeltas: Record<string, number> = {}
+			const allStats = new Set([...Object.keys(currentBoostDecimal), ...Object.keys(bestBoost)])
 			for (const stat of allStats) {
-				const currentVal = currentBoost[stat] ?? 0;
-				const bestVal = bestBoost[stat] ?? 0;
-				statDeltas[stat] = Math.round((bestVal - currentVal) * 10000) / 10000;
+				const currentVal = currentBoostDecimal[stat] ?? new Decimal(0)
+				const bestVal = bestBoost[stat] ?? new Decimal(0)
+				statDeltas[stat] = bestVal.minus(currentVal).toNumber()
 			}
 
-			// Determine recommendation
-			const totalDelta = Object.values(statDeltas).reduce((a, b) => a + b, 0);
+			const totalDelta = Object.values(statDeltas).reduce((a, b) => a + b, 0)
 			const recommendation =
-				bestAvailable && totalDelta > 0.001 ? `Swap to ${bestAvailable.name}` : "Keep current";
+				bestAvailable && totalDelta > 0.001 ? `Swap to ${bestAvailable.name}` : "Keep current"
 
 			slotComparisons.push({
 				slot_id: slotId,
@@ -333,78 +338,72 @@ export function calculateMuseumComparison(inputs: MuseumComparatorInputs): Museu
 				current_kg: kg,
 				current_modifier: modifier,
 				current_boost: Object.fromEntries(
-					Object.entries(currentBoost).map(([k, v]) => [k, Math.round(v * 10000) / 10000])
+					Object.entries(currentBoostDecimal).map(([k, v]) => [k, v.toNumber()])
 				),
 				best_available_ore: bestAvailable ? bestAvailable.name : null,
 				best_available_kg: bestAvailable ? bestAvailable.kg : null,
 				best_available_modifier: bestAvailable ? bestAvailable.modifier : null,
 				best_boost: Object.fromEntries(
-					Object.entries(bestBoost).map(([k, v]) => [k, Math.round(v * 10000) / 10000])
+					Object.entries(bestBoost).map(([k, v]) => [k, v.toNumber()])
 				),
 				stat_deltas: statDeltas,
 				recommendation,
-			});
+			})
 
-			// Add to current totals
-			for (const [stat, value] of Object.entries(currentBoost)) {
-				currentTotalStats[stat] = (currentTotalStats[stat] ?? 0) + value;
-				rarityCurrentTotal[stat] = (rarityCurrentTotal[stat] ?? 0) + value;
+			for (const [stat, value] of Object.entries(currentBoostDecimal)) {
+				currentTotalStats[stat] = (currentTotalStats[stat] ?? new Decimal(0)).plus(value)
+				rarityCurrentTotal[stat] = (rarityCurrentTotal[stat] ?? new Decimal(0)).plus(value)
 			}
 
-			// Add to optimized totals (use best available if better, else current)
 			if (bestAvailable && totalDelta > 0.001) {
 				for (const [stat, value] of Object.entries(bestBoost)) {
-					optimizedTotalStats[stat] = (optimizedTotalStats[stat] ?? 0) + value;
-					rarityOptimizedTotal[stat] = (rarityOptimizedTotal[stat] ?? 0) + value;
+					optimizedTotalStats[stat] = (optimizedTotalStats[stat] ?? new Decimal(0)).plus(value)
+					rarityOptimizedTotal[stat] = (rarityOptimizedTotal[stat] ?? new Decimal(0)).plus(value)
 				}
-				recommendedSwaps.push({
-					slot: slotId,
-					from: oreName,
-					to: bestAvailable.name,
-				});
 			} else {
-				for (const [stat, value] of Object.entries(currentBoost)) {
-					optimizedTotalStats[stat] = (optimizedTotalStats[stat] ?? 0) + value;
-					rarityOptimizedTotal[stat] = (rarityOptimizedTotal[stat] ?? 0) + value;
+				for (const [stat, value] of Object.entries(currentBoostDecimal)) {
+					optimizedTotalStats[stat] = (optimizedTotalStats[stat] ?? new Decimal(0)).plus(value)
+					rarityOptimizedTotal[stat] = (rarityOptimizedTotal[stat] ?? new Decimal(0)).plus(value)
 				}
 			}
 
-			currentOres.push(oreName);
+			currentOres.push(oreName)
 		}
 
-		// Handle empty slots (if fewer current displays than total slots)
-		const filledSlots = currentSlots.length;
+		const filledSlots = currentSlots.length
 		for (let slotIdx = filledSlots; slotIdx < totalSlots; slotIdx++) {
-			const slotId = `${rarity.toLowerCase()}-${slotIdx + 1}`;
+			const slotId = `${rarity.toLowerCase()}-${slotIdx + 1}`
 			if (availableRarityOres.length === 0) {
-				continue;
+				continue
 			}
 
-			// Find best available ore for empty slot
-			let bestAvailable: AvailableOreInput | null = null;
-			let bestBoost: Record<string, number> = {};
-			let bestScore = -1.0;
+			let bestAvailable: AvailableOreInput | null = null
+			let bestBoost: Record<string, Decimal> = {}
+			let bestScore = new Decimal(-1)
 
 			for (const availOre of availableRarityOres) {
-				const availOreDataKey = `${availOre.name}|${rarity}`;
-				const availOreData = oreDatabase[availOreDataKey] ?? {};
-
+				const availOreDataKey = `${availOre.name}|${rarity}`
+				const availOreData = oreDatabase[availOreDataKey] ?? {}
 				const availBoost = calculateEffectiveBoost(
 					availOreData,
 					availOre.kg,
 					availOre.modifier,
 					rarity
-				);
-
-				let score = 0.0;
-				for (const [stat, weight] of Object.entries(targetStats)) {
-					score += (availBoost[stat] ?? 0) * weight;
+				)
+				const availBoostDecimal: Record<string, Decimal> = {}
+				for (const [k, v] of Object.entries(availBoost)) {
+					availBoostDecimal[k] = new Decimal(v)
 				}
 
-				if (score > bestScore) {
-					bestScore = score;
-					bestAvailable = availOre;
-					bestBoost = availBoost;
+				let score = new Decimal(0)
+				for (const [stat, weight] of Object.entries(targetStatsDecimal)) {
+					score = score.plus((availBoostDecimal[stat] ?? new Decimal(0)).times(weight))
+				}
+
+				if (score.gt(bestScore)) {
+					bestScore = score
+					bestAvailable = availOre
+					bestBoost = availBoostDecimal
 				}
 			}
 
@@ -421,33 +420,28 @@ export function calculateMuseumComparison(inputs: MuseumComparatorInputs): Museu
 					best_available_kg: bestAvailable.kg,
 					best_available_modifier: bestAvailable.modifier,
 					best_boost: Object.fromEntries(
-						Object.entries(bestBoost).map(([k, v]) => [k, Math.round(v * 10000) / 10000])
+						Object.entries(bestBoost).map(([k, v]) => [k, v.toNumber()])
 					),
 					stat_deltas: Object.fromEntries(
-						Object.entries(bestBoost).map(([k, v]) => [k, Math.round(v * 10000) / 10000])
+						Object.entries(bestBoost).map(([k, v]) => [k, v.toNumber()])
 					),
 					recommendation: `Fill with ${bestAvailable.name}`,
-				});
+				})
 
 				for (const [stat, value] of Object.entries(bestBoost)) {
-					optimizedTotalStats[stat] = (optimizedTotalStats[stat] ?? 0) + value;
-					rarityOptimizedTotal[stat] = (rarityOptimizedTotal[stat] ?? 0) + value;
+					optimizedTotalStats[stat] = (optimizedTotalStats[stat] ?? new Decimal(0)).plus(value)
+					rarityOptimizedTotal[stat] = (rarityOptimizedTotal[stat] ?? new Decimal(0)).plus(value)
 				}
-				recommendedSwaps.push({
-					slot: slotId,
-					from: "Empty",
-					to: bestAvailable.name,
-				});
 			}
 		}
 
-		const rarityCurrentTotalRounded: Record<string, number> = {};
-		const rarityOptimizedTotalRounded: Record<string, number> = {};
+		const rarityCurrentTotalRounded: Record<string, number> = {}
+		const rarityOptimizedTotalRounded: Record<string, number> = {}
 		for (const [k, v] of Object.entries(rarityCurrentTotal)) {
-			rarityCurrentTotalRounded[k] = Math.round(v * 10000) / 10000;
+			rarityCurrentTotalRounded[k] = v.toNumber()
 		}
 		for (const [k, v] of Object.entries(rarityOptimizedTotal)) {
-			rarityOptimizedTotalRounded[k] = Math.round(v * 10000) / 10000;
+			rarityOptimizedTotalRounded[k] = v.toNumber()
 		}
 
 		byRarity[rarity] = {
@@ -455,17 +449,16 @@ export function calculateMuseumComparison(inputs: MuseumComparatorInputs): Museu
 			slots_filled: filledSlots,
 			total_boost: rarityOptimizedTotalRounded,
 			total_slots: totalSlots,
-		};
+		}
 	}
 
-	// Round totals
-	const currentTotalStatsRounded: Record<string, number> = {};
-	const optimizedTotalStatsRounded: Record<string, number> = {};
+	const currentTotalStatsRounded: Record<string, number> = {}
+	const optimizedTotalStatsRounded: Record<string, number> = {}
 	for (const [k, v] of Object.entries(currentTotalStats)) {
-		currentTotalStatsRounded[k] = Math.round(v * 10000) / 10000;
+		currentTotalStatsRounded[k] = v.toNumber()
 	}
 	for (const [k, v] of Object.entries(optimizedTotalStats)) {
-		optimizedTotalStatsRounded[k] = Math.round(v * 10000) / 10000;
+		optimizedTotalStatsRounded[k] = v.toNumber()
 	}
 
 	return {
@@ -473,119 +466,115 @@ export function calculateMuseumComparison(inputs: MuseumComparatorInputs): Museu
 		current_total_stats: currentTotalStatsRounded,
 		optimized_total_stats: optimizedTotalStatsRounded,
 		by_rarity: byRarity,
-	};
+	}
 }
 
 export interface WeightGateOre {
-	ore_name: string;
-	rarity: string;
-	min_kg: number;
-	current_kg: number;
-	effective_kg: number;
-	meets_requirement: boolean;
+	ore_name: string
+	rarity: string
+	min_kg: number
+	current_kg: number
+	effective_kg: number
+	meets_requirement: boolean
 }
 
 export interface WeightGateInputs {
-	availableOres: AvailableOreInput[];
-	sizeBoost: number;
-	oreDatabase: Record<string, OreData>;
+	availableOres: AvailableOreInput[]
+	sizeBoost: number
+	oreDatabase: Record<string, OreData>
 }
 
 export function calculateWeightGate(inputs: WeightGateInputs): WeightGateOre[] {
-	const { availableOres, sizeBoost, oreDatabase } = inputs;
+	const { availableOres, sizeBoost, oreDatabase } = inputs
 
-	// Weight multiplier from size boost
-	const weightMult = 1 + sizeBoost / 100;
+	const weightMult = new Decimal(1).plus(new Decimal(sizeBoost).div(100))
 
-	const results: WeightGateOre[] = [];
+	const results: WeightGateOre[] = []
 	for (const ore of availableOres) {
-		const oreDataKey = `${ore.name}|${ore.rarity}`;
-		const oreData = oreDatabase[oreDataKey] ?? {};
+		const oreDataKey = `${ore.name}|${ore.rarity}`
+		const oreData = oreDatabase[oreDataKey] ?? {}
 
-		const minKg = (oreData.min_kg as number) ?? 0;
-		const currentKg = ore.kg;
-		const effectiveKg = currentKg * weightMult;
+		const minKg = new Decimal((oreData.min_kg as number) ?? 0)
+		const currentKg = new Decimal(ore.kg)
+		const effectiveKg = currentKg.times(weightMult)
 
 		results.push({
 			ore_name: ore.name,
 			rarity: ore.rarity,
-			min_kg: minKg,
-			current_kg: currentKg,
-			effective_kg: Math.round(effectiveKg * 10) / 10,
-			meets_requirement: effectiveKg >= minKg,
-		});
+			min_kg: minKg.toNumber(),
+			current_kg: currentKg.toNumber(),
+			effective_kg: effectiveKg.toNumber(),
+			meets_requirement: effectiveKg.gte(minKg),
+		})
 	}
 
-	return results;
+	return results
 }
 
 export interface UnlockCostsOutput {
-	money_cost: number;
-	shards_cost: number;
-	total_cost: { money: number; shards: number };
+	money_cost: number
+	shards_cost: number
+	total_cost: { money: number; shards: number }
 }
 
 export function calculateUnlockCosts(unlockedDisplays: CurrentDisplay[]): UnlockCostsOutput {
-	const unlocked = new Set<string>();
+	const unlocked = new Set<string>()
 	for (const d of unlockedDisplays) {
-		unlocked.add(`${d.rarity}|${d.slot_index}`);
+		unlocked.add(`${d.rarity}|${d.slot_index}`)
 	}
 
-	let totalMoney = 0;
-	let totalShards = 0;
+	let totalMoney = 0
+	let totalShards = 0
 
 	for (const [rarity, info] of Object.entries(MUSEUM_DISPLAYS)) {
-		const totalSlots = info.total;
-		const freeSlots = info.free;
-		const lockedMoney = info.locked_money;
-		const lockedShards = info.locked_shards;
+		const totalSlots = info.total
+		const freeSlots = info.free
+		const lockedMoney = info.locked_money
+		const lockedShards = info.locked_shards
 
-		// Slots that need unlocking beyond free ones
-		const lockedSlots = Math.max(0, totalSlots - freeSlots);
-		// Subtract any already-unlocked slots for this rarity
-		let unlockedCount = 0;
+		const lockedSlots = Math.max(0, totalSlots - freeSlots)
+		let unlockedCount = 0
 		for (const d of unlockedDisplays) {
 			if (d.rarity === rarity) {
-				unlockedCount += 1;
+				unlockedCount += 1
 			}
 		}
-		const remainingLocked = Math.max(0, lockedSlots - unlockedCount);
+		const remainingLocked = Math.max(0, lockedSlots - unlockedCount)
 
-		totalMoney += remainingLocked * lockedMoney;
-		totalShards += remainingLocked * lockedShards;
+		totalMoney += remainingLocked * lockedMoney
+		totalShards += remainingLocked * lockedShards
 	}
 
 	return {
 		money_cost: totalMoney,
 		shards_cost: totalShards,
 		total_cost: { money: totalMoney, shards: totalShards },
-	};
+	}
 }
 
 export interface MuseumOptimizerInputs {
-	availableOres: AvailableOreInput[];
-	unlockedDisplays?: CurrentDisplay[];
-	targetStats?: Record<string, number>;
-	sizeBoost?: number;
+	availableOres: AvailableOreInput[]
+	unlockedDisplays?: CurrentDisplay[]
+	targetStats?: Record<string, number>
+	sizeBoost?: number
 }
 
 export interface MuseumOptimizerOutput {
-	slot_recommendations: SlotComparison[];
-	total_stats: Record<string, number>;
-	by_rarity: Record<string, RarityBreakdown>;
-	unlock_costs: UnlockCostsOutput;
-	weight_gate_info: WeightGateOre[];
+	slot_recommendations: SlotComparison[]
+	total_stats: Record<string, number>
+	by_rarity: Record<string, RarityBreakdown>
+	unlock_costs: UnlockCostsOutput
+	weight_gate_info: WeightGateOre[]
 }
 
 export function calculateMuseumOptimizer(inputs: MuseumOptimizerInputs): MuseumOptimizerOutput {
-	const targetStats = inputs.targetStats ?? {};
-	const unlocked = inputs.unlockedDisplays ?? [];
-	const sizeBoost = inputs.sizeBoost ?? 0;
+	const targetStats = inputs.targetStats ?? {}
+	const unlocked = inputs.unlockedDisplays ?? []
+	const sizeBoost = inputs.sizeBoost ?? 0
 
-	// Build current_displays from unlocked_displays for comparison
-	const currentDisplays: CurrentDisplay[] = [];
+	const currentDisplays: CurrentDisplay[] = []
 	for (let i = 0; i < unlocked.length; i++) {
-		const ud = unlocked[i];
+		const ud = unlocked[i]
 		currentDisplays.push({
 			slot_id: ud.slot_id ?? `slot-${i}`,
 			rarity: ud.rarity,
@@ -593,30 +582,28 @@ export function calculateMuseumOptimizer(inputs: MuseumOptimizerInputs): MuseumO
 			ore_name: ud.ore_name,
 			kg: ud.kg,
 			modifier: ud.modifier,
-		});
+		})
 	}
 
-	// Build ore database from snapshot items
-	const oreDatabase: Record<string, OreData> = {};
+	const oreDatabase: Record<string, OreData> = {}
 	for (const ore of inputs.availableOres) {
-		oreDatabase[`${ore.name}|${ore.rarity}`] = {} as OreData;
+		oreDatabase[`${ore.name}|${ore.rarity}`] = {} as OreData
 	}
 
-	// Use the existing comparison engine
 	const comparison = calculateMuseumComparison({
 		currentDisplays,
 		availableOres: inputs.availableOres,
 		targetStats,
 		sizeBoost,
 		oreDatabase,
-	});
+	})
 
-	const unlockInfo = calculateUnlockCosts(unlocked);
+	const unlockInfo = calculateUnlockCosts(unlocked)
 	const weightInfo = calculateWeightGate({
 		availableOres: inputs.availableOres,
 		sizeBoost,
 		oreDatabase,
-	});
+	})
 
 	return {
 		slot_recommendations: comparison.slot_comparisons,
@@ -624,5 +611,5 @@ export function calculateMuseumOptimizer(inputs: MuseumOptimizerInputs): MuseumO
 		by_rarity: comparison.by_rarity,
 		unlock_costs: unlockInfo,
 		weight_gate_info: weightInfo,
-	};
+	}
 }

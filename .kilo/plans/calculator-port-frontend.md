@@ -14,18 +14,19 @@ Port all calculator math from `app/services/calculators.py` to `frontend/src/lib
 
 | Decision | Choice |
 |----------|--------|
-| Math library | Native TypeScript + `Math` (no external deps) |
+| Math library | `decimal.js` (50 significant digits precision) |
 | Calculator types | Mirror `app/schemas/calculator.py` TS types from `frontend/src/api/pick.schemas.ts` |
 | Ore database | `snapshotCache` items filtered by `data` fields (`min_kg`, `bonus_stat`, `max_boost`) |
 | Forms | Existing `react-hook-form` + `zod` (keep) |
 | Mutations | Remove `useCalculate*EndpointApiV1Calculators*Post`; call local functions on submit |
+| Tiny probabilities | All internal arithmetic uses `Decimal`; convert to `number` only at display boundary |
 
 ## Files to Create / Modify
 
 ### Create
-1. `frontend/src/lib/calculators.ts` — Port of `app/services/calculators.py` pure math
-2. `frontend/src/lib/museum.ts` — Port of museum comparison/projection/weight-gate/unlock-cost logic
-3. `.kilo/plans/<timestamp>-calculator-port-frontend.md` — This plan (kept up to date)
+1. `frontend/src/lib/calculators.ts` — Port of `app/services/calculators.py` pure math (Decimal.js)
+2. `frontend/src/lib/museum.ts` — Port of museum comparison/projection/weight-gate/unlock-cost logic (Decimal.js)
+3. `.kilo/plans/calculator-port-frontend.md` — This plan (kept up to date)
 
 ### Modify
 1. `frontend/src/lib/snapshot.ts` — Add helpers to look up item `data` (ore bonuses) by slug/name for museum ore database
@@ -33,54 +34,34 @@ Port all calculator math from `app/services/calculators.py` to `frontend/src/lib
 3. `frontend/src/api/client.ts` — Remove `VITE_API_BASE_URL` dependency (fallback to `''`)
 4. `frontend/vite.config.ts` — Remove `VITE_BASE_URL` env read, hardcode `'/'`
 5. `.github/workflows/deploy-frontend.yml` — Remove `VITE_API_BASE_URL` / `VITE_BASE_URL` env vars
+6. `frontend/package.json` — Add `decimal.js` dependency
 
 ## Porting Details
 
 ### calculators.ts (from `app/services/calculators.py`)
 Constants:
 - `SHAKE_SPEED_STEPS` — array of `[min_pct, max_pct, multiplier]`
-- `MODIFIER_BASE_DISTRIBUTION` — modifier name → base pct
+- `MODIFIER_BASE_DISTRIBUTION` — modifier name → base pct (e.g. `Perfect: 0.002%`)
 - `MODIFIER_PRICE_MULTIPLIERS` — modifier name → price mult
 
-Functions:
-- `shakesPerSecond(shakeSpeedPct)` → number
-- `digsPerPan(capacity, digStrength)` → number
-- `digTimePerDig(digSpeed)` → number
-- `itemsPerPan(capacity)` → number
-- `weightMultiplier(sizeBoost)` → number
-- `sellMultiplier(sellBoost)` → number
-- `modifierLuck(luck, modifierBoost)` → number
-- `effectiveModifierBoost(panelModifierBoost, solarMagnifier, modifierSurge, forWhichModifier)` → number
-- `pctOresModified(effectiveMB)` → number
-- `modifierDistribution(effectiveMB)` → Record<string, number>
-- `qualityMultiplier(autopan, masteredShovel)` → number
-- `pansPerHour(capacity, digStrength, digSpeed, shakeStrength, shakeSpeed)` → number
-- `calculateEV(inputs)` → EVResponse
-- `calculateTTG(inputs)` → TTGResponse
-- `calculateModifierOdds(inputs)` → ModifierOddsResponse
-- `calculateBestPan(inputs)` → BestPanResponse
+All functions use `Decimal` internally:
+- `shakesPerSecond`, `digsPerPan`, `digTimePerDig`, `itemsPerPan`
+- `weightMultiplier`, `sellMultiplier`, `modifierLuck`
+- `effectiveModifierBoost`, `pctOresModified`, `modifierDistribution`
+- `qualityMultiplier`, `pansPerHour`
+- `calculateEV`, `calculateTTG`, `calculateModifierOdds`, `calculateBestPan`
+
+Inputs are `number` (from forms), converted to `Decimal` internally. Outputs converted back to `number` at display boundary. This preserves precision for tiny drop chances like Key of Life at Lifespring Oasis (~1.549e-11, ~1 in 65 billion).
 
 ### museum.ts (from `app/services/calculators.py` museum section)
 Constants:
-- `MUSEUM_DISPLAYS` — rarity → {free, locked_money, locked_shards, total}
-- `RARITY_ORDER` — array
-- `MODIFIER_BASE_BONUSES` — modifier → {stat: value}
-- `MODIFIER_RARITY_MULTIPLIERS` — rarity → multiplier
+- `MUSEUM_DISPLAYS`, `RARITY_ORDER`, `MODIFIER_BASE_BONUSES`, `MODIFIER_RARITY_MULTIPLIERS`
 
-Functions:
-- `getModifierRider(modifier, rarity)` → Record<string, number>
-- `weightFactor(kg, minKg)` → number
-- `parseBonusStat(bonusStr)` → [stat, multiplier][]
-- `calculateEffectiveBoost(oreData, kg, modifier, rarity)` → Record<string, number>
-- `calculateMuseumComparison(inputs)` → comparison result
-- `calculateMuseumProjection(inputs)` → total stats
-- `calculateWeightGate(inputs)` → weight gate results
-- `calculateUnlockCosts(unlocked)` → {money_cost, shards_cost, total_cost}
-- `calculateMuseumOptimizer(inputs)` → full optimizer result
-
-### snapshot.ts additions
-- `getOreData(slug, rarity)` → ore `data` object (min_kg, bonus_stat, max_boost) for museum ore database
-- `getItemBySlug(slug)` → full item (already exists)
+All functions use `Decimal` internally:
+- `getModifierRider`, `weightFactor`, `parseBonusStat`
+- `calculateEffectiveBoost`
+- `calculateMuseumComparison`, `calculateMuseumProjection`
+- `calculateWeightGate`, `calculateUnlockCosts`, `calculateMuseumOptimizer`
 
 ## Calculator Page Tab Mapping
 
@@ -94,7 +75,7 @@ Functions:
 
 ## Tasks (Ordered)
 
-### T1 — calculators.ts port
+### T1 — calculators.ts port (Decimal.js)
 - [x] Create `frontend/src/lib/calculators.ts`
 - [x] Port `SHAKE_SPEED_STEPS`, `MODIFIER_BASE_DISTRIBUTION`, `MODIFIER_PRICE_MULTIPLIERS`
 - [x] Port `shakesPerSecond`, `digsPerPan`, `digTimePerDig`, `itemsPerPan`
@@ -103,7 +84,7 @@ Functions:
 - [x] Port `qualityMultiplier`, `pansPerHour`
 - [x] Port `calculateEV`, `calculateTTG`, `calculateModifierOdds`, `calculateBestPan`
 
-### T2 — museum.ts port
+### T2 — museum.ts port (Decimal.js)
 - [x] Create `frontend/src/lib/museum.ts`
 - [x] Port `MUSEUM_DISPLAYS`, `RARITY_ORDER`, `MODIFIER_BASE_BONUSES`, `MODIFIER_RARITY_MULTIPLIERS`
 - [x] Port `getModifierRider`, `weightFactor`, `parseBonusStat`
@@ -129,6 +110,7 @@ Functions:
 
 ### T6 — Verify parity
 - [x] Run `tsc -b`, `eslint`, `ruff check app/` — all pass
+- [x] `vite build` succeeds with Decimal.js bundle
 - [ ] Compare frontend local calc output vs backend API for identical inputs (manual spot check)
 - [ ] Confirm all 6 pages work offline from `snapshot.json`
 
@@ -139,6 +121,8 @@ Functions:
 | `tsc -b` passes | `npx tsc -b` in frontend |
 | `eslint` passes (0 errors) | `npx eslint src --ext .js,.ts,.tsx` |
 | `ruff check app/` passes | `.venv/bin/ruff check app/` |
+| `vite build` succeeds | `npx vite build` in frontend |
+| Tiny probability precision | `Decimal(1.549e-11)` preserved through multiplication/division |
 | EV/TTG/MO/BPG results match backend | Spot-check identical inputs |
 | Museum optimizer matches backend | Spot-check identical inputs |
 | Frontend loads without `VITE_API_BASE_URL` | Build with no env var; no console network errors |
@@ -146,12 +130,15 @@ Functions:
 
 ## Risks / Notes
 
-- **Floating point parity**: Python `math.ceil`, `**`, `/` vs JS `Math.ceil`, `**`, `/` — may differ in edge cases. Round outputs to 2-4 decimals for display to mask micro-differences.
+- **Floating point parity**: All internal math uses `Decimal.js` (50 significant digits), eliminating float drift for tiny probabilities like 1.549e-11. Only display boundary converts to `number`.
 - **Museum ore database**: `snapshot.json` item `data` must contain `min_kg`, `bonus_stat`, `max_boost`. Verify scraper populates these.
 - **Calculator forms use `any` types**: Existing code uses `any` liberally; keep consistent to avoid churn.
 - **`VITE_BASE_URL` subpath**: If previously set to `/PICK/`, removing it means site deploys at root only. Confirm desired deployment path.
+- **EV calculation is a stub**: Backend `calculate_ev` returns 0 for `ev_per_pan`; frontend matches. Drop chance field mapping from item `data` needs scraper schema alignment.
 
 ## Out of Scope (Future)
 - PWA / offline-first (already works offline once snapshot cached)
 - Real-time calculator updates
 - Saved builds / user accounts
+- Drop chance field alignment with scraper data schema
+

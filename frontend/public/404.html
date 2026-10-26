@@ -11,8 +11,9 @@
         var path = window.location.pathname;
         var search = window.location.search;
         var hash = window.location.hash;
-        if (path !== "/index.html" && !path.startsWith("/assets/")) {
-          window.location.replace("/index.html" + search + hash);
+        var base = "/PICK---Prospecting-Information---Community-Kit";
+        if (path !== base + "/index.html" && !path.startsWith(base + "/assets/")) {
+          window.location.replace(base + "/index.html" + search + hash);
         }
       })();
     </script>

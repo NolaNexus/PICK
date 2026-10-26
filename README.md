@@ -1,20 +1,6 @@
-# PICK — Prospecting Information & Community Kit
+# PICK
 
-```
-+-----------------------------------------------------------------------------+
-|                            _____   _____   _____                            |
-|                           /     \ /     \ /     \                           |
-|                          |   P   |   I   |   C   |   K                       |
-|                           \_____/ \_____/ \_____/                           |
-|                                                                             |
-|                      (   pick   )                    (     pan     )        |
-|                       \    /\    /                      \___/\___/          |
-|                        \  /  \  /                        \___/              |
-|                         \/    \/                                                  |
-|                                                                             |
-|                Prospecting! Information & Community Kit                     |
-+-----------------------------------------------------------------------------+
-```
+**Prospecting! Information & Community Kit**
 
 PICK is a passion project built by and for players of [Prospecting!](https://www.roblox.com/games/1298271121136),
 a Roblox simulator where you sift sand to find minerals and build your fortune.

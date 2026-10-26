@@ -273,7 +273,6 @@ export default function CalculatorsPage() {
   const handleMuseumSubmit = async (values: z.infer<typeof museumSchema>) => {
     setMuseumSubmitting(true)
     try {
-      // Build ore database from snapshot items (matched by name + rarity)
       const oreDb: Record<string, Record<string, unknown>> = {}
       if (snapshot) {
         const items = snapshotCache.getItems(snapshot)
@@ -285,8 +284,6 @@ export default function CalculatorsPage() {
           }
         }
       }
-
-      // Also add user-entered ores to the database (their data is minimal)
       for (const ore of museumOres) {
         if (!oreDb[`${ore.name}|${ore.rarity}`]) {
           oreDb[`${ore.name}|${ore.rarity}`] = { rarity: ore.rarity }
@@ -326,7 +323,6 @@ export default function CalculatorsPage() {
     }
   }
 
-  // Load snapshot for museum ore database
   const loadSnapshot = async () => {
     try {
       const data = await snapshotCache.fetch(false)

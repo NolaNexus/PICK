@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { toast } from '@/components/ui/toast'
 
-
 export default function NewsPage() {
   const [tag, setTag] = useState<string | null>(null)
   const [query, setQuery] = useState('')

@@ -61,18 +61,18 @@ export default function MetaPage() {
     const counts = snapshot.counts
     const types = snapshotCache.getTypes(snapshot)
     const lastScrape = snapshot.last_scrape
-    const gameVersion = snapshot.game_version
+    const game_version = snapshot.game_version
 
     return {
       total_items: counts.items,
       total_types: types.length,
-      game_version: gameVersion?.version ?? null,
-      detected_at: gameVersion?.detected_at ?? null,
+      game_version: game_version?.version ?? null,
+      detected_at: game_version?.detected_at ?? null,
       last_scrape: lastScrape?.started_at ?? null,
       scrape_status: lastScrape?.status ?? 'never',
       pages_changed: lastScrape?.pages_changed ?? 0,
       pages_errors: lastScrape?.pages_errors ?? 0,
-      triggered_full_scrape: gameVersion?.triggered_full_scrape ?? 0,
+      triggered_full_scrape: game_version?.triggered_full_scrape ?? 0,
     }
   }, [snapshot])
 

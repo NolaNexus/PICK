@@ -151,9 +151,11 @@ export default function ItemBrowserPage() {
     )
   }
 
-  if (syncError) {
-    toast.error(`Failed to load data: ${syncError.message}`)
-  }
+  useEffect(() => {
+    if (syncError) {
+      toast.error(`Failed to load data: ${syncError.message}`)
+    }
+  }, [syncError])
 
   return (
     <div className="space-y-6">

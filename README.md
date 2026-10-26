@@ -34,6 +34,7 @@ wiki's information easier to use while you play.
 ## Tech stack
 
 - Python 3.11+, FastAPI, PostgreSQL (async SQLAlchemy)
+- R for statistical analysis (rpy2 bridge)
 - React + TypeScript + Vite frontend
 - Docker Compose for local development
 - GitHub Actions for CI/CD and frontend deployment

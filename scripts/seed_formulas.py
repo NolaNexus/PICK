@@ -2,6 +2,8 @@
 
 import asyncio
 
+from sqlalchemy import select
+
 from app.database import async_session_factory, engine
 from app.models import Base, Formula
 from app.services.formulas import seed_formulas
@@ -15,8 +17,10 @@ async def main():
     async with async_session_factory() as session:
         formulas = seed_formulas(session)
         for f in formulas:
-            existing = await session.get(Formula, f["formula_id"])
-            if existing is None:
+            existing = await session.execute(
+                select(Formula).where(Formula.formula_id == f["formula_id"])
+            )
+            if existing.scalar_one_or_none() is None:
                 session.add(Formula(
                     formula_id=f["formula_id"],
                     name=f["name"],

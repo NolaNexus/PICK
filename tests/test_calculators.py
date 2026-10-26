@@ -1,6 +1,7 @@
 """Unit tests for calculator service functions."""
 
 from app.services.calculators import (
+    MODIFIER_BASE_DISTRIBUTION,
     calculate_best_pan,
     calculate_ev,
     calculate_modifier_odds,
@@ -10,12 +11,18 @@ from app.services.calculators import (
     digs_per_pan,
     effective_modifier_boost,
     items_per_pan,
+    modifier_distribution,
     modifier_luck,
     pans_per_hour,
     pct_ores_modified,
     quality_multiplier,
     shakes_per_second,
     weight_multiplier,
+)
+from app.services.r_stats import (
+    fit_modifier_distribution,
+    is_available,
+    monte_carlo_ev,
 )
 
 
@@ -310,3 +317,59 @@ class TestCalculateWeightGate:
             ore_database={("Gold", "Common"): {"min_kg": 5}},
         )
         assert result[0]["meets_requirement"] is False
+
+
+class TestRStatsBridge:
+    """Tests for the R statistical bridge (graceful fallback when R absent)."""
+
+    def test_is_available_boolean(self):
+        assert isinstance(is_available(), bool)
+
+    def test_fit_modifier_distribution_fallback_sums(self):
+        counts = {
+            "Shiny": 100,
+            "Pure": 50,
+            "Glowing": 20,
+            "Iridescent": 5,
+            "Perfect": 1,
+        }
+        result = fit_modifier_distribution(counts, effective_mb=500)
+        assert set(result.keys()) == {
+            "Perfect", "Treasured", "Lunar", "Voidtorn", "Mutated", "Cosmic",
+            "Iridescent", "Irradiated", "Crystalline", "Scorching", "Glowing",
+            "Pure", "Shiny",
+        }
+        assert all(v >= 0 for v in result.values())
+
+    def test_modifier_distribution_with_observed_counts(self):
+        counts = {"Shiny": 100, "Pure": 50, "Glowing": 10}
+        default = modifier_distribution(500)
+        fitted = modifier_distribution(500, observed_counts=counts)
+        assert set(fitted.keys()) == set(default.keys())
+        assert all(v >= 0 for v in fitted.values())
+
+    def test_modifier_distribution_zero_mb(self):
+        assert modifier_distribution(0, observed_counts={"Shiny": 10}) == dict.fromkeys(MODIFIER_BASE_DISTRIBUTION, 0.0)
+
+    def test_monte_carlo_ev_fallback(self):
+        result = monte_carlo_ev(
+            samples=1000,
+            ev_per_pan_mean=500.0,
+            ev_per_pan_sd=50.0,
+            pph_mean=100.0,
+            pph_sd=10.0,
+        )
+        assert "mean" in result
+        assert "p05" in result
+        assert "p95" in result
+        assert result["p05"] <= result["mean"] <= result["p95"]
+
+
+class TestModifierDistributionImport:
+    """Ensure MODIFIER_BASE_DISTRIBUTION is importable for tests."""
+
+    def test_base_distribution_keys(self):
+        from app.services.calculators import MODIFIER_BASE_DISTRIBUTION
+        assert "Shiny" in MODIFIER_BASE_DISTRIBUTION
+        assert "Perfect" in MODIFIER_BASE_DISTRIBUTION
+

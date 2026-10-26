@@ -40,6 +40,7 @@ async def calculate_ev_endpoint(request: CalculatorEVRequest):
         mastered_shovel=request.mastered_shovel,
         solar_magnifier=request.solar_magnifier,
         modifier_surge=request.modifier_surge,
+        capacity=request.capacity,
     )
 
 

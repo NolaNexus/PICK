@@ -31,9 +31,9 @@ async def check_for_game_update(db: "AsyncSession", client: MediaWikiClient) -> 
             logger.warning("No wikitext for Changelog")
             return False
 
-        # Extract latest version header (e.g., "== October 2026 ==")
-        # Pattern matches == Month Year == or similar version headers
-        version_match = re.search(r"==\s*([^=]+)\s*==", wikitext)
+        # Extract latest version header (e.g., "== October 2026 ==").
+        # Match only top-level == headers (not === subsections).
+        version_match = re.search(r"(?m)^==\s*(.+?)\s*==\s*$", wikitext)
         if not version_match:
             logger.warning("Could not parse version from Changelog")
             return False
@@ -185,12 +185,19 @@ async def scrape_page(
         db.add(wiki_page)
         await db.flush()
 
+    # Batch-load existing items for this page to avoid a per-item N+1 query
+    slugs = [
+        item_data.get("slug") or item_data["name"].lower().replace(" ", "-")
+        for item_data in items
+    ]
+    existing_items: dict[str, Item] = {}
+    if slugs:
+        result = await db.execute(select(Item).where(Item.slug.in_(slugs)))
+        existing_items = {item.slug: item for item in result.scalars().all()}
+
     for item_data in items:
         slug = item_data.get("slug") or item_data["name"].lower().replace(" ", "-")
-        existing = await db.execute(
-            select(Item).where(Item.slug == slug)
-        )
-        item = existing.scalar_one_or_none()
+        item = existing_items.get(slug)
 
         if item is None:
             item = Item(

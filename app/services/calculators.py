@@ -3,6 +3,8 @@
 import math
 from typing import Any
 
+from app.services.r_stats import fit_modifier_distribution
+
 # Shake speed conversion (buggy - from Stat Systems Guide)
 SHAKE_SPEED_STEPS = [
     (0, 400, 0.4),      # 0-400%: linear
@@ -175,13 +177,25 @@ MODIFIER_PRICE_MULTIPLIERS = {
 }
 
 
-def modifier_distribution(effective_mb: float) -> dict[str, float]:
+def modifier_distribution(
+    effective_mb: float,
+    observed_counts: dict[str, int] | None = None,
+) -> dict[str, float]:
     """Calculate modifier distribution based on effective MB.
 
-    Higher effective MB shifts distribution toward rarer modifiers.
+    Uses an R-fitted distribution when observed counts are supplied and
+    rpy2/R is available; otherwise falls back to the pure-Python
+    approximation. Higher effective MB shifts distribution toward rarer
+    modifiers.
     """
     if effective_mb <= 0:
         return dict.fromkeys(MODIFIER_BASE_DISTRIBUTION, 0.0)
+
+    if observed_counts:
+        fitted = fit_modifier_distribution(observed_counts, effective_mb)
+        # Scale from 0-100 distribution to the pct_modified mass.
+        pct_mod = pct_ores_modified(effective_mb)
+        return {k: round(v * pct_mod / 100.0, 3) for k, v in fitted.items()}
 
     # Boost factor for rare modifiers based on effective MB
     if effective_mb >= 1900:
@@ -204,7 +218,6 @@ def modifier_distribution(effective_mb: float) -> dict[str, float]:
     pct_mod = pct_ores_modified(effective_mb)
     total = sum(boosted.values())
     normalized = {k: round(v / total * pct_mod, 3) for k, v in boosted.items()}
-
     return normalized
 
 
@@ -250,6 +263,7 @@ def calculate_ev(
     mastered_shovel: bool = False,
     solar_magnifier: bool = False,
     modifier_surge: bool = False,
+    capacity: float = 0.0,
 ) -> dict[str, Any]:
     """Calculate Expected Value per pan for a location.
 
@@ -263,8 +277,8 @@ def calculate_ev(
         solar_magnifier: Whether Solar Magnifier active
         modifier_surge: Whether Modifier Surge active
     """
-    # Items per pan
-    avg_items = items_per_pan(0)  # Will be overridden by location-specific capacity
+    # Items per pan from capacity
+    avg_items = items_per_pan(capacity)
 
     # Quality multiplier
     q = quality_multiplier(autopan, mastered_shovel)
@@ -279,15 +293,21 @@ def calculate_ev(
     # Modifier distribution
     mod_dist = modifier_distribution(eff_mb)
 
-    # Calculate EV
+    # Calculate EV from the location drop table.
+    # Each item's expected contribution = base_price × (base_weight / total_weight).
     total_ev = 0.0
-
-    # This is a simplified calculation - real implementation needs
-    # location-specific drop tables with base prices and weights
+    if location_drop_table:
+        total_weight = sum(float(item.get("base_weight", 1)) for item in location_drop_table)
+        if total_weight > 0:
+            for item in location_drop_table:
+                price = float(item.get("base_price", 0))
+                weight = float(item.get("base_weight", 1))
+                total_ev += price * (weight / total_weight)
+        total_ev *= q
 
     return {
-        "ev_per_pan": total_ev,
-        "items_per_pan": avg_items,
+        "ev_per_pan": round(total_ev, 4),
+        "items_per_pan": round(avg_items, 4),
         "quality_multiplier": q,
         "effective_modifier_boost": eff_mb,
         "modifier_distribution": mod_dist,
@@ -372,9 +392,10 @@ def calculate_best_pan(
     for pan in pans:
         data = pan.get("data", {})
         capacity = data.get("capacity", 0)
-        dig_str = data.get("dig_strength", 0)
+        dig_str = data.get("dig_strength", data.get("strength", 0))
+        dig_spd = data.get("dig_speed", data.get("speed", 0))
         shake_str = data.get("shake_strength", 0)
-        shake_spd = data.get("shake_speed", 0)
+        shake_spd = data.get("shake_speed", data.get("speed", 0))
         luck = data.get("luck", 0)
         size_boost = data.get("size_boost", 0)
         mod_boost = data.get("modifier_boost", 0)
@@ -396,10 +417,10 @@ def calculate_best_pan(
         # Luck, Size Boost, Modifier Boost are multipliers
 
         # Calculate digs (lower is better)
-        digs = digs_per_pan(capacity, dig_strength) if dig_strength > 0 else 999
+        digs = digs_per_pan(capacity, dig_str) if dig_str > 0 else 999
 
-        # Calculate pans per hour
-        pph = pans_per_hour(capacity, dig_str, 1000, shake_str, shake_spd) if dig_str > 0 else 0
+        # Calculate pans per hour using the pan's own stats
+        pph = pans_per_hour(capacity, dig_str, dig_spd, shake_str, shake_spd) if dig_str > 0 else 0
 
         # Simple scoring: prioritize PPH, then capacity, then stats
         score = (pph * 0.5) + (capacity * 0.2) + (luck * 0.1) + (size_boost * 0.1) + (mod_boost * 0.1)
@@ -914,16 +935,16 @@ def calculate_weight_gate(
     return results
 
 
-def calculate_unlock_costs(unlocked_displays: list[dict] | None = None) -> dict[str, Any]:
+def calculate_unlock_costs(unlocked_displays: dict[str, int] | None = None) -> dict[str, Any]:
     """Calculate money/shards cost to unlock all museum displays.
 
     Args:
-        unlocked_displays: List of already-unlocked display identifiers.
+        unlocked_displays: Dict mapping rarity -> number of already-unlocked slots.
 
     Returns:
         Dict with money_cost, shards_cost, total_cost breakdown.
     """
-    unlocked = set(unlocked_displays or [])
+    unlocked = unlocked_displays or {}
     total_money = 0
     total_shards = 0
 
@@ -936,9 +957,7 @@ def calculate_unlock_costs(unlocked_displays: list[dict] | None = None) -> dict[
         # Slots that need unlocking beyond free ones
         locked_slots = max(0, total_slots - free_slots)
         # Subtract any already-unlocked slots for this rarity
-        unlocked_count = sum(
-            1 for d in unlocked if d.get("rarity", "") == rarity
-        )
+        unlocked_count = unlocked.get(rarity, 0)
         remaining_locked = max(0, locked_slots - unlocked_count)
 
         total_money += remaining_locked * locked_money
@@ -972,17 +991,33 @@ def calculate_museum_optimizer(
     target_stats = target_stats or {}
     unlocked = unlocked_displays or []
 
-    # Build current_displays from unlocked_displays for comparison
+    # Build current_displays from unlocked_displays for comparison.
+    # unlocked_displays may be a dict[str, int] (rarity -> count of unlocked slots),
+    # as sent by the frontend schema MuseumCalculatorRequest.
     current_displays = []
-    for i, ud in enumerate(unlocked):
-        current_displays.append({
-            "slot_id": ud.get("slot_id", f"slot-{i}"),
-            "rarity": ud.get("rarity", "Common"),
-            "slot_index": ud.get("slot_index", i),
-            "ore_name": ud.get("ore_name", ""),
-            "kg": ud.get("kg", 0),
-            "modifier": ud.get("modifier"),
-        })
+    slot_index = 0
+    if isinstance(unlocked, dict):
+        for rarity, count in unlocked.items():
+            for _ in range(int(count)):
+                current_displays.append({
+                    "slot_id": f"{rarity.lower()}-{slot_index}",
+                    "rarity": rarity,
+                    "slot_index": slot_index,
+                    "ore_name": "",
+                    "kg": 0,
+                    "modifier": None,
+                })
+                slot_index += 1
+    else:
+        for i, ud in enumerate(unlocked):
+            current_displays.append({
+                "slot_id": ud.get("slot_id", f"slot-{i}"),
+                "rarity": ud.get("rarity", "Common"),
+                "slot_index": ud.get("slot_index", i),
+                "ore_name": ud.get("ore_name", ""),
+                "kg": ud.get("kg", 0),
+                "modifier": ud.get("modifier"),
+            })
 
     # Use the existing comparison engine
     comparison = calculate_museum_comparison(

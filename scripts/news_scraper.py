@@ -22,7 +22,6 @@ async def main():
 
     async with app_database.async_session_factory() as session:
         results = await fetch_reddit_news(session)
-        print(f"Fetched {len(results)} Reddit posts")
         for r in results[:3]:
             print(f"  - {r['title'][:60]} ...")
 

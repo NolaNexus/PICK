@@ -100,17 +100,3 @@ class MediaWikiClient:
         logger.info("Fetched %d recent changes from wiki", len(changes))
         return changes
 
-
-def infer_tags(title: str, content: str) -> list[str]:
-    """Infer tags for a wiki page based on title and content keywords."""
-    tags = []
-    text = (title + " " + content).lower()
-    keyword_map = {
-        "patch": ["patch", "update", "version", "changelog"],
-        "event": ["event", "limited", "seasonal", "holiday"],
-        "announcement": ["announcement", "release", "launch"],
-    }
-    for tag, keywords in keyword_map.items():
-        if any(kw in text for kw in keywords):
-            tags.append(tag)
-    return tags

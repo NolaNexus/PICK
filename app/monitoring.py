@@ -42,11 +42,6 @@ SCRAPER_PAGES = Counter(
     ["page", "status"],
 )
 
-ACTIVE_CONNECTIONS = Gauge(
-    "active_db_connections",
-    "Active database connections",
-)
-
 DB_QUERY_LATENCY = Histogram(
     "db_query_duration_seconds",
     "Database query latency in seconds",

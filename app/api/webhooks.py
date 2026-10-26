@@ -74,11 +74,9 @@ async def wiki_edit_webhook(
         return {"status": "ignored", "reason": "not_tracked"}
 
     # Trigger targeted scrape
+    client = MediaWikiClient()
     try:
-        client = MediaWikiClient()
         changed = await scrape_page(db, client, title)
-        await client.close()
-
         return {
             "status": "ok",
             "page": title,
@@ -87,3 +85,5 @@ async def wiki_edit_webhook(
     except Exception as e:
         logger.error("Failed to scrape %s via webhook: %s", title, e)
         raise HTTPException(status_code=500, detail=f"Scrape failed: {e}") from None
+    finally:
+        await client.close()

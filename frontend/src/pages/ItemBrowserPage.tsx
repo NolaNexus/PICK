@@ -126,6 +126,12 @@ export default function ItemBrowserPage() {
 
   const itemDetail = snapshot && selectedItem ? snapshotCache.getItem(snapshot, selectedItem.slug) : undefined
 
+  useEffect(() => {
+    if (syncError) {
+      toast.error(`Failed to load data: ${syncError.message}`)
+    }
+  }, [syncError])
+
   if (isLoading) {
     return (
       <div className="space-y-4">
@@ -150,12 +156,6 @@ export default function ItemBrowserPage() {
       </div>
     )
   }
-
-  useEffect(() => {
-    if (syncError) {
-      toast.error(`Failed to load data: ${syncError.message}`)
-    }
-  }, [syncError])
 
   return (
     <div className="space-y-6">

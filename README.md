@@ -1,23 +1,16 @@
-# PICK
+# PICK — Prospecting Information & Community Kit
 
-**Prospecting! Information & Community Kit**
+**A community-built companion for Prospecting!** — items, minerals, pans, shovels, relics, runes, formulas, calculators, and community news in one fast, searchable place.
 
-🔗 **[Live Site →](https://your-github-pages-url.github.io/PICK/)** · [Report an Issue](https://github.com/your-org/PICK/issues) · [Discord](https://discord.gg/vnyBvAz93j)
-
-![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen)
-![License](https://img.shields.io/badge/License-MIT-blue)
-![Status](https://img.shields.io/badge/Status-Active-success)
-![Game](https://img.shields.io/badge/Game-Prospecting!-orange)
+🔗 **[Live Site →](https://nolanexus.github.io/PICK---Prospecting-Information---Community-Kit/)** · [Report an Issue](https://github.com/NolaNexus/PICK---Prospecting-Information---Community-Kit/issues)
 
 ---
 
 ## What is PICK?
 
-A community-built companion for players of [Prospecting!](https://www.roblox.com/games/1298271121136), a Roblox simulator where you sift sand to find minerals and build your fortune.
+PICK is a community-built companion for players of [Prospecting!](https://www.roblox.com/games/1298271121136), a Roblox simulator where you sift sand to find minerals and build your fortune.
 
-It exists to give back to the community and help players understand more of the game's mechanics and systems — items, minerals, pans, shovels, relics, runes, formulas, calculators, and community news — in one fast, searchable place.
-
-Just visit the site and look things up. You don't need to install or run anything locally.
+It exists to give back to the community and help players understand more of the game's mechanics — without needing to install or run anything locally. Just visit the site and look things up.
 
 ## PICK is not the wiki
 
@@ -53,21 +46,31 @@ Think of PICK as a companion layer on top of the wiki: structured data, calculat
 Want to run PICK yourself or contribute? You'll need Python 3.11+ and PostgreSQL 16+.
 
 ```bash
-git clone <repository-url>
-cd PICK
+git clone https://github.com/NolaNexus/PICK---Prospecting-Information---Community-Kit.git
+cd PICK---Prospecting-Information---Community-Kit
 cp .env.example .env
 docker compose up --build
 open http://localhost:8000/docs
 ```
 
 Run the wiki scraper:
+
 ```bash
 docker compose exec api python -m scripts.scraper
 ```
 
+## Contributing
+
+PICK is a community project. Contributions are welcome — whether it's fixing a typo, adding a calculator, improving the scraper, or updating the wiki data.
+
+1. Fork the repo and create a branch from `master`
+2. Make your changes
+3. Run the checks: `pytest tests/ -v && ruff check` (backend) and `npm run lint && npm run typecheck` (frontend)
+4. Open a pull request
+
 ## Deployment
 
-The frontend deploys to GitHub Pages via GitHub Actions. Push to `main` and the workflow builds `frontend/dist` and deploys to Pages. No backend or secret is required — the frontend runs fully client-side from a bundled `snapshot.json`.
+The frontend deploys to GitHub Pages via GitHub Actions. Push to `master` and the workflow builds `frontend/dist` and deploys it. No backend or secret is required — the frontend runs fully client-side from a bundled snapshot.
 
 ## Roadmap
 

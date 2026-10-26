@@ -57,8 +57,9 @@ docker compose exec api python -m scripts.scraper
 
 ## Deployment
 
-The frontend deploys to GitHub Pages via GitHub Actions. Set the `VITE_API_BASE_URL` repository secret to your
-backend's public URL (or a local tunnel such as ngrok/cloudflared), then push to `main`.
+The frontend deploys to GitHub Pages via GitHub Actions. Push to `main` and the workflow builds
+`frontend/dist` and deploys to Pages. No backend or secret is required — the frontend runs fully
+client-side from a bundled `snapshot.json`.
 
 The backend and database run locally via Docker Compose and are not exposed to the public internet by default.
 

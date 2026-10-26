@@ -106,10 +106,10 @@ export default function ItemBrowserPage() {
     if (debouncedSearch) {
       const term = debouncedSearch.toLowerCase()
       list = list.filter(
-        (i) => i.name.toLowerCase().includes(term) || (i.description ?? "").toLowerCase().includes(term)
+        (i) => (i.name ?? "").toLowerCase().includes(term) || (i.description ?? "").toLowerCase().includes(term)
       )
     }
-    return list.sort((a, b) => a.name.localeCompare(b.name))
+    return list.sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""))
   }, [snapshot, itemType, debouncedSearch])
 
   const total = items.length

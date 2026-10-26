@@ -139,7 +139,7 @@ class SnapshotCache {
   }
 
   getTypes(data: SnapshotData): string[] {
-    return Array.from(new Set(data.items.map((i) => i.type))).sort()
+    return Array.from(new Set(data.items.map((i) => i.type))).filter((t): t is string => t != null).sort()
   }
 
   searchItems(

@@ -1,11 +1,30 @@
 # PICK — Prospecting Information & Community Kit
 
+```
+      ___           ___           ___           ___
+     /  /\         /  /\         /  /\         /  /\
+    /  / /        /  / /        /  / /        /  / /
+   /  / /        /  / /        /  / /        /  / /
+  /  / /__      /  / /        /  / /        /  / /
+ /  / /   /\    /  / /  ___   /  / /  ___   /  / /___    
+ /  / /   / /   /  / /  /__/\ /  / /  /__/\ /  /____/\   
+/__/ /___/ /   /__/ /___/ / //__/ /___/ / //__/ /   / /  
+\  \:\  \ /    \  \:\/ /   / //__/ \::\/ / \  \:\ /  /  /
+ \  \:\  /      \  \:\/ /   / \  \:\ \::/ /  \  \:\  /  /
+  \  \:\/        \  \:\/ /   /   \  \:\/ /    \  \:\/  /
+   \  \::/        \  \:\/ /   /     \  \::/      \  \::/
+    \  \/          \  \:\/ /       \  \/         \  \/
+     \__/           \__\/           \__/          \__/
+```
+
 PICK is a passion project built by and for players of [Prospecting!](https://www.roblox.com/games/1298271121136),
 a Roblox simulator where you sift sand to find minerals and build your fortune.
 
 It exists to give back to the community and help players understand more of the game's mechanics and systems —
 items, minerals, pans, shovels, relics, runes, formulas, calculators, and community news — in one fast,
 searchable place.
+
+Just visit the site and look things up. You don't need to install or run anything locally.
 
 ## PICK is not the wiki
 
@@ -41,6 +60,8 @@ wiki's information easier to use while you play.
 
 ## Local development
 
+Want to run PICK yourself or contribute? You'll need Python 3.11+ and PostgreSQL 16+.
+
 ```bash
 git clone <repository-url>
 cd PICK
@@ -60,8 +81,6 @@ docker compose exec api python -m scripts.scraper
 The frontend deploys to GitHub Pages via GitHub Actions. Push to `main` and the workflow builds
 `frontend/dist` and deploys to Pages. No backend or secret is required — the frontend runs fully
 client-side from a bundled `snapshot.json`.
-
-The backend and database run locally via Docker Compose and are not exposed to the public internet by default.
 
 ## Roadmap
 

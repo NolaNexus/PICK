@@ -10,7 +10,7 @@ Built as a fast, navigable replacement for the official Miraheze wiki.
 | Language | Python 3.11+ |
 | API Framework | FastAPI |
 | Database | PostgreSQL (async SQLAlchemy) |
-| Deployment | Render |
+| Deployment | Local (Docker Compose) backend + GitHub Pages frontend |
 | CI/CD | GitHub Actions |
 
 ## Project Structure
@@ -71,9 +71,11 @@ PICK/
 ├── tests/               # Unit/integration tests
 ├── alembic/             # Database migrations
 ├── .github/workflows/   # CI/CD pipelines
+├── .github/workflows/   # CI/CD pipelines (incl. frontend Pages deploy)
 ├── requirements.txt     # Python dependencies
 ├── pyproject.toml       # Project metadata
-├── render.yaml          # Render deployment config
+├── docker-compose.yml   # Local PostgreSQL 16 + FastAPI backend
+├── Dockerfile           # Backend container image
 └── README.md            # This file
 ```
 
@@ -84,45 +86,61 @@ PICK/
 - Python 3.11+
 - PostgreSQL 16+
 
-### Local Development
+### Local Development (Docker Compose)
+
+Database (PostgreSQL 16) and the FastAPI backend run locally via Docker Compose — free, no cloud required.
 
 ```bash
 # Clone the repo
 git clone <repository-url>
 cd PICK
 
-# Create virtual environment
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
 # Copy env config
 cp .env.example .env
-# Edit .env with your DATABASE_URL and other settings
+# Edit .env if needed (DATABASE_URL defaults to the compose service)
 
-# Run database migrations
-alembic upgrade head
-
-# Start the API server
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+# Start database + API (runs migrations on startup)
+docker compose up --build
 
 # Visit the API docs
 open http://localhost:8000/docs
 ```
 
+Stop with `docker compose down`.
+
 ### Running the Scraper
 
 ```bash
-python -m scripts.scraper
+docker compose exec api python -m scripts.scraper
 ```
 
 ### Seeding Formulas
 
 ```bash
-python -m scripts.seed_formulas
+docker compose exec api python -m scripts.seed_formulas
 ```
+
+## Deployment
+
+### Frontend — GitHub Pages (free, constant uptime)
+
+Only the frontend needs to be publicly reachable at all times. It deploys to GitHub
+Pages via GitHub Actions using `.github/workflows/deploy-frontend.yml`:
+
+1. Enable GitHub Pages in the repo settings (Settings → Pages → Build and deployment →
+   Source: GitHub Actions).
+2. Add repository secret `VITE_API_BASE_URL` = your backend's public URL (or a tunnel
+   URL such as ngrok/cloudflare if the backend runs locally).
+3. Optionally add secret `VITE_BASE_URL` if serving from a subpath
+   (e.g. `/PICK/`); defaults to `/`.
+4. Push to `main` — the workflow builds `frontend/dist` and deploys to Pages.
+
+GitHub Pages is free; no credit card required.
+
+### Backend + Database — Local
+
+Run on your own machine with `docker compose up`. Not exposed to the public internet by
+default; expose it via a tunnel if the frontend needs to reach it remotely.
 
 ## Roadmap
 
@@ -132,7 +150,7 @@ See `ROADMAP.md` for the detailed implementation phases:
 2. **Phase 2**: Core scraper + change detection
 3. **Phase 3**: REST API + calculators
 4. **Phase 4**: News aggregation (Reddit)
-5. **Phase 5**: CI/CD + Render deployment
+5. **Phase 5**: CI/CD + local deploy + GitHub Pages frontend
 6. **Phase 6**: Validation & iteration
 
 ## License

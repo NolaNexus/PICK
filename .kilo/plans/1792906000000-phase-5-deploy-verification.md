@@ -1,14 +1,19 @@
-# Phase 5 Plan — Verify Render Deployment & CI/CD
+# Phase 5 Plan — Verify Local Deploy + GitHub Pages Frontend (free)
 
 ## Goal
-Take the existing `render.yaml` and GitHub Actions configs from "exists on paper" to "verified working in production."
+Move off Render/Vercel to a free setup: database + backend hosted locally via Docker
+Compose, frontend on GitHub Pages (free, constant uptime).
 
 ## Current State (Already Done)
-- `render.yaml`: Web service + 2 cron jobs + PostgreSQL
+- `docker-compose.yml`: Local PostgreSQL 16 + FastAPI backend
+- `Dockerfile`: Backend container image
+- `.env.example`: Local DATABASE_URL + VITE_API_BASE_URL
+- `.github/workflows/deploy-frontend.yml`: GitHub Actions build + deploy to Pages
+- `frontend/public/404.html`: SPA fallback for React Router routes
+- `frontend/vite.config.ts`: dev proxy → localhost:8000; `base` configurable via `VITE_BASE_URL`
 - `.github/workflows/ci.yml`: Lint + test with PostgreSQL
 - `.github/workflows/daily-scrape.yml`: Daily cron scrape
 - `.github/workflows/weekly-full-scrape.yml`: Weekly full scrape
-- `.github/workflows/deploy.yml`: Render deploy hook trigger
 
 ## Required Actions
 
@@ -17,60 +22,59 @@ Take the existing `render.yaml` and GitHub Actions configs from "exists on paper
 - Verify GitHub Actions CI passes (lint + test)
 - Fix any failures
 
-### T2 — Create Render Resources
-1. **Create Render account** (if not exists)
-2. **Connect GitHub repo** to Render
-3. **Create `pick-db` PostgreSQL** (free plan, Frankfurt)
-4. **Create `pick-api` web service** from `render.yaml`
-5. **Create `pick-daily-scrape` cron job** from `render.yaml`
-6. **Create `pick-weekly-full-scrape` cron job** from `render.yaml`
+### T2 — Verify Local Deploy (docker-compose)
+- `docker compose up --build` starts db + api and runs migrations
+- `GET http://localhost:8000/api/v1/health/health` returns 200
+- `GET http://localhost:8000/api/v1/meta` returns DB stats
 
-### T3 — Configure Render Environment Variables
-In Render dashboard, set for **all services**:
-| Variable | Value |
-|----------|-------|
-| `MEDIAWIKI_API_URL` | `https://prospecting.miraheze.org/w/api.php` |
-| `REDDIT_USER_AGENT` | `PICK/1.0 (Prospecting Information & Community Kit)` |
-| `DATABASE_URL` | Auto-linked from `pick-db` |
-| `WEBHOOK_SECRET` | Generate random string (for webhook verification) |
-| `REDDIT_CLIENT_ID` | *(leave empty - Phase 4 deferred)* |
-| `REDDIT_CLIENT_SECRET` | *(leave empty - Phase 4 deferred)* |
+### T3 — Enable GitHub Pages Frontend (free)
+1. **Enable GitHub Pages** in repo settings: Settings → Pages → Build and deployment →
+   Source: GitHub Actions.
+2. **Add repository secret** `VITE_API_BASE_URL` = your backend's public URL (or a tunnel
+   URL such as ngrok/cloudflare if backend runs locally).
+3. **Optionally add secret** `VITE_BASE_URL` if serving from a subpath (e.g. `/PICK/`);
+   defaults to `/`.
+4. **Push to `main`** — the workflow builds `frontend/dist` and deploys to Pages.
 
-### T4 — Configure GitHub Secrets
-In GitHub repo Settings → Secrets → Actions:
-| Secret | Value |
-|--------|-------|
-| `RENDER_DEPLOY_HOOK` | Render deploy hook URL for `pick-api` |
+### T4 — Verify Frontend
+- Visit the GitHub Pages URL (Settings → Pages)
+- Confirm API calls reach the backend (set `VITE_API_BASE_URL` accordingly)
+- Confirm React Router routes work (404.html fallback)
 
-### T5 — Verify End-to-End
-1. **Trigger CI** — Push a commit, verify GitHub Actions passes
-2. **Trigger Deploy** — Push to main, verify Render deploy hook fires, service deploys
-3. **Verify Health** — `GET https://pick-api.onrender.com/api/v1/health/health` returns 200
-4. **Verify API** — `GET https://pick-api.onrender.com/api/v1/meta` returns DB stats
-5. **Trigger Daily Scrape** — Manually run `pick-daily-scrape` cron, verify logs show success
-6. **Verify DB** — Check `pick-db` has tables populated after scrape
+### T5 — Scrapers (local or GitHub Actions)
+- Run scrapers locally: `docker compose exec api python -m scripts.scraper`
+- Or keep GitHub Actions scheduled scrapers (they run in GH Actions, free)
 
-### T6 — Clean Up render.yaml (Since Phase 4 Deferred)
-Remove unused Reddit vars from render.yaml:
-- Remove `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` from web service
-- Remove `REDDIT_USER_AGENT` from cron jobs (only needed for news scraper)
+## Cost Summary (keep it free)
+| Component | Where | Cost |
+|-----------|-------|------|
+| PostgreSQL 16 | Local (docker-compose) | $0 |
+| FastAPI backend | Local (docker-compose) | $0 |
+| Frontend | GitHub Pages (free) | $0 |
+| Scrapers | Local / GitHub Actions | $0 |
 
 ## Validation Criteria
 - [ ] GitHub Actions CI passes on push to main
-- [ ] Render web service deploys and responds to health checks
-- [ ] API endpoints return data (`/meta`, `/items`, `/calculators/*`)
-- [ ] Daily cron job runs successfully on schedule
-- [ ] Weekly full-scrape cron job runs successfully
-- [ ] GitHub Actions deploy workflow triggers Render deploy
+- [ ] `docker compose up` starts db + api, migrations run, health check returns 200
+- [ ] Frontend deploys to GitHub Pages and loads
+- [ ] Frontend API calls reach the backend (via `VITE_API_BASE_URL`)
+- [ ] Daily scraper runs successfully
+- [ ] Weekly full-scrape runs successfully
 
 ## Risks / Notes
-- **Free tier limits**: Render free tier spins down after 15 min inactivity — first request after idle may timeout (30s). Health checks keep it warm.
-- **Cron timezone**: Render cron uses UTC — `0 3 * * *` = 3 AM UTC
-- **Database migrations**: `alembic upgrade head` runs on every build — ensure idempotent
-- **Reddit vars**: Keep in `.env.example` for local dev, remove from Render since deferred
+- **GitHub Pages serves static sites only**; it cannot run the FastAPI backend or
+  PostgreSQL — those stay local.
+- **Frontend ↔ backend**: Pages cannot reach `localhost`. Set `VITE_API_BASE_URL`
+  to a publicly reachable backend URL, or expose the local backend via a tunnel
+  (ngrok / cloudflared).
+- **Local host must stay on** for the backend to be reachable; if the machine sleeps,
+  the API is down. For 24/7 uptime without paying, run the backend on an always-on
+  home server or Raspberry Pi.
+- **SPA routing**: `frontend/public/404.html` redirects unmatched routes to
+  `index.html` so React Router handles them client-side.
+- **Cron timezone**: GitHub Actions cron uses UTC — `0 3 * * *` = 3 AM UTC daily.
 
 ## Out of Scope
-- Custom domain / TLS
-- Monitoring/alerting beyond Render built-in
+- Custom domain / TLS beyond GitHub Pages automatic
+- Monitoring/alerting
 - Load testing
-- Phase 4 news scraping (blocked)

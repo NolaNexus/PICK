@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:16
+    container_name: pick-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: pick
+      POSTGRES_PASSWORD: pick
+      POSTGRES_DB: pick
+    ports:
+      - "5432:5432"
+    volumes:
+      - pick_db_data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pick-api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://pick:pick@db:5432/pick
+    command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  pick_db_data:

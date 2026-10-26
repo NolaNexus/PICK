@@ -17,16 +17,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - name: Install dependencies
-        run: npm ci
-        workdir: frontend
-      - name: Build
-        run: npm run build
-        workdir: frontend
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

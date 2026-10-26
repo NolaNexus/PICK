@@ -22,8 +22,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+      - name: Debug npm and node versions
+        run: |
+          node --version
+          npm --version
+          npm config get registry
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --verbose
         working-directory: frontend
       - name: Build
         run: npm run build

@@ -2,23 +2,15 @@
 
 import asyncio
 
-from sqlalchemy.ext.asyncio import create_async_engine
-
 import app.database as app_database
 from app.services.news_scraper import fetch_reddit_news
 
 
 async def main():
     """Fetch latest Reddit news and store in database."""
-    engine = create_async_engine(
-        "postgresql+asyncpg://postgres:postgres@localhost/pick",
-        echo=False,
-    )
-
+    engine = await app_database.get_engine()
     async with engine.begin():
         pass  # tables already created
-
-    await app_database.get_engine()
 
     async with app_database.async_session_factory() as session:
         results = await fetch_reddit_news(session)

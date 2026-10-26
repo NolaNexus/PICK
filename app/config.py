@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     reddit_client_id: str | None = None
     reddit_client_secret: str | None = None
 
+    # CORS
+    cors_origins: list[str] = ["*"]
+
     # Webhooks
     webhook_secret: str | None = None
 

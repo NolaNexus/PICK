@@ -13,7 +13,7 @@ import SearchPage from '@/pages/SearchPage'
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+        <BrowserRouter basename="/PICK---Prospecting-Information---Community-Kit">
         <div className="min-h-screen flex flex-col">
           <Toaster />
           <Routes>

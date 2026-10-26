@@ -111,3 +111,113 @@ optimize_luck_cap <- function(
 
   df[order(-df$bonuses_per_hour), ]
 }
+
+#' Continuous luck-cap optimization for Dredge Master quest completion
+#'
+#' Finds the luck cap that maximizes expected bonuses per hour using bounded
+#' 1D optimization (Brent's method, derivative-free). The objective
+#' (bonuses_per_hour vs luck_cap) is monotonic increasing then flat once luck
+#' saturates modifier_luck at 50, so gradient-based methods fail; Brent's
+#' method handles this step-like function without derivatives.
+#'
+#' Also reports the saturation cap: the smallest cap within tolerance of the
+#' maximum, which is the actionable recommendation (anything beyond adds no
+#' benefit).
+#'
+#' @param current_luck Numeric player's current luck.
+#' @param modifier_boost Numeric player's panel modifier boost.
+#' @param solar_magnifier Logical whether Solar Magnifier is active.
+#' @param modifier_surge Logical whether Modifier Surge is active.
+#' @param bonus_interval Integer quests between bonus rewards.
+#' @param n_quests Integer number of quests to simulate.
+#' @param lower Numeric lower bound for luck cap search.
+#' @param upper Numeric upper bound for luck cap search.
+#' @return List with optimal_cap, optimal_bonuses_per_hour, saturation_cap,
+#'   lower, upper.
+optimize_luck_cap_continuous <- function(
+  current_luck,
+  modifier_boost = 0,
+  solar_magnifier = FALSE,
+  modifier_surge = FALSE,
+  bonus_interval = 10,
+  n_quests = 100,
+  lower = 0,
+  upper = 100000
+) {
+  # Effective modifier boost.
+  eff_mb <- modifier_boost
+  if (solar_magnifier) eff_mb <- eff_mb * 2
+  if (modifier_surge) eff_mb <- eff_mb * 2
+
+  # pct_ores_modified curve (approximate from Stat Systems Guide).
+  pct_modified <- function(eff_mb) {
+    if (eff_mb <= 0) return(0)
+    if (eff_mb >= 1900) return(99.4)
+    x <- eff_mb / 1900
+    min(99.4, 99.4 * (x ^ 0.3) * 1.15)
+  }
+
+  # Probability of finding requested minerals per pan at a given luck.
+  find_prob <- function(luck) {
+    ml <- min(50, luck / 1000) + modifier_boost / 10
+    pm <- pct_modified(eff_mb)
+    if (pm <= 0 || ml <= 0) return(0)
+    (pm / 100) * (ml / 50)
+  }
+
+  # Expected bonuses per hour for a single luck cap.
+  bonuses_per_hour <- function(luck_cap) {
+    luck <- current_luck
+    quests_done <- 0
+    total_time_hours <- 0
+    bonuses_earned <- 0
+    pph <- 100
+
+    while (quests_done < n_quests) {
+      luck <- min(luck, luck_cap)
+      p_find <- find_prob(luck)
+      if (p_find <= 0) return(0)
+      pans_per_quest <- 1 / p_find
+      total_time_hours <- total_time_hours + pans_per_quest / pph / 3600
+      quests_done <- quests_done + 1
+      luck <- luck + 3
+      if (quests_done %% bonus_interval == 0) bonuses_earned <- bonuses_earned + 1
+    }
+
+    if (total_time_hours <= 0) return(0)
+    bonuses_earned / total_time_hours
+  }
+
+  # Brent bounded 1D optimization (minimize negative = maximize).
+  obj <- function(cap) -bonuses_per_hour(cap)
+  fit <- tryCatch(
+    optimize(obj, interval = c(lower, upper), maximum = FALSE),
+    error = function(e) list(minimum = lower, objective = obj(lower))
+  )
+  optimal_cap <- fit$minimum
+  optimal_bph <- -fit$objective
+  if (!is.finite(optimal_bph)) {
+    optimal_cap <- lower
+    optimal_bph <- bonuses_per_hour(lower)
+  }
+
+  # Saturation point: smallest cap within tolerance of the maximum.
+  tol <- 0.01 * max(abs(optimal_bph), 1)
+  saturation_cap <- upper
+  test_caps <- seq(lower, upper, length.out = 201)
+  for (c in test_caps) {
+    v <- bonuses_per_hour(c)
+    if (v >= optimal_bph - tol) {
+      saturation_cap <- c
+      break
+    }
+  }
+
+  list(
+    optimal_cap = optimal_cap,
+    optimal_bonuses_per_hour = optimal_bph,
+    saturation_cap = saturation_cap,
+    lower = lower,
+    upper = upper
+  )
+}

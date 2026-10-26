@@ -418,6 +418,292 @@ def optimize_luck_cap_r(
         return []
 
 
+def optimize_luck_cap_continuous_r(
+    current_luck: float,
+    modifier_boost: float = 0.0,
+    solar_magnifier: bool = False,
+    modifier_surge: bool = False,
+    bonus_interval: int = 10,
+    n_quests: int = 100,
+    lower: float = 0.0,
+    upper: float = 100000.0,
+) -> dict | None:
+    """Continuously optimize the luck cap using R's Brent bounded search.
+
+    Wraps R's `optimize_luck_cap_continuous`, which finds the luck cap
+    maximizing expected bonuses per hour without being tied to a fixed grid.
+    Returns the optimal cap, the maximum bonuses per hour, and the saturation
+    cap (smallest cap within 1% tolerance of the maximum — the actionable
+    recommendation).
+
+    Gracefully returns None when R/rpy2 is unavailable.
+    """
+    if not R_AVAILABLE:
+        return None
+
+    try:
+        optimize_luck_cap_continuous = ro.globalenv["optimize_luck_cap_continuous"]
+        result = optimize_luck_cap_continuous(
+            ro.FloatVector([float(current_luck)]),
+            ro.FloatVector([float(modifier_boost)]),
+            ro.BoolVector([bool(solar_magnifier)]),
+            ro.BoolVector([bool(modifier_surge)]),
+            ro.IntVector([int(bonus_interval)]),
+            ro.IntVector([int(n_quests)]),
+            ro.FloatVector([float(lower)]),
+            ro.FloatVector([float(upper)]),
+        )
+
+        out = {}
+        for col in ["optimal_cap", "optimal_bonuses_per_hour", "saturation_cap",
+                    "lower", "upper"]:
+            val = list(result.rx2(col))[0]
+            if hasattr(val, "item"):
+                val = val.item()
+            out[col] = float(val)
+        return out
+    except Exception:
+        return None
+
+
+def fit_modifier_fraction_r(
+    query_eff_mb: list[float],
+    obs_eff_mb: list[float],
+    obs_modified: list[float],
+    obs_total: list[float],
+) -> list[dict] | None:
+    """Fit the % ores modified curve from observed data using R.
+
+    Wraps R's `fit_modifier_fraction` (stats::nls asymptotic exponential),
+    returning predicted pct_modified (0-100) at each query eff_mb point.
+    Returns None when R/rpy2 is unavailable or the fit fails to converge,
+    so callers can fall back to the hardcoded approximation.
+
+    Args:
+        query_eff_mb: Effective MB values at which to predict pct_modified.
+        obs_eff_mb: Observed effective MB values.
+        obs_modified: Observed modified-ore counts per point.
+        obs_total: Observed total ore counts per point.
+
+    Returns:
+        List of {eff_mb, pct_modified} dicts, or None on failure/unavailable.
+    """
+    if not R_AVAILABLE:
+        return None
+
+    if not query_eff_mb or len(obs_eff_mb) < 3:
+        return None
+
+    try:
+        fit_modifier_fraction = ro.globalenv["fit_modifier_fraction"]
+        result = fit_modifier_fraction(
+            ro.FloatVector([float(v) for v in query_eff_mb]),
+            ro.FloatVector([float(v) for v in obs_eff_mb]),
+            ro.FloatVector([float(v) for v in obs_modified]),
+            ro.FloatVector([float(v) for v in obs_total]),
+        )
+
+        if result is None or result.nrow == 0:
+            return None
+
+        n_rows = int(result.nrow)
+        col_names = [str(c) for c in result.colnames]
+        out = []
+        for i in range(n_rows):
+            row = {}
+            for col in col_names:
+                val = list(result.rx2(col))[i]
+                if hasattr(val, "item"):
+                    val = val.item()
+                row[col] = val
+            out.append(row)
+        return out
+    except Exception:
+        return None
+
+
+def _r_named_list_to_dict(result, col: str) -> dict | None:
+    """Convert an R named list/vector column to a Python dict."""
+    try:
+        val = result.rx2(col)
+        if val is None:
+            return None
+        names = list(val.names) if hasattr(val, "names") and val.names is not None else []
+        values = list(val)
+        if len(names) != len(values):
+            return None
+        out = {}
+        for n, v in zip(names, values, strict=False):
+            if hasattr(v, "item"):
+                v = v.item()
+            out[str(n)] = v
+        return out or None
+    except Exception:
+        return None
+
+
+def quest_survival_r(
+    n_runs: int = 200,
+    n_quests: int = 50,
+    max_time_hours: float = 48.0,
+    time_points: list[float] | None = None,
+    luck_levels: list[float] | None = None,
+    modifier_boost_levels: list[float] | None = None,
+    meteor: bool = False,
+    weather_events: int = 0,
+    solar_magnifier: bool = False,
+    modifier_surge: bool = False,
+    bonus_interval: int = 10,
+    base_pph: float = 100.0,
+) -> dict | None:
+    """Run Dredge Master quest survival analysis using R.
+
+    Wraps R's `quest_survival_analysis` (survival::coxph). Simulates many quest
+    runs across a grid of build/event configurations, fits a Cox proportional
+    hazards model, and returns coefficients, hazard ratios, baseline median
+    time-to-completion, a survival curve, and quest-completion probabilities
+    within key time windows.
+
+    Returns None when R/rpy2 is unavailable or the model fails to fit.
+    """
+    if not R_AVAILABLE:
+        return None
+
+    if time_points is None:
+        time_points = [1.0, 5.0, 10.0, 24.0, 48.0]
+    if luck_levels is None:
+        luck_levels = [0.0, 5000.0, 10000.0, 25000.0, 50000.0]
+    if modifier_boost_levels is None:
+        modifier_boost_levels = [0.0, 200.0, 500.0, 1000.0]
+
+    try:
+        quest_survival_analysis = ro.globalenv["quest_survival_analysis"]
+        result = quest_survival_analysis(
+            ro.IntVector([int(n_runs)]),
+            ro.IntVector([int(n_quests)]),
+            ro.FloatVector([float(max_time_hours)]),
+            ro.FloatVector([float(v) for v in time_points]),
+            ro.FloatVector([float(v) for v in luck_levels]),
+            ro.FloatVector([float(v) for v in modifier_boost_levels]),
+            ro.BoolVector([bool(meteor)]),
+            ro.IntVector([int(weather_events)]),
+            ro.BoolVector([bool(solar_magnifier)]),
+            ro.BoolVector([bool(modifier_surge)]),
+            ro.IntVector([int(bonus_interval)]),
+            ro.FloatVector([float(base_pph)]),
+        )
+
+        if result is None:
+            return None
+
+        out: dict = {}
+
+        # Scalar fields (single-row result).
+        for col in ["baseline_median_time_hours", "n_runs", "n_completed",
+                    "n_censored", "r_used"]:
+            val = list(result.rx2(col))[0]
+            if hasattr(val, "item"):
+                val = val.item()
+            out[col] = float(val) if col != "r_used" else bool(val)
+
+        # Named list fields → dicts.
+        coeffs = _r_named_list_to_dict(result, "coefficients")
+        hrs = _r_named_list_to_dict(result, "hazard_ratios")
+        out["coefficients"] = {str(k): float(v) for k, v in (coeffs or {}).items()} if coeffs else {}
+        out["hazard_ratios"] = {str(k): float(v) for k, v in (hrs or {}).items()} if hrs else {}
+
+        # Completion probabilities (named list) → dict keyed by time.
+        cpw = _r_named_list_to_dict(result, "completion_prob_within")
+        out["completion_prob_within"] = (
+            {str(k): float(v) for k, v in cpw.items()} if cpw else {}
+        )
+
+        # Survival curve data frame → list of dicts.
+        sc = result.rx2("survival_curve")
+        if sc is not None and int(sc.nrow) > 0:
+            sc_names = [str(c) for c in sc.colnames]
+            sc_rows = []
+            n_sc = int(sc.nrow)
+            for i in range(n_sc):
+                row = {}
+                for col in sc_names:
+                    v = list(sc.rx2(col))[i]
+                    if hasattr(v, "item"):
+                        v = v.item()
+                    row[col] = v
+                sc_rows.append(row)
+            out["survival_curve"] = sc_rows
+        else:
+            out["survival_curve"] = []
+
+        return out
+    except Exception:
+        return None
+
+
+def ev_pareto_frontier_r(
+    candidates: list[dict],
+    n_samples: int = 10000,
+) -> list[dict] | None:
+    """Compute the EV / risk Pareto frontier for candidate builds using R.
+
+    Wraps R's `ev_pareto_frontier`. For each candidate build (with EV per pan
+    mean/SD and pans per hour mean/SD), runs a Monte Carlo simulation of
+    EV/hour, then returns the non-dominated Pareto frontier on mean EV/hour
+    vs p05 EV/hour (risk-adjusted downside).
+
+    Returns None when R/rpy2 is unavailable.
+    """
+    if not R_AVAILABLE:
+        return None
+
+    if not candidates:
+        return []
+
+    try:
+        ev_pareto_frontier = ro.globalenv["ev_pareto_frontier"]
+        names = [str(c.get("name", "")) for c in candidates]
+        ev_means = [float(c.get("ev_per_pan_mean", 0)) for c in candidates]
+        ev_sds = [float(c.get("ev_per_pan_sd", 0)) for c in candidates]
+        pph_means = [float(c.get("pph_mean", 0)) for c in candidates]
+        pph_sds = [float(c.get("pph_sd", 0)) for c in candidates]
+
+        candidates_df = ro.DataFrame({
+            "name": ro.StrVector(names),
+            "ev_per_pan_mean": ro.FloatVector(ev_means),
+            "ev_per_pan_sd": ro.FloatVector(ev_sds),
+            "pph_mean": ro.FloatVector(pph_means),
+            "pph_sd": ro.FloatVector(pph_sds),
+        })
+
+        result = ev_pareto_frontier(
+            candidates_df,
+            ro.IntVector([int(n_samples)]),
+        )
+
+        if result is None or int(result.nrow) == 0:
+            return []
+
+        col_names = [str(c) for c in result.colnames]
+        n_rows = int(result.nrow)
+        out = []
+        for i in range(n_rows):
+            row = {}
+            for col in col_names:
+                val = list(result.rx2(col))[i]
+                if hasattr(val, "item"):
+                    val = val.item()
+                elif isinstance(val, bytes):
+                    val = val.decode("utf-8")
+                elif isinstance(val, (bool,)):
+                    val = bool(val)
+                row[col] = val
+            out.append(row)
+        return out
+    except Exception:
+        return None
+
+
 def is_available() -> bool:
     """Return True if R + rpy2 are available."""
     return R_AVAILABLE

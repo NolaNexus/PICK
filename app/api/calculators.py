@@ -12,6 +12,8 @@ from app.schemas import (
     CalculatorEVRequest,
     CalculatorMORRequest,
     CalculatorTTGRequest,
+    EVParetoRequest,
+    EVParetoResponse,
     EVResponse,
     ExoticHuntRequest,
     ExoticHuntResponse,
@@ -19,15 +21,21 @@ from app.schemas import (
     GearRecommendationResponse,
     HuntListRequest,
     HuntRecommendationResponse,
+    LuckCapContinuousRequest,
+    LuckCapContinuousResponse,
     LuckCapOptimizationRequest,
     LuckCapOptimizationResponse,
     ModifierDistributionFitRequest,
     ModifierDistributionFitResponse,
+    ModifierFractionFitRequest,
+    ModifierFractionFitResponse,
     ModifierOddsResponse,
     MonteCarloEVRequest,
     MonteCarloEVResponse,
     MuseumCalculatorRequest,
     MuseumCalculatorResponse,
+    QuestSurvivalRequest,
+    QuestSurvivalResponse,
     TTGResponse,
 )
 from app.services.calculators import (
@@ -43,10 +51,14 @@ from app.services.calculators import (
     modifier_distribution,
 )
 from app.services.r_stats import (
+    ev_pareto_frontier_r,
     fit_modifier_distribution,
+    fit_modifier_fraction_r,
     is_available,
     monte_carlo_ev,
+    optimize_luck_cap_continuous_r,
     optimize_luck_cap_r,
+    quest_survival_r,
     score_exotic_locations_r,
     score_gear_r,
     score_hunt_locations_r,
@@ -464,5 +476,172 @@ async def optimize_luck_cap_endpoint(request: LuckCapOptimizationRequest):
     return {
         "recommendations": results,
         "optimal_cap": optimal.get("luck_cap", request.current_luck),
+        "r_used": is_available(),
+    }
+
+
+@router.post(
+    "/stats/optimize-luck-cap-continuous",
+    response_model=LuckCapContinuousResponse,
+    tags=["calculators"],
+)
+async def optimize_luck_cap_continuous_endpoint(request: LuckCapContinuousRequest):
+    """Continuously optimize the luck cap using R's bounded Brent search.
+
+    Finds the luck cap maximizing expected bonuses per hour without being
+    tied to a fixed grid. Falls back to a deterministic result when R/rpy2
+    is unavailable.
+    """
+    result = optimize_luck_cap_continuous_r(
+        current_luck=request.current_luck,
+        modifier_boost=request.modifier_boost,
+        solar_magnifier=request.solar_magnifier,
+        modifier_surge=request.modifier_surge,
+        bonus_interval=request.bonus_interval,
+        n_quests=request.n_quests,
+        lower=request.lower,
+        upper=request.upper,
+    )
+
+    if result is None:
+        # Fallback without R: return a deterministic result at current luck.
+        return {
+            "optimal_cap": request.current_luck,
+            "optimal_bonuses_per_hour": 0.0,
+            "saturation_cap": request.current_luck,
+            "lower": request.lower,
+            "upper": request.upper,
+            "r_used": False,
+        }
+
+    return {
+        "optimal_cap": result["optimal_cap"],
+        "optimal_bonuses_per_hour": result["optimal_bonuses_per_hour"],
+        "saturation_cap": result["saturation_cap"],
+        "lower": result["lower"],
+        "upper": result["upper"],
+        "r_used": is_available(),
+    }
+
+
+@router.post(
+    "/stats/modifier-fraction",
+    response_model=ModifierFractionFitResponse,
+    tags=["calculators"],
+)
+async def fit_modifier_fraction_endpoint(request: ModifierFractionFitRequest):
+    """Fit the % ores modified curve from observed data using R.
+
+    Fits a saturating asymptotic-exponential model
+    (pct_modified ~ Asym * (1 - exp(-k * eff_mb))) via stats::nls and
+    returns predicted pct_modified at each query eff_mb point. Falls back to
+    an empty curve with r_used: false when R/rpy2 is unavailable or the fit
+    fails to converge (too few points / no variation).
+    """
+    result = fit_modifier_fraction_r(
+        query_eff_mb=request.query_eff_mb,
+        obs_eff_mb=request.obs_eff_mb,
+        obs_modified=request.obs_modified,
+        obs_total=request.obs_total,
+    )
+
+    if result is None:
+        return {"curve": [], "r_used": False}
+
+    return {
+        "curve": result,
+        "r_used": is_available(),
+    }
+
+
+@router.post(
+    "/stats/quest-survival",
+    response_model=QuestSurvivalResponse,
+    tags=["calculators"],
+)
+async def quest_survival_endpoint(request: QuestSurvivalRequest):
+    """Dredge Master quest survival analysis using R's Cox proportional
+    hazards model.
+
+    Simulates many quest runs across a grid of build/event configurations,
+    fits survival::coxph, and returns coefficients, hazard ratios, baseline
+    median time-to-completion, a survival curve, and quest-completion
+    probabilities within key time windows. Falls back to a deterministic
+    reference result when R/rpy2 is unavailable.
+    """
+    result = quest_survival_r(
+        n_runs=request.n_runs,
+        n_quests=request.n_quests,
+        max_time_hours=request.max_time_hours,
+        time_points=request.time_points,
+        luck_levels=request.luck_levels,
+        modifier_boost_levels=request.modifier_boost_levels,
+        meteor=request.meteor,
+        weather_events=request.weather_events,
+        solar_magnifier=request.solar_magnifier,
+        modifier_surge=request.modifier_surge,
+        bonus_interval=request.bonus_interval,
+        base_pph=request.base_pph,
+    )
+
+    if result is None:
+        return {
+            "coefficients": {},
+            "hazard_ratios": {},
+            "baseline_median_time_hours": 0.0,
+            "n_runs": 0,
+            "n_completed": 0,
+            "n_censored": 0,
+            "survival_curve": [],
+            "completion_prob_within": {},
+            "r_used": False,
+        }
+
+    return {
+        "coefficients": result.get("coefficients", {}),
+        "hazard_ratios": result.get("hazard_ratios", {}),
+        "baseline_median_time_hours": result.get("baseline_median_time_hours", 0.0),
+        "n_runs": int(result.get("n_runs", 0)),
+        "n_completed": int(result.get("n_completed", 0)),
+        "n_censored": int(result.get("n_censored", 0)),
+        "survival_curve": result.get("survival_curve", []),
+        "completion_prob_within": result.get("completion_prob_within", {}),
+        "r_used": is_available(),
+    }
+
+
+@router.post(
+    "/stats/ev-pareto-frontier",
+    response_model=EVParetoResponse,
+    tags=["calculators"],
+)
+async def ev_pareto_frontier_endpoint(request: EVParetoRequest):
+    """EV / risk Pareto frontier for candidate builds using R.
+
+    Runs a Monte Carlo simulation of EV/hour for each candidate build, then
+    returns the non-dominated Pareto frontier on mean EV/hour vs p05 EV/hour
+    (risk-adjusted downside). Falls back to an empty frontier when R/rpy2 is
+    unavailable.
+    """
+    candidates = [c.model_dump() for c in request.candidates]
+    result = ev_pareto_frontier_r(
+        candidates=candidates,
+        n_samples=request.n_samples,
+    )
+
+    if result is None:
+        return {
+            "frontier": [],
+            "all_candidates": [],
+            "n_frontier": 0,
+            "r_used": False,
+        }
+
+    frontier = [row for row in result if row.get("on_frontier") is True]
+
+    return {
+        "frontier": frontier,
+        "all_candidates": result,
+        "n_frontier": len(frontier),
         "r_used": is_available(),
     }

@@ -805,4 +805,340 @@ class LuckCapOptimizationResponse(BaseModel):
     }
 
 
+# =============================================================================
+# CONTINUOUS LUCK CAP OPTIMIZATION SCHEMAS
+# =============================================================================
+
+
+class LuckCapContinuousRequest(BaseModel):
+    """Request for continuous luck-cap optimization.
+
+    Uses R's bounded Brent search over [lower, upper] to find the luck cap
+    maximizing expected bonuses per hour, without being tied to a fixed grid.
+    """
+
+    current_luck: float = Field(default=0.0, ge=0)
+    modifier_boost: float = Field(default=0.0, ge=0)
+    solar_magnifier: bool = False
+    modifier_surge: bool = False
+    bonus_interval: int = Field(default=10, ge=1)
+    n_quests: int = Field(default=100, ge=1, le=10000)
+    lower: float = Field(default=0.0, ge=0)
+    upper: float = Field(default=100000.0, ge=0)
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "current_luck": 5000,
+                "modifier_boost": 200,
+                "solar_magnifier": False,
+                "modifier_surge": False,
+                "bonus_interval": 10,
+                "n_quests": 100,
+                "lower": 0,
+                "upper": 100000,
+            }
+        }
+    }
+
+
+class LuckCapContinuousResponse(BaseModel):
+    """Continuous luck-cap optimization results.
+
+    saturation_cap is the actionable recommendation: the smallest cap within
+    1% tolerance of the maximum bonuses per hour. Anything beyond adds no
+    meaningful benefit.
+    """
+
+    optimal_cap: float
+    optimal_bonuses_per_hour: float
+    saturation_cap: float
+    lower: float
+    upper: float
+    r_used: bool
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "optimal_cap": 100000.0,
+                "optimal_bonuses_per_hour": 10534.32,
+                "saturation_cap": 5000.0,
+                "lower": 0.0,
+                "upper": 100000.0,
+                "r_used": True,
+            }
+        }
+    }
+
+
+# =============================================================================
+# MODIFIER FRACTION CURVE FIT SCHEMAS
+# =============================================================================
+
+
+class ModifierFractionFitRequest(BaseModel):
+    """Request to fit the % ores modified curve from observed data.
+
+    query_eff_mb: effective MB values at which to predict pct_modified.
+    obs_eff_mb/obs_modified/obs_total: observed data points (one per observed
+    effective-MB level). Requires at least 3 points with variation in eff_mb
+    and some non-zero modified counts for the fit to succeed.
+    """
+
+    query_eff_mb: list[float] = Field(default_factory=list)
+    obs_eff_mb: list[float] = Field(default_factory=list)
+    obs_modified: list[float] = Field(default_factory=list)
+    obs_total: list[float] = Field(default_factory=list)
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "query_eff_mb": [0, 250, 500, 1000, 1500, 1900],
+                "obs_eff_mb": [100, 500, 1000, 1500, 1900],
+                "obs_modified": [5, 30, 60, 85, 95],
+                "obs_total": [100, 100, 100, 100, 100],
+            }
+        }
+    }
+
+
+class ModifierFractionFitPoint(BaseModel):
+    """A single point on the fitted % ores modified curve."""
+    eff_mb: float
+    pct_modified: float
+
+
+class ModifierFractionFitResponse(BaseModel):
+    """Fitted % ores modified curve.
+
+    curve: list of {eff_mb, pct_modified} points (0-100 scale).
+    r_used: whether R was used (False means the fit failed or R unavailable).
+    """
+
+    curve: list[ModifierFractionFitPoint]
+    r_used: bool
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "curve": [
+                    {"eff_mb": 0, "pct_modified": 0.0},
+                    {"eff_mb": 500, "pct_modified": 39.9},
+                    {"eff_mb": 1000, "pct_modified": 63.9},
+                    {"eff_mb": 1500, "pct_modified": 78.3},
+                    {"eff_mb": 1900, "pct_modified": 85.5},
+                ],
+                "r_used": True,
+            }
+        }
+    }
+
+
+# =============================================================================
+# QUEST SURVIVAL ANALYSIS SCHEMAS
+# =============================================================================
+
+
+class QuestSurvivalPoint(BaseModel):
+    """A single point on the quest-completion survival curve."""
+    time: float
+    survival_prob: float
+
+
+class QuestSurvivalRequest(BaseModel):
+    """Request for Dredge Master quest survival analysis.
+
+    Simulates many quest runs across a grid of build/event configurations and
+    fits a Cox proportional hazards model (survival::coxph) to estimate how
+    luck, modifier boost, and event bonuses affect time-to-quest-completion.
+    """
+
+    n_runs: int = Field(default=200, ge=1, le=2000)
+    n_quests: int = Field(default=50, ge=1, le=1000)
+    max_time_hours: float = Field(default=48.0, ge=1)
+    time_points: list[float] = Field(default_factory=lambda: [1.0, 5.0, 10.0, 24.0, 48.0])
+    luck_levels: list[float] = Field(default_factory=lambda: [0.0, 5000.0, 10000.0, 25000.0, 50000.0])
+    modifier_boost_levels: list[float] = Field(default_factory=lambda: [0.0, 200.0, 500.0, 1000.0])
+    meteor: bool = False
+    weather_events: int = Field(default=0, ge=0)
+    solar_magnifier: bool = False
+    modifier_surge: bool = False
+    bonus_interval: int = Field(default=10, ge=1)
+    base_pph: float = Field(default=100.0, ge=0)
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "n_runs": 200,
+                "n_quests": 50,
+                "max_time_hours": 48.0,
+                "time_points": [1, 5, 10, 24, 48],
+                "luck_levels": [0, 5000, 10000, 25000, 50000],
+                "modifier_boost_levels": [0, 200, 500, 1000],
+                "meteor": False,
+                "weather_events": 0,
+                "solar_magnifier": False,
+                "modifier_surge": False,
+                "bonus_interval": 10,
+                "base_pph": 100,
+            }
+        }
+    }
+
+
+class QuestSurvivalResponse(BaseModel):
+    """Quest survival analysis results.
+
+    coefficients / hazard_ratios: log-hazard and hazard ratio per covariate
+    (luck, modifier_boost). A hazard ratio > 1 means the covariate speeds up
+    quest completion.
+    baseline_median_time_hours: median time to complete the quest at the
+    reference build (luck=0, modifier_boost=0).
+    survival_curve: {time, survival_prob} points.
+    completion_prob_within: probability of finishing a quest within each
+    requested time window.
+    """
+
+    coefficients: dict[str, float]
+    hazard_ratios: dict[str, float]
+    baseline_median_time_hours: float
+    n_runs: int
+    n_completed: int
+    n_censored: int
+    survival_curve: list[QuestSurvivalPoint]
+    completion_prob_within: dict[str, float]
+    r_used: bool
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "coefficients": {"luck": 0.0002, "modifier_boost": 0.108},
+                "hazard_ratios": {"luck": 1.0002, "modifier_boost": 1.114},
+                "baseline_median_time_hours": 0.56,
+                "n_runs": 200,
+                "n_completed": 200,
+                "n_censored": 0,
+                "survival_curve": [
+                    {"time": 1, "survival_prob": 0.0},
+                    {"time": 24, "survival_prob": 0.0},
+                ],
+                "completion_prob_within": {"1": 1.0, "24": 1.0},
+                "r_used": True,
+            }
+        }
+    }
+
+
+# =============================================================================
+# EV / RISK PARETO FRONTIER SCHEMAS
+# =============================================================================
+
+
+class EVParetoCandidate(BaseModel):
+    """A candidate build for EV / risk Pareto frontier analysis."""
+    name: str
+    ev_per_pan_mean: float = Field(default=0.0, ge=0)
+    ev_per_pan_sd: float = Field(default=0.0, ge=0)
+    pph_mean: float = Field(default=0.0, ge=0)
+    pph_sd: float = Field(default=0.0, ge=0)
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "name": "Build D",
+                "ev_per_pan_mean": 5500,
+                "ev_per_pan_sd": 800,
+                "pph_mean": 110,
+                "pph_sd": 15,
+            }
+        }
+    }
+
+
+class EVParetoPoint(BaseModel):
+    """A single point on the EV / risk Pareto frontier."""
+    name: str
+    mean_ev_hour: float
+    p05_ev_hour: float
+    p95_ev_hour: float
+    ev_per_pan_mean: float
+    pph_mean: float
+    on_frontier: bool
+    dominated_by: str
+
+
+class EVParetoRequest(BaseModel):
+    """Request for EV / risk Pareto frontier analysis.
+
+    candidates: list of builds to compare. Each build is characterized by the
+    mean and standard deviation of EV per pan and pans per hour.
+    n_samples: Monte Carlo draws per candidate.
+    """
+
+    candidates: list[EVParetoCandidate] = Field(default_factory=list)
+    n_samples: int = Field(default=10000, ge=100, le=200000)
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "candidates": [
+                    {
+                        "name": "Build A",
+                        "ev_per_pan_mean": 5000,
+                        "ev_per_pan_sd": 500,
+                        "pph_mean": 100,
+                        "pph_sd": 10,
+                    },
+                    {
+                        "name": "Build B",
+                        "ev_per_pan_mean": 4000,
+                        "ev_per_pan_sd": 200,
+                        "pph_mean": 150,
+                        "pph_sd": 20,
+                    },
+                ],
+                "n_samples": 10000,
+            }
+        }
+    }
+
+
+class EVParetoResponse(BaseModel):
+    """EV / risk Pareto frontier results.
+
+    frontier: non-dominated candidates (on_frontier == true), sorted by mean
+    EV/hour descending.
+    all_candidates: every candidate with its dominance status.
+    n_frontier: number of candidates on the frontier.
+    r_used: whether R was used.
+    """
+
+    frontier: list[EVParetoPoint]
+    all_candidates: list[EVParetoPoint]
+    n_frontier: int
+    r_used: bool
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "frontier": [
+                    {
+                        "name": "Build D",
+                        "mean_ev_hour": 604818.6,
+                        "p05_ev_hour": 409727.1,
+                        "p95_ev_hour": 817773.2,
+                        "ev_per_pan_mean": 5500,
+                        "pph_mean": 110,
+                        "on_frontier": True,
+                        "dominated_by": "",
+                    }
+                ],
+                "all_candidates": [],
+                "n_frontier": 1,
+                "r_used": True,
+            }
+        }
+    }
+
+
 

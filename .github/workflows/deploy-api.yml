@@ -1,0 +1,35 @@
+name: Deploy API to Render
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to Render
+        uses: johnbatista/render-deploy@v0.4.1
+        with:
+          render_api_key: ${{ secrets.RENDER_API_KEY }}
+          render_app_id: ${{ secrets.RENDER_APP_ID }}
+          clear_previous_deploy: true
+
+      - name: Notify deployment
+        run: |
+          echo "✅ API deployed to Render successfully"
+          echo "🔗 View at: https://pick-api.onrender.com"
+          echo "📊 Health check: https://pick-api.onrender.com/api/v1/health/ready"
+          echo "📈 Metrics: https://pick-api.onrender.com/api/v1/meta"
+
+  notify-success:
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: ${{ !cancelled() }}
+    steps:
+      - name: Notify success
+        run: echo "🎉 API deployment completed successfully!"

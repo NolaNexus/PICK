@@ -15,6 +15,7 @@ dependencies = [
     "uvicorn[standard]",
     "sqlalchemy[asyncio]",
     "asyncpg",
+    "aiosqlite",
     "alembic",
     "pydantic",
     "pydantic-settings",
@@ -30,6 +31,7 @@ dev = [
     "pytest-cov",
     "ruff",
     "pre-commit",
+    "mypy",
 ]
 
 [project.scripts]

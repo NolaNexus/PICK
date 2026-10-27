@@ -10,7 +10,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+/lib/
 lib64/
 parts/
 sdist/
@@ -93,3 +93,7 @@ lerna-debug.log*
 
 # Gh binary
 gh_*/
+
+# Database
+*.db
+*.db-journal

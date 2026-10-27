@@ -6,14 +6,14 @@ export default {
     output: {
       target: './src/api',
       client: 'react-query',
-      mode: 'tags-split',
+      mode: 'import',
       override: {
         mutator: './src/api/client.ts',
         query: {
           version: 5,
           useQuery: true,
           useMutation: true,
-          shouldExportHttpClient: true,
+          shouldExportHttpClient: false,
           shouldExportMutatorHooks: false,
         },
       },

@@ -109,6 +109,9 @@ async def fetch_reddit_news(
                     "and REDDIT_CLIENT_SECRET in .env for OAuth2 authentication."
                 )
             raise
+        except httpx.HTTPError as e:
+            logger.error("Failed to fetch Reddit posts from r/%s: %s", subreddit, e)
+            raise
 
     children = data.get("data", {}).get("children", [])
     logger.info("Fetched %d Reddit posts from r/%s", len(children), subreddit)

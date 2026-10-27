@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 
 from sqlalchemy import select
 
+from app.services.reconcile import reconcile_items
 from app.utils.mw_api import MediaWikiClient
 from scrapers import PARSERS, TRACKED_PAGES  # type: ignore
 
@@ -15,6 +16,20 @@ if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
+
+
+def _type_prefixed_slug(item_type: str, slug: str) -> str:
+    """Namespace an item slug with its item type.
+
+    ``items.slug`` is globally unique, but the same name can exist under
+    different types (a "Dredge Master" NPC and a "Dredge Master" quest). Using
+    the type as a prefix makes every slug deterministic and independent of the
+    order pages happen to be scraped in.
+    """
+    prefix = item_type.strip().lower().replace("_", "-")
+    if not prefix:
+        return slug
+    return f"{prefix}-{slug}"
 
 
 async def check_for_game_update(db: "AsyncSession", client: MediaWikiClient) -> bool:
@@ -135,6 +150,14 @@ async def _run_scrape(
     finally:
         await client.close()
 
+    try:
+        reconciled = await reconcile_items(db)
+    except Exception as e:
+        pages_errors += 1
+        error_log.append(f"reconcile: {e}")
+        logger.exception("Item reconciliation failed")
+        reconciled = {}
+
     run.finished_at = datetime.now(UTC)
     run.status = "success" if pages_errors == 0 else "partial"
     run.pages_scraped = pages_scraped
@@ -148,6 +171,7 @@ async def _run_scrape(
         "pages_scraped": pages_scraped,
         "pages_changed": pages_changed,
         "pages_errors": pages_errors,
+        "reconciled": reconciled,
     }
 
 
@@ -194,15 +218,21 @@ async def scrape_page(
         db.add(wiki_page)
         await db.flush()
 
-    # Batch-load existing items for this page to avoid a per-item N+1 query
+    # Slugs are namespaced by item type. The same name can legitimately exist
+    # under different types (a "Dredge Master" NPC and a "Dredge Master" quest,
+    # "Museum" as a location and as its museum_info record, "The Void" as a
+    # location and as an event), and `items.slug` is globally unique. Deriving
+    # the slug from type + parser slug keeps it deterministic and idempotent:
+    # every scrape resolves to the same rows regardless of page order.
     parsed_items: list[tuple[dict, str]] = []
     seen_slugs: set[str] = set()
     for item_data in items:
-        slug = (
+        base_slug = (
             item_data.get("slug")
             or item_data.get("id")
             or item_data["name"].lower().replace(" ", "-")
         )
+        slug = _type_prefixed_slug(item_data["type"], base_slug)
         if slug in seen_slugs:
             logger.warning("Duplicate slug %r on %s; keeping first occurrence", slug, title)
             continue

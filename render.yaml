@@ -5,7 +5,8 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile
     healthCheckPath: /api/v1/health/ready
-    autoDeploy: true
+    # Deploys are triggered by .github/workflows/deploy-api.yml after CI passes.
+    autoDeploy: false
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -30,7 +31,7 @@ services:
     plan: starter
     schedule: "0 */6 * * *"
     dockerfilePath: ./Dockerfile
-    dockerCommand: python -m scripts.scraper
+    dockerCommand: sh -c "alembic upgrade head && python -m scripts.scraper"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -51,7 +52,7 @@ services:
     plan: starter
     schedule: "0 4 * * 0"
     dockerfilePath: ./Dockerfile
-    dockerCommand: python -m scripts.scraper --full
+    dockerCommand: sh -c "alembic upgrade head && python -m scripts.scraper --full"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -72,7 +73,7 @@ services:
     plan: starter
     schedule: "0 2 * * *"
     dockerfilePath: ./Dockerfile
-    dockerCommand: python -m scripts.news_scraper
+    dockerCommand: sh -c "alembic upgrade head && python -m scripts.news_scraper"
     envVars:
       - key: DATABASE_URL
         fromDatabase:

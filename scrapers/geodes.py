@@ -84,7 +84,21 @@ def parse_geodes(wikitext: str) -> list[dict[str, Any]]:
         elif geothermal_section and stripped and not stripped.startswith("*"):
             geothermal_section = False
 
-    return geodes
+    # There is exactly one geode type per location. If the wiki ever lists two
+    # variants for the same place, keep the first so the invariant holds.
+    unique: list[dict[str, Any]] = []
+    seen_locations: set[str] = set()
+    for geode in geodes:
+        data = geode.get("data")
+        location = data.get("location", "") if isinstance(data, dict) else ""
+        location_key = str(location).strip().lower()
+        if location_key and location_key in seen_locations:
+            continue
+        if location_key:
+            seen_locations.add(location_key)
+        unique.append(geode)
+
+    return unique
 
 
 def _slugify(name: str) -> str:

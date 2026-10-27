@@ -50,7 +50,7 @@ def parse_traveling_merchant(wikitext: str) -> list[dict[str, Any]]:
             items.append(
                 {
                     "id": _slugify(item_name),
-                    "type": "merchant_item",
+                    "type": _classify_item_type(item_name),
                     "name": item_name,
                     "slug": _slugify(item_name),
                     "data": {
@@ -66,6 +66,21 @@ def parse_traveling_merchant(wikitext: str) -> list[dict[str, Any]]:
             )
 
     return items
+
+
+def _classify_item_type(name: str) -> str:
+    """Classify a merchant stock item by the game's item categories.
+
+    Enchant books permanently enchant the player's pan and potions grant timed
+    boosts, so they are their own categories. Everything else is a generic
+    merchant listing that reconciliation may merge into an existing item.
+    """
+    lowered = name.lower()
+    if lowered.endswith("enchant book"):
+        return "enchant_book"
+    if lowered.endswith("potion"):
+        return "potion"
+    return "merchant_item"
 
 
 def _extract_cell_value(cell: str) -> str:

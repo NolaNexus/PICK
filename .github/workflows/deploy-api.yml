@@ -1,35 +1,34 @@
 name: Deploy API to Render
 
+# Deploys run only after CI succeeds on master, so a failing test never
+# reaches production. Render's own autodeploy is disabled in render.yaml.
 on:
-  push:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
     branches: [master]
   workflow_dispatch:
 
 jobs:
   deploy:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Deploy to Render
-        uses: johnbatista/render-deploy@v0.4.1
-        with:
-          render_api_key: ${{ secrets.RENDER_API_KEY }}
-          render_app_id: ${{ secrets.RENDER_APP_ID }}
-          clear_previous_deploy: true
-
-      - name: Notify deployment
+      - name: Trigger Render deploy
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_APP_ID: ${{ secrets.RENDER_APP_ID }}
         run: |
-          echo "✅ API deployed to Render successfully"
-          echo "🔗 View at: https://pick-api.onrender.com"
-          echo "📊 Health check: https://pick-api.onrender.com/api/v1/health/ready"
-          echo "📈 Metrics: https://pick-api.onrender.com/api/v1/meta"
-
-  notify-success:
-    needs: deploy
-    runs-on: ubuntu-latest
-    if: ${{ !cancelled() }}
-    steps:
-      - name: Notify success
-        run: echo "🎉 API deployment completed successfully!"
+          set -euo pipefail
+          if [ -z "${RENDER_API_KEY}" ] || [ -z "${RENDER_APP_ID}" ]; then
+            echo "RENDER_API_KEY and RENDER_APP_ID must be set as repository secrets" >&2
+            exit 1
+          fi
+          response=$(curl --fail-with-body --silent --show-error \
+            --request POST \
+            --url "https://api.render.com/v1/services/${RENDER_APP_ID}/deploys" \
+            --header "Authorization: Bearer ${RENDER_API_KEY}" \
+            --header "accept: application/json" \
+            --header "content-type: application/json" \
+            --data '{"clearCache": "do_not_clear"}')
+          echo "Render deploy response: ${response}"

@@ -281,23 +281,37 @@ def _parse_reward_table(site_name: str, content: str) -> list[dict[str, Any]]:
         if not item_name:
             continue
 
+        data: dict[str, Any] = {
+            "site": site_name,
+            "description": description,
+            "activation": activation,
+            "chance": chance,
+        }
+        if item_name.lower() == "geodes":
+            # The Geodes reward row names the area whose geode it drops, e.g.
+            # "{{Volcanic Sands}} [[Geodes|Geode]]".
+            geode_location = _extract_leading_template(item_cell)
+            if geode_location:
+                data["geode_location"] = geode_location
+
         items.append(
             {
                 "id": _slugify(f"{site_name}-{item_name}"),
                 "type": "excavation_reward",
                 "name": item_name,
                 "slug": _slugify(f"{site_name}-{item_name}"),
-                "data": {
-                    "site": site_name,
-                    "description": description,
-                    "activation": activation,
-                    "chance": chance,
-                },
+                "data": data,
                 "image_url": None,
             }
         )
 
     return items
+
+
+def _extract_leading_template(cell: str) -> str | None:
+    """Return the first template name in a cell, e.g. 'Volcanic Sands'."""
+    match = re.search(r"\{\{([^{}|]+)(?:\|[^}]*)?\}\}", cell)
+    return match.group(1).strip() if match else None
 
 
 def _extract_item_name(cell: str) -> str:

@@ -24,6 +24,8 @@ from scrapers import (
     shovels,
     sluices,
     traveling_merchant,
+    treasure_chest,
+    treasure_map,
     trinkets,
 )
 from scrapers import (
@@ -51,6 +53,7 @@ TRACKED_PAGES: list[str] = [
     "Mastery",
     "Mutations",
     "Treasure_Map",
+    "Treasure Chest",
     "Stat_Systems_Guide",
     "Blueprint",  # Actual page name is "Blueprint" not "Blueprints"
     "Trinkets",
@@ -82,12 +85,13 @@ PARSERS: dict[str, Any] = {
     "Museum": museum.parse_museum,
     "Excavations": excavations.parse_excavations,
     "Mastery": mastery.parse_mastery,
+    "Treasure_Map": treasure_map.parse_treasure_maps,
+    "Treasure Chest": treasure_chest.parse_treasure_chests,
 }
 
 # Add remaining tracked pages when parsers are implemented
 for page in [
     "Mutations",
-    "Treasure_Map",
     "Codes",
     "Changelog",
     "Guides",

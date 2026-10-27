@@ -85,6 +85,7 @@ def _parse_tab(tab_name: str, content: str) -> list[dict[str, Any]]:
 def _parse_gallery(region: str, content: str) -> list[dict[str, Any]]:
     """Parse NPC entries from a gallery section."""
     npcs = []
+    seen_slugs: set[str] = set()
 
     # Gallery format:
     # <gallery ...>
@@ -137,12 +138,26 @@ def _parse_gallery(region: str, content: str) -> list[dict[str, Any]]:
         # Clean up name - remove trailing refs
         name = re.sub(r"\]\]<ref>.*$", "", name).strip()
 
+        # NPC names repeat across regions (e.g. "Merchant" in many areas), so
+        # the slug must include the region to keep every NPC a distinct item.
+        slug = _slugify(f"{_slug_region(region)}-{name}")
+        if slug in seen_slugs:
+            # Same region, same name but a different NPC (e.g. two tourists
+            # sharing one gallery entry). Disambiguate with the image name.
+            slug = _slugify(f"{_slug_region(region)}-{name}-{_slugify(image_file)}")
+            suffix = 2
+            base_slug = slug
+            while slug in seen_slugs:
+                slug = f"{base_slug}-{suffix}"
+                suffix += 1
+        seen_slugs.add(slug)
+
         npcs.append(
             {
-                "id": _slugify(name),
+                "id": slug,
                 "type": "npc",
                 "name": name,
-                "slug": _slugify(name),
+                "slug": slug,
                 "data": {
                     "region": region,
                     "location": region,
@@ -154,6 +169,16 @@ def _parse_gallery(region: str, content: str) -> list[dict[str, Any]]:
         )
 
     return npcs
+
+
+REGIONLESS_LABEL = "Regionless NPCs"
+
+
+def _slug_region(region: str) -> str:
+    """Return the slug prefix for a region label."""
+    if not region or region == REGIONLESS_LABEL:
+        return "global"
+    return region
 
 
 def _slugify(name: str) -> str:

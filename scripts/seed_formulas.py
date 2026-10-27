@@ -4,23 +4,31 @@ import asyncio
 
 from sqlalchemy import select
 
-from app.database import async_session_factory, engine
+import app.database as app_database
 from app.models import Base, Formula
 from app.services.formulas import seed_formulas
 
 
 async def main():
-    """Seed formulas table with wiki-confirmed formulas."""
+    """Seed formulas table with wiki-confirmed formulas.
+
+    Idempotent: existing formulas are updated in place, so the script can run
+    on every scrape cycle without creating duplicates.
+    """
+    engine = await app_database.get_engine()
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-    async with async_session_factory() as session:
+    async with app_database.async_session_factory() as session:
         formulas = seed_formulas(session)
+        created = 0
+        updated = 0
         for f in formulas:
             existing = await session.execute(
                 select(Formula).where(Formula.formula_id == f["formula_id"])
             )
-            if existing.scalar_one_or_none() is None:
+            row = existing.scalar_one_or_none()
+            if row is None:
                 session.add(
                     Formula(
                         formula_id=f["formula_id"],
@@ -33,8 +41,18 @@ async def main():
                         patch_version=f["patch_version"],
                     )
                 )
+                created += 1
+            else:
+                row.name = f["name"]
+                row.description = f["description"]
+                row.formula = f["formula"]
+                row.params = f["params"]
+                row.confidence = f["confidence"]
+                row.source_url = f["source_url"]
+                row.patch_version = f["patch_version"]
+                updated += 1
         await session.commit()
-        print(f"Seeded {len(formulas)} formulas")
+        print(f"Seeded {len(formulas)} formulas ({created} created, {updated} updated)")
 
 
 if __name__ == "__main__":

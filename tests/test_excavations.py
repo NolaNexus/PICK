@@ -100,3 +100,22 @@ def test_slug_is_unique():
 
     slugs = [item["slug"] for item in items]
     assert len(slugs) == len(set(slugs)), "Duplicate slugs found"
+
+
+def test_geodes_rewards_name_their_geode_location():
+    """Each excavation's Geodes reward points at the geode of its area."""
+    items = parse_excavations(FIXTURE_PATH.read_text())
+
+    by_site = {
+        item["data"]["site"]: item["data"].get("geode_location")
+        for item in items
+        if item["type"] == "excavation_reward" and item["name"] == "Geodes"
+    }
+    assert by_site == {
+        "Volcanic Ruins": "Volcanic Sands",
+        "Magma Temple": "Magma Furnace",
+        "Frozen Fortress": "Frostbite Waterfall",
+        "Lost City": "Overgrown Grotto",
+        "Mysterious Meteors": "Fungal Marsh",
+        "Alien Wreckage": "Meteor Falls",
+    }

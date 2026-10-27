@@ -79,9 +79,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+      - name: Create test database
+        env:
+          PGPASSWORD: postgres
+        run: psql -h localhost -U postgres -c "CREATE DATABASE pick_test;"
       - name: Run pytest
         env:
           DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost/pick
+          TEST_DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost/pick_test
         run: pytest -v --cov=app --cov=scrapers --cov=scripts --cov-report=term-missing --cov-report=xml
       - name: Upload coverage
         uses: codecov/codecov-action@v5

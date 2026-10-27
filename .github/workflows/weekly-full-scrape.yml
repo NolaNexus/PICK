@@ -48,3 +48,6 @@ jobs:
       - name: Run news scraper (if Reddit credentials configured)
         if: env.REDDIT_CLIENT_ID != '' && env.REDDIT_CLIENT_SECRET != ''
         run: python -m scripts.news_scraper
+
+      - name: Seed formulas
+        run: python -m scripts.seed_formulas

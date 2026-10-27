@@ -40,6 +40,16 @@ Think of PICK as a companion layer on top of the wiki: structured data, calculat
 - Docker Compose for local development
 - GitHub Actions for CI/CD and frontend deployment
 
+## Item identity
+
+The same game object can appear on several wiki pages. PICK stores it once:
+
+- Slugs are namespaced by type (`relic-cosmic-resonator`, `npc-rubble-creek-john`), so an NPC and a quest that share a name stay distinct.
+- Traveling Merchant stock merges into the item as `data.merchant`. Stock, price, and currency rotate every daily spawn, so these are last-seen values (`data.merchant.last_seen`).
+- Excavation drops keep their own per-site rows (`excavation_reward`) with drop chance and a `data.item_slug` pointing at the item.
+- Quests link to the NPC that gives them via `data.npc_slug`.
+- Items removed from a page are soft-deleted (`is_active = false`), never hard-deleted.
+
 ## Local development
 
 Want to run PICK yourself or contribute? You'll need Python 3.11+ and PostgreSQL 16+.

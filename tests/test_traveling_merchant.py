@@ -28,7 +28,17 @@ def test_traveling_merchant_have_required_fields():
         assert "slug" in item
         assert "data" in item
         assert "image_url" in item
-        assert item["type"] == "merchant_item"
+        assert item["type"] in {"merchant_item", "enchant_book", "potion"}
+
+
+def test_traveling_merchant_classifies_known_categories():
+    """Enchant books and potions are their own categories."""
+    items = parse_traveling_merchant(FIXTURE_PATH.read_text())
+
+    by_name = {item["name"]: item for item in items}
+    assert by_name["Blessed Enchant Book"]["type"] == "enchant_book"
+    assert by_name["Blitz Potion"]["type"] == "potion"
+    assert by_name["Cosmic Resonator"]["type"] == "merchant_item"
 
 
 def test_traveling_merchant_data_structure():

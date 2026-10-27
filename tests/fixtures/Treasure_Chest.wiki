@@ -1,0 +1,108 @@
+{{Tocright}}
+
+== Overview ==
+A '''Treasure Chest''' is a special item you can uncover after finding a [[Treasure Map]] digging in various locations around the map. Equipping a map guides you to the exact spot where a hidden [[Treasure Chest]] is buried. 
+
+
+[[File:Treasurechest.png|thumb|right|280px|''Opening a Treasure Chest'']]
+
+== Obtainment ==
+* After equipping a Treasure Map from your inventory, a colored arrow will appear on your screen directing you to where the Treasure Chest is located. 
+* The arrow will turn vertical when you've reached the correct spot. 
+* When you dig in the indicated place, text will appear on the screen that reads “You have found buried treasure!!”.
+* A Treasure Chest will be added to your inventory. 
+
+
+== How To ==
+* To open a treasure chest, equip it from your inventory, then click the screen.
+* The Treasure Chest will open and the items given will appear on the right side of the screen.
+
+
+== Usage ==
+[[File:Treasure_chests.png|none]]
+* A Treasure Chest can grant different [[relics]] and ores with the '''Treasured''' modifier when opened. The loot depends on the location where the chest was obtained.
+
+== Important Notes == 
+* {{Stat|Size Boost}} applies to ores inside '''Treasure Chests''', similarly to geodes. However, ''unlike'' geodes, {{Stat|Luck}} does '''not''' apply to treasure chests.
+
+* The '''Treasured''' modifier will be applied to all ores inside the chest. This is the only way to obtain the '''Treasured''' modifier.
+
+== Lootpool by Location ==
+<div><tabber>
+
+|-| Fortune River =
+; {{Fortune River}}  
+[[File:Town.png|300px|center]]  
+*    Random {{Fortune River}} Ore
+*    {{Strength Totem}}
+*    {{Luck Totem}}
+*    {{Rain Stone}}
+
+|-| Fortune River Delta =
+; {{Fortune River Delta}}  
+[[File:Fortune_River_Delta.png|300px|center]]
+*    Random {{Fortune River Delta}} Ore
+*    {{Strength Totem}}
+*    {{Luck Totem}}
+*    {{Rain Stone}}
+*    {{Cosmic Resonator}}
+
+|-| Sunset Beach =
+; {{Sunset Beach}}
+[[File:Beach.png|300px|center]]
+*    Random {{Sunset Beach}} Ore
+*    {{Strength Totem}}
+*    {{Luck Totem}}
+*    {{Solar Token}}
+*    {{Cosmic Resonator}}
+*    {{Solar Magnifier}}
+
+|-| Volcanic Sands =
+; {{Volcanic Sands}}  
+[[File:Volcanic Sands SWP.png|300px|center]]  
+*    Random {{Volcanic Sands}} Ore
+*    {{Warp Device}}
+*    {{Strength Totem}}
+*    {{Solar Token}}
+*    {{Solar Magnifier}}
+*    {{Infernal Idol}}
+
+|-| Windswept Beach =
+; {{Windswept Beach}}
+[[File:Windswept Beach SWP.png|300px|center]]  
+*    Random {{Windswept Beach}} Ore
+*    {{Warp Device}}
+*    {{Strength Totem}}
+*    {{Cosmic Resonator}}
+*    {{Infernal Idol}}
+
+|-| Frostbite River =
+; {{Snowy Shores}}
+[[File:Frostbite River.png|300px|center]]  
+*    Random {{Frostbite River}} Ore
+*    {{Warp Device}}
+*    {{Cosmic Resonator}}
+*    {{Snow Globe}}
+*    {{Strength Totem}}
+*    {{Luck Totem}}
+
+|-| Rotwood Swamp =
+; {{Rotwood Swamp}}
+[[File:rotwoodswamp.png|300px|center]]
+*    Random {{Rotwood Swamp}} Ore
+*    {{Warp Device}}
+*    {{Luck Totem}}
+*    {{Luminant Totem}}
+*    {{Solar Magnifier}}
+*    {{Spirit Orb}}
+
+|-| Starfall River =
+; {{Starfall River}}
+[[File:Starfall.png|300px|center]]
+* Random {{Starfall River}} Ore
+* {{Warp Device}}
+* {{Luck Totem}}
+* {{Luminant Totem}}
+* {{Starcaller}}
+* {{Sealed Fog}}
+</tabber></div>

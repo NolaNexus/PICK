@@ -1,6 +1,5 @@
 """Integration tests for API endpoints using a test database."""
 
-import os
 from datetime import UTC, datetime
 from typing import Any
 
@@ -13,15 +12,13 @@ from sqlalchemy.orm import sessionmaker
 from app.database import Base, get_session
 from app.main import app
 from app.models import Formula, Item, News, WikiPage
+from tests.conftest import get_test_database_url
 
 
 @pytest_asyncio.fixture
 async def test_engine():
     """Create a test database engine."""
-    database_url = os.getenv(
-        "TEST_DATABASE_URL",
-        "postgresql+asyncpg://postgres:postgres@localhost/pick",
-    )
+    database_url = get_test_database_url()
     engine = create_async_engine(database_url, echo=False)
 
     async with engine.begin() as conn:

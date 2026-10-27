@@ -47,15 +47,40 @@ def test_npcs_data_structure():
 
 
 def test_npcs_slug_is_unique():
-    """All NPC slugs should be unique."""
+    """All NPC slugs should be unique across the whole page."""
     wikitext = FIXTURE_PATH.read_text()
     items = parse_npcs(wikitext)
 
     slugs = [item["slug"] for item in items]
-    # Allow duplicates for NPCs that appear in multiple regions (e.g., Merchant)
-    # Just check that we have reasonable number of unique slugs
     unique_slugs = set(slugs)
-    assert len(unique_slugs) >= 40, f"Expected at least 40 unique NPCs, got {len(unique_slugs)}"
+    assert len(unique_slugs) == len(slugs), (
+        f"Duplicate NPC slugs: {sorted({s for s in slugs if slugs.count(s) > 1})}"
+    )
+
+
+def test_npcs_slugs_include_region():
+    """Slugs are region-prefixed so the same NPC name in different regions is distinct."""
+    wikitext = FIXTURE_PATH.read_text()
+    items = parse_npcs(wikitext)
+
+    john = next(i for i in items if i["name"] == "John")
+    assert john["slug"] == "rubble-creek-john"
+
+    regionless = next(i for i in items if i["name"] == "Merchant")
+    assert regionless["slug"] == "global-merchant"
+
+
+def test_npcs_with_same_name_in_different_regions_are_distinct():
+    """Merchant exists in many regions and each must produce its own item."""
+    wikitext = FIXTURE_PATH.read_text()
+    items = parse_npcs(wikitext)
+
+    merchants = [i for i in items if i["name"] == "Merchant"]
+    assert len(merchants) >= 3, f"Expected several Merchants, got {len(merchants)}"
+
+    regions = {m["data"]["region"] for m in merchants}
+    assert len(regions) == len(merchants), "Merchants should each be in a distinct region"
+    assert len({m["slug"] for m in merchants}) == len(merchants)
 
 
 def test_known_npcs_parsed():

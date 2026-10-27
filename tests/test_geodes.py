@@ -68,3 +68,11 @@ def test_known_geode_parsed():
     void_geode = next((i for i in items if i["name"] == "The Void Geode"), None)
     assert void_geode is not None, "Expected The Void Geode"
     assert void_geode["data"].get("requires_geothermal") is True
+
+
+def test_one_geode_per_location():
+    """There is exactly one geode type per location."""
+    items = parse_geodes(FIXTURE_PATH.read_text())
+
+    locations = [item["data"]["location"] for item in items]
+    assert len(locations) == len(set(locations)), "More than one geode per location"

@@ -17,9 +17,9 @@ OUTPUT_PATH = os.path.join(
 )
 
 
-def export_snapshot(output_path: str = OUTPUT_PATH) -> dict:
+async def export_snapshot(output_path: str = OUTPUT_PATH) -> dict:
     """Build the snapshot and write it to disk only if it changed."""
-    snapshot = asyncio.run(_build_snapshot_async())
+    snapshot = await _build_snapshot_async()
 
     abs_path = os.path.abspath(output_path)
     changed = True
@@ -56,7 +56,7 @@ async def main():
         help="Output path for snapshot.json",
     )
     args = parser.parse_args()
-    result = export_snapshot(args.output)
+    result = await export_snapshot(args.output)
     print(json.dumps(result, indent=2))
 
 

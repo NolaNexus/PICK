@@ -1,0 +1,1449 @@
+{
+  "generated_at": "2026-10-27T04:21:01.043749+00:00",
+  "counts": {
+    "items": 65,
+    "formulas": 0,
+    "news": 0,
+    "wiki_pages": 3
+  },
+  "items": [
+    {
+      "id": 1,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Rusty Pan",
+      "slug": "rusty-pan",
+      "data": {
+        "image": "RustyPan.png",
+        "description": "A rusty pan for gold panning.",
+        "price": "Free",
+        "luck": 1.0,
+        "capacity": 5.0,
+        "strength": 0.2,
+        "speed": 0.8,
+        "location": "Given to the player upon joining."
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 2,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Plastic Pan",
+      "slug": "plastic-pan",
+      "data": {
+        "image": "PlasticPan.png",
+        "description": "A lightweight pan made from wear-resistant plastic.",
+        "price": "501",
+        "luck": 1.25,
+        "capacity": 10.0,
+        "strength": 0.6,
+        "speed": 1.0,
+        "location": "{{Rubble Creek}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 3,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Metal Pan",
+      "slug": "metal-pan",
+      "data": {
+        "image": "MetalPan.png",
+        "description": "A large and heavy metal pan made from sheet metal.",
+        "price": "12,000",
+        "luck": 2.0,
+        "capacity": 20.0,
+        "strength": 0.8,
+        "speed": 0.8,
+        "location": "{{Rubble Creek}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 4,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Silver Pan",
+      "slug": "silver-pan",
+      "data": {
+        "image": "SilverPan.png",
+        "description": "A shining silver pan.",
+        "price": "55,000",
+        "luck": 4.0,
+        "capacity": 30.0,
+        "strength": 0.8,
+        "speed": 1.0,
+        "location": "{{Rubble Creek}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 5,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Golden Pan",
+      "slug": "golden-pan",
+      "data": {
+        "image": "GoldenPan.png",
+        "description": "A gold-plated pan carved with intricate designs. Provides a strong boost to luck.",
+        "price": "333,000",
+        "luck": 10.0,
+        "capacity": 35.0,
+        "strength": 1.0,
+        "speed": 0.8,
+        "location": "{{Fortune River}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 6,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Magnetic Pan",
+      "slug": "magnetic-pan",
+      "data": {
+        "image": "MagneticPan.png",
+        "description": "A pan with a built-in magnet. Collected minerals have 25% more weight.",
+        "price": "1,000,000",
+        "luck": 15.0,
+        "capacity": 50.0,
+        "strength": 1.0,
+        "speed": 0.75,
+        "location": "{{Fortune River}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 7,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Meteoric Pan",
+      "slug": "meteoric-pan",
+      "data": {
+        "image": "MeteoricPan.png",
+        "description": "A pan forged from meteoric iron. Has a higher chance to find modifiers.",
+        "price": "3,500,000",
+        "luck": 22.0,
+        "capacity": 70.0,
+        "strength": 2.0,
+        "speed": 1.0,
+        "location": "{{Fortune River}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 8,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Diamond Pan",
+      "slug": "diamond-pan",
+      "data": {
+        "image": "DiamondPan.png",
+        "description": "A diamond-encrusted pan with incredible durability and strength.",
+        "price": "10,000,000",
+        "luck": 40.0,
+        "capacity": 100.0,
+        "strength": 3.0,
+        "speed": 1.0,
+        "location": "{{Fortune River}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 9,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Aurora Pan",
+      "slug": "aurora-pan",
+      "data": {
+        "image": "AuroraPan.png",
+        "description": "A pan infused with light.",
+        "price": "35,000,000",
+        "luck": 60.0,
+        "capacity": 130.0,
+        "strength": 3.0,
+        "speed": 1.25,
+        "location": "{{Crystal Cavern River}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 10,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Obsidian Pan",
+      "slug": "obsidian-pan",
+      "data": {
+        "image": "Obsidian_Pan.png",
+        "description": "An obsidian pan. Special enchantments make the normally brittle obsidian extremely strong.",
+        "price": "90,000,000",
+        "luck": 80.0,
+        "capacity": 140.0,
+        "strength": 3.0,
+        "speed": 1.25,
+        "location": "{{Caldera Park}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 11,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Worldshaker",
+      "slug": "worldshaker",
+      "data": {
+        "image": "WorldshakerPan.png",
+        "description": "A relic from an ancient civilization. Despite its age, immense power still lies within.",
+        "price": "125,000,000",
+        "luck": 125.0,
+        "capacity": 160.0,
+        "strength": 5.0,
+        "speed": 1.0,
+        "location": "{{Waterfall Temple}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 12,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Dragonflame Pan",
+      "slug": "dragonflame-pan",
+      "data": {
+        "image": "DragonflamePan.png",
+        "description": "A scorching pan that melts through sand. However, its heat reduces the size of ore by 10%.",
+        "price": "400,000,000",
+        "luck": 160.0,
+        "capacity": 180.0,
+        "strength": 10.0,
+        "speed": 1.1,
+        "location": "{{The Magma Furnace}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 13,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Fossilized Pan",
+      "slug": "fossilized-pan",
+      "data": {
+        "image": "FossilizedPan.png",
+        "description": "An ancient bone pan that has been fossilized with age.",
+        "price": "1,000,000,000",
+        "luck": 250.0,
+        "capacity": 225.0,
+        "strength": 8.0,
+        "speed": 1.0,
+        "location": "{{Ancient Ruins|Windswept_Beach#Ancient_Ruins}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 14,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Frostbite Pan",
+      "slug": "frostbite-pan",
+      "data": {
+        "image": "FrostbitePan.png",
+        "description": "A frozen pan from deep within the mountain.",
+        "price": "10,000,000,000",
+        "luck": 300.0,
+        "capacity": 250.0,
+        "strength": 15.0,
+        "speed": 0.8,
+        "location": "{{Frozen Peak}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 15,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Lifetouched Pan",
+      "slug": "lifetouched-pan",
+      "data": {
+        "image": "LifetouchedPan.png",
+        "description": "A pan formed by nature.",
+        "price": "100,000,000,000",
+        "luck": 400.0,
+        "capacity": 300.0,
+        "strength": 8.0,
+        "speed": 1.1,
+        "location": "{{Deeproot Spring}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 16,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Abyssal Pan",
+      "slug": "abyssal-pan",
+      "data": {
+        "image": "Abyssal Pan.png",
+        "description": "...",
+        "price": "200,000,000,000",
+        "luck": 700.0,
+        "capacity": 250.0,
+        "strength": 8.0,
+        "speed": 1.1,
+        "location": "{{Abyssal Depth}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 17,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Blightflow Pan",
+      "slug": "blightflow-pan",
+      "data": {
+        "image": "blightflowpan.png",
+        "description": "A cursed pan that is corrosive to the touch",
+        "price": "500,000,000,000",
+        "luck": 500.0,
+        "capacity": 400.0,
+        "strength": 30.0,
+        "speed": 2.0,
+        "location": "{{Fungal Marsh}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 18,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Nebula Pan",
+      "slug": "nebula-pan",
+      "data": {
+        "image": "nebula.PNG",
+        "description": "A pan forged from astral materials. Resonates with nearby totems, benefitting more from their effects.",
+        "price": "10,000,000,000,000",
+        "luck": 800.0,
+        "capacity": 500.0,
+        "strength": 80.0,
+        "speed": 1.25,
+        "location": "{{Starfall River}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 19,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Pharaoh's Pan",
+      "slug": "pharaohs-pan",
+      "data": {
+        "image": "Pharaoh's pan.png",
+        "description": "A pan once used by the ruler of a long-lost civilization.",
+        "price": "100,000,000,000,000",
+        "luck": 1000.0,
+        "capacity": 700.0,
+        "strength": 150.0,
+        "speed": 1.0,
+        "location": "{{Lifespring Oasis}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 20,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Galactic Pan",
+      "slug": "galactic-pan",
+      "data": {
+        "image": "GalacticPan.png",
+        "description": "A pan with immense capacity formed from the stars. Has a chance to give 'Voidtorn' to found items.",
+        "price": "2,000,000,000",
+        "luck": 100.0,
+        "capacity": 500.0,
+        "strength": 25.0,
+        "speed": 1.0,
+        "location": "{{The Void}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 21,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Pumpkin Pan",
+      "slug": "pumpkin-pan",
+      "data": {
+        "image": "PumpkinPan.png",
+        "description": "The pan of the Pumpkin King. Summons a ghostly spirit to assist with panning. This spirit is boosted when used with the Pumpking Shovel.",
+        "price": "0",
+        "luck": 350.0,
+        "capacity": 350.0,
+        "strength": 20.0,
+        "speed": 1.0,
+        "location": "{{Haunted Creek}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 22,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Gingerbread Pan",
+      "slug": "gingerbread-pan",
+      "data": {
+        "image": "GingerbreadPan.png",
+        "description": "A tasty gingerbread pan. Has a chance to give the effects of an XP cookie after panning.",
+        "price": "0",
+        "luck": 400.0,
+        "capacity": 400.0,
+        "strength": 25.0,
+        "speed": 1.2,
+        "location": "{{North Pole}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 23,
+      "type": "pan",
+      "wiki_id": null,
+      "name": "Rose Pan",
+      "slug": "rose-pan",
+      "data": {
+        "image": "Rose_Pan.png",
+        "description": "A pan made from rose petals. Gains 25% of a nearby player's luck and shares 25% of your luck back to them.",
+        "price": "0",
+        "luck": 300.0,
+        "capacity": 350.0,
+        "strength": 20.0,
+        "speed": 0.0,
+        "location": "{{Fortune River}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 24,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Rusty Shovel",
+      "slug": "rusty-shovel",
+      "data": {
+        "image": "RustyShovel.png",
+        "description": "A rusty shovel on the verge of breaking apart. It works fine... for now.",
+        "price": "Free",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 1.0,
+        "speed": 0.8,
+        "location": "Given to the player upon joining."
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 25,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Iron Shovel",
+      "slug": "iron-shovel",
+      "data": {
+        "image": "IronShovel.png",
+        "description": "A tough iron shovel.",
+        "price": "2,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 2.0,
+        "speed": 0.8,
+        "location": "{{Rubble Creek Sands}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 26,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Steel Shovel",
+      "slug": "steel-shovel",
+      "data": {
+        "image": "SteelShovel.png",
+        "description": "A strong shovel made of steel. Can dig through tougher deposits.",
+        "price": "20,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 3.0,
+        "speed": 0.8,
+        "location": "{{Rubble Creek Sands}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 27,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Silver Shovel",
+      "slug": "silver-shovel",
+      "data": {
+        "image": "SilverShovel.png",
+        "description": "A lightweight silver shovel. How can silver be this strong?",
+        "price": "75,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 4.0,
+        "speed": 1.1,
+        "location": "{{Rubble Creek Sands}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 28,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Reinforced Shovel",
+      "slug": "reinforced-shovel",
+      "data": {
+        "image": "ReinforcedShovel.png",
+        "description": "A reliable titanium shovel built for tough conditions.",
+        "price": "135,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 5.0,
+        "speed": 0.9,
+        "location": "{{Rubble Creek Sands}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 29,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "The Excavator",
+      "slug": "the-excavator",
+      "data": {
+        "image": "TheExcavator.png",
+        "description": "A powerful shovel that can crack through stone.",
+        "price": "320,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 7.0,
+        "speed": 0.7,
+        "location": "{{Fortune River}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 30,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Golden Shovel",
+      "slug": "golden-shovel",
+      "data": {
+        "image": "GoldenShovel.png",
+        "description": "A precious shovel made from a rare gold alloy.",
+        "price": "1,333,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 8.0,
+        "speed": 1.0,
+        "location": "{{Fortune River}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 31,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Meteoric Shovel",
+      "slug": "meteoric-shovel",
+      "data": {
+        "image": "MeteoricShovel.png",
+        "description": "A shovel forged from meteoric iron. Holding it fills you with energy.",
+        "price": "4,000,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 7.0,
+        "speed": 1.5,
+        "location": "{{Fortune River}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 32,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Diamond Shovel",
+      "slug": "diamond-shovel",
+      "data": {
+        "image": "DiamondShovel.png",
+        "description": "A shovel made from diamond, the hardest material!",
+        "price": "12,500,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 12.0,
+        "speed": 1.0,
+        "location": "{{Fortune River}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 33,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Divine Shovel",
+      "slug": "divine-shovel",
+      "data": {
+        "image": "DivineShovel.png",
+        "description": "A divine shovel blessed with the strength to break through nearly anything.",
+        "price": "40,000,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 16.0,
+        "speed": 1.1,
+        "location": "{{Crystal Cavern River}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 34,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Obsidian Shovel",
+      "slug": "obsidian-shovel",
+      "data": {
+        "image": "Obsidian_shovel.png",
+        "description": "An obsidian shovel. Its fire-resistant properties make it a useful tool in volcanic environments.",
+        "price": "80,000,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 20.0,
+        "speed": 1.2,
+        "location": "{{Caldera Park}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 35,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Earthbreaker",
+      "slug": "earthbreaker",
+      "data": {
+        "image": "EarthbreakerShovel.png",
+        "description": "A relic from an ancient civilization. Despite its age, incredible power still lingers within.",
+        "price": "125,000,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 30.0,
+        "speed": 1.0,
+        "location": "{{Waterfall Temple}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 36,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Dragonflame Shovel",
+      "slug": "dragonflame-shovel",
+      "data": {
+        "image": "Dragonflame Shovel.png",
+        "description": "A blazing shovel that burns through all deposits.",
+        "price": "400,000,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 50.0,
+        "speed": 0.65,
+        "location": "{{Magma Furnace}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 37,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Fossilized Shovel",
+      "slug": "fossilized-shovel",
+      "data": {
+        "image": "Fossilized_Shovel.png",
+        "description": "An ancient bone shovel that has been fossilized with age.",
+        "price": "1,000,000,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 40.0,
+        "speed": 1.0,
+        "location": "{{Ancient Ruins}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 38,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Icebreaker",
+      "slug": "icebreaker",
+      "data": {
+        "image": "Icebreaker.png",
+        "description": "A frozen shovel that can crush through frozen deposits.",
+        "price": "10,000,000,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 60.0,
+        "speed": 1.1,
+        "location": "{{Frozen Peak}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 39,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Lifetouched Shovel",
+      "slug": "lifetouched-shovel",
+      "data": {
+        "image": "LifetouchedShovel.png",
+        "description": "A shovel formed by the spirits.",
+        "price": "80,000,000,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 100.0,
+        "speed": 1.0,
+        "location": "{{Deeproot Spring}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 40,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Abyssal Shovel",
+      "slug": "abyssal-shovel",
+      "data": {
+        "image": "Abyssal Shovel.png",
+        "description": "...",
+        "price": "200,000,000,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 125.0,
+        "speed": 1.1,
+        "location": "{{Abyssal Depth}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 41,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Venomspade Shovel",
+      "slug": "venomspade-shovel",
+      "data": {
+        "image": "venomspadeshovel.png",
+        "description": "''A toxic shovel that melts anything it touches''",
+        "price": "500,000,000,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 200.0,
+        "speed": 0.8,
+        "location": "{{Fungal Marsh}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 42,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Starcrusher",
+      "slug": "starcrusher",
+      "data": {
+        "image": "Starcrusher.PNG",
+        "description": "''A shovel forged from astral materials. Resonates with nearby totems, benefitting more from their effects.'' (Passive: +25% buffs from Totems, 1.1&times; additional Luck)",
+        "price": "10,000,000,000,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 300.0,
+        "speed": 1.0,
+        "location": "{{Starfall River}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 43,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Pharaoh's Shovel",
+      "slug": "pharaohs-shovel",
+      "data": {
+        "image": "Pharaoh_shovel.png",
+        "description": "''A shovel once used by the ruler of a long-lost civilization.'' (Passive: [[Pharaoh's Shovel|Sun Blessing]])",
+        "price": "100,000,000,000,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 500.0,
+        "speed": 0.8,
+        "location": "{{Lifespring Oasis}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 44,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Galactic Shovel",
+      "slug": "galactic-shovel",
+      "data": {
+        "image": "Galactic Shovel.png",
+        "description": "A shovel formed from the stars. Has a chance to grant 'Voidtorn' to found items.",
+        "price": "2,000,000,000",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 60.0,
+        "speed": 0.8,
+        "location": "{{The Void}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 45,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Pumpkin Shovel",
+      "slug": "pumpkin-shovel",
+      "data": {
+        "image": "pumpkinshovel.webp",
+        "description": "The shovel of the Pumpkin King. Summons a spirit to assist with panning. This spirit is boosted when used with the Pumpkin Pan.",
+        "price": "0",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 100.0,
+        "speed": 1.25,
+        "location": "{{Haunted Creek}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 46,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Candy Cane Shovel",
+      "slug": "candy-cane-shovel",
+      "data": {
+        "image": "CandyCane_Shovel.png",
+        "description": "A sugary shovel. Has a chance to give the effects of an XP cookie after panning.",
+        "price": "0",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 140.0,
+        "speed": 1.0,
+        "location": "{{North Pole}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 47,
+      "type": "shovel",
+      "wiki_id": null,
+      "name": "Cupid's Arrow",
+      "slug": "cupids-arrow",
+      "data": {
+        "image": "Cupid's_arrow.png",
+        "description": "An oversized arrow shaped into an arrow. Gives a chance to obtain Charming and Rosy modifiers.",
+        "price": "0",
+        "luck": 0.0,
+        "capacity": 0.0,
+        "strength": 150.0,
+        "speed": 1.0,
+        "location": "{{Fortune River}}"
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-26T23:22:05.673425",
+      "updated_at": "2026-10-26T23:22:05.673497"
+    },
+    {
+      "id": 48,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Rubble Creek",
+      "slug": "rubble-creek",
+      "data": {
+        "description": "This is where your journey begins! Speaking with John starts the tutorial and first quest. Trader also begins a series of three quests.",
+        "minerals": [],
+        "shopkeepers": [
+          "John",
+          "Trader",
+          "Mechanic"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 49,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Fortune River",
+      "slug": "fortune-river",
+      "data": {
+        "description": "Small town, big purpose!",
+        "minerals": [],
+        "shopkeepers": [
+          "Shard Merchant",
+          "Archaeologist",
+          "Archaeologist?",
+          "Kid",
+          "Resident",
+          "Steve",
+          "Fisherman",
+          "Dredge Master"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 50,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Fortune River Delta",
+      "slug": "fortune-river-delta",
+      "data": {
+        "description": "Area known for its rich sediment, Fortune River flows into the ocean here.",
+        "minerals": [],
+        "shopkeepers": [
+          "Shady Merchant",
+          "Old Prospector",
+          "Geologist",
+          "Rock Climber",
+          "Anne"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 51,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Crystal Caverns",
+      "slug": "crystal-caverns",
+      "data": {
+        "description": "A place rich with Minerals that only experienced prospectors may enter. NPC: Botanist ???",
+        "minerals": [
+          "Azuralite"
+        ],
+        "shopkeepers": [
+          "Security Guard",
+          "Clyde",
+          "Head Researcher",
+          "Miner",
+          "Mad Scientist",
+          "Botanist"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 52,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Sunset Beach",
+      "slug": "sunset-beach",
+      "data": {
+        "description": "Once a tourist spot, now crowded by prospectors.",
+        "minerals": [],
+        "shopkeepers": [
+          "Pirate",
+          "Beachgoer",
+          "Surfer",
+          "Lightkeeper",
+          "Drake",
+          "Pirate Captain"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 53,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Museum",
+      "slug": "museum",
+      "data": {
+        "description": "The somewhat empty museum of Prospecting.",
+        "minerals": [],
+        "shopkeepers": [
+          "Receptionist",
+          "Bored Resident"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 54,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Caldera Park",
+      "slug": "caldera-park",
+      "data": {
+        "description": "The only place before the {{Magma Furnace}} where you can find a Fire Opal. The area where you can find the {{Ancient Ruins}}. Extremely hot deposit area. You\u2019ll need protection from Flame Priest. It opens once per hour (XX:15) for 30 minutes before closing.",
+        "minerals": [],
+        "shopkeepers": [
+          "Ranger",
+          "Tourist",
+          "Surfer",
+          "Disgruntled Local",
+          "Arctic Traveler",
+          "Volcanic Researcher",
+          "Paleontologist",
+          "Lightkeeper",
+          "Flame Priest",
+          "Master of the Forge"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 55,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Snowy Mountains",
+      "slug": "snowy-mountains",
+      "data": {
+        "description": "The base of the mountain \u2014 daring you to climb. A dangerous path winding up the icy cliffs. The summit of the snowy mountain.",
+        "minerals": [],
+        "shopkeepers": [
+          "Arctic Traveler",
+          "Researcher",
+          "Apprentice Blacksmith",
+          "Sherpa",
+          "Builder",
+          "Freezing Prospector",
+          "Mountain Surveyor",
+          "Rock Climber",
+          "Mountain Climber",
+          "Fallen Artificer"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 56,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Overgrown Caves",
+      "slug": "overgrown-caves",
+      "data": {
+        "description": "A lush cavern filled with life from the Tree of Light. NPC: Druid Underground roots curl around this precious fountain. The power of the ruins pulls you in. NPC: Skeleton The darkness wraps around you.",
+        "minerals": [],
+        "shopkeepers": [
+          "Explorer_(Male)",
+          "Explorer_(Female)",
+          "Professor",
+          "Disgruntled Explorer",
+          "Old Druid",
+          "Explorer",
+          "Druid",
+          "Ruins Archaeologist",
+          "Ancient Sword",
+          "Skeleton"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 57,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Swamp & Marsh",
+      "slug": "swamp-&-marsh",
+      "data": {
+        "description": "A thick fog covers hangs over the murky waters of the swamp. Toxic spores obscure your vision. It opens once per hour (XX:45) for 30 minutes before closing. NPC: Timelocked Spirit",
+        "minerals": [],
+        "shopkeepers": [
+          "Swamp Man",
+          "Ecologist",
+          "Familiar Fisherman",
+          "Fisherman's Friend",
+          "Nuclear Scientist",
+          "Swamp Kid",
+          "Mushroom Man",
+          "Froggy",
+          "The Greatest Prospector",
+          "Timelocked Spirit"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 58,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Meteor Valley",
+      "slug": "meteor-valley",
+      "data": {
+        "description": "NPC: Meteor Guardian",
+        "minerals": [],
+        "shopkeepers": [
+          "Valley Girl",
+          "Familiar Merchant",
+          "Concussed Resident",
+          "Clockmaker",
+          "Meteor Wisp",
+          "Astronomer",
+          "Valley Golem",
+          "Meteor Guardian"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 59,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Sunscorched Desert",
+      "slug": "sunscorched-desert",
+      "data": {
+        "description": "Pharaoh's Sluice Pharaoh's Shovel, Pharaoh's Pan",
+        "minerals": [],
+        "shopkeepers": [
+          "Craftsman",
+          "River Researcher",
+          "Resting Traveler",
+          "Environmentalist",
+          "Experienced Explorer"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 60,
+      "type": "location",
+      "wiki_id": null,
+      "name": "The Void",
+      "slug": "the-void",
+      "data": {
+        "description": "An island at the edge of reality...",
+        "minerals": [],
+        "shopkeepers": [
+          "Interdimensional Traveler",
+          "Interdimensional Wanderer"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 61,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Haunted Creek",
+      "slug": "haunted-creek",
+      "data": {
+        "description": "A limited-time Halloween area.",
+        "minerals": [],
+        "shopkeepers": [
+          "Haunted Skeleton",
+          "The Reaper",
+          "Ghost",
+          "Headless Merchant"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 62,
+      "type": "location",
+      "wiki_id": null,
+      "name": "North Pole",
+      "slug": "north-pole",
+      "data": {
+        "description": "A limited-time Christmas area.",
+        "minerals": [],
+        "shopkeepers": [
+          "Gardener Elf",
+          "Manager Elf",
+          "Guard Elf",
+          "Shopkeeper Elf",
+          "Santa"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 63,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Valentine's Event Shop",
+      "slug": "valentines-event-shop",
+      "data": {
+        "description": "A limited-time Valentine's area. See Valentines Event Shop for more information.",
+        "minerals": [],
+        "shopkeepers": [
+          "Merchant"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 64,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Easter Event Shop",
+      "slug": "easter-event-shop",
+      "data": {
+        "description": "A limited-time Easter area. See Easter Event Shop for more information.",
+        "minerals": [],
+        "shopkeepers": [
+          "Merchant"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    },
+    {
+      "id": 65,
+      "type": "location",
+      "wiki_id": null,
+      "name": "Seashell Isle",
+      "slug": "seashell-isle",
+      "data": {
+        "description": "A floating island that's only accessible in the summer.",
+        "minerals": [],
+        "shopkeepers": [
+          "Island Guide",
+          "Drake",
+          "Photographer",
+          "Vagrant",
+          "Resident",
+          "Beachgoer",
+          "Surfer"
+        ]
+      },
+      "image_url": null,
+      "description": null,
+      "created_at": "2026-10-27T00:36:52.305935",
+      "updated_at": "2026-10-27T00:36:52.305965"
+    }
+  ],
+  "formulas": [],
+  "news": [],
+  "wiki_pages": [
+    {
+      "id": 1,
+      "title": "Pans",
+      "page_id": 22,
+      "last_revision_id": 0,
+      "last_scraped": "2026-10-26T23:22:06.171029",
+      "content_hash": "ce98e1bdc72c65277609a7ce3bc9ac23e6f241375f887a8503f24464206cefac",
+      "namespace": 0
+    },
+    {
+      "id": 2,
+      "title": "Shovels",
+      "page_id": 47,
+      "last_revision_id": 0,
+      "last_scraped": "2026-10-26T23:22:06.465312",
+      "content_hash": "2de33ef78f900d5be2ed1029978b46ecf29a655dc85a8d043a8182d81ac8bfc3",
+      "namespace": 0
+    },
+    {
+      "id": 3,
+      "title": "Locations",
+      "page_id": 128,
+      "last_revision_id": 0,
+      "last_scraped": "2026-10-27T00:36:53.625361",
+      "content_hash": "8769941aec03710b851675c84889328661674a4804de5891116bb9d9db8bac9e",
+      "namespace": 0
+    }
+  ],
+  "game_version": null,
+  "last_scrape": {
+    "status": "running",
+    "started_at": "2026-10-27T00:36:52.311526",
+    "finished_at": null,
+    "pages_scraped": 0,
+    "pages_changed": 0,
+    "pages_errors": 0
+  }
+}

@@ -33,35 +33,20 @@ def parse_relics(wikitext: str) -> list[dict[str, Any]]:
 
 def _parse_relic_content(name: str, content: str) -> dict[str, Any] | None:
     """Parse a single relic's content."""
-    # Extract description (first paragraph after image)
-    desc_match = re.search(r"\]\](.*?)(?==\s*Obtainment|==\s*Usage|$)", content, re.DOTALL)
-    description = ""
-    if desc_match:
-        description = desc_match.group(1).strip()
-        # Clean up
-        description = re.sub(r"<[^>]+>", "", description)  # Remove HTML tags
-        description = re.sub(r"'''([^']+)'''", r"\1", description)  # Remove bold
-        description = description.strip()
+    # Extract description (first paragraph after image). The heading markers
+    # are left out of the captured text.
+    desc_match = re.search(r"\]\]\s*(.*?)(?=\n==\s*Obtainment|\n==\s*Usage|\Z)", content, re.DOTALL)
+    description = desc_match.group(1).strip() if desc_match else ""
 
     # Extract obtainment
-    obtainment = ""
-    obtainment_match = re.search(r"==\s*Obtainment\s*==(.*?)(?==\s*Usage|==|$)", content, re.DOTALL)
-    if obtainment_match:
-        obtainment = obtainment_match.group(1).strip()
-        obtainment = re.sub(r"<[^>]+>", "", obtainment)
-        obtainment = re.sub(r"\{\{[^}]+\}\}", "", obtainment)
-        obtainment = re.sub(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", r"\1", obtainment)
-        obtainment = obtainment.strip()
+    obtainment_match = re.search(
+        r"==\s*Obtainment\s*==(.*?)(?=\n==\s*Usage|\Z)", content, re.DOTALL
+    )
+    obtainment = obtainment_match.group(1).strip() if obtainment_match else ""
 
     # Extract usage
-    usage = ""
-    usage_match = re.search(r"==\s*Usage\s*==(.*?)(?==|$)", content, re.DOTALL)
-    if usage_match:
-        usage = usage_match.group(1).strip()
-        usage = re.sub(r"<[^>]+>", "", usage)
-        usage = re.sub(r"\{\{[^}]+\}\}", "", usage)
-        usage = re.sub(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", r"\1", usage)
-        usage = usage.strip()
+    usage_match = re.search(r"==\s*Usage\s*==(.*)\Z", content, re.DOTALL)
+    usage = usage_match.group(1).strip() if usage_match else ""
 
     # Extract image
     image_match = re.search(r"\[\[File:([^\]]+)\]\]", content)
@@ -70,6 +55,8 @@ def _parse_relic_content(name: str, content: str) -> dict[str, Any] | None:
     # Determine relic type from tabber section (Event Relics, Boost Relics, etc.)
     relic_type = "relic"
 
+    # The markup is resolved by the shared renderer when the item is stored,
+    # so the raw wikitext is kept here.
     return {
         "id": _slugify(name),
         "type": relic_type,

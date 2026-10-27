@@ -18,6 +18,7 @@ from scrapers import (
     museum,
     npcs,
     pans,
+    potions,
     quests,
     relics,
     runes,
@@ -42,6 +43,7 @@ TRACKED_PAGES: list[str] = [
     "Enchanting",
     "Locations",
     "Traveling_Merchant",
+    "Potions",
     "NPCs",
     "Events",
     "Quests",
@@ -78,6 +80,7 @@ PARSERS: dict[str, Any] = {
     "Relics": relics.parse_relics,
     "Runes": runes.parse_runes,
     "Traveling_Merchant": traveling_merchant.parse_traveling_merchant,
+    "Potions": potions.parse_potions,
     "Geodes": geodes.parse_geodes,
     "NPCs": npcs.parse_npcs,
     "Events": events.parse_events,
@@ -99,4 +102,11 @@ for page in [
     if page not in PARSERS:
         PARSERS[page] = None  # type: ignore
 
-__all__ = ["PARSERS", "TRACKED_PAGES"]
+#: Version of the parsing and rendering rules.
+#:
+#: The scraper only re-parses a page when its wikitext changes. Bumping this
+#: value makes every page look changed, so a change to a parser or to the
+#: shared wikitext renderer is applied to the data that is already stored.
+PARSER_VERSION = 3
+
+__all__ = ["PARSERS", "PARSER_VERSION", "TRACKED_PAGES"]

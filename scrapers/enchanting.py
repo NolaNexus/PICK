@@ -3,6 +3,8 @@
 import re
 from typing import Any
 
+from scrapers.stats import parse_modifier_list
+
 
 def parse_enchanting(wikitext: str) -> list[dict[str, Any]]:
     """Parse enchantment data from tabber sections (Pans + Shovels)."""
@@ -107,6 +109,9 @@ def _parse_enchantment_row(row: str, applies_to: str) -> dict[str, Any] | None:
     effects = re.sub(r"<[^>]+>", "", effects)
     effects = effects.strip()
 
+    # The stats the enchantment grants, e.g. "+25 Capacity".
+    modifiers = parse_modifier_list(effects)
+
     if applies_to == "pan":
         # Pans: Aurorite, Aetherite, Aetherium, Source
         chance1 = _parse_chance(cells[2])  # Aurorite
@@ -137,21 +142,25 @@ def _parse_enchantment_row(row: str, applies_to: str) -> dict[str, Any] | None:
     # Determine rarity from enchant name
     rarity = _determine_rarity(name)
 
+    data: dict[str, Any] = {
+        "applies_to": applies_to,
+        "effects": effects,
+        "aurorite_chance": aurorite_chance,
+        "aetherite_chance": aetherite_chance,
+        "aetherium_chance": aetherium_chance,
+        "sol_chance": sol_chance,
+        "source": source,
+        "rarity": rarity,
+    }
+    if modifiers:
+        data["modifiers"] = modifiers
+
     return {
         "id": _slugify(name),
         "type": "enchantment",
         "name": name,
         "slug": _slugify(name),
-        "data": {
-            "applies_to": applies_to,
-            "effects": effects,
-            "aurorite_chance": aurorite_chance,
-            "aetherite_chance": aetherite_chance,
-            "aetherium_chance": aetherium_chance,
-            "sol_chance": sol_chance,
-            "source": source,
-            "rarity": rarity,
-        },
+        "data": data,
         "image_url": None,
     }
 

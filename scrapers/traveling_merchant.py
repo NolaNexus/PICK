@@ -71,15 +71,14 @@ def parse_traveling_merchant(wikitext: str) -> list[dict[str, Any]]:
 def _classify_item_type(name: str) -> str:
     """Classify a merchant stock item by the game's item categories.
 
-    Enchant books permanently enchant the player's pan and potions grant timed
-    boosts, so they are their own categories. Everything else is a generic
-    merchant listing that reconciliation may merge into an existing item.
+    Enchant books permanently enchant the player's pan, so they are their own
+    category. Everything else, including the potions, is a generic merchant
+    listing that reconciliation merges into the item's own page. The Potions
+    wiki page is the canonical source for potions.
     """
     lowered = name.lower()
     if lowered.endswith("enchant book"):
         return "enchant_book"
-    if lowered.endswith("potion"):
-        return "potion"
     return "merchant_item"
 
 

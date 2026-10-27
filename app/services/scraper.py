@@ -10,7 +10,8 @@ from sqlalchemy import select
 
 from app.services.reconcile import reconcile_items
 from app.utils.mw_api import MediaWikiClient
-from scrapers import PARSERS, TRACKED_PAGES  # type: ignore
+from scrapers import PARSER_VERSION, PARSERS, TRACKED_PAGES  # type: ignore
+from scrapers.wikitext import render_item_data
 
 if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncSession
@@ -197,7 +198,10 @@ async def scrape_page(
         logger.warning("No wikitext for %s", title)
         return False
 
-    content_hash = hashlib.sha256(wikitext.encode("utf-8")).hexdigest()
+    # The hash covers the page content and the parsing rules. A change to a
+    # parser or to the shared wikitext renderer therefore re-parses the page,
+    # instead of leaving the stored data in the old shape.
+    content_hash = hashlib.sha256(f"{PARSER_VERSION}:{wikitext}".encode()).hexdigest()
     page_id = page_info.get("page_id")
     revision_id = page_info.get("revision_id") or 0  # Default to 0 if None
 
@@ -249,6 +253,13 @@ async def scrape_page(
 
     for item_data, slug in parsed_items:
         item = existing_items.get(slug)
+
+        # Item data is public API and is read as plain text, so the wiki
+        # markup is resolved once, here, instead of in every parser.
+        item_data = {
+            **item_data,
+            "data": render_item_data(item_data.get("data", {}) or {}),
+        }
 
         if item is None:
             item = Item(

@@ -392,6 +392,56 @@ async def test_reconcile_merges_merchant_listing_into_relic(db_session):
 
 
 @pytest.mark.asyncio
+async def test_reconcile_merges_merchant_listing_into_potion(db_session):
+    """The merchant listing of a potion merges into the Potions page row."""
+    from app.services.reconcile import reconcile_items
+
+    potion = Item(
+        type="potion",
+        name="Blitz Potion",
+        slug="potion-blitz-potion",
+        data={
+            "description": "Supercharges your digging and shaking speed.",
+            "sold_by": "Traveling Merchant",
+            "cost_cash": 200000000.0,
+            "cost_shards": 250.0,
+            "duration_min": 20,
+        },
+        is_active=True,
+    )
+    listing = Item(
+        type="merchant_item",
+        name="Blitz Potion",
+        slug="merchant-item-blitz-potion",
+        data={
+            "price_cash": 200000000.0,
+            "price_shards": 250,
+            "stock": 1,
+            "chance_percent": 3.5,
+        },
+        is_active=True,
+    )
+    db_session.add_all([potion, listing])
+    await db_session.commit()
+
+    summary = await reconcile_items(db_session)
+    await db_session.commit()
+    await db_session.refresh(potion)
+
+    assert summary["merged_merchant_items"] == 1
+    assert listing.is_active is False
+
+    # The potion keeps its own cost from the Potions wiki page.
+    assert potion.data["cost_cash"] == 200000000.0
+    assert potion.data["sold_by"] == "Traveling Merchant"
+
+    # The live listing is attached to it.
+    assert potion.data["sold_by_merchant"] is True
+    assert potion.data["merchant"]["stock"] == 1
+    assert potion.data["merchant"]["chance_percent"] == 3.5
+
+
+@pytest.mark.asyncio
 async def test_reconcile_links_rewards_and_quests(db_session):
     """Excavation drops and quests point at the item/NPC they belong to."""
     from app.services.reconcile import reconcile_items

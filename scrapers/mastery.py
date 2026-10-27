@@ -111,6 +111,19 @@ def _parse_quest(location: str, boost_type: str, template_text: str) -> dict[str
     quest_sub = clean(fields.get("QuestSub", ""))
     rewards = clean_preserve_templates(fields.get("Rewards", ""))
 
+    # The location luck this mastery raises, e.g. "Rubble Creek Luck: 1.05x".
+    modifiers: list[dict[str, Any]] = []
+    boost_match = re.search(r"([\d.]+)\s*[x×]", rewards)
+    if boost_match and boost_type:
+        stat_name = boost_type.rstrip(".").strip()
+        modifiers.append(
+            {
+                "stat": stat_name,
+                "amount": float(boost_match.group(1)),
+                "unit": "multiplier",
+            }
+        )
+
     # Extract quest steps
     steps = []
     for key in sorted(fields.keys()):
@@ -123,18 +136,22 @@ def _parse_quest(location: str, boost_type: str, template_text: str) -> dict[str
     # Generate slug
     slug = _slugify(f"{location} {quest_name}")
 
+    data: dict[str, Any] = {
+        "location": location,
+        "boost_type": boost_type,
+        "description": quest_sub,
+        "steps": steps,
+        "rewards": rewards,
+    }
+    if modifiers:
+        data["modifiers"] = modifiers
+
     return {
         "id": slug,
         "type": "mastery",
         "name": quest_name,
         "slug": slug,
-        "data": {
-            "location": location,
-            "boost_type": boost_type,
-            "description": quest_sub,
-            "steps": steps,
-            "rewards": rewards,
-        },
+        "data": data,
         "image_url": None,
     }
 

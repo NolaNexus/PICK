@@ -1,0 +1,263 @@
+__NOTOC__
+= Potions =
+'''Potions''' are consumable items in '''Prospecting''' that grant temporary stat boosts when used.  
+They can be purchased from various merchants across the world.  
+
+Each potion lasts for a limited time and provides effects such as increased '''Luck''', '''Capacity''', '''Strength''', '''Shake Speed''', and more.  
+
+== Overview ==
+Potions can be purchased from the following merchants:
+* [[#Fortune River Town Alchemist|Fortune River Town Alchemist]] – basic Luck and Capacity potions  
+* [[#Volcanic Sands Alchemist|Volcanic Sands Alchemist]] – powerful Luck and Strength potions  
+* [[#Frostbitten Path Alchemist|Frostbitten Path Alchemist]] – more powerful Luck and Speed potions
+* [[#Rotwood Swamp Alchemist|Rotwood Swamp Alchemist]] – even more powerful Luck potions
+* [[#Astral Caverns Alchemist|Astral Caverns Alchemist]] - luck, strength, and size boost potions
+* [[#Desert Alchemist|Desert Alchemist]] - luck, mod boost, and speed potions
+* [[#Shard Merchant|Shard Merchant]] – potion focused on sell value  
+* [[#Traveling Merchant|Traveling Merchant]] – rare and unique potions  
+
+=== Usage ===
+* Potions can be purchased "in bulk" by inputting the desired number.
+** If you put in a larger number than the merchant's stock, it will say "out of stock" and no potions will be purchased.
+* The potion(s) will go into your inventory (backpack) as a consumable item.
+* To use a potion, select it in your inventory, then click/tap on the screen.
+* When using the potion, if you have more than one, you can input the desired duration by selecting the number of potions to activate.
+** Unlike the purchasing window, the duration window will not let you select more potions than what you have in your inventory.
+
+----
+
+== Fortune River Town Alchemist ==
+The '''Fortune River Town [[Alchemist]]''' offers affordable beginner potions centered around Luck and Capacity.  
+
+{| class="wikitable" style="width:100%; text-align:center;"
+! style="width:18%" | Item
+! style="width:15%" | Cost
+! style="width:17%" | Effect
+! style="width:35%" | Description
+! style="width:15%" | Image
+|-
+| '''Basic Luck Potion'''
+| {{$|50,000}}
+| +5 {{Stat|Luck}} (10 min)
+| A simple potion that slightly increases your luck.
+| [[File:Basic Luck Potion.png|100px]]
+|-
+| '''Basic Capacity Potion'''
+| {{$|40,000}}
+| +25 {{Stat|Capacity}} (10 min)
+| Increases how much you can carry.
+| [[File:Basic Capacity Potion.png|100px]]
+|-
+| '''Greater Luck Potion'''
+| {{Meteor Shards|30}}
+| +10 {{Stat|Luck}} (20 min)
+| An enhanced potion of luck infused with shards.
+| [[File:Greater Luck Potion.png|100px]]
+|-
+| '''Greater Capacity Potion'''
+| {{Meteor Shards|20}}
+| +50 {{Stat|Capacity}} (20 min)
+| An enhanced potion of capacity infused with shards.
+| [[File:Greater Capacity Potion.png|100px]]
+|}
+
+----
+
+== Volcanic Sands Alchemist ==
+The '''Volcanic Sands [[Alchemist]]''' specializes in advanced Luck and Strength potions for seasoned miners.  
+
+{| class="wikitable" style="width:100%; text-align:center;"
+! style="width:18%" | Item
+! style="width:15%" | Cost
+! style="width:17%" | Effect
+! style="width:35%" | Description
+! style="width:15%" | Image
+|-
+| '''Volcanic Luck Potion'''
+| {{$|1,000,000}}
+| +20 {{Stat|Luck}} (10 min)
+| A strong potion brimming with volcanic energy.
+| [[File:Volcanic Luck Potion.png|100px]]
+|-
+| '''Volcanic Strength Potion'''
+| {{$|1,000,000}}
+| +5 {{Stat|Dig Strength}} (10 min)
+| Increases your digging power with volcanic heat.
+| [[File:Volcano Strength Potion.png|100px]]
+|-
+| '''Supreme Luck Potion'''
+| {{Meteor Shards|150}}
+| +50 {{Stat|Luck}} (20 min)
+| A top-tier luck potion that drastically boosts fortune.
+| [[File:Supreme Luck Potion.png|100px]]
+|}
+
+----
+
+== Frostbitten Path Alchemist ==
+The '''Frostbitten Path [[Alchemist]]''' is a merchant located deep within the frozen mountains.  
+
+{| class="wikitable" style="width:100%; text-align:center;"
+! style="width:18%" | Item
+! style="width:15%" | Cost
+! style="width:17%" | Effect
+! style="width:35%" | Description
+! style="width:15%" | Image
+|-
+| '''Frozen Luck Potion'''
+| {{$|25,000,000}}
+| +100 {{Stat|Luck}} (10 min)
+| A strong potion of luck.
+| [[File:Frozen Luck Potion.png|100px]]
+|-
+| '''Frozen Speed Potion'''
+| {{$|50,000,000}}
+| +20% {{Stat|Dig Speed}}, +20% {{Stat|Shake Speed}} (10 min)
+| A strong potion of speed.
+| [[File:Frozen Speed Potion.png|100px]]
+|-
+| '''Cryonic Brew'''
+| {{Meteor Shards|200}}
+| +300 {{Stat|Luck}}, +200 {{Stat|Capacity}}, +3 {{Stat|Walkspeed}} (20 min)
+| A mysterious potion made from frozen ores.
+| [[File:Cryonic Brew.png|100px]]
+|}
+
+----
+
+== Rotwood Swamp Alchemist ==
+The '''Rotwood Swamp [[Alchemist]]''' is a witch located in the middle of the {{Rotwood Swamp}}
+
+{| class="wikitable" style="width:100%; text-align:center;"
+! style="width:18%" | Item
+! style="width:15%" | Cost
+! style="width:17%" | Effect
+! style="width:35%" | Description
+! style="width:15%" | Image
+|-
+| '''Witches Brew'''
+| {{$|1,000,000,000}}
+| +500 {{Stat|Luck}}, +50 {{Stat|Dig Strength}} (10 min)
+| A secret potion passed down by generations of witches in the Rotwood Swamp.
+| [[File:witchesbrew.png|100px]]
+|-
+| '''Ambrosia'''
+| {{Meteor Shards|500}}
+| +1111 {{Stat|Luck}} (10 min)
+| ???
+| [[File:ambrosia.png|100px]]
+|}
+
+----
+
+== Astral Caverns Alchemist ==
+The '''Astral Caverns [[Alchemist]]''' has a shop on the left side of the {{Astral Caverns}} lake.
+
+{| class="wikitable" style="width:100%; text-align:center;"
+! style="width:18%" | Item
+! style="width:15%" | Cost
+! style="width:17%" | Effect
+! style="width:35%" | Description
+! style="width:15%" | Image
+|-
+| '''Cosmic Potion'''
+| {{$|25,000,000,000}}
+| +250 {{Stat|Luck}}, +75 {{Stat|Dig Strength}}, +20% {{Stat|Dig Speed}}, +20% {{Stat|Modifier Boost}} (10 min)
+| A strength-boosting potion made by an alien civilization.
+| [[File:cosmic_potion.png|100px]]
+|-
+| '''Stardust Shake'''
+| {{Meteor Shards|1,000}}
+| +1500 {{Stat|Luck}}, +30% {{Stat|Size Boost}} (10 min)
+| A drink made from ground up meteors. Its safety is... questionable.
+| [[File:stardust_shake.png|100px]]
+|}
+
+----
+
+== Desert Alchemist ==
+The '''{{Sunscorched Desert}} [[Alchemist]]''' has a shop near the {{Mystic Floodplains}} [[Waypoints|waypoint]].
+
+{| class="wikitable" style="width:100%; text-align:center;"
+! style="width:18%" | Item
+! style="width:15%" | Cost
+! style="width:17%" | Effect
+! style="width:35%" | Description
+! style="width:15%" | Image
+|-
+| '''Traveler's Mix'''
+| {{$|200,000,000,000}}
+| +300 {{Stat|Luck}}, +25 {{Stat|Shake Strength}}, +250 {{Stat|Inventory Size}}, +30% {{Stat|Modifier Boost}} (10 min)
+| A suspicious looking liquid used by travelers crossing the unforgiving dunes of the Sunscorched Desert.
+| [[File:Traveler's_Mix_bottle.png|100px]]
+|-
+| '''Water of Life'''
+| {{Meteor Shards|1,500}}
+| +1500 {{Stat|Luck}}, +2 {{Stat|WalkSpeed}}, +5 {{Stat|Jump Power}} (10 min)
+| A vial of water from the Eternal Spring hidden deep under the desert, said to restore the vitality and youth of those who drink it. Well, that's what the alchemist says. It just looks like water to you.
+| [[File:Water_of_life_bottle.png|100px]]
+|}
+
+----
+
+== Shard Merchant ==
+The '''[[Shard Merchant]]''' in {{Fortune River|Fortune River Town}} and {{Caldera Park}} sells a unique potion that enhances selling power, ideal for maximizing profit.  
+
+{| class="wikitable" style="width:100%; text-align:center;"
+! style="width:18%" | Item
+! style="width:15%" | Cost
+! style="width:17%" | Effect
+! style="width:35%" | Description
+! style="width:15%" | Image
+|-
+| '''Merchant’s Potion'''
+| {{Meteor Shards|200}}
+| +100% {{Stat|Sell Boost}} (20 min)
+| Greatly increases the value of all ores sold.
+| [[File:Merchants Potion.png|100px]]
+|}
+
+----
+
+== Traveling Merchant ==
+The '''[[Traveling Merchant]]''' offers extremely rare and expensive potions with unique and powerful effects.  
+These are among the strongest consumables in the game.
+
+{| class="wikitable" style="width:100%; text-align:center;"
+! style="width:18%" | Item
+! style="width:15%" | Cost
+! style="width:17%" | Effect
+! style="width:35%" | Description
+! style="width:15%" | Image
+|-
+| '''Instability Potion'''
+| {{$|200,000,000}} / {{Meteor Shards|150}}
+| +100% {{Stat|Modifier Boost}} (20 min)
+| A chaotic potion that distorts reality itself.
+| [[File:InstabilityPotion1.png|100px]]
+|-
+| '''Quake Potion'''
+| {{$|200,000,000}} / {{Meteor Shards|200}}
+| +30 {{Stat|Dig Strength}}, +5 {{Stat|Shake Strength}} (20 min)
+| Trembles with immense power.
+| [[File:Quake Potion.png|100px]]
+|-
+| '''Blitz Potion'''
+| {{$|200,000,000}} / {{Meteor Shards|250}}
+| +60% {{Stat|Dig Speed}}, +60% {{Stat|Shake Speed}} (20 min)
+| Supercharges your digging and shaking speed.
+| [[File:Blitz Potion.png|100px]]
+|}
+
+----
+
+== Trivia ==
+* 🧪 Potions used to take effect immediately upon purchase, but have been changed into consumable items in your inventory.  
+* 💫 Potion effects do not stack with the same potion type, but can combine across different potions.  
+* 💎 Shard-exclusive potions are typically more powerful than cash-exclusive ones.  
+* 🧭 Potions can be used anywhere and their timers persist even when moving between locations.   
+* ⌛ Potion duration pauses when the player logs out.
+
+[[Category:Items]]
+[[Category:Consumables]]
+[[Category:Potions]]

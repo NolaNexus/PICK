@@ -3,6 +3,8 @@
 import re
 from typing import Any
 
+from scrapers.stats import parse_modifier_list
+
 
 def parse_quests(wikitext: str) -> list[dict[str, Any]]:
     """Parse quest data from tabber sections with locations and NPCs."""
@@ -174,6 +176,9 @@ def _parse_quest_template(location: str, npc: str, template_text: str) -> dict[s
     rewards = clean_preserve_templates(fields.get("Rewards", ""))
     buffs = clean(fields.get("Buffs", ""))
 
+    # The stats the quest grants, e.g. "+50 Luck".
+    modifiers = parse_modifier_list(buffs)
+
     # Extract quest steps
     steps = []
     for key in sorted(fields.keys()):
@@ -186,19 +191,23 @@ def _parse_quest_template(location: str, npc: str, template_text: str) -> dict[s
     # Generate slug
     slug = _slugify(f"{location} {quest_name}")
 
+    data: dict[str, Any] = {
+        "location": location,
+        "npc": npc,
+        "description": quest_sub,
+        "steps": steps,
+        "rewards": rewards,
+        "buffs": buffs,
+    }
+    if modifiers:
+        data["modifiers"] = modifiers
+
     return {
         "id": slug,
         "type": "quest",
         "name": quest_name,
         "slug": slug,
-        "data": {
-            "location": location,
-            "npc": npc,
-            "description": quest_sub,
-            "steps": steps,
-            "rewards": rewards,
-            "buffs": buffs,
-        },
+        "data": data,
         "image_url": None,
     }
 

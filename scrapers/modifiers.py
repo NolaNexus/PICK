@@ -3,6 +3,8 @@
 import re
 from typing import Any
 
+from scrapers.stats import parse_modifier_list
+
 
 def parse_modifiers(wikitext: str) -> list[dict[str, Any]]:
     """Parse modifier data from wiki sections headings == Modifier Name ==."""
@@ -89,6 +91,27 @@ def _parse_modifier_section(name: str, content: str) -> dict[str, Any] | None:
             data["museum_bonus"] = value
         elif "chance" in key:
             data["chance"] = value
+
+    # The multiplier a modifier gives to sell prices, e.g. "24x".
+    modifiers: list[dict[str, Any]] = []
+    if data["sell_price_multiplier"] is not None:
+        modifiers.append(
+            {
+                "stat": "Sell Boost",
+                "amount": data["sell_price_multiplier"],
+                "unit": "multiplier",
+            }
+        )
+
+    # The boosts the modifier grants to locations and events.
+    for field in ("location_boosts", "event_boosts"):
+        value = data.get(field)
+        if not value or value == "None":
+            continue
+        modifiers.extend(parse_modifier_list(value))
+
+    if modifiers:
+        data["modifiers"] = modifiers
 
     # Skip if no meaningful data
     if data["sell_price_multiplier"] is None and data["description"] is None:

@@ -67,3 +67,27 @@ def test_known_blueprint_parsed():
     assert accretion["data"]["quest_giver"] == "Meteor Guardian"
     assert "Galactic Guardian" in accretion["data"]["quest_name"]
     assert len(accretion["data"]["quest_steps"]) > 0
+
+
+def test_quest_template_fields_are_split():
+    """The {{Quest}} template fields must be split into separate keys.
+
+    The template writes its fields as "|QuestSub = value", with spaces around
+    the equals sign. A separator that does not allow them collapses the whole
+    template into one unusable string.
+    """
+    wikitext = FIXTURE_PATH.read_text()
+    items = parse_blueprints(wikitext)
+
+    accretion = next(i for i in items if i["name"] == "Accretion Disk")
+    step = accretion["data"]["quest_steps"][0]
+
+    assert step["Quest"] == "Galactic Guardian"
+    assert step["QuestSub"] == "Restore the valley's protective blessing."
+    assert step["QuestStep1"] == "Collect 1 [[Celestium]]."
+    assert step["QuestStep2"] == "Collect 100 [[Sunstone]]."
+    assert step["QuestStep3"] == "Collect 25000 Materials from Meteor Valley."
+    assert "Rewards" in step
+
+    # The raw template arguments must not survive as one blob.
+    assert "QuestSub =" not in step["Quest"]

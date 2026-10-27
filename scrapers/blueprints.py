@@ -141,11 +141,15 @@ def _parse_blueprint_content(name: str, content: str) -> dict[str, Any] | None:
 
 
 def _parse_quest_template(content: str) -> dict[str, Any]:
-    """Parse a {{Quest}} template content."""
-    result = {}
+    """Parse a {{Quest}} template content.
+
+    The template's fields are written as ``|QuestSub = value`` with spaces
+    around the equals sign, so the field separator has to allow them.
+    """
+    result: dict[str, Any] = {}
 
     # Extract fields like |Quest = ..., |QuestStep1 = ..., etc.
-    field_pattern = r"\|\s*(\w+)\s*=\s*(.*?)(?=\n\|\w+=|\n\}\}|$)"
+    field_pattern = r"\|\s*([A-Za-z0-9_]+)\s*=\s*(.*?)(?=\n\|\s*[A-Za-z0-9_]+\s*=|\n\}\}|$)"
 
     for match in re.finditer(field_pattern, content, re.DOTALL):
         key = match.group(1).strip()

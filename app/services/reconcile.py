@@ -156,10 +156,12 @@ async def reconcile_items(db: "AsyncSession") -> dict[str, int]:
         canonical.updated_at = datetime.now(UTC)
         merged += 1
 
-    # Canonical items that are themselves merchant-native (enchant books and
-    # potions only sold by the merchant) also expose the normalized listing.
+    # Canonical items that are themselves merchant-native (an enchant book is
+    # only sold by the merchant) also expose the normalized listing. Potions
+    # are not merchant-native: their cost comes from the Potions wiki page, so
+    # their listing is merged in from the merchant row above.
     for item in items:
-        if item.type in {"enchant_book", "potion"} and "price_cash" in (item.data or {}):
+        if item.type == "enchant_book" and "price_cash" in (item.data or {}):
             seen_at = item.updated_at or datetime.now(UTC)
             item.data = {
                 **(item.data or {}),

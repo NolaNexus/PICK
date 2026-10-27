@@ -3,6 +3,8 @@
 import re
 from typing import Any
 
+from scrapers.stats import parse_multiplier
+
 
 def parse_museum(wikitext: str) -> list[dict[str, Any]]:
     """Parse museum data from displays table and ore bonus tables."""
@@ -175,18 +177,25 @@ def _parse_ore_bonuses(wikitext: str) -> list[dict[str, Any]]:
             # Cell 3: Maximum Boost
             max_boost = cells[3].strip()
 
+            # The rider an ore gives in a display, e.g. "+0.13x Luck".
+            modifier = parse_multiplier(max_boost, bonus)
+
+            data: dict[str, Any] = {
+                "rarity": rarity,
+                "min_kg": min_kg,
+                "bonus_stat": bonus,
+                "max_boost": max_boost,
+            }
+            if modifier:
+                data["modifiers"] = [modifier]
+
             items.append(
                 {
                     "id": _slugify(f"museum-ore-{ore_name}"),
                     "type": "museum_ore",
                     "name": ore_name,
                     "slug": _slugify(f"museum-ore-{ore_name}"),
-                    "data": {
-                        "rarity": rarity,
-                        "min_kg": min_kg,
-                        "bonus_stat": bonus,
-                        "max_boost": max_boost,
-                    },
+                    "data": data,
                     "image_url": None,
                 }
             )

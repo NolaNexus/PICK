@@ -5,6 +5,8 @@ from typing import Any
 
 import mwparserfromhell
 
+from scrapers.stats import parse_equipment_stats
+
 
 def parse_equipment(wikitext: str) -> list[dict[str, Any]]:
     """Parse equipment data from wikitext with tabbed rarity sections.
@@ -68,6 +70,8 @@ def _parse_equipment_row(template: Any, tier: str) -> dict[str, Any] | None:
     recipe = params.get("recipe", "")
 
     # Parse stats dynamically: stat1/val1/s6val1, stat2/val2/s6val2, etc.
+    # The raw pairs are kept for display and the same values are also emitted
+    # as structured modifiers so the UI and the calculators can use them.
     stats: dict[str, str] = {}
     for key, value in params.items():
         if key.startswith("stat"):
@@ -75,6 +79,8 @@ def _parse_equipment_row(template: Any, tier: str) -> dict[str, Any] | None:
             stats[f"stat{stat_num}"] = value
             stats[f"val{stat_num}"] = params.get(f"val{stat_num}", "")
             stats[f"s6val{stat_num}"] = params.get(f"s6val{stat_num}", "")
+
+    modifiers = parse_equipment_stats(params)
 
     # Capture any extra params (candy, ornaments, etc.) not already handled
     known_keys = {
@@ -106,6 +112,8 @@ def _parse_equipment_row(template: Any, tier: str) -> dict[str, Any] | None:
         "price": price,
         "rarity": tier,
     }
+    if modifiers:
+        data["modifiers"] = modifiers
     if extra:
         data["extra"] = extra
 

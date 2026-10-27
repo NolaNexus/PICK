@@ -3,6 +3,8 @@
 import re
 from typing import Any
 
+from scrapers.stats import parse_modifier_list
+
 
 def parse_runes(wikitext: str) -> list[dict[str, Any]]:
     """Parse rune data from wikitable."""
@@ -85,17 +87,24 @@ def _parse_rune_row(row: str) -> dict[str, Any] | None:
     color_match = re.search(r"color:#([0-9A-Fa-f]+)", name_cell)
     color = color_match.group(1) if color_match else ""
 
+    # The stats the rune grants, e.g. "20% more luck during the night".
+    modifiers = parse_modifier_list(description)
+
+    data: dict[str, Any] = {
+        "description": description,
+        "location": location,
+        "icon": icon,
+        "color": color,
+    }
+    if modifiers:
+        data["modifiers"] = modifiers
+
     return {
         "id": _slugify(name),
         "type": "rune",
         "name": name,
         "slug": _slugify(name),
-        "data": {
-            "description": description,
-            "location": location,
-            "icon": icon,
-            "color": color,
-        },
+        "data": data,
         "image_url": None,
     }
 

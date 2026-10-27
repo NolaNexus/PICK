@@ -12,10 +12,10 @@ dashboard choose **New → Blueprint** and point it at this repository.
 ## Services
 
 ### web (FastAPI)
-- Build: `pip install -r requirements.txt`
+- Build: Docker (`Dockerfile` — installs `requirements.txt` and `requirements-r.txt`)
 - Start: `python -m app.main`
 - Environment variables from `.env` (or Render secrets)
-- Health checks at `/api/v1/health/ready`
+- Health checks at `/api/v1/health/health/ready`
 
 ### postgres
 - Official PostgreSQL 16 image
@@ -73,7 +73,7 @@ render deploy
 ## Monitoring
 
 - Logs: Render logs dashboard
-- Health: `/api/v1/health/ready`, `/api/v1/health/live`
+- Health: `/api/v1/health/health/ready`, `/api/v1/health/health/live`
 - Metrics: `/api/v1/meta` (scrape stats)
 - Backups: Configure PostgreSQL automated backups
 

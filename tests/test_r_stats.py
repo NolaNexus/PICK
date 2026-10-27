@@ -1,16 +1,19 @@
 """Tests for the R statistical bridge and /calculators/stats/* API endpoints.
 
-R + rpy2 are installed in this environment, so these tests exercise the real
-R code path and assert r_used: true where applicable. Fallback parity is
-verified by monkeypatching R_AVAILABLE to False.
+When R and rpy2 are installed these tests exercise the real R code path and
+assert r_used: true where applicable. Without rpy2 the R-dependent tests are
+skipped; the fallback parity tests still run, since they monkeypatch
+R_AVAILABLE to False.
 """
 
 from unittest.mock import patch
 
+import pytest
 from fastapi.testclient import TestClient
 
 from app.main import app
 from app.services.r_stats import (
+    R_AVAILABLE,
     ev_pareto_frontier_r,
     fit_modifier_distribution,
     fit_modifier_fraction_r,
@@ -22,6 +25,11 @@ from app.services.r_stats import (
     score_exotic_locations_r,
     score_gear_r,
     score_hunt_locations_r,
+)
+
+# rpy2 is an optional dependency and needs a local R installation to build.
+requires_r = pytest.mark.skipif(
+    not R_AVAILABLE, reason="R/rpy2 is not installed in this environment"
 )
 
 client = TestClient(app)
@@ -43,6 +51,7 @@ MODIFIER_NAMES = [
 ]
 
 
+@requires_r
 class TestRStatsBridgeUnit:
     """Unit tests for all 6 r_stats bridge functions (real R path)."""
 
@@ -203,6 +212,7 @@ class TestRStatsFallbackParity:
             assert optimize_luck_cap_r(current_luck=1000) == []
 
 
+@requires_r
 class TestStatsApiEndpoints:
     """Integration tests for /api/v1/calculators/stats/* endpoints (no DB required)."""
 
@@ -292,6 +302,7 @@ class TestStatsApiEndpoints:
         assert any(r.get("optimal") is True for r in data["recommendations"])
 
 
+@requires_r
 class TestOptimizeLuckCapContinuous:
     """Tests for continuous luck-cap optimization (R's Brent search)."""
 
@@ -351,6 +362,7 @@ class TestOptimizeLuckCapContinuous:
         assert data["lower"] == 0 and data["upper"] == 100000
 
 
+@requires_r
 class TestFitModifierFraction:
     """Tests for % ores modified curve fitting (R's nls)."""
 
@@ -428,6 +440,7 @@ class TestFitModifierFraction:
         assert data["curve"] == []
 
 
+@requires_r
 class TestQuestSurvival:
     """Tests for quest survival analysis (R's survival::coxph)."""
 
@@ -496,6 +509,7 @@ class TestQuestSurvival:
         assert isinstance(data["baseline_median_time_hours"], (int, float))
 
 
+@requires_r
 class TestEvParetoFrontier:
     """Tests for EV / risk Pareto frontier (R's stats::rnost + dominance)."""
 

@@ -1,0 +1,11 @@
+# Optional R statistical bridge.
+#
+# rpy2 has no binary wheel and is compiled against the local R installation,
+# so R must be installed first (Debian/Ubuntu: `apt-get install -y r-base`).
+#
+# Only needed by the R-backed distribution fitting and gear scoring. Without
+# it, app/services/r_stats.py falls back to the pure-Python approximation.
+rpy2==3.5.14
+
+# rpy2's numpy2ri bridge (used by app/services/r_stats.py) imports numpy.
+numpy==2.3.5

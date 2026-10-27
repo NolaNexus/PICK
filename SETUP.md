@@ -58,6 +58,25 @@ To enable Reddit news fetching, you need to create a Reddit "Script App":
 
 ## Step 3: Local Development
 
+### Python dependencies
+
+`requirements.txt` installs everywhere. The R statistical bridge lives in
+`requirements-r.txt` because `rpy2` has no binary wheel and must be compiled
+against a local R installation:
+
+```bash
+# Base install (no R needed)
+pip install -r requirements.txt
+
+# Optional R bridge; requires R first
+# Debian/Ubuntu: sudo apt-get install -y r-base
+pip install -r requirements-r.txt
+```
+
+Without `rpy2` the API still runs: `app/services/r_stats.py` falls back to the
+pure-Python approximation and the R-backed tests are skipped. The Docker image
+installs both, so `docker compose up` has the full R path available.
+
 ### Start Backend + Database
 
 ```bash
@@ -222,6 +241,7 @@ npm run build
 │   ├── public/          # Static files
 │   └── dist/            # Build output (gitignored)
 ├── requirements.txt       # Python dependencies
+├── requirements-r.txt     # Optional R statistical bridge (rpy2, numpy)
 ├── pyproject.toml         # Python project config
 ├── README.md              # Project overview
 ├── ROADMAP.md             # Implementation phases

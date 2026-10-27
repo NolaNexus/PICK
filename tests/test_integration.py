@@ -504,3 +504,32 @@ async def test_reconcile_links_geode_excavation_rewards(db_session):
 
     assert summary["linked_excavation_rewards"] == 1
     assert reward.data["item_slug"] == "geode-magma-geode"
+
+
+@pytest.mark.asyncio
+async def test_reconcile_matches_quest_to_grouped_npc(db_session):
+    """A quest matches an NPC that lists several locations."""
+    from app.services.reconcile import reconcile_items
+
+    npc = Item(
+        type="npc",
+        name="Resident",
+        slug="npc-resident",
+        data={"locations": ["Fortune River", "Seashell Isle"]},
+        is_active=True,
+    )
+    quest = Item(
+        type="quest",
+        name="Help the Resident",
+        slug="quest-help-the-resident",
+        data={"npc": "Resident", "location": "Seashell Isle"},
+        is_active=True,
+    )
+    db_session.add_all([npc, quest])
+    await db_session.commit()
+
+    await reconcile_items(db_session)
+    await db_session.commit()
+    await db_session.refresh(quest)
+
+    assert quest.data["npc_slug"] == "npc-resident"

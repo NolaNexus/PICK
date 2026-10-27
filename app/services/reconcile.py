@@ -85,6 +85,16 @@ def _normalize_location(name: str | None) -> str:
     return _name_key(name).removeprefix("the ")
 
 
+def _npc_locations(npc: "Item") -> set[str]:
+    """Return the locations an NPC appears in."""
+    data = npc.data if isinstance(npc.data, dict) else {}
+    locations = data.get("locations")
+    if isinstance(locations, list):
+        return {_name_key(location) for location in locations if isinstance(location, str)}
+    region = data.get("region")
+    return {_name_key(region)} if region else set()
+
+
 def _find_geode(items: list["Item"], location: str) -> "Item | None":
     """Return the geode variant for a location, e.g. 'Volcanic Sands'."""
     key = _normalize_location(location)
@@ -208,11 +218,7 @@ async def reconcile_items(db: "AsyncSession") -> dict[str, int]:
         # Prefer the NPC in the quest's own location when several share a name.
         location = _name_key(data.get("location"))
         npc = next(
-            (
-                candidate
-                for candidate in npcs
-                if _name_key((candidate.data or {}).get("region")) == location
-            ),
+            (candidate for candidate in npcs if location in _npc_locations(candidate)),
             npcs[0],
         )
         item.data = {**data, "npc_slug": npc.slug}

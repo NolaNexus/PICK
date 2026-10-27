@@ -32,18 +32,16 @@ def test_npcs_have_required_fields():
 
 
 def test_npcs_data_structure():
-    """NPC data dict should contain region, location, image, link_target."""
+    """Every NPC carries its locations, image and link target."""
     wikitext = FIXTURE_PATH.read_text()
     items = parse_npcs(wikitext)
 
     for item in items:
         data = item["data"]
-        assert "region" in data
-        assert "location" in data
+        assert isinstance(data["locations"], list)
+        assert data["locations"]
         assert "image" in data
         assert "link_target" in data
-        assert isinstance(data["region"], str)
-        assert len(data["region"]) > 0
 
 
 def test_npcs_slug_is_unique():
@@ -58,16 +56,52 @@ def test_npcs_slug_is_unique():
     )
 
 
-def test_npcs_slugs_include_region():
-    """Slugs are region-prefixed so the same NPC name in different regions is distinct."""
+def test_unique_npc_slug_is_name_only():
+    """An NPC that exists in one location gets a name-based slug."""
     wikitext = FIXTURE_PATH.read_text()
     items = parse_npcs(wikitext)
 
     john = next(i for i in items if i["name"] == "John")
-    assert john["slug"] == "rubble-creek-john"
+    assert john["slug"] == "john"
+    assert john["data"]["locations"] == ["Rubble Creek"]
 
     regionless = next(i for i in items if i["name"] == "Merchant")
     assert regionless["slug"] == "global-merchant"
+
+
+def test_repeated_npcs_are_grouped_by_name():
+    """A flavour NPC that appears in several locations is one entry."""
+    wikitext = FIXTURE_PATH.read_text()
+    items = parse_npcs(wikitext)
+
+    residents = [i for i in items if i["name"] == "Resident"]
+    assert len(residents) == 1, "Resident should be one NPC with several locations"
+
+    resident = residents[0]
+    assert resident["slug"] == "resident"
+    assert resident["data"]["locations"] == ["Fortune River", "Seashell Isle"]
+    assert set(resident["data"]["portraits"]) == {"Fortune River", "Seashell Isle"}
+
+
+def test_town_services_stay_per_location():
+    """Each town's merchant/blacksmith/alchemist/trader is a distinct NPC."""
+    wikitext = FIXTURE_PATH.read_text()
+    items = parse_npcs(wikitext)
+
+    merchants = [i for i in items if i["name"] == "Merchant"]
+    assert len(merchants) == 8
+    assert len({m["slug"] for m in merchants}) == 8
+    assert all("region" in m["data"] for m in merchants)
+
+
+def test_same_name_in_one_location_stay_distinct():
+    """Two tourists sharing a name and a location are still two NPCs."""
+    wikitext = FIXTURE_PATH.read_text()
+    items = parse_npcs(wikitext)
+
+    tourists = [i for i in items if i["name"] == "Two Tourists"]
+    assert len(tourists) == 2
+    assert len({t["slug"] for t in tourists}) == 2
 
 
 def test_npcs_with_same_name_in_different_regions_are_distinct():

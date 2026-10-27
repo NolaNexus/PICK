@@ -6,13 +6,13 @@ from typing import Any
 
 def parse_npcs(wikitext: str) -> list[dict[str, Any]]:
     """Parse NPC data from tabber gallery sections."""
-    npcs = []
+    entries: list[dict[str, Any]] = []
 
     # Find the main tabber
     tabber_pattern = r"<tabber>(.*?)</tabber>"
     tabber_match = re.search(tabber_pattern, wikitext, re.DOTALL)
     if not tabber_match:
-        return npcs
+        return []
 
     tabber_content = tabber_match.group(1)
 
@@ -35,7 +35,7 @@ def parse_npcs(wikitext: str) -> list[dict[str, Any]]:
             # Save previous tab
             if current_tab is not None:
                 tab_npcs = _parse_tab(current_tab, "\n".join(current_content))
-                npcs.extend(tab_npcs)
+                entries.extend(tab_npcs)
             # Start new tab with name from same line
             current_tab = tab_sep_match.group(1).strip()
             current_content = []
@@ -46,7 +46,7 @@ def parse_npcs(wikitext: str) -> list[dict[str, Any]]:
             # Save previous tab
             if current_tab is not None:
                 tab_npcs = _parse_tab(current_tab, "\n".join(current_content))
-                npcs.extend(tab_npcs)
+                entries.extend(tab_npcs)
             # Next line will be the tab name
             current_tab = None
             current_content = []
@@ -70,9 +70,9 @@ def parse_npcs(wikitext: str) -> list[dict[str, Any]]:
     # Don't forget the last tab
     if current_tab is not None:
         tab_npcs = _parse_tab(current_tab, "\n".join(current_content))
-        npcs.extend(tab_npcs)
+        entries.extend(tab_npcs)
 
-    return npcs
+    return _group_npcs(entries)
 
 
 def _parse_tab(tab_name: str, content: str) -> list[dict[str, Any]]:
@@ -83,9 +83,8 @@ def _parse_tab(tab_name: str, content: str) -> list[dict[str, Any]]:
 
 
 def _parse_gallery(region: str, content: str) -> list[dict[str, Any]]:
-    """Parse NPC entries from a gallery section."""
-    npcs = []
-    seen_slugs: set[str] = set()
+    """Parse raw NPC entries from a gallery section."""
+    entries: list[dict[str, Any]] = []
 
     # Gallery format:
     # <gallery ...>
@@ -94,24 +93,21 @@ def _parse_gallery(region: str, content: str) -> list[dict[str, Any]]:
     gallery_pattern = r"<gallery[^>]*>(.*?)</gallery>"
     gallery_match = re.search(gallery_pattern, content, re.DOTALL)
     if not gallery_match:
-        return npcs
+        return entries
 
     gallery_content = gallery_match.group(1)
 
-    # Each line is an entry: ImageName.png|link=TargetPage|[[DisplayName]]
     for line in gallery_content.split("\n"):
         line = line.strip()
         if not line or line.startswith("<") or line.startswith("|-"):
             continue
 
-        # Parse: filename|link=target|[[display]] or filename|[[display]]
         parts = line.split("|")
         if len(parts) < 2:
             continue
 
         image_file = parts[0].strip()
 
-        # Find display name and link target
         display_name = ""
         link_target = ""
 
@@ -122,7 +118,6 @@ def _parse_gallery(region: str, content: str) -> list[dict[str, Any]]:
             elif part.startswith("[[") and part.endswith("]]"):
                 display_name = part[2:-2].strip()
             elif part.startswith("[["):
-                # Handle [[DisplayName|LinkTarget]] format
                 inner = part[2:]
                 if "|" in inner:
                     display_name, link_target = inner.split("|", 1)
@@ -130,45 +125,114 @@ def _parse_gallery(region: str, content: str) -> list[dict[str, Any]]:
                 else:
                     display_name = inner.rstrip("]").strip()
 
-        # Use display name, fallback to link target
         name = display_name or link_target
         if not name:
             continue
 
-        # Clean up name - remove trailing refs
         name = re.sub(r"\]\]<ref>.*$", "", name).strip()
 
-        # NPC names repeat across regions (e.g. "Merchant" in many areas), so
-        # the slug must include the region to keep every NPC a distinct item.
-        slug = _slugify(f"{_slug_region(region)}-{name}")
+        entries.append(
+            {
+                "name": name,
+                "region": region,
+                "image": image_file,
+                "link_target": link_target,
+            }
+        )
+
+    return entries
+
+
+# NPCs that exist once per town as a service. Each town's merchant, blacksmith,
+# alchemist and trader is a distinct character, even though they share a name.
+TOWN_SERVICE_NAMES = {"merchant", "blacksmith", "alchemist", "trader"}
+
+
+def _group_npcs(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Group the same NPC across locations into one entry.
+
+    Town services stay separate per location, and same-name entries inside one
+    location (e.g. two tourists) remain distinct individuals.
+    """
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for entry in entries:
+        groups.setdefault(entry["name"], []).append(entry)
+
+    npcs: list[dict[str, Any]] = []
+    seen_slugs: set[str] = set()
+
+    for name, rows in groups.items():
+        regions = [row["region"] for row in rows]
+        one_per_location = len(regions) == len(set(regions))
+
+        if name.lower() in TOWN_SERVICE_NAMES or not one_per_location:
+            for row in rows:
+                slug = _slugify(f"{_slug_region(row['region'])}-{name}")
+                if slug in seen_slugs:
+                    slug = _slugify(f"{slug}-{_slugify(row['image'])}")
+                base_slug = slug
+                suffix = 2
+                while slug in seen_slugs:
+                    slug = f"{base_slug}-{suffix}"
+                    suffix += 1
+                seen_slugs.add(slug)
+                npcs.append(_separate_npc(name, row, slug))
+            continue
+
+        slug = _slugify(name)
         if slug in seen_slugs:
-            # Same region, same name but a different NPC (e.g. two tourists
-            # sharing one gallery entry). Disambiguate with the image name.
-            slug = _slugify(f"{_slug_region(region)}-{name}-{_slugify(image_file)}")
-            suffix = 2
+            # Distinct names can slugify identically (e.g. "Archaeologist" and
+            # "Archaeologist?"). Keep them separate with a numeric suffix.
             base_slug = slug
+            suffix = 2
             while slug in seen_slugs:
                 slug = f"{base_slug}-{suffix}"
                 suffix += 1
         seen_slugs.add(slug)
-
-        npcs.append(
-            {
-                "id": slug,
-                "type": "npc",
-                "name": name,
-                "slug": slug,
-                "data": {
-                    "region": region,
-                    "location": region,
-                    "image": image_file,
-                    "link_target": link_target,
-                },
-                "image_url": None,
-            }
-        )
+        npcs.append(_grouped_npc(name, rows, slug))
 
     return npcs
+
+
+def _grouped_npc(name: str, rows: list[dict[str, Any]], slug: str) -> dict[str, Any]:
+    """Build one NPC entry spanning several locations."""
+    locations = sorted({row["region"] for row in rows})
+    data: dict[str, Any] = {
+        "locations": locations,
+        "portraits": {row["region"]: row["image"] for row in rows},
+        "image": rows[0]["image"],
+        "link_target": rows[0]["link_target"],
+    }
+    if len(locations) == 1:
+        data["region"] = locations[0]
+        data["location"] = locations[0]
+
+    return {
+        "id": slug,
+        "type": "npc",
+        "name": name,
+        "slug": slug,
+        "data": data,
+        "image_url": None,
+    }
+
+
+def _separate_npc(name: str, row: dict[str, Any], slug: str) -> dict[str, Any]:
+    """Build a location-specific NPC entry (town service or same-name pair)."""
+    return {
+        "id": slug,
+        "type": "npc",
+        "name": name,
+        "slug": slug,
+        "data": {
+            "region": row["region"],
+            "location": row["region"],
+            "locations": [row["region"]],
+            "image": row["image"],
+            "link_target": row["link_target"],
+        },
+        "image_url": None,
+    }
 
 
 REGIONLESS_LABEL = "Regionless NPCs"

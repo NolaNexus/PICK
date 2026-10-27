@@ -2,7 +2,7 @@
 
 **A community-built companion for Prospecting!** — items, minerals, pans, shovels, relics, runes, formulas, calculators, and community news in one fast, searchable place.
 
-🔗 **[Live Site →](https://nolanexus.github.io/PICK---Prospecting-Information---Community-Kit/)** · [Report an Issue](https://github.com/NolaNexus/PICK---Prospecting-Information---Community-Kit/issues)
+🔗 **[Live Site →](https://nolanexus.github.io/PICK---Prospecting-Information---Community-Kit/)** · [Report an Issue](https://github.com/NolaNexus/PICK/issues)
 
 ---
 
@@ -45,8 +45,8 @@ Think of PICK as a companion layer on top of the wiki: structured data, calculat
 Want to run PICK yourself or contribute? You'll need Python 3.11+ and PostgreSQL 16+.
 
 ```bash
-git clone https://github.com/NolaNexus/PICK---Prospecting-Information---Community-Kit.git
-cd PICK---Prospecting-Information---Community-Kit
+git clone https://github.com/NolaNexus/PICK.git
+cd PICK
 cp .env.example .env
 docker compose up --build
 open http://localhost:8000/docs

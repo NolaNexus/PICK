@@ -5,16 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PICK — Prospecting Information &amp; Community Kit</title>
     <script>
-      // Single-page application fallback: redirect all 404s to index.html
-      // so React Router can handle the route client-side.
+      // Single-page application fallback for GitHub Pages.
+      // GitHub Pages has no rewrite rules, so a deep link such as
+      // /PICK/calculators returns 404. We stash the requested route and
+      // bounce to the SPA entry point; the app restores the route on mount.
       (function () {
+        var base = "/PICK";
         var path = window.location.pathname;
         var search = window.location.search;
         var hash = window.location.hash;
-        var base = "/PICK---Prospecting-Information---Community-Kit";
-        if (path !== base + "/index.html" && !path.startsWith(base + "/assets/")) {
-          window.location.replace(base + "/index.html" + search + hash);
+
+        if (path === base + "/index.html" || path.indexOf(base + "/assets/") === 0) {
+          return;
         }
+
+        var route = path.indexOf(base) === 0 ? path.slice(base.length) : "/";
+        if (!route) route = "/";
+        if (route.charAt(0) !== "/") route = "/" + route;
+
+        try {
+          window.sessionStorage.setItem("pick:redirect", route + search + hash);
+        } catch (e) {
+          // Storage can be unavailable (private mode); fall back to the root.
+        }
+
+        window.location.replace(base + "/");
       })();
     </script>
   </head>

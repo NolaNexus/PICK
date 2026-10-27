@@ -1,7 +1,29 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
+import { rarityBadgeClasses, type Rarity } from '@/lib/theme'
 
-export function Badge({ className, variant, ...props }: React.HTMLAttributes<HTMLDivElement> & { variant?: 'default' | 'secondary' | 'destructive' | 'outline' }) {
+export type BadgeVariant =
+  | 'default'
+  | 'secondary'
+  | 'destructive'
+  | 'outline'
+  | `rarity-${Rarity}`
+
+const rarityVariants: Record<string, string> = {
+  'rarity-common': rarityBadgeClasses.common,
+  'rarity-uncommon': rarityBadgeClasses.uncommon,
+  'rarity-rare': rarityBadgeClasses.rare,
+  'rarity-epic': rarityBadgeClasses.epic,
+  'rarity-legendary': rarityBadgeClasses.legendary,
+  'rarity-mythical': rarityBadgeClasses.mythical,
+  'rarity-exotic': rarityBadgeClasses.exotic,
+}
+
+export function Badge({
+  className,
+  variant,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { variant?: BadgeVariant }) {
   return (
     <div
       className={cn(
@@ -9,7 +31,8 @@ export function Badge({ className, variant, ...props }: React.HTMLAttributes<HTM
         variant === 'default' && 'bg-primary text-primary-foreground',
         variant === 'secondary' && 'bg-secondary text-secondary-foreground',
         variant === 'destructive' && 'bg-destructive text-destructive-foreground',
-        variant === 'outline' && 'border-input',
+        variant === 'outline' && 'border-input text-foreground',
+        variant && rarityVariants[variant],
         className
       )}
       {...props}

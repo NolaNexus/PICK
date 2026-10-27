@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
+import { rarityBorderClasses, type Rarity } from '@/lib/theme'
+
 export function Card({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
@@ -25,4 +27,41 @@ export function CardContent({ className, ...props }: React.HTMLAttributes<HTMLDi
 
 export function CardFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return <div className={cn('flex items-center p-6 pt-0', className)} {...props} />
+}
+
+// Prospecting! specific card variants
+export function MineralCard({
+  className,
+  rarity,
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { rarity?: Rarity }) {
+  const rarityClass = rarity ? rarityBorderClasses[rarity] : ''
+
+  return (
+    <Card
+      className={cn(
+        'relative overflow-hidden transition-all hover:shadow-md',
+        rarityClass,
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </Card>
+  )
+}
+
+export function EquipmentCard({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <Card
+      className={cn(
+        'border-2 border-earth bg-gradient-to-br from-earth/10 to-transparent',
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </Card>
+  )
 }

@@ -6,6 +6,10 @@ const STORE = "snapshot";
 const KEY = "main";
 const STALE_MS = 1000 * 60 * 60 * 24; // 24 hours
 
+// Optional live API origin. When unset the site runs fully static and reads
+// the snapshot.json committed alongside the build.
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
+
 export interface NewsResponse {
   id: number;
   source: string;
@@ -31,7 +35,7 @@ export interface WikiPageResponse {
 }
 
 export interface GameVersionResponse {
-  version: string;
+  version: string | null;
   detected_at: string | null;
   triggered_full_scrape: number;
 }
@@ -110,15 +114,94 @@ export interface CachedSnapshot {
   saved_at: number;
 }
 
+const EMPTY_SCRAPE: LastScrapeResponse = {
+  status: "never",
+  started_at: null,
+  finished_at: null,
+  pages_scraped: 0,
+  pages_changed: 0,
+  pages_errors: 0,
+};
+
+const EMPTY_VERSION: GameVersionResponse = {
+  version: null,
+  detected_at: null,
+  triggered_full_scrape: 0,
+};
+
+/** Shape of a snapshot payload before it is normalized. */
+interface RawSnapshot {
+  generated_at?: string;
+  counts?: SnapshotData["counts"];
+  items?: SnapshotData["items"];
+  formulas?: SnapshotData["formulas"];
+  news?: SnapshotData["news"];
+  wiki_pages?: SnapshotData["wiki_pages"];
+  game_version?: Partial<GameVersionResponse> | null;
+  last_scrape?: Partial<LastScrapeResponse> | null;
+  meta?: {
+    game_version?: Partial<GameVersionResponse> | null;
+    last_scrape?: Partial<LastScrapeResponse> | null;
+  } | null;
+}
+
+/**
+ * Brings a raw snapshot payload into the shape the pages expect.
+ *
+ * The API and the committed snapshot.json expose the same fields, but the
+ * `meta` object is only present on payloads that have already been through
+ * this normalization. Both sources are normalized here so every page can rely
+ * on `meta.game_version` and `meta.last_scrape` being present.
+ */
+export function normalizeSnapshot(raw: RawSnapshot | null | undefined): SnapshotData {
+  const gameVersion = raw?.game_version ?? raw?.meta?.game_version ?? null;
+  const lastScrape = raw?.last_scrape ?? raw?.meta?.last_scrape ?? null;
+
+  return {
+    generated_at: raw?.generated_at ?? new Date().toISOString(),
+    counts: raw?.counts ?? {
+      items: raw?.items?.length ?? 0,
+      formulas: raw?.formulas?.length ?? 0,
+      news: raw?.news?.length ?? 0,
+      wiki_pages: raw?.wiki_pages?.length ?? 0,
+    },
+    items: raw?.items ?? [],
+    formulas: raw?.formulas ?? [],
+    news: raw?.news ?? [],
+    wiki_pages: raw?.wiki_pages ?? [],
+    meta: {
+      game_version: gameVersion
+        ? {
+            version: gameVersion.version ?? null,
+            detected_at: gameVersion.detected_at ?? null,
+            triggered_full_scrape: gameVersion.triggered_full_scrape ?? 0,
+          }
+        : EMPTY_VERSION,
+      last_scrape: lastScrape
+        ? {
+            status: lastScrape.status ?? null,
+            started_at: lastScrape.started_at ?? null,
+            finished_at: lastScrape.finished_at ?? null,
+            pages_scraped: lastScrape.pages_scraped ?? 0,
+            pages_changed: lastScrape.pages_changed ?? 0,
+            pages_errors: lastScrape.pages_errors ?? 0,
+          }
+        : EMPTY_SCRAPE,
+    },
+  };
+}
+
 export class SnapshotCache {
   private cache: CachedSnapshot | null = null;
 
   async load(): Promise<SnapshotData | null> {
     if (this.cache) return this.cache.data;
     const raw = (await dbGet(STORE, KEY)) as CachedSnapshot | undefined;
-    if (!raw) return null;
-    this.cache = raw;
-    return raw.data;
+    if (!raw?.data) return null;
+    // Normalize so snapshots cached by an older build still expose `meta`.
+    const data = normalizeSnapshot(raw.data);
+    this.cache = { ...raw, data };
+    return data;
   }
 
   async save(data: SnapshotData): Promise<void> {
@@ -145,49 +228,22 @@ export class SnapshotCache {
 
     let data: SnapshotData;
     try {
-      const apiData: any = await request<any>({
+      if (!API_BASE_URL) {
+        throw new Error("No API base URL configured");
+      }
+      const apiData = await request<RawSnapshot>({
         url: "/api/v1/export/snapshot",
         method: "GET",
       });
-      data = {
-        generated_at: apiData.generated_at,
-        counts: apiData.counts,
-        items: apiData.items,
-        formulas: apiData.formulas,
-        news: apiData.news,
-        wiki_pages: apiData.wiki_pages,
-        meta: {
-          game_version: apiData.game_version
-            ? {
-                version: apiData.game_version.version,
-                detected_at: apiData.game_version.detected_at,
-                triggered_full_scrape: 0,
-              }
-            : { version: null, detected_at: null, triggered_full_scrape: 0 },
-          last_scrape: apiData.last_scrape
-            ? {
-                status: apiData.last_scrape.status,
-                started_at: apiData.last_scrape.started_at,
-                finished_at: apiData.last_scrape.finished_at,
-                pages_scraped: apiData.last_scrape.pages_scraped,
-                pages_changed: apiData.last_scrape.pages_changed,
-                pages_errors: apiData.last_scrape.pages_errors,
-              }
-            : {
-                status: "never",
-                started_at: null,
-                finished_at: null,
-                pages_scraped: 0,
-                pages_changed: 0,
-                pages_errors: 0,
-              },
-        },
-      };
+      data = normalizeSnapshot(apiData);
     } catch {
-      data = (await request<SnapshotData>({
-        url: "/snapshot.json",
-        method: "GET",
-      })) as SnapshotData;
+      // Static fallback: the committed snapshot shipped with the site.
+      // It lives under the Vite base path (e.g. /PICK/snapshot.json), not the API origin.
+      const response = await fetch(`${import.meta.env.BASE_URL}snapshot.json`);
+      if (!response.ok) {
+        throw new Error(`Failed to load snapshot.json (${response.status})`);
+      }
+      data = normalizeSnapshot(await response.json());
     }
 
     await this.save(data);

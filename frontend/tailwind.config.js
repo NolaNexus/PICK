@@ -7,6 +7,78 @@ export default {
   theme: {
     extend: {
       colors: {
+        // shadcn/ui semantic tokens. These map to the CSS variables declared
+        // in src/index.css, so the light/dark palettes stay in one place.
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
+        // Semantic Prospecting! colors.
+        // These are literal values (not CSS variables) so Tailwind can compose
+        // them with the `/opacity` modifier, e.g. `bg-water/90`.
+        water: {
+          DEFAULT: '#1e90ff',
+          foreground: '#dbeafe',
+        },
+        gold: {
+          50: '#fffbeb',
+          100: '#fef3c7',
+          200: '#fde68a',
+          300: '#fcd34d',
+          400: '#fbbf24',
+          500: '#f59e0b',
+          600: '#d97706',
+          700: '#b45309',
+          800: '#92400e',
+          900: '#78350f',
+          DEFAULT: '#f59e0b',
+        },
+        earth: {
+          DEFAULT: '#8b8680',
+          foreground: '#f5f4f0',
+        },
+        cave: {
+          DEFAULT: '#0f172a',
+          foreground: '#f8fafc',
+        },
+        rarity: {
+          common: '#9e9e9e',
+          uncommon: '#4caf50',
+          rare: '#2196f3',
+          epic: '#9c27b0',
+          legendary: '#ff9800',
+          mythical: '#f44336',
+          exotic: '#e91e63',
+        },
         // Prospecting! Gold Colors
         prospecting: {
           gold: {

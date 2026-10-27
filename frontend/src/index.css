@@ -4,48 +4,82 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 45 20% 95%;
+    --foreground: 30 15% 15%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 30 15% 15%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --popover-foreground: 30 15% 15%;
+    --primary: 45 90% 51%;
+    --primary-foreground: 30 15% 10%;
     --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --secondary-foreground: 30 15% 15%;
+    --muted: 45 15% 90%;
+    --muted-foreground: 30 10% 45%;
     --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent-foreground: 30 15% 15%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 45 15% 85%;
+    --input: 45 15% 85%;
+    --ring: 45 90% 51%;
     --radius: 0.5rem;
+
+    /* Prospecting! palette (HSL triplets, consumed via hsl(var(--x))) */
+    --water: 210 100% 55%;
+    --water-foreground: 210 40% 98%;
+    --earth: 34 26% 55%;
+    --earth-foreground: 45 40% 98%;
+    --cave: 240 10% 12%;
+    --cave-foreground: 0 0% 98%;
+
+    /* Rarity CSS Variables - Light Mode */
+    --rarity-common: 0 0% 62%;
+    --rarity-uncommon: 122 39% 50%;
+    --rarity-rare: 207 91% 54%;
+    --rarity-epic: 291 64% 39%;
+    --rarity-legendary: 36 100% 50%;
+    --rarity-mythical: 4 90% 58%;
+    --rarity-exotic: 330 81% 64%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 8%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 8%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 45 90% 51%;
+    --primary-foreground: 30 15% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 70%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 71.2% 95.4%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 45 90% 51%;
+
+    /* Prospecting! palette - Dark Mode */
+    --water: 199 89% 48%;
+    --water-foreground: 210 40% 98%;
+    --earth: 34 26% 62%;
+    --earth-foreground: 45 40% 98%;
+    --cave: 240 10% 8%;
+    --cave-foreground: 0 0% 98%;
+
+    /* Rarity CSS Variables - Dark Mode */
+    --rarity-common: 0 0% 62%;
+    --rarity-uncommon: 122 39% 50%;
+    --rarity-rare: 207 91% 54%;
+    --rarity-epic: 291 64% 39%;
+    --rarity-legendary: 36 100% 50%;
+    --rarity-mythical: 4 90% 58%;
+    --rarity-exotic: 330 81% 64%;
   }
 }
 

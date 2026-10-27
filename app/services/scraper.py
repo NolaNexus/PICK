@@ -46,14 +46,16 @@ async def check_for_game_update(db: "AsyncSession", client: MediaWikiClient) -> 
             logger.warning("No wikitext for Changelog")
             return False
 
-        # Extract latest version header (e.g., "== October 2026 ==").
-        # Match only top-level == headers (not === subsections).
-        version_match = re.search(r"(?m)^==\s*(.+?)\s*==\s*$", wikitext)
+        # Extract the latest version header (e.g. "== October 2026 ==").
+        # The heading must be exactly level 2: "== Title ==". A level-3
+        # heading such as "=== Changelog ===" must not match, otherwise the
+        # page title is stored as the game version.
+        version_match = re.search(r"(?m)^(==)\s+([^=].*?)\s+\1\s*$", wikitext)
         if not version_match:
             logger.warning("Could not parse version from Changelog")
             return False
 
-        latest_version = version_match.group(1).strip()
+        latest_version = version_match.group(2).strip()
 
         # Check if we've seen this version before
         existing = await db.execute(

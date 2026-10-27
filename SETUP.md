@@ -96,9 +96,21 @@ GitHub Actions are already configured:
 - Type checks frontend
 
 ### Deployment
-- **Frontend**: Deploys to GitHub Pages on push to `master`
+- **Frontend**: Deploys to GitHub Pages on push to `master` via `static.yml`, using the
+  official Pages Actions flow (`configure-pages` → `upload-pages-artifact` → `deploy-pages`)
 - **Backend**: Deploys to Render (requires Render API key and app ID)
 - **Scrapers**: Daily/Weekly scheduled runs via GitHub Actions
+
+#### Required repository settings
+
+1. **Settings → Pages → Build and deployment → Source → GitHub Actions**
+   The `static.yml` workflow publishes through the Pages API and will not work while
+   Pages is set to serve a branch.
+2. **Settings → Actions → General → Workflow permissions → Read and write**
+   The scrape workflows commit the refreshed `snapshot.json` back to `master`, which
+   is what redeploys the site after a data refresh.
+3. Optional secret `VITE_API_BASE_URL` — leave unset for a fully static site. When set,
+   the app prefers the live API and falls back to the committed `snapshot.json`.
 
 ## Development Scripts
 

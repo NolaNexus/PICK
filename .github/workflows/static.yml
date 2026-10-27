@@ -1,5 +1,7 @@
 # Deploy frontend to GitHub Pages
-
+#
+# Uses the official GitHub Pages Actions flow. The repository must have
+# Settings -> Pages -> Build and deployment -> Source set to "GitHub Actions".
 name: Deploy frontend to GitHub Pages
 
 on:
@@ -8,36 +10,55 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-      - name: Debug npm and node versions
-        run: |
-          node --version
-          npm --version
-          npm config get registry
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm ci --legacy-peer-deps
         working-directory: frontend
+
       - name: Build
         run: npm run build
         working-directory: frontend
         env:
+          # The site runs fully static against the committed snapshot.json.
+          # Set a repository secret to point the app at a live API instead.
           VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: frontend/dist
-          keep_files: false
+          path: frontend/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

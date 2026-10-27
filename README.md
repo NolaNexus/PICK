@@ -68,15 +68,49 @@ Run the wiki scraper:
 docker compose exec api python -m scripts.scraper
 ```
 
-## License
+## Frontend development
 
-MIT License
-
-Run the wiki scraper:
+The frontend is a Vite + React app in `frontend/`. It runs standalone against the
+committed snapshot, so no API is needed for UI work.
 
 ```bash
-docker compose exec api python -m scripts.scraper
+cd frontend
+npm install --legacy-peer-deps
+npm run dev
 ```
+
+To regenerate the static dataset the site is built from:
+
+```bash
+# with a local Postgres running and DATABASE_URL pointing at it
+python -m scripts.seed_formulas
+python -m scripts.export_snapshot --output frontend/public/snapshot.json
+```
+
+The export only rewrites `frontend/public/snapshot.json` when the rendered data
+actually changed, so a scrape that finds no wiki changes produces no diff.
+
+## Deployment
+
+The site is deployed as a static GitHub Pages site from `frontend/dist`:
+
+- `.github/workflows/static.yml` builds the frontend and publishes it with the
+  official GitHub Pages Actions flow.
+- The repository must have **Settings → Pages → Build and deployment → Source**
+  set to **GitHub Actions**.
+- The published site reads `frontend/public/snapshot.json`, which the
+  `daily-scrape` and `weekly-full-scrape` workflows refresh on a schedule and
+  commit back to `master`, which redeploys the site.
+- Set a `VITE_API_BASE_URL` repository secret to point the app at a live API
+  instead; without it the site stays fully static.
+
+Deep links work through `frontend/public/404.html`, which stashes the requested
+route and hands it back to the app after redirecting to the entry point.
+
+The optional backend (FastAPI + Postgres) is deployed separately; see
+[RENDER_SETUP.md](RENDER_SETUP.md).
+
 ## License
 
 MIT License
+

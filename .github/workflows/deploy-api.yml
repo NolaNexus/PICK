@@ -21,8 +21,9 @@ jobs:
         run: |
           set -euo pipefail
           if [ -z "${RENDER_API_KEY}" ] || [ -z "${RENDER_APP_ID}" ]; then
-            echo "RENDER_API_KEY and RENDER_APP_ID must be set as repository secrets" >&2
-            exit 1
+            echo "::notice::RENDER_API_KEY and RENDER_APP_ID are not set; skipping the API deploy."
+            echo "The site is fully static and does not need the API to be published."
+            exit 0
           fi
           response=$(curl --fail-with-body --silent --show-error \
             --request POST \

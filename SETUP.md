@@ -40,11 +40,12 @@ To enable Reddit news fetching, you need to create a Reddit "Script App":
    REDDIT_CLIENT_SECRET=your_client_secret_here
    ```
 
-4. **Add to GitHub Secrets** (for CI/CD):
-   - `REDDIT_CLIENT_ID`
-   - `REDDIT_CLIENT_SECRET`
+5. **Optional:** Webhook secret for security
+   ```bash
+   WEBHOOK_SECRET=your_webhook_secret_here
+   ```
 
-5. **Test locally**:
+6. **Test locally**:
    ```bash
    # Start PostgreSQL locally
    docker compose up -d
@@ -129,13 +130,20 @@ MEDIAWIKI_API_URL=https://prospecting.miraheze.org/w/api.php
 # Reddit news scraping
 REDDIT_USER_AGENT=PICK/1.0 (Prospecting Information & Community Kit)
 REDDIT_SUBREDDIT=Prospecting
+REDDIT_CLIENT_ID=your_reddit_app_client_id
+REDDIT_CLIENT_SECRET=your_reddit_app_client_secret
 
 # Application settings
 APP_NAME=PICK
 APP_VERSION=0.1.0
 DEBUG=false
 DATABASE_URL=postgresql+asyncpg://pick:pick@localhost:5432/pick
-```
+
+# CORS allowed origins (comma-separated; use "*" for dev, list domains for prod)
+# CORS_ORIGINS=https://pick.example.com,https://www.pick.example.com
+
+# Webhook secret for security (optional)
+# WEBHOOK_SECRET=your_webhook_secret_here
 
 ### Frontend Scripts
 

@@ -5,10 +5,11 @@
     "lint": "eslint src --ext .js,.ts,.tsx",
     "typecheck": "tsc -b",
     "preview": "vite preview",
-    "generate:api": "orval"
+    "generate:api": "orval",
+    "format": "prettier --write src/**/*.{ts,tsx}"
   },
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

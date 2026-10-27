@@ -2,7 +2,7 @@
 
 **A community-built companion for Prospecting!** — items, minerals, pans, shovels, relics, runes, formulas, calculators, and community news in one fast, searchable place.
 
-🔗 **[Live Site →](https://nolanexus.github.io/PICK---Prospecting-Information---Community-Kit/)** · [Report an Issue](https://github.com/NolaNexus/PICK/issues)
+🔗 **[Live Site →](https://nolanexus.github.io/PICK/)** · [Report an Issue](https://github.com/NolaNexus/PICK/issues) · [Render Setup →](RENDER_SETUP.md)
 
 ---
 
@@ -51,6 +51,16 @@ cp .env.example .env
 docker compose up --build
 open http://localhost:8000/docs
 ```
+
+Run the wiki scraper:
+
+```bash
+docker compose exec api python -m scripts.scraper
+```
+
+## License
+
+MIT License
 
 Run the wiki scraper:
 

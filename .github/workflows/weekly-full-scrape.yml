@@ -37,9 +37,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+      - name: Set up R
+        run: sudo apt-get update && sudo apt-get install -y r-base
       - name: Initialize database
         run: alembic upgrade head
       - name: Run full wiki scraper
         run: python -m scripts.scraper --full
-      - name: Run news scraper
+      - name: Run news scraper (if Reddit credentials configured)
+        if: env.REDDIT_CLIENT_ID != '' && env.REDDIT_CLIENT_SECRET != ''
         run: python -m scripts.news_scraper

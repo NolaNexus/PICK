@@ -3,6 +3,10 @@
 import os
 from urllib.parse import urlparse
 
+import pytest
+
+from app.config import settings
+
 
 class UnsafeTestDatabaseError(RuntimeError):
     """Raised when a test run is pointed at a database it could destroy."""
@@ -31,3 +35,31 @@ def get_test_database_url() -> str:
         )
 
     return database_url
+
+
+def wiki_is_reachable() -> bool:
+    """Check whether the live MediaWiki API can be reached.
+
+    Some tests scrape the real wiki. CI runners are sometimes blocked or
+    rate-limited by the wiki, so those tests are skipped instead of failing
+    the build when the API is not reachable.
+    """
+    import httpx
+
+    try:
+        response = httpx.get(
+            settings.mediawiki_api_url,
+            params={"action": "query", "meta": "siteinfo", "format": "json"},
+            timeout=15.0,
+            headers={"User-Agent": settings.reddit_user_agent},
+        )
+        return response.status_code == 200
+    except Exception:
+        return False
+
+
+#: Skip marker for tests that need the live wiki.
+requires_wiki = pytest.mark.skipif(
+    not wiki_is_reachable(),
+    reason="live MediaWiki API is not reachable from this environment",
+)

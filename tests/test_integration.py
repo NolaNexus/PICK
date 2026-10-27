@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker
 from app.models import Base, GameVersion, Item, ScraperRun, WikiPage
 from app.services.scraper import run_daily_scrape, run_full_scrape, scrape_page
 from app.utils.mw_api import MediaWikiClient
-from tests.conftest import get_test_database_url
+from tests.conftest import get_test_database_url, requires_wiki
 
 
 @pytest_asyncio.fixture
@@ -39,6 +39,7 @@ async def db_session(test_engine):
 
 
 @pytest.mark.integration
+@requires_wiki
 class TestScraperIntegration:
     """Integration tests for scraper against real database."""
 
@@ -118,6 +119,7 @@ class TestScraperIntegration:
 
 
 @pytest.mark.integration
+@requires_wiki
 class TestWebhookIntegration:
     """Integration tests for webhook endpoint."""
 

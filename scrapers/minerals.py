@@ -31,7 +31,19 @@ def parse_minerals(wikitext: str) -> list[dict[str, Any]]:
     # Also parse minerals from any non-tabber tables
     _parse_all_mineral_templates(wikitext, minerals)
 
-    return minerals
+    # The tabber pass and the global template pass can both yield the same
+    # mineral. Keep the first occurrence (which carries the tabber tier) and
+    # drop duplicates so slugs remain unique for the database upsert.
+    unique_minerals: list[dict[str, Any]] = []
+    seen_slugs: set[str] = set()
+    for mineral in minerals:
+        slug = mineral["slug"]
+        if slug in seen_slugs:
+            continue
+        seen_slugs.add(slug)
+        unique_minerals.append(mineral)
+
+    return unique_minerals
 
 
 def _parse_mineral_table(table_text: str, tier: str, minerals: list[dict[str, Any]]) -> None:

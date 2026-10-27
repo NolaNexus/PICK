@@ -36,7 +36,12 @@ class CalculatorEVRequest(BaseModel):
             "example": {
                 "location_drop_table": [
                     {"name": "Gold Ore", "base_price": 100, "base_weight": 1.0, "rarity": "common"},
-                    {"name": "Diamond", "base_price": 5000, "base_weight": 0.01, "rarity": "legendary"}
+                    {
+                        "name": "Diamond",
+                        "base_price": 5000,
+                        "base_weight": 0.01,
+                        "rarity": "legendary",
+                    },
                 ],
                 "luck": 5000,
                 "modifier_boost": 200,
@@ -45,7 +50,7 @@ class CalculatorEVRequest(BaseModel):
                 "autopan": False,
                 "mastered_shovel": True,
                 "solar_magnifier": False,
-                "modifier_surge": False
+                "modifier_surge": False,
             }
         }
     }
@@ -69,7 +74,7 @@ class CalculatorTTGRequest(BaseModel):
                 "dig_strength": 50,
                 "dig_speed": 100,
                 "shake_strength": 50,
-                "shake_speed": 500
+                "shake_speed": 500,
             }
         }
     }
@@ -85,7 +90,7 @@ class CalculatorMORRequest(BaseModel):
             "example": {
                 "panel_modifier_boost": 500,
                 "solar_magnifier": True,
-                "modifier_surge": False
+                "modifier_surge": False,
             }
         }
     }
@@ -110,7 +115,22 @@ class CalculatorBPGRequest(BaseModel):
         "json_schema_extra": {
             "example": {
                 "pans": [
-                    {"id": 1, "name": "Steel Pan", "slug": "steel-pan", "type": "pan", "data": {"capacity": 50, "dig_strength": 10, "shake_strength": 10, "shake_speed": 100, "luck": 0, "size_boost": 0, "modifier_boost": 0}, "image_url": ""}
+                    {
+                        "id": 1,
+                        "name": "Steel Pan",
+                        "slug": "steel-pan",
+                        "type": "pan",
+                        "data": {
+                            "capacity": 50,
+                            "dig_strength": 10,
+                            "shake_strength": 10,
+                            "shake_speed": 100,
+                            "luck": 0,
+                            "size_boost": 0,
+                            "modifier_boost": 0,
+                        },
+                        "image_url": "",
+                    }
                 ],
                 "dig_strength": 50,
                 "shake_strength": 50,
@@ -118,13 +138,14 @@ class CalculatorBPGRequest(BaseModel):
                 "target_capacity": 80,
                 "min_luck": 100,
                 "min_size_boost": 0,
-                "min_modifier_boost": 0
+                "min_modifier_boost": 0,
             }
         }
     }
 
 
 # --- Response Models ---
+
 
 class ModifierDistributionItem(BaseModel):
     modifier: str
@@ -160,8 +181,8 @@ class EVResponse(BaseModel):
                     "Scorching": 250.0,
                     "Glowing": 400.0,
                     "Pure": 550.0,
-                    "Shiny": 700.0
-                }
+                    "Shiny": 700.0,
+                },
             }
         }
     }
@@ -185,7 +206,7 @@ class TTGResponse(BaseModel):
                 "ev_per_pan": 5000.0,
                 "digs_per_pan": 3,
                 "dig_time_per_dig": 1.25,
-                "shake_time": 2.5
+                "shake_time": 2.5,
             }
         }
     }
@@ -217,9 +238,9 @@ class ModifierOddsResponse(BaseModel):
                     "Scorching": 2500.0,
                     "Glowing": 4000.0,
                     "Pure": 5500.0,
-                    "Shiny": 7000.0
+                    "Shiny": 7000.0,
                 },
-                "note": "Solar Magnifier doubles for Job 1 only. Modifier Surge doubles for both jobs."
+                "note": "Solar Magnifier doubles for Job 1 only. Modifier Surge doubles for both jobs.",
             }
         }
     }
@@ -245,22 +266,37 @@ class BestPanResponse(BaseModel):
             "example": {
                 "recommendations": [
                     {
-                        "pan": {"id": 1, "name": "Golden Pan", "slug": "golden-pan", "type": "pan", "data": {"capacity": 100, "dig_strength": 20, "shake_strength": 20, "shake_speed": 600, "luck": 500, "size_boost": 50, "modifier_boost": 100}, "image_url": ""},
+                        "pan": {
+                            "id": 1,
+                            "name": "Golden Pan",
+                            "slug": "golden-pan",
+                            "type": "pan",
+                            "data": {
+                                "capacity": 100,
+                                "dig_strength": 20,
+                                "shake_strength": 20,
+                                "shake_speed": 600,
+                                "luck": 500,
+                                "size_boost": 50,
+                                "modifier_boost": 100,
+                            },
+                            "image_url": "",
+                        },
                         "score": 85.5,
                         "capacity": 100,
                         "digs_per_pan": 3,
                         "pans_per_hour": 150.0,
                         "luck": 500,
                         "size_boost": 50,
-                        "modifier_boost": 100
+                        "modifier_boost": 100,
                     }
                 ],
                 "criteria": {
                     "target_capacity": 80,
                     "dig_strength": 50,
                     "shake_strength": 50,
-                    "shake_speed": 500
-                }
+                    "shake_speed": 500,
+                },
             }
         }
     }
@@ -270,8 +306,10 @@ class BestPanResponse(BaseModel):
 # MUSEUM CALCULATOR SCHEMAS
 # =============================================================================
 
+
 class AvailableOre(BaseModel):
     """An ore the player has available for museum displays."""
+
     name: str
     rarity: str
     kg: float = Field(ge=0)
@@ -279,18 +317,14 @@ class AvailableOre(BaseModel):
 
     model_config = {
         "json_schema_extra": {
-            "example": {
-                "name": "Gold",
-                "rarity": "Common",
-                "kg": 50.0,
-                "modifier": "Shiny"
-            }
+            "example": {"name": "Gold", "rarity": "Common", "kg": 50.0, "modifier": "Shiny"}
         }
     }
 
 
 class MuseumCalculatorRequest(BaseModel):
     """Request for museum calculator."""
+
     # Available ores the player has
     available_ores: list[AvailableOre] = Field(default_factory=list)
 
@@ -312,7 +346,7 @@ class MuseumCalculatorRequest(BaseModel):
                 "available_ores": [
                     {"name": "Gold", "rarity": "Common", "kg": 50.0, "modifier": "Shiny"},
                     {"name": "Diamond", "rarity": "Legendary", "kg": 25.0, "modifier": "Perfect"},
-                    {"name": "Aetherite", "rarity": "Legendary", "kg": 30.0, "modifier": None}
+                    {"name": "Aetherite", "rarity": "Legendary", "kg": 30.0, "modifier": None},
                 ],
                 "unlocked_displays": {
                     "Common": 3,
@@ -321,15 +355,11 @@ class MuseumCalculatorRequest(BaseModel):
                     "Epic": 1,
                     "Legendary": 2,
                     "Mythic": 1,
-                    "Exotic": 0
+                    "Exotic": 0,
                 },
-                "target_stats": {
-                    "Luck": 1.0,
-                    "Sell Boost": 0.5,
-                    "Dig Speed": 0.3
-                },
+                "target_stats": {"Luck": 1.0, "Sell Boost": 0.5, "Dig Speed": 0.3},
                 "size_boost": 1000.0,
-                "mode": "optimize"
+                "mode": "optimize",
             }
         }
     }
@@ -337,6 +367,7 @@ class MuseumCalculatorRequest(BaseModel):
 
 class SlotRecommendation(BaseModel):
     """Recommendation for a single museum display slot."""
+
     slot_id: str
     rarity: str
     slot_index: int
@@ -349,6 +380,7 @@ class SlotRecommendation(BaseModel):
 
 class RarityBreakdown(BaseModel):
     """Breakdown of stats per rarity."""
+
     slots_filled: int
     total_slots: int
     total_boost: dict[str, float]
@@ -357,6 +389,7 @@ class RarityBreakdown(BaseModel):
 
 class UnlockCostInfo(BaseModel):
     """Museum unlock cost information."""
+
     next_unlock: dict[str, Any] | None = None
     total_remaining_money: int
     total_remaining_shards: int
@@ -364,6 +397,7 @@ class UnlockCostInfo(BaseModel):
 
 class WeightGateInfo(BaseModel):
     """Weight gate check result for an ore."""
+
     ore_name: str
     rarity: str
     min_kg: int
@@ -374,6 +408,7 @@ class WeightGateInfo(BaseModel):
 
 class MuseumCalculatorResponse(BaseModel):
     """Response from museum calculator."""
+
     # Per-slot recommendations
     slot_recommendations: list[SlotRecommendation]
 
@@ -401,31 +436,38 @@ class MuseumCalculatorResponse(BaseModel):
                         "ore_kg": 50.0,
                         "modifier": "Shiny",
                         "effective_boost": {"Sell Boost": 0.05, "Shake Strength": 0.0037},
-                        "score": 0.0287
+                        "score": 0.0287,
                     }
                 ],
                 "total_stats": {
                     "Luck": 0.85,
                     "Sell Boost": 0.42,
                     "Dig Speed": 0.31,
-                    "Shake Strength": 0.12
+                    "Shake Strength": 0.12,
                 },
                 "by_rarity": {
                     "Common": {
                         "slots_filled": 3,
                         "total_slots": 3,
                         "total_boost": {"Sell Boost": 0.15, "Shake Strength": 0.011},
-                        "ores_used": ["Gold", "Copper", "Silver"]
+                        "ores_used": ["Gold", "Copper", "Silver"],
                     }
                 },
                 "unlock_costs": {
                     "next_unlock": {"rarity": "Mythic", "money": 10000000000, "shards": 5000},
                     "total_remaining_money": 11111000000,
-                    "total_remaining_shards": 23050
+                    "total_remaining_shards": 23050,
                 },
                 "weight_gate_info": [
-                    {"ore_name": "Gold", "rarity": "Common", "min_kg": 40, "current_kg": 50.0, "effective_kg": 550.0, "meets_requirement": True}
-                ]
+                    {
+                        "ore_name": "Gold",
+                        "rarity": "Common",
+                        "min_kg": 40,
+                        "current_kg": 50.0,
+                        "effective_kg": 550.0,
+                        "meets_requirement": True,
+                    }
+                ],
             }
         }
     }
@@ -435,6 +477,7 @@ class MuseumCalculatorResponse(BaseModel):
 # R-POWERED STATISTICAL SCHEMAS
 # =============================================================================
 
+
 class ModifierDistributionFitRequest(BaseModel):
     """Request to fit a modifier drop distribution from observed data.
 
@@ -442,6 +485,7 @@ class ModifierDistributionFitRequest(BaseModel):
     scraped wiki data or player tracking.
     effective_mb: Player's effective modifier boost.
     """
+
     observed_counts: dict[str, int] = Field(default_factory=dict)
     effective_mb: float = Field(default=0.0, ge=0)
 
@@ -463,6 +507,7 @@ class ModifierDistributionFitRequest(BaseModel):
 
 class ModifierDistributionFitResponse(BaseModel):
     """Fitted modifier distribution percentages (0-100 scale)."""
+
     modifier_distribution: dict[str, float]
     r_used: bool
     effective_mb: float
@@ -501,6 +546,7 @@ class MonteCarloEVRequest(BaseModel):
     pph_mean: Mean pans per hour.
     pph_sd: Standard deviation of pans per hour.
     """
+
     samples: int = Field(default=10000, ge=1, le=1000000)
     ev_per_pan_mean: float = Field(default=0.0, ge=0)
     ev_per_pan_sd: float = Field(default=0.0, ge=0)
@@ -522,6 +568,7 @@ class MonteCarloEVRequest(BaseModel):
 
 class MonteCarloEVResponse(BaseModel):
     """Monte Carlo EV per hour simulation results."""
+
     mean: float
     p05: float
     p95: float
@@ -541,6 +588,7 @@ class MonteCarloEVResponse(BaseModel):
 
 class GearItemInput(BaseModel):
     """A single piece of gear for recommendation scoring."""
+
     name: str
     capacity: float = Field(default=0, ge=0)
     dig_strength: float = Field(default=0, ge=0)
@@ -558,6 +606,7 @@ class GearRecommendationRequest(BaseModel):
     dig_strength/shake_strength/shake_speed: Player's build stats.
     target_capacity/min_luck/min_size_boost/min_modifier_boost: Filters.
     """
+
     gear: list[GearItemInput] = Field(default_factory=list)
     dig_strength: float = Field(default=0, ge=0)
     shake_strength: float = Field(default=0, ge=0)
@@ -596,6 +645,7 @@ class GearRecommendationRequest(BaseModel):
 
 class GearRecommendationResponse(BaseModel):
     """Scored and ranked gear recommendations."""
+
     recommendations: list[dict]
     r_used: bool
 
@@ -621,6 +671,7 @@ class GearRecommendationResponse(BaseModel):
 # LOCATION RECOMMENDATION SCHEMAS
 # =============================================================================
 
+
 class HuntListRequest(BaseModel):
     """Request for location recommendations based on a mineral hunt list.
 
@@ -628,19 +679,19 @@ class HuntListRequest(BaseModel):
     The endpoint scores each location by how many hunt-list minerals it has,
     weighted by mineral tier (Exotic > Mythic > ... > Common).
     """
+
     minerals: list[str] = Field(default_factory=list, min_length=1)
 
     model_config = {
         "json_schema_extra": {
-            "example": {
-                "minerals": ["Diamond", "Gold", "Aetherite", "Void Crystal"]
-            }
+            "example": {"minerals": ["Diamond", "Gold", "Aetherite", "Void Crystal"]}
         }
     }
 
 
 class HuntLocationResult(BaseModel):
     """Score and hunt details for a single location."""
+
     name: str
     score: float
     hunt_count: int
@@ -650,6 +701,7 @@ class HuntLocationResult(BaseModel):
 
 class HuntRecommendationResponse(BaseModel):
     """Location recommendations for a mineral hunt list."""
+
     recommendations: list[HuntLocationResult]
     r_used: bool
 
@@ -679,6 +731,7 @@ class ExoticHuntRequest(BaseModel):
     solar_magnifier: Whether Solar Magnifier is active.
     modifier_surge: Whether Modifier Surge is active.
     """
+
     modifier_boost: float = Field(default=0.0, ge=0)
     luck: float = Field(default=0.0, ge=0)
     solar_magnifier: bool = False
@@ -698,6 +751,7 @@ class ExoticHuntRequest(BaseModel):
 
 class ExoticLocationResult(BaseModel):
     """Score and Exotic hunting details for a single location."""
+
     name: str
     score: float
     exotic_rate: float
@@ -706,6 +760,7 @@ class ExoticLocationResult(BaseModel):
 
 class ExoticHuntResponse(BaseModel):
     """Location recommendations for Exotic modifier hunting."""
+
     recommendations: list[ExoticLocationResult]
     r_used: bool
 
@@ -730,6 +785,7 @@ class ExoticHuntResponse(BaseModel):
 # LUCK CAP OPTIMIZATION SCHEMAS
 # =============================================================================
 
+
 class LuckCapOptimizationRequest(BaseModel):
     """Request to optimize the luck cap for Dredge Master quest completion.
 
@@ -742,6 +798,7 @@ class LuckCapOptimizationRequest(BaseModel):
     luck_caps: List of luck cap values to evaluate. Defaults to a standard
         range if not provided.
     """
+
     current_luck: float = Field(default=0.0, ge=0)
     modifier_boost: float = Field(default=0.0, ge=0)
     solar_magnifier: bool = False
@@ -767,6 +824,7 @@ class LuckCapOptimizationRequest(BaseModel):
 
 class LuckCapResult(BaseModel):
     """Result for a single luck cap evaluation."""
+
     luck_cap: float
     quests_done: int
     total_time_hours: float
@@ -779,6 +837,7 @@ class LuckCapResult(BaseModel):
 
 class LuckCapOptimizationResponse(BaseModel):
     """Luck cap optimization results."""
+
     recommendations: list[LuckCapResult]
     optimal_cap: float
     r_used: bool
@@ -904,6 +963,7 @@ class ModifierFractionFitRequest(BaseModel):
 
 class ModifierFractionFitPoint(BaseModel):
     """A single point on the fitted % ores modified curve."""
+
     eff_mb: float
     pct_modified: float
 
@@ -941,6 +1001,7 @@ class ModifierFractionFitResponse(BaseModel):
 
 class QuestSurvivalPoint(BaseModel):
     """A single point on the quest-completion survival curve."""
+
     time: float
     survival_prob: float
 
@@ -957,7 +1018,9 @@ class QuestSurvivalRequest(BaseModel):
     n_quests: int = Field(default=50, ge=1, le=1000)
     max_time_hours: float = Field(default=48.0, ge=1)
     time_points: list[float] = Field(default_factory=lambda: [1.0, 5.0, 10.0, 24.0, 48.0])
-    luck_levels: list[float] = Field(default_factory=lambda: [0.0, 5000.0, 10000.0, 25000.0, 50000.0])
+    luck_levels: list[float] = Field(
+        default_factory=lambda: [0.0, 5000.0, 10000.0, 25000.0, 50000.0]
+    )
     modifier_boost_levels: list[float] = Field(default_factory=lambda: [0.0, 200.0, 500.0, 1000.0])
     meteor: bool = False
     weather_events: int = Field(default=0, ge=0)
@@ -1036,6 +1099,7 @@ class QuestSurvivalResponse(BaseModel):
 
 class EVParetoCandidate(BaseModel):
     """A candidate build for EV / risk Pareto frontier analysis."""
+
     name: str
     ev_per_pan_mean: float = Field(default=0.0, ge=0)
     ev_per_pan_sd: float = Field(default=0.0, ge=0)
@@ -1057,6 +1121,7 @@ class EVParetoCandidate(BaseModel):
 
 class EVParetoPoint(BaseModel):
     """A single point on the EV / risk Pareto frontier."""
+
     name: str
     mean_ev_hour: float
     p05_ev_hour: float
@@ -1139,6 +1204,3 @@ class EVParetoResponse(BaseModel):
             }
         }
     }
-
-
-

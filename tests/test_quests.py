@@ -79,7 +79,9 @@ def test_known_quest_parsed():
     assert getting_started["data"]["npc"] == "John"
     assert "Welcome to Prospecting" in getting_started["data"]["description"]
     assert len(getting_started["data"]["steps"]) > 0
-    assert "$500" in getting_started["data"]["rewards"] or "500" in getting_started["data"]["rewards"]
+    assert (
+        "$500" in getting_started["data"]["rewards"] or "500" in getting_started["data"]["rewards"]
+    )
     assert "25" in getting_started["data"]["rewards"]
 
     # Check Rubble Creek Collection
@@ -108,4 +110,7 @@ def test_known_quest_parsed():
     # Check quest with blueprint reward
     mythril_quest = next(i for i in items if i["name"] == "Finding Mythril")
     assert mythril_quest["data"]["location"] == "Snowy Shores"
-    assert "Blueprint" in mythril_quest["data"]["rewards"] or "Mythril" in mythril_quest["data"]["rewards"]
+    assert (
+        "Blueprint" in mythril_quest["data"]["rewards"]
+        or "Mythril" in mythril_quest["data"]["rewards"]
+    )

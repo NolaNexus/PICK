@@ -45,9 +45,7 @@ async def _get_access_token(client: httpx.AsyncClient) -> str | None:
     client_id = settings.reddit_client_id
     client_secret = settings.reddit_client_secret
     if not client_id or not client_secret:
-        logger.warning(
-            "Reddit client_id/client_secret not configured; skipping OAuth2 auth"
-        )
+        logger.warning("Reddit client_id/client_secret not configured; skipping OAuth2 auth")
         return None
 
     auth = (client_id, client_secret)
@@ -137,9 +135,7 @@ async def fetch_reddit_news(
         )
         tags = _infer_tags(title, content + " " + (flair or ""))
 
-        existing = await db.execute(
-            select(News).where(News.external_id == post_id)
-        )
+        existing = await db.execute(select(News).where(News.external_id == post_id))
         existing_article = existing.scalar_one_or_none()
 
         if existing_article:

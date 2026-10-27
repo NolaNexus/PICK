@@ -22,4 +22,6 @@ class ScraperRun(Base):
     error_log = Column(Text)
 
     def __repr__(self):
-        return f"<ScraperRun(id={self.id}, status={self.status}, pages_scraped={self.pages_scraped})>"
+        return (
+            f"<ScraperRun(id={self.id}, status={self.status}, pages_scraped={self.pages_scraped})>"
+        )

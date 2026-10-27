@@ -1,6 +1,6 @@
 from datetime import UTC, datetime
 
-from sqlalchemy import JSON, BigInteger, Column, DateTime, ForeignKey, String, Text
+from sqlalchemy import JSON, BigInteger, Boolean, Column, DateTime, ForeignKey, String, Text
 from sqlalchemy.orm import relationship
 
 from app.database import Base
@@ -18,6 +18,7 @@ class Item(Base):
     data = Column(JSON, nullable=False)
     image_url = Column(Text)
     description = Column(Text)
+    is_active = Column(Boolean, nullable=False, default=True, server_default="true", index=True)
     created_at = Column(
         DateTime(timezone=True),
         default=datetime.now(UTC),

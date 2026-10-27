@@ -53,7 +53,12 @@ def parse_npcs(wikitext: str) -> list[dict[str, Any]]:
             continue
 
         # Check for tab name (contains = but not a gallery line, and we're expecting a tab name)
-        if "=" in stripped and not stripped.startswith("<") and not stripped.startswith("|") and current_tab is None:
+        if (
+            "=" in stripped
+            and not stripped.startswith("<")
+            and not stripped.startswith("|")
+            and current_tab is None
+        ):
             current_tab = stripped.rstrip("=").strip()
             current_content = []
             continue
@@ -132,22 +137,36 @@ def _parse_gallery(region: str, content: str) -> list[dict[str, Any]]:
         # Clean up name - remove trailing refs
         name = re.sub(r"\]\]<ref>.*$", "", name).strip()
 
-        npcs.append({
-            "id": _slugify(name),
-            "type": "npc",
-            "name": name,
-            "slug": _slugify(name),
-            "data": {
-                "region": region,
-                "location": region,
-                "image": image_file,
-                "link_target": link_target,
-            },
-            "image_url": None,
-        })
+        npcs.append(
+            {
+                "id": _slugify(name),
+                "type": "npc",
+                "name": name,
+                "slug": _slugify(name),
+                "data": {
+                    "region": region,
+                    "location": region,
+                    "image": image_file,
+                    "link_target": link_target,
+                },
+                "image_url": None,
+            }
+        )
 
     return npcs
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("’", "").replace("&", "").replace("#", "").replace("|", "").replace("?", "").replace("]", "")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("’", "")
+        .replace("&", "")
+        .replace("#", "")
+        .replace("|", "")
+        .replace("?", "")
+        .replace("]", "")
+    )

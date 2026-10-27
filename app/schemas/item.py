@@ -52,7 +52,10 @@ class PaginatedResponse(BaseModel):
     ) -> "PaginatedResponse":
         pages = (total + size - 1) // size if size > 0 else 0
         return cls(
-            total=total, page=page, size=size, pages=pages,
+            total=total,
+            page=page,
+            size=size,
+            pages=pages,
             items=items or [],
         )
 

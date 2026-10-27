@@ -35,6 +35,8 @@ jobs:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost/pick
       MEDIAWIKI_API_URL: https://prospecting.miraheze.org/w/api.php
       REDDIT_USER_AGENT: PICK/1.0 (Prospecting Information & Community Kit)
+      REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+      REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
     steps:
       - uses: actions/checkout@v4
 

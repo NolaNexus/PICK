@@ -14,12 +14,14 @@ async def meta(db: AsyncSession = Depends(get_session)):  # noqa: B008
     """Application metadata and database statistics."""
     # Get item counts by type
     item_types_result = await db.execute(
-        select(Item.type, func.count(Item.id)).group_by(Item.type)
+        select(Item.type, func.count(Item.id)).where(Item.is_active.is_(True)).group_by(Item.type)
     )
     item_counts = {row[0]: row[1] for row in item_types_result.all()}
 
     # Get total counts
-    total_items_result = await db.execute(select(func.count(Item.id)))
+    total_items_result = await db.execute(
+        select(func.count(Item.id)).where(Item.is_active.is_(True))
+    )
     total_items = total_items_result.scalar() or 0
 
     total_formulas_result = await db.execute(select(func.count(Formula.id)))
@@ -57,10 +59,16 @@ async def meta(db: AsyncSession = Depends(get_session)):  # noqa: B008
             "pages_scraped": last_run.pages_scraped if last_run else 0,
             "pages_changed": last_run.pages_changed if last_run else 0,
             "pages_errors": last_run.pages_errors if last_run else 0,
-        } if last_run else None,
+        }
+        if last_run
+        else None,
         "current_game_version": {
             "version": current_version.version if current_version else None,
             "detected_at": current_version.detected_at if current_version else None,
-            "triggered_full_scrape": current_version.triggered_full_scrape if current_version else 0,
-        } if current_version else None,
+            "triggered_full_scrape": current_version.triggered_full_scrape
+            if current_version
+            else 0,
+        }
+        if current_version
+        else None,
     }

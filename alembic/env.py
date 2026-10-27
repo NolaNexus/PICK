@@ -13,12 +13,15 @@ from alembic import context
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import app.models  # noqa: F401  register all models with Base.metadata
-from app.database import Base
+from app.config import settings
+from app.database import Base, normalize_database_url
 
 config = context.config
 fileConfig(config.config_file_name)
 target_metadata = Base.metadata
-db_url = config.get_main_option("sqlalchemy.url")
+db_url = normalize_database_url(
+    settings.database_url or config.get_main_option("sqlalchemy.url")
+)
 
 
 def run_migrations_offline():

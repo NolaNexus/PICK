@@ -99,4 +99,3 @@ class MediaWikiClient:
         changes = data.get("query", {}).get("recentchanges", [])
         logger.info("Fetched %d recent changes from wiki", len(changes))
         return changes
-

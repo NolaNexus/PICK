@@ -72,14 +72,12 @@ def _wiki_page_row(page: WikiPage) -> dict:
 
 async def build_snapshot(db: AsyncSession) -> dict:
     """Build the full public dataset snapshot dict from the database."""
-    items = (await db.execute(select(Item))).scalars().all()
+    items = (await db.execute(select(Item).where(Item.is_active.is_(True)))).scalars().all()
     formulas = (await db.execute(select(Formula))).scalars().all()
     news = (await db.execute(select(News))).scalars().all()
     wiki_pages = (await db.execute(select(WikiPage))).scalars().all()
     game_version = (
-        await db.execute(
-            select(GameVersion).order_by(GameVersion.detected_at.desc()).limit(1)
-        )
+        await db.execute(select(GameVersion).order_by(GameVersion.detected_at.desc()).limit(1))
     ).scalar_one_or_none()
     last_run = (
         await db.execute(select(ScraperRun).order_by(ScraperRun.started_at.desc()).limit(1))
@@ -100,7 +98,9 @@ async def build_snapshot(db: AsyncSession) -> dict:
         "game_version": {
             "version": game_version.version if game_version else None,
             "detected_at": _iso(game_version.detected_at) if game_version else None,
-        } if game_version else None,
+        }
+        if game_version
+        else None,
         "last_scrape": {
             "status": last_run.status if last_run else "never",
             "started_at": _iso(last_run.started_at) if last_run else None,
@@ -108,5 +108,7 @@ async def build_snapshot(db: AsyncSession) -> dict:
             "pages_scraped": last_run.pages_scraped if last_run else 0,
             "pages_changed": last_run.pages_changed if last_run else 0,
             "pages_errors": last_run.pages_errors if last_run else 0,
-        } if last_run else None,
+        }
+        if last_run
+        else None,
     }

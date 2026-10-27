@@ -12,9 +12,7 @@ import os
 import app.database as app_database
 from app.services.snapshot import build_snapshot
 
-OUTPUT_PATH = os.path.join(
-    os.path.dirname(__file__), "..", "frontend", "public", "snapshot.json"
-)
+OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "frontend", "public", "snapshot.json")
 
 
 async def export_snapshot(output_path: str = OUTPUT_PATH) -> dict:

@@ -198,7 +198,6 @@ def score_gear_r(
         return []
 
     try:
-
         names = [str(g.get("name", "")) for g in gear]
         capacities = [float(g.get("capacity", 0)) for g in gear]
         dig_strs = [float(g.get("dig_strength", 0)) for g in gear]
@@ -208,16 +207,18 @@ def score_gear_r(
         size_boosts = [float(g.get("size_boost", 0)) for g in gear]
         mod_boosts = [float(g.get("modifier_boost", 0)) for g in gear]
 
-        gear_df = ro.DataFrame({
-            "name": ro.StrVector(names),
-            "capacity": ro.FloatVector(capacities),
-            "dig_strength": ro.FloatVector(dig_strs),
-            "shake_strength": ro.FloatVector(shake_strs),
-            "shake_speed": ro.FloatVector(shake_spds),
-            "luck": ro.FloatVector(lucks),
-            "size_boost": ro.FloatVector(size_boosts),
-            "modifier_boost": ro.FloatVector(mod_boosts),
-        })
+        gear_df = ro.DataFrame(
+            {
+                "name": ro.StrVector(names),
+                "capacity": ro.FloatVector(capacities),
+                "dig_strength": ro.FloatVector(dig_strs),
+                "shake_strength": ro.FloatVector(shake_strs),
+                "shake_speed": ro.FloatVector(shake_spds),
+                "luck": ro.FloatVector(lucks),
+                "size_boost": ro.FloatVector(size_boosts),
+                "modifier_boost": ro.FloatVector(mod_boosts),
+            }
+        )
 
         score_gear = ro.globalenv["score_gear"]
         result = score_gear(
@@ -455,8 +456,7 @@ def optimize_luck_cap_continuous_r(
         )
 
         out = {}
-        for col in ["optimal_cap", "optimal_bonuses_per_hour", "saturation_cap",
-                    "lower", "upper"]:
+        for col in ["optimal_cap", "optimal_bonuses_per_hour", "saturation_cap", "lower", "upper"]:
             val = list(result.rx2(col))[0]
             if hasattr(val, "item"):
                 val = val.item()
@@ -599,8 +599,7 @@ def quest_survival_r(
         out: dict = {}
 
         # Scalar fields (single-row result).
-        for col in ["baseline_median_time_hours", "n_runs", "n_completed",
-                    "n_censored", "r_used"]:
+        for col in ["baseline_median_time_hours", "n_runs", "n_completed", "n_censored", "r_used"]:
             val = list(result.rx2(col))[0]
             if hasattr(val, "item"):
                 val = val.item()
@@ -609,14 +608,14 @@ def quest_survival_r(
         # Named list fields → dicts.
         coeffs = _r_named_list_to_dict(result, "coefficients")
         hrs = _r_named_list_to_dict(result, "hazard_ratios")
-        out["coefficients"] = {str(k): float(v) for k, v in (coeffs or {}).items()} if coeffs else {}
+        out["coefficients"] = (
+            {str(k): float(v) for k, v in (coeffs or {}).items()} if coeffs else {}
+        )
         out["hazard_ratios"] = {str(k): float(v) for k, v in (hrs or {}).items()} if hrs else {}
 
         # Completion probabilities (named list) → dict keyed by time.
         cpw = _r_named_list_to_dict(result, "completion_prob_within")
-        out["completion_prob_within"] = (
-            {str(k): float(v) for k, v in cpw.items()} if cpw else {}
-        )
+        out["completion_prob_within"] = {str(k): float(v) for k, v in cpw.items()} if cpw else {}
 
         # Survival curve data frame → list of dicts.
         sc = result.rx2("survival_curve")
@@ -668,13 +667,15 @@ def ev_pareto_frontier_r(
         pph_means = [float(c.get("pph_mean", 0)) for c in candidates]
         pph_sds = [float(c.get("pph_sd", 0)) for c in candidates]
 
-        candidates_df = ro.DataFrame({
-            "name": ro.StrVector(names),
-            "ev_per_pan_mean": ro.FloatVector(ev_means),
-            "ev_per_pan_sd": ro.FloatVector(ev_sds),
-            "pph_mean": ro.FloatVector(pph_means),
-            "pph_sd": ro.FloatVector(pph_sds),
-        })
+        candidates_df = ro.DataFrame(
+            {
+                "name": ro.StrVector(names),
+                "ev_per_pan_mean": ro.FloatVector(ev_means),
+                "ev_per_pan_sd": ro.FloatVector(ev_sds),
+                "pph_mean": ro.FloatVector(pph_means),
+                "pph_sd": ro.FloatVector(pph_sds),
+            }
+        )
 
         result = ev_pareto_frontier(
             candidates_df,

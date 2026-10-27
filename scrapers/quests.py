@@ -119,7 +119,7 @@ def _extract_template(lines: list[str], start_idx: int, template_name: str) -> s
 def _parse_quest_template(location: str, npc: str, template_text: str) -> dict[str, Any] | None:
     """Parse a {{Quest}} template into a quest object."""
     # First, extract the Quest name field specifically - only first line after |Quest =
-    quest_name_match = re.search(r'\|\s*Quest\s*=\s*([^\n]+)', template_text)
+    quest_name_match = re.search(r"\|\s*Quest\s*=\s*([^\n]+)", template_text)
     if not quest_name_match:
         return None
 
@@ -136,12 +136,12 @@ def _parse_quest_template(location: str, npc: str, template_text: str) -> dict[s
 
     # For QuestSub, Rewards, Buffs - extract first line only (preserve template syntax)
     for field in ["QuestSub", "Rewards", "Buffs"]:
-        match = re.search(rf'\|\s*{field}\s*=\s*([^\n]+)', template_text)
+        match = re.search(rf"\|\s*{field}\s*=\s*([^\n]+)", template_text)
         if match:
             fields[field] = match.group(1).strip()
 
     # For QuestStep fields - extract all
-    step_pattern = r'\|\s*(QuestStep\w*)\s*=\s*([^\n]+)'
+    step_pattern = r"\|\s*(QuestStep\w*)\s*=\s*([^\n]+)"
     for match in re.finditer(step_pattern, template_text):
         key = match.group(1).strip()
         value = match.group(2).strip()
@@ -204,4 +204,24 @@ def _parse_quest_template(location: str, npc: str, template_text: str) -> dict[s
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("’", "").replace("&", "").replace("#", "").replace("|", "").replace("?", "").replace("×", "x").replace(":", "").replace("/", "-").replace("[", "").replace("]", "").replace(",", "").replace(".", "").replace("!", "").replace(";", "")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("’", "")
+        .replace("&", "")
+        .replace("#", "")
+        .replace("|", "")
+        .replace("?", "")
+        .replace("×", "x")
+        .replace(":", "")
+        .replace("/", "-")
+        .replace("[", "")
+        .replace("]", "")
+        .replace(",", "")
+        .replace(".", "")
+        .replace("!", "")
+        .replace(";", "")
+    )

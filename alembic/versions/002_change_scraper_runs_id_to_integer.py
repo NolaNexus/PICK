@@ -5,7 +5,7 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = "002_change_scraper_runs_id_to_integer"
+revision = "002"
 down_revision = "001_initial_schema"
 branch_labels = None
 depends_on = None

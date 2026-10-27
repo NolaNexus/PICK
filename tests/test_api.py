@@ -1,6 +1,7 @@
 """Integration tests for API endpoints using a test database."""
 
 import os
+from datetime import UTC, datetime
 from typing import Any
 
 import httpx
@@ -11,7 +12,7 @@ from sqlalchemy.orm import sessionmaker
 
 from app.database import Base, get_session
 from app.main import app
-from app.models import Item, WikiPage
+from app.models import Formula, Item, News, WikiPage
 
 
 @pytest_asyncio.fixture
@@ -36,9 +37,7 @@ async def test_engine():
 @pytest_asyncio.fixture
 async def db_session(test_engine):
     """Create a database session for testing."""
-    async_session = sessionmaker(
-        test_engine, class_=AsyncSession, expire_on_commit=False
-    )
+    async_session = sessionmaker(test_engine, class_=AsyncSession, expire_on_commit=False)
     async with async_session() as session:
         yield session
 
@@ -96,7 +95,12 @@ async def _add_wiki_page_and_item(
 async def test_api_meta_endpoint(client, db_session):
     """Test GET /api/v1/meta returns database statistics."""
     await _add_wiki_page_and_item(
-        db_session, "Pans", 100, "pan", "Rusty Pan", "rusty-pan",
+        db_session,
+        "Pans",
+        100,
+        "pan",
+        "Rusty Pan",
+        "rusty-pan",
         {"luck": 1, "capacity": 5},
     )
 
@@ -113,8 +117,13 @@ async def test_api_list_items(client, db_session):
     """Test GET /api/v1/items returns paginated items."""
     for i in range(5):
         await _add_wiki_page_and_item(
-            db_session, f"Pans Page {i}", 100 + i, "pan", f"Pan {i}",
-            f"pan-{i}", {"luck": float(i), "capacity": float(i * 5)},
+            db_session,
+            f"Pans Page {i}",
+            100 + i,
+            "pan",
+            f"Pan {i}",
+            f"pan-{i}",
+            {"luck": float(i), "capacity": float(i * 5)},
         )
 
     response = await client.get("/api/v1/items")
@@ -131,10 +140,21 @@ async def test_api_list_items(client, db_session):
 async def test_api_list_items_filter_by_type(client, db_session):
     """Test GET /api/v1/items with type filter."""
     await _add_wiki_page_and_item(
-        db_session, "Pans", 200, "pan", "Rusty Pan", "rusty-pan", {"luck": 1},
+        db_session,
+        "Pans",
+        200,
+        "pan",
+        "Rusty Pan",
+        "rusty-pan",
+        {"luck": 1},
     )
     await _add_wiki_page_and_item(
-        db_session, "Shovels", 201, "shovel", "Rusty Shovel", "rusty-shovel",
+        db_session,
+        "Shovels",
+        201,
+        "shovel",
+        "Rusty Shovel",
+        "rusty-shovel",
         {"strength": 1},
     )
 
@@ -149,7 +169,13 @@ async def test_api_list_items_filter_by_type(client, db_session):
 async def test_api_list_items_search(client, db_session):
     """Test GET /api/v1/items with search query."""
     await _add_wiki_page_and_item(
-        db_session, "Pans", 300, "pan", "Golden Pan", "golden-pan", {"luck": 10},
+        db_session,
+        "Pans",
+        300,
+        "pan",
+        "Golden Pan",
+        "golden-pan",
+        {"luck": 10},
     )
 
     response = await client.get("/api/v1/items?search=Golden")
@@ -163,7 +189,13 @@ async def test_api_list_items_search(client, db_session):
 async def test_api_get_item_by_slug(client, db_session):
     """Test GET /api/v1/items/{slug} returns a single item."""
     await _add_wiki_page_and_item(
-        db_session, "Pans", 400, "pan", "Rusty Pan", "rusty-pan", {"luck": 1},
+        db_session,
+        "Pans",
+        400,
+        "pan",
+        "Rusty Pan",
+        "rusty-pan",
+        {"luck": 1},
     )
 
     response = await client.get("/api/v1/items/rusty-pan")
@@ -185,10 +217,22 @@ async def test_api_get_item_not_found(client):
 async def test_api_list_item_types(client, db_session):
     """Test GET /api/v1/items/types returns distinct types."""
     await _add_wiki_page_and_item(
-        db_session, "Pans", 500, "pan", "Rusty Pan", "rusty-pan", {},
+        db_session,
+        "Pans",
+        500,
+        "pan",
+        "Rusty Pan",
+        "rusty-pan",
+        {},
     )
     await _add_wiki_page_and_item(
-        db_session, "Shovels", 501, "shovel", "Rusty Shovel", "rusty-shovel", {},
+        db_session,
+        "Shovels",
+        501,
+        "shovel",
+        "Rusty Shovel",
+        "rusty-shovel",
+        {},
     )
 
     response = await client.get("/api/v1/items/types")
@@ -202,7 +246,12 @@ async def test_api_list_item_types(client, db_session):
 async def test_api_search_endpoint(client, db_session):
     """Test GET /api/v1/search searches items by name and data."""
     await _add_wiki_page_and_item(
-        db_session, "Pans", 600, "pan", "Silver Pan", "silver-pan",
+        db_session,
+        "Pans",
+        600,
+        "pan",
+        "Silver Pan",
+        "silver-pan",
         {"location": "Rubble Creek"},
     )
 
@@ -217,3 +266,83 @@ async def test_api_search_endpoint(client, db_session):
     data = response.json()
     assert data["total"] == 1
     assert data["items"][0]["data"]["location"] == "Rubble Creek"
+
+
+@pytest.mark.asyncio
+async def test_api_formulas_list_and_get(client, db_session):
+    """Test formulas endpoints use the stable formula_id field."""
+    formula = Formula(
+        formula_id="golden-rule",
+        name="Golden Rule",
+        description="Boosts add together.",
+        formula="Total = (Base + Flats) × (1 + Boosts)",
+        params={"components": ["Base", "Flats", "Boosts"]},
+        confidence="confirmed",
+    )
+    db_session.add(formula)
+    await db_session.commit()
+
+    response = await client.get("/api/v1/formulas")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 1
+    assert data[0]["formula_id"] == "golden-rule"
+    assert data[0]["params"]["components"] == ["Base", "Flats", "Boosts"]
+
+    response = await client.get("/api/v1/formulas/golden-rule")
+    assert response.status_code == 200
+    assert response.json()["name"] == "Golden Rule"
+
+    response = await client.get("/api/v1/formulas/missing")
+    assert response.status_code == 404
+
+
+@pytest.mark.asyncio
+async def test_api_news_list_and_latest(client, db_session):
+    """Test news endpoints expose the model's published_at field."""
+    article = News(
+        source="reddit",
+        external_id="abc123",
+        title="Prospecting update",
+        url="https://reddit.com/r/Prospecting/abc123",
+        author="miner",
+        score=42,
+        published_at=datetime(2026, 10, 26, 12, 0, tzinfo=UTC),
+        tags=["patch"],
+    )
+    db_session.add(article)
+    await db_session.commit()
+
+    response = await client.get("/api/v1/news")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["total"] == 1
+    assert data["items"][0]["published_at"].startswith("2026-10-26T12:00:00")
+    assert "subreddit" not in data["items"][0]
+
+    response = await client.get("/api/v1/news/latest")
+    assert response.status_code == 200
+    assert response.json()[0]["title"] == "Prospecting update"
+
+
+@pytest.mark.asyncio
+async def test_api_excludes_inactive_items(client, db_session):
+    """Soft-deleted items are hidden from list, lookup, types, and search."""
+    await _add_wiki_page_and_item(
+        db_session, "Pans Active", 700, "pan", "Active Pan", "active-pan", {"luck": 1}
+    )
+    inactive = await _add_wiki_page_and_item(
+        db_session, "Pans Retired", 701, "pan", "Retired Pan", "retired-pan", {"luck": 1}
+    )
+    inactive.is_active = False
+    await db_session.commit()
+
+    response = await client.get("/api/v1/items")
+    assert response.status_code == 200
+    assert [item["slug"] for item in response.json()["items"]] == ["active-pan"]
+
+    assert (await client.get("/api/v1/items/retired-pan")).status_code == 404
+    assert (await client.get("/api/v1/items/active-pan")).status_code == 200
+
+    response = await client.get("/api/v1/search?q=Pan")
+    assert {item["slug"] for item in response.json()["items"]} == {"active-pan"}

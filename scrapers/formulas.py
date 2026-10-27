@@ -168,7 +168,7 @@ def _extract_boost_catalogue(content: str) -> list[dict[str, Any]]:
     boost_section_match = re.search(
         r"boosts that have been directly tested.*?(?:\{\| class=\"wikitable\".*?\n)(.*?)\n\|\}",
         content,
-        re.DOTALL | re.IGNORECASE
+        re.DOTALL | re.IGNORECASE,
     )
     if not boost_section_match:
         return items
@@ -195,22 +195,24 @@ def _extract_boost_catalogue(content: str) -> list[dict[str, Any]]:
         if not boost_name:
             continue
 
-        items.append({
-            "id": _slugify(boost_name),
-            "type": "formula",
-            "name": boost_name,
-            "slug": _slugify(boost_name),
-            "data": {
-                "category": "boost",
-                "formula": "",
-                "description": f"Adds: {adds}. Notes: {notes}",
-                "components": {
-                    "adds": adds,
-                    "notes": notes,
+        items.append(
+            {
+                "id": _slugify(boost_name),
+                "type": "formula",
+                "name": boost_name,
+                "slug": _slugify(boost_name),
+                "data": {
+                    "category": "boost",
+                    "formula": "",
+                    "description": f"Adds: {adds}. Notes: {notes}",
+                    "components": {
+                        "adds": adds,
+                        "notes": notes,
+                    },
                 },
-            },
-            "image_url": None,
-        })
+                "image_url": None,
+            }
+        )
 
     return items
 
@@ -224,20 +226,22 @@ def _extract_stat_formulas(tab_name: str, content: str) -> list[dict[str, Any]]:
 
     for formula_data in formulas:
         slug = _slugify(f"{tab_name} {formula_data['name']}")
-        items.append({
-            "id": slug,
-            "type": "formula",
-            "name": f"{tab_name}: {formula_data['name']}",
-            "slug": slug,
-            "data": {
-                "category": _categorize_tab(tab_name),
-                "formula": formula_data["formula"],
-                "description": formula_data["description"],
-                "components": formula_data.get("components", {}),
-                "example": formula_data.get("example", ""),
-            },
-            "image_url": None,
-        })
+        items.append(
+            {
+                "id": slug,
+                "type": "formula",
+                "name": f"{tab_name}: {formula_data['name']}",
+                "slug": slug,
+                "data": {
+                    "category": _categorize_tab(tab_name),
+                    "formula": formula_data["formula"],
+                    "description": formula_data["description"],
+                    "components": formula_data.get("components", {}),
+                    "example": formula_data.get("example", ""),
+                },
+                "image_url": None,
+            }
+        )
 
     return items
 
@@ -247,100 +251,120 @@ def _get_known_formulas(tab_name: str) -> list[dict[str, Any]]:
     formulas = []
 
     if "luck" in tab_name.lower():
-        formulas.extend([
-            {
-                "name": "Ore Roll Distribution",
-                "formula": "25% at luck=1, 25% at luck/2, 50% at full luck",
-                "description": "Each ore slot rolls one of three ways: quarter at 1, quarter at half, half at full luck",
-                "example": "",
-            },
-            {
-                "name": "Modifier Luck",
-                "formula": "min(50, Luck / 1000) + Modifier Boost / 10",
-                "description": "Modifier Luck determines chance of modified ores",
-                "example": "",
-            },
-        ])
+        formulas.extend(
+            [
+                {
+                    "name": "Ore Roll Distribution",
+                    "formula": "25% at luck=1, 25% at luck/2, 50% at full luck",
+                    "description": "Each ore slot rolls one of three ways: quarter at 1, quarter at half, half at full luck",
+                    "example": "",
+                },
+                {
+                    "name": "Modifier Luck",
+                    "formula": "min(50, Luck / 1000) + Modifier Boost / 10",
+                    "description": "Modifier Luck determines chance of modified ores",
+                    "example": "",
+                },
+            ]
+        )
 
     if "capacity" in tab_name.lower():
-        formulas.append({
-            "name": "Items Per Pan",
-            "formula": "avg_items = sqrt(capacity) * 1.08",
-            "description": "Average number of items per pan",
-            "example": "",
-        })
+        formulas.append(
+            {
+                "name": "Items Per Pan",
+                "formula": "avg_items = sqrt(capacity) * 1.08",
+                "description": "Average number of items per pan",
+                "example": "",
+            }
+        )
 
     if "dig strength" in tab_name.lower():
-        formulas.append({
-            "name": "Dig Cliff",
-            "formula": "digs = ceil(Capacity / (1.5 × Dig Strength))",
-            "description": "Every time Capacity crosses a multiple of 1.5 × Dig Strength, digs increase by 1",
-            "example": "",
-        })
+        formulas.append(
+            {
+                "name": "Dig Cliff",
+                "formula": "digs = ceil(Capacity / (1.5 × Dig Strength))",
+                "description": "Every time Capacity crosses a multiple of 1.5 × Dig Strength, digs increase by 1",
+                "example": "",
+            }
+        )
 
     if "dig speed" in tab_name.lower():
-        formulas.append({
-            "name": "Dig Time",
-            "formula": "time_per_dig = 143.9 × Dig_Speed^(-0.93)",
-            "description": "Seconds per dig based on Dig Speed",
-            "example": "",
-        })
+        formulas.append(
+            {
+                "name": "Dig Time",
+                "formula": "time_per_dig = 143.9 × Dig_Speed^(-0.93)",
+                "description": "Seconds per dig based on Dig Speed",
+                "example": "",
+            }
+        )
 
     if "shake" in tab_name.lower():
-        formulas.append({
-            "name": "Shake Speed Bug",
-            "formula": "shakes_per_second has irregular steps at 400%, 600-650%, 900-950%",
-            "description": "Shake speed conversion is bugged; 1000-1700% is slower than 900%",
-            "example": "",
-        })
+        formulas.append(
+            {
+                "name": "Shake Speed Bug",
+                "formula": "shakes_per_second has irregular steps at 400%, 600-650%, 900-950%",
+                "description": "Shake speed conversion is bugged; 1000-1700% is slower than 900%",
+                "example": "",
+            }
+        )
 
     if "size boost" in tab_name.lower():
-        formulas.append({
-            "name": "Weight Multiplier",
-            "formula": "weight_mult = 1 + Size_Boost / 100",
-            "description": "Size Boost multiplies ore weight linearly",
-            "example": "",
-        })
+        formulas.append(
+            {
+                "name": "Weight Multiplier",
+                "formula": "weight_mult = 1 + Size_Boost / 100",
+                "description": "Size Boost multiplies ore weight linearly",
+                "example": "",
+            }
+        )
 
     if "sell boost" in tab_name.lower():
-        formulas.append({
-            "name": "Sell Multiplier",
-            "formula": "sell_mult = 1 + Sell_Boost / 100",
-            "description": "Sell Boost applies at moment of sale, multiplies base price",
-            "example": "",
-        })
+        formulas.append(
+            {
+                "name": "Sell Multiplier",
+                "formula": "sell_mult = 1 + Sell_Boost / 100",
+                "description": "Sell Boost applies at moment of sale, multiplies base price",
+                "example": "",
+            }
+        )
 
     if "modifier boost" in tab_name.lower():
-        formulas.extend([
-            {
-                "name": "Job 1 - % Modified Ores",
-                "formula": "rises steeply, caps at 99.4% near 1900 effective MB",
-                "description": "Percentage of ores that receive a modifier",
-                "example": "",
-            },
-            {
-                "name": "Job 2 - Modifier Distribution",
-                "formula": "Higher effective MB shifts distribution toward rarer modifiers",
-                "description": "Determines which modifier you get on modified ores",
-                "example": "",
-            },
-        ])
+        formulas.extend(
+            [
+                {
+                    "name": "Job 1 - % Modified Ores",
+                    "formula": "rises steeply, caps at 99.4% near 1900 effective MB",
+                    "description": "Percentage of ores that receive a modifier",
+                    "example": "",
+                },
+                {
+                    "name": "Job 2 - Modifier Distribution",
+                    "formula": "Higher effective MB shifts distribution toward rarer modifiers",
+                    "description": "Determines which modifier you get on modified ores",
+                    "example": "",
+                },
+            ]
+        )
 
     if "museum" in tab_name.lower():
-        formulas.append({
-            "name": "Display Value",
-            "formula": "display = ore_base + modifier_rider × rarity_scale",
-            "description": "Each slot gives ore base display + modifier rider scaled by rarity row (0.005 to 0.08)",
-            "example": "",
-        })
+        formulas.append(
+            {
+                "name": "Display Value",
+                "formula": "display = ore_base + modifier_rider × rarity_scale",
+                "description": "Each slot gives ore base display + modifier rider scaled by rarity row (0.005 to 0.08)",
+                "example": "",
+            }
+        )
 
     if "quality" in tab_name.lower() or "autopan" in tab_name.lower():
-        formulas.append({
-            "name": "Quality Multiplier",
-            "formula": "Manual: 100%, Autopan: 51% (⅔ luck), Mastered shovel enchant restores 100%",
-            "description": "Quality affects everything dug; autopan at 51% quality unless Mastered enchant",
-            "example": "",
-        })
+        formulas.append(
+            {
+                "name": "Quality Multiplier",
+                "formula": "Manual: 100%, Autopan: 51% (⅔ luck), Mastered shovel enchant restores 100%",
+                "description": "Quality affects everything dug; autopan at 51% quality unless Mastered enchant",
+                "example": "",
+            }
+        )
 
     return formulas
 
@@ -351,7 +375,7 @@ def _extract_modifier_price_table(content: str) -> dict[str, Any] | None:
     table_match = re.search(
         r"\{\| class=\"wikitable\" style=\"width:100%; text-align:center;\"(.*?)\n\|\}",
         content,
-        re.DOTALL
+        re.DOTALL,
     )
     if not table_match:
         return None
@@ -390,17 +414,21 @@ def _extract_modifier_price_table(content: str) -> dict[str, Any] | None:
         notes = _clean_cell(cells[4]) if len(cells) > 4 else ""
 
         if mod_name_1 and mult_1:
-            modifiers.append({
-                "name": mod_name_1,
-                "multiplier": mult_1,
-                "notes": notes,
-            })
+            modifiers.append(
+                {
+                    "name": mod_name_1,
+                    "multiplier": mult_1,
+                    "notes": notes,
+                }
+            )
         if mod_name_2 and mult_2:
-            modifiers.append({
-                "name": mod_name_2,
-                "multiplier": mult_2,
-                "notes": notes,
-            })
+            modifiers.append(
+                {
+                    "name": mod_name_2,
+                    "multiplier": mult_2,
+                    "notes": notes,
+                }
+            )
 
     if not modifiers:
         return None
@@ -438,26 +466,39 @@ def _extract_museum_info(content: str) -> list[dict[str, Any]]:
             example_text = re.sub(r"\{\{[^}]+\}\}", "", example_text)
             example_text = example_text.strip()
 
-        items.append({
-            "id": "museum-display-formula",
-            "type": "formula",
-            "name": "Museum Display Formula",
-            "slug": "museum-display-formula",
-            "data": {
-                "category": "museum",
-                "formula": "display = ore_base + modifier_rider × rarity_scale",
-                "description": "Each displayed ore gives its own boost + modifier rider scaled by rarity row (0.005 Common to 0.08 Exotic). Treasured gives 2× Luck compared to Iridescent.",
-                "components": {
-                    "rarity_scale": "Common: 0.005, ..., Exotic: 0.08",
-                    "treasured_note": "2× Luck compared to Iridescent",
+        items.append(
+            {
+                "id": "museum-display-formula",
+                "type": "formula",
+                "name": "Museum Display Formula",
+                "slug": "museum-display-formula",
+                "data": {
+                    "category": "museum",
+                    "formula": "display = ore_base + modifier_rider × rarity_scale",
+                    "description": "Each displayed ore gives its own boost + modifier rider scaled by rarity row (0.005 Common to 0.08 Exotic). Treasured gives 2× Luck compared to Iridescent.",
+                    "components": {
+                        "rarity_scale": "Common: 0.005, ..., Exotic: 0.08",
+                        "treasured_note": "2× Luck compared to Iridescent",
+                    },
+                    "example": example_text,
                 },
-                "example": example_text,
-            },
-            "image_url": None,
-        })
+                "image_url": None,
+            }
+        )
 
     return items
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("’", "").replace("&", "").replace("#", "").replace("×", "x").replace("/", "-")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("’", "")
+        .replace("&", "")
+        .replace("#", "")
+        .replace("×", "x")
+        .replace("/", "-")
+    )

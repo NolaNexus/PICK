@@ -24,7 +24,7 @@ To enable Reddit news fetching, you need to create a Reddit "Script App":
 1. **Create Reddit App**
    - Go to <https://developers.reddit.com/>
    - Accept Developer Terms
-   - Click "Create App" → Choose "Web App" or "Installed App"
+   - Click "Create App" → Choose "Script App"
    - Fill in:
      - Name: `PICK News Scraper`
      - Description: `News aggregator for r/Prospecting`

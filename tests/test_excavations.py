@@ -88,7 +88,7 @@ def test_rewards_parsed():
     volcanic_rewards = [r for r in rewards if r["data"]["site"] == "Volcanic Ruins"]
     assert len(volcanic_rewards) == 6
 
-# Check Alien Wreckage rewards
+    # Check Alien Wreckage rewards
     alien_rewards = [r for r in rewards if r["data"]["site"] == "Alien Wreckage"]
     assert len(alien_rewards) == 9
 

@@ -31,7 +31,7 @@ def seconds_per_dig(dig_speed: float) -> float:
     """Seconds per dig = 143.9 × speed^(-0.93) [confirmed: Dig Speed tab]"""
     if dig_speed <= 0:
         return 0.0
-    return 143.9 * (dig_speed ** -0.93)
+    return 143.9 * (dig_speed**-0.93)
 
 
 def time_per_pan(capacity: float, dig_strength: float, dig_speed: float) -> float:
@@ -62,7 +62,7 @@ def event_luck_multiplier(meteor: bool = False, weather_events: int = 0) -> floa
     mult = 1.0
     if meteor:
         mult *= 2.0
-    mult *= 1.5 ** weather_events
+    mult *= 1.5**weather_events
     return mult
 
 

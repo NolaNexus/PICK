@@ -1,4 +1,5 @@
 """Services package - core business logic."""
+
 from app.services.calculators import (
     calculate_best_pan,
     calculate_ev,

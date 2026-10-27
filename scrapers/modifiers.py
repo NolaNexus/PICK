@@ -62,7 +62,7 @@ def _parse_modifier_section(name: str, content: str) -> dict[str, Any] | None:
                 data["sell_price_multiplier"] = float(mult_match.group(1))
         elif "color" in key:
             # Extract hex color from style
-            color_match = re.search(r'color:#([0-9A-Fa-f]+)', match.group(2))
+            color_match = re.search(r"color:#([0-9A-Fa-f]+)", match.group(2))
             if color_match:
                 data["color"] = f"#{color_match.group(1)}"
             else:
@@ -105,4 +105,11 @@ def _parse_modifier_section(name: str, content: str) -> dict[str, Any] | None:
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("’", "")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("’", "")
+    )

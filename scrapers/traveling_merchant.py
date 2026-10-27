@@ -47,21 +47,23 @@ def parse_traveling_merchant(wikitext: str) -> list[dict[str, Any]]:
             shard_price = _parse_shards(shard_str)
             stock_count = _parse_int(stock_str)
 
-            items.append({
-                "id": _slugify(item_name),
-                "type": "merchant_item",
-                "name": item_name,
-                "slug": _slugify(item_name),
-                "data": {
-                    "chance_percent": chance_val,
-                    "price_cash": price,
-                    "price_shards": shard_price,
-                    "stock": stock_count,
-                    "description": "",
-                    "image": "",
-                },
-                "image_url": None,
-            })
+            items.append(
+                {
+                    "id": _slugify(item_name),
+                    "type": "merchant_item",
+                    "name": item_name,
+                    "slug": _slugify(item_name),
+                    "data": {
+                        "chance_percent": chance_val,
+                        "price_cash": price,
+                        "price_shards": shard_price,
+                        "stock": stock_count,
+                        "description": "",
+                        "image": "",
+                    },
+                    "image_url": None,
+                }
+            )
 
     return items
 
@@ -138,7 +140,7 @@ def _parse_currency(text: str) -> float:
             pass
 
     # Try {{$|...}} format
-    template_match = re.search(r'\{\{\$?\|([^}]+)\}\}', text)
+    template_match = re.search(r"\{\{\$?\|([^}]+)\}\}", text)
     if template_match:
         try:
             return float(template_match.group(1).replace(",", ""))
@@ -166,7 +168,7 @@ def _parse_shards(text: str) -> int:
             pass
 
     # Try {{Meteor Shards|...}} format
-    template_match = re.search(r'\{\{Meteor Shards\|([^}]+)\}\}', text)
+    template_match = re.search(r"\{\{Meteor Shards\|([^}]+)\}\}", text)
     if template_match:
         try:
             return int(template_match.group(1).replace(",", ""))
@@ -195,4 +197,11 @@ def _parse_float(value: Any) -> float:
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("’", "")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("’", "")
+    )

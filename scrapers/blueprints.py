@@ -104,13 +104,19 @@ def _parse_blueprint_content(name: str, content: str) -> dict[str, Any] | None:
     # Also check for simple purchase info
     purchase_info = ""
     if not quest_giver:
-        buy_match = re.search(r"(?:can be bought|can be purchased).+?(?:for|costs)\s+([^\n.]+)", content, re.IGNORECASE)
+        buy_match = re.search(
+            r"(?:can be bought|can be purchased).+?(?:for|costs)\s+([^\n.]+)",
+            content,
+            re.IGNORECASE,
+        )
         if buy_match:
             purchase_info = buy_match.group(0).strip()
 
     event_shop = ""
     if "Event shop" in content or "Easter Event shop" in content:
-        event_shop_match = re.search(r"(?:Easter|Event) shop.*?for\s+([^\n.]+)", content, re.IGNORECASE)
+        event_shop_match = re.search(
+            r"(?:Easter|Event) shop.*?for\s+([^\n.]+)", content, re.IGNORECASE
+        )
         if event_shop_match:
             event_shop = event_shop_match.group(0).strip()
 
@@ -151,4 +157,14 @@ def _parse_quest_template(content: str) -> dict[str, Any]:
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("’", "").replace(":", "").replace("#", "").replace(".", "")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("’", "")
+        .replace(":", "")
+        .replace("#", "")
+        .replace(".", "")
+    )

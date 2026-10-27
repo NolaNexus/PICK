@@ -78,7 +78,9 @@ def test_shovel_enchantments_parsed():
     items = parse_enchanting(wikitext)
 
     shovel_items = [i for i in items if i["data"]["applies_to"] == "shovel"]
-    assert len(shovel_items) >= 15, f"Expected at least 15 shovel enchantments, got {len(shovel_items)}"
+    assert len(shovel_items) >= 15, (
+        f"Expected at least 15 shovel enchantments, got {len(shovel_items)}"
+    )
 
     # Check a known shovel enchantment
     crystal_touch = next((i for i in shovel_items if i["name"] == "Crystal Touch"), None)

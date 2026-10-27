@@ -19,11 +19,7 @@ logger = logging.getLogger(__name__)
 
 def verify_webhook_signature(payload: bytes, signature: str, secret: str) -> bool:
     """Verify HMAC-SHA256 signature from MediaWiki webhook."""
-    expected = hmac.new(
-        secret.encode("utf-8"),
-        payload,
-        hashlib.sha256
-    ).hexdigest()
+    expected = hmac.new(secret.encode("utf-8"), payload, hashlib.sha256).hexdigest()
     return hmac.compare_digest(expected, signature)
 
 
@@ -69,6 +65,7 @@ async def wiki_edit_webhook(
 
     # Check if this is a tracked page
     from scrapers.registry import TRACKED_PAGES
+
     if title not in TRACKED_PAGES:
         logger.info("Ignoring webhook for untracked page: %s", title)
         return {"status": "ignored", "reason": "not_tracked"}

@@ -1,0 +1,92 @@
+services:
+  - type: web
+    name: pick-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/v1/health/ready
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pick-db
+          property: connectionString
+      - key: MEDIAWIKI_API_URL
+        value: https://prospecting.miraheze.org/w/api.php
+      - key: REDDIT_USER_AGENT
+        value: PICK/1.0 (Prospecting Information & Community Kit)
+      - key: REDDIT_CLIENT_ID
+        sync: false
+      - key: REDDIT_CLIENT_SECRET
+        sync: false
+      - key: WEBHOOK_SECRET
+        sync: false
+      - key: CORS_ORIGINS
+        value: '["*"]'
+
+  - type: cron
+    name: pick-scrape-daily
+    runtime: docker
+    plan: starter
+    schedule: "0 */6 * * *"
+    dockerfilePath: ./Dockerfile
+    dockerCommand: python -m scripts.scraper
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pick-db
+          property: connectionString
+      - key: MEDIAWIKI_API_URL
+        value: https://prospecting.miraheze.org/w/api.php
+      - key: REDDIT_USER_AGENT
+        value: PICK/1.0 (Prospecting Information & Community Kit)
+      - key: REDDIT_CLIENT_ID
+        sync: false
+      - key: REDDIT_CLIENT_SECRET
+        sync: false
+
+  - type: cron
+    name: pick-scrape-weekly
+    runtime: docker
+    plan: starter
+    schedule: "0 4 * * 0"
+    dockerfilePath: ./Dockerfile
+    dockerCommand: python -m scripts.scraper --full
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pick-db
+          property: connectionString
+      - key: MEDIAWIKI_API_URL
+        value: https://prospecting.miraheze.org/w/api.php
+      - key: REDDIT_USER_AGENT
+        value: PICK/1.0 (Prospecting Information & Community Kit)
+      - key: REDDIT_CLIENT_ID
+        sync: false
+      - key: REDDIT_CLIENT_SECRET
+        sync: false
+
+  - type: cron
+    name: pick-news-daily
+    runtime: docker
+    plan: starter
+    schedule: "0 2 * * *"
+    dockerfilePath: ./Dockerfile
+    dockerCommand: python -m scripts.news_scraper
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pick-db
+          property: connectionString
+      - key: REDDIT_USER_AGENT
+        value: PICK/1.0 (Prospecting Information & Community Kit)
+      - key: REDDIT_CLIENT_ID
+        sync: false
+      - key: REDDIT_CLIENT_SECRET
+        sync: false
+
+databases:
+  - name: pick-db
+    databaseName: pick
+    plan: free
+    postgresMajorVersion: "16"

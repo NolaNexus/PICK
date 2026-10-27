@@ -2,6 +2,13 @@
 
 This file deploys the PICK backend API to [Render](https://render.com) with scheduled scrapers.
 
+A ready-to-use Render Blueprint lives at [`render.yaml`](render.yaml). It defines the
+web service, PostgreSQL database, and daily/weekly/news cron jobs. In the Render
+dashboard choose **New → Blueprint** and point it at this repository.
+
+`DATABASE_URL` supplied by Render (for example `postgres://...`) is normalized to the
+`postgresql+asyncpg://` driver automatically by the app and Alembic.
+
 ## Services
 
 ### web (FastAPI)
@@ -73,6 +80,12 @@ render deploy
 ## CI/CD Integration
 
 GitHub Actions `deploy-api.yml` deploys to Render on push to `master`.
+
+Required GitHub Actions secrets:
+- `RENDER_API_KEY`
+- `RENDER_APP_ID`
+- `REDDIT_CLIENT_ID` (for scheduled news and API scrapes)
+- `REDDIT_CLIENT_SECRET`
 
 ```yaml
 deploy:

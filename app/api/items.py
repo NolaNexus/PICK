@@ -18,8 +18,8 @@ async def list_items(
     db: AsyncSession = Depends(get_session),  # noqa: B008
 ):
     """List wiki items with optional type filter and text search."""
-    query = select(Item)
-    count_query = select(func.count(Item.id))
+    query = select(Item).where(Item.is_active.is_(True))
+    count_query = select(func.count(Item.id)).where(Item.is_active.is_(True))
 
     if type:
         query = query.where(Item.type == type)
@@ -28,7 +28,9 @@ async def list_items(
     if search:
         search_term = f"%{search}%"
         query = query.where(or_(Item.name.ilike(search_term), Item.description.ilike(search_term)))
-        count_query = count_query.where(or_(Item.name.ilike(search_term), Item.description.ilike(search_term)))
+        count_query = count_query.where(
+            or_(Item.name.ilike(search_term), Item.description.ilike(search_term))
+        )
 
     # Get total count
     total_result = await db.execute(count_query)
@@ -73,7 +75,9 @@ async def list_item_types(
     db: AsyncSession = Depends(get_session),  # noqa: B008
 ):
     """List distinct item types found in the database."""
-    result = await db.execute(select(Item.type).distinct().order_by(Item.type))
+    result = await db.execute(
+        select(Item.type).where(Item.is_active.is_(True)).distinct().order_by(Item.type)
+    )
     types = result.scalars().all()
     return list(types)
 
@@ -86,8 +90,8 @@ async def list_items_by_type(
     db: AsyncSession = Depends(get_session),  # noqa: B008
 ):
     """List all items of a given type."""
-    query = select(Item).where(Item.type == type).order_by(Item.name)
-    count_query = select(func.count(Item.id)).where(Item.type == type)
+    query = select(Item).where(Item.type == type, Item.is_active.is_(True)).order_by(Item.name)
+    count_query = select(func.count(Item.id)).where(Item.type == type, Item.is_active.is_(True))
 
     total_result = await db.execute(count_query)
     total = total_result.scalar() or 0
@@ -129,7 +133,7 @@ async def get_item(
     db: AsyncSession = Depends(get_session),  # noqa: B008
 ):
     """Get a single item by its URL-safe slug."""
-    result = await db.execute(select(Item).where(Item.slug == slug))
+    result = await db.execute(select(Item).where(Item.slug == slug, Item.is_active.is_(True)))
     item = result.scalar_one_or_none()
 
     if not item:

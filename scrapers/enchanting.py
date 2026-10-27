@@ -28,7 +28,13 @@ def parse_enchanting(wikitext: str) -> list[dict[str, Any]]:
             continue
 
         # Determine applies_to based on tab name
-        applies_to = "pan" if "pan" in tab_name.lower() else "shovel" if "shovel" in tab_name.lower() else "unknown"
+        applies_to = (
+            "pan"
+            if "pan" in tab_name.lower()
+            else "shovel"
+            if "shovel" in tab_name.lower()
+            else "unknown"
+        )
 
         # Parse the wikitable in this tab
         table_items = _parse_enchantment_table(tab_content, applies_to)
@@ -154,7 +160,7 @@ def _parse_chance(text: str) -> str:
     """Parse chance value from table cell."""
     # Remove HTML and extract the percentage
     text = re.sub(r'style="[^"]*"', "", text)
-    text = re.sub(r'<span[^>]*>.*?</span>', "", text)
+    text = re.sub(r"<span[^>]*>.*?</span>", "", text)
     text = re.sub(r"<!--.*?-->", "", text)
     text = re.sub(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", r"\1", text)
     text = text.strip()
@@ -175,22 +181,46 @@ def _determine_rarity(name: str) -> str:
     """Determine enchantment rarity from name."""
     # Common enchants
     common = {
-        "Forceful", "Strong", "Swift", "Lucky", "Boosting",
-        "Crystal Touch", "Excavating", "Geothermal", "Toughened",
-        "Well Balanced", "Treasure Hunter"
+        "Forceful",
+        "Strong",
+        "Swift",
+        "Lucky",
+        "Boosting",
+        "Crystal Touch",
+        "Excavating",
+        "Geothermal",
+        "Toughened",
+        "Well Balanced",
+        "Treasure Hunter",
     }
     # Uncommon enchants
     uncommon = {
-        "Destructive", "Gigantic", "Glowing", "Greedy", "Unstable",
-        "Non Euclidean", "Overdrive", "Rhythmic", "Synergized",
-        "Wormhole"
+        "Destructive",
+        "Gigantic",
+        "Glowing",
+        "Greedy",
+        "Unstable",
+        "Non Euclidean",
+        "Overdrive",
+        "Rhythmic",
+        "Synergized",
+        "Wormhole",
     }
     # Rare enchants
-    rare = {
-        "Blessed", "Midas", "Titanic", "Mastered", "Mythical", "Tempered", "Void Touched"
-    }
+    rare = {"Blessed", "Midas", "Titanic", "Mastered", "Mythical", "Tempered", "Void Touched"}
     # Mythic/Exotic
-    mythic = {"Cosmic", "Divine", "Infernal", "Prismatic", "Cursed", "Devouring", "Hyperspeed", "Irregular", "Mystical", "Starstruck"}
+    mythic = {
+        "Cosmic",
+        "Divine",
+        "Infernal",
+        "Prismatic",
+        "Cursed",
+        "Devouring",
+        "Hyperspeed",
+        "Irregular",
+        "Mystical",
+        "Starstruck",
+    }
 
     if name in mythic:
         return "mythic"
@@ -204,4 +234,12 @@ def _determine_rarity(name: str) -> str:
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("|", "").replace("’", "")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("|", "")
+        .replace("’", "")
+    )

@@ -17,24 +17,31 @@ def parse_museum(wikitext: str) -> list[dict[str, Any]]:
     items.extend(ore_bonuses)
 
     # Add static museum info
-    items.append({
-        "id": "museum-info",
-        "type": "museum_info",
-        "name": "Museum",
-        "slug": "museum",
-        "data": {
-            "description": "Indoor location in Caldera Park where players place minerals into display pedestals to earn permanent stat boosts.",
-            "location": "Caldera Park",
-            "staff": ["Receptionist"],
-            "extras": ["Vault", "Voting box (MVP)", "Manage Museums Board", "Visit Museums Globe"],
-            "how_it_works": [
-                "Place a mineral matching the display's rarity to grant a permanent stat bonus.",
-                "Each display holds one mineral. Bonuses stack across unlocked displays.",
-                "You can replace a mineral at any time to change the bonus."
-            ],
-        },
-        "image_url": None,
-    })
+    items.append(
+        {
+            "id": "museum-info",
+            "type": "museum_info",
+            "name": "Museum",
+            "slug": "museum",
+            "data": {
+                "description": "Indoor location in Caldera Park where players place minerals into display pedestals to earn permanent stat boosts.",
+                "location": "Caldera Park",
+                "staff": ["Receptionist"],
+                "extras": [
+                    "Vault",
+                    "Voting box (MVP)",
+                    "Manage Museums Board",
+                    "Visit Museums Globe",
+                ],
+                "how_it_works": [
+                    "Place a mineral matching the display's rarity to grant a permanent stat bonus.",
+                    "Each display holds one mineral. Bonuses stack across unlocked displays.",
+                    "You can replace a mineral at any time to change the bonus.",
+                ],
+            },
+            "image_url": None,
+        }
+    )
 
     return items
 
@@ -45,9 +52,7 @@ def _parse_displays_table(wikitext: str) -> list[dict[str, Any]]:
 
     # Find the displays table
     table_match = re.search(
-        r'\{\| class="wikitable".*?Displays.*?\n(.*?)\n\|\}',
-        wikitext,
-        re.DOTALL | re.IGNORECASE
+        r'\{\| class="wikitable".*?Displays.*?\n(.*?)\n\|\}', wikitext, re.DOTALL | re.IGNORECASE
     )
     if not table_match:
         return items
@@ -89,21 +94,23 @@ def _parse_displays_table(wikitext: str) -> list[dict[str, Any]]:
         # Cell 5: Total Displays
         total_displays = _parse_int(cells[5])
 
-        items.append({
-            "id": _slugify(f"museum-display-{rarity}"),
-            "type": "museum_display",
-            "name": f"{rarity} Display",
-            "slug": _slugify(f"museum-display-{rarity}"),
-            "data": {
-                "rarity": rarity,
-                "free_displays": free_displays,
-                "locked_displays": locked_displays,
-                "money_price": money_price,
-                "shards_price": shards_price,
-                "total_displays": total_displays,
-            },
-            "image_url": None,
-        })
+        items.append(
+            {
+                "id": _slugify(f"museum-display-{rarity}"),
+                "type": "museum_display",
+                "name": f"{rarity} Display",
+                "slug": _slugify(f"museum-display-{rarity}"),
+                "data": {
+                    "rarity": rarity,
+                    "free_displays": free_displays,
+                    "locked_displays": locked_displays,
+                    "money_price": money_price,
+                    "shards_price": shards_price,
+                    "total_displays": total_displays,
+                },
+                "image_url": None,
+            }
+        )
 
     return items
 
@@ -117,7 +124,7 @@ def _parse_ore_bonuses(wikitext: str) -> list[dict[str, Any]]:
     rarity_sections = re.findall(
         r"===\s*<span[^>]*>\s*''([^']+Ores)''\s*</span>\s*===\s*\n(\{\| class=\"wikitable\".*?\n\|\})",
         wikitext,
-        re.DOTALL
+        re.DOTALL,
     )
 
     for rarity, table_text in rarity_sections:
@@ -168,19 +175,21 @@ def _parse_ore_bonuses(wikitext: str) -> list[dict[str, Any]]:
             # Cell 3: Maximum Boost
             max_boost = cells[3].strip()
 
-            items.append({
-                "id": _slugify(f"museum-ore-{ore_name}"),
-                "type": "museum_ore",
-                "name": ore_name,
-                "slug": _slugify(f"museum-ore-{ore_name}"),
-                "data": {
-                    "rarity": rarity,
-                    "min_kg": min_kg,
-                    "bonus_stat": bonus,
-                    "max_boost": max_boost,
-                },
-                "image_url": None,
-            })
+            items.append(
+                {
+                    "id": _slugify(f"museum-ore-{ore_name}"),
+                    "type": "museum_ore",
+                    "name": ore_name,
+                    "slug": _slugify(f"museum-ore-{ore_name}"),
+                    "data": {
+                        "rarity": rarity,
+                        "min_kg": min_kg,
+                        "bonus_stat": bonus,
+                        "max_boost": max_boost,
+                    },
+                    "image_url": None,
+                }
+            )
 
     return items
 
@@ -198,4 +207,25 @@ def _parse_int(value: str) -> int:
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("’", "").replace("&", "").replace("#", "").replace("×", "x").replace(":", "").replace("/", "-").replace("[", "").replace("]", "").replace(",", "").replace(".", "").replace("!", "").replace(";", "").replace("×", "x").replace("=", "").replace("?", "")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("’", "")
+        .replace("&", "")
+        .replace("#", "")
+        .replace("×", "x")
+        .replace(":", "")
+        .replace("/", "-")
+        .replace("[", "")
+        .replace("]", "")
+        .replace(",", "")
+        .replace(".", "")
+        .replace("!", "")
+        .replace(";", "")
+        .replace("×", "x")
+        .replace("=", "")
+        .replace("?", "")
+    )

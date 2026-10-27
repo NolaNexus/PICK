@@ -70,7 +70,9 @@ def test_catalyst_items_structure():
     items = parse_mutations(wikitext)
 
     catalyst_items = [i for i in items if i["type"] == "mutation_catalyst"]
-    assert len(catalyst_items) >= 10, f"Expected at least 10 catalyst items, got {len(catalyst_items)}"
+    assert len(catalyst_items) >= 10, (
+        f"Expected at least 10 catalyst items, got {len(catalyst_items)}"
+    )
 
     for item in catalyst_items:
         data = item["data"]
@@ -102,14 +104,18 @@ def test_known_mutation_parsed():
     assert "Candy Canes" in festive_chance["data"]["event"]
 
     # Check effect items
-    prismatic_effect = next(i for i in items if i["name"] == "Prismatic" and i["type"] == "mutation_effect")
+    prismatic_effect = next(
+        i for i in items if i["name"] == "Prismatic" and i["type"] == "mutation_effect"
+    )
     assert prismatic_effect["data"]["multiplier"] == 1.6
 
     gold_effect = next(i for i in items if i["name"] == "Gold")
     assert gold_effect["data"]["multiplier"] == 1.2
 
     # Check catalyst items
-    gold_ring = next(i for i in items if i["name"] == "Gold Ring" and i["type"] == "mutation_catalyst")
+    gold_ring = next(
+        i for i in items if i["name"] == "Gold Ring" and i["type"] == "mutation_catalyst"
+    )
     assert gold_ring["data"]["rarity"] == "Common"
     assert gold_ring["data"]["mineral"] == "Gold"
 

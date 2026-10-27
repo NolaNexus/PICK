@@ -7,14 +7,14 @@ from app.services.r_stats import fit_modifier_distribution
 
 # Shake speed conversion (buggy - from Stat Systems Guide)
 SHAKE_SPEED_STEPS = [
-    (0, 400, 0.4),      # 0-400%: linear
-    (400, 600, 0.6),    # 400-600%: buggy
-    (600, 650, 0.65),   # 600-650%: sweet spot
-    (650, 900, 0.9),    # 650-900%: linear
-    (900, 950, 0.95),   # 900-950%: sweet spot
-    (950, 1000, 0.9),   # 950-1000%: buggy zone
+    (0, 400, 0.4),  # 0-400%: linear
+    (400, 600, 0.6),  # 400-600%: buggy
+    (600, 650, 0.65),  # 600-650%: sweet spot
+    (650, 900, 0.9),  # 650-900%: linear
+    (900, 950, 0.95),  # 900-950%: sweet spot
+    (950, 1000, 0.9),  # 950-1000%: buggy zone
     (1000, 1700, 0.9),  # 1000-1700%: BUGGED - same as 900%
-    (1700, float('inf'), 1.0),  # 1700%+: linear
+    (1700, float("inf"), 1.0),  # 1700%+: linear
 ]
 
 
@@ -29,7 +29,7 @@ def shakes_per_second(shake_speed_pct: float) -> float:
     base_rate = 0.1
 
     for min_pct, max_pct, multiplier in SHAKE_SPEED_STEPS:
-        if min_pct <= shake_speed_pct < max_pct:
+        if min_pct <= shake_speed_pct <= max_pct:
             return base_rate * multiplier
 
     return base_rate * 1.0
@@ -55,7 +55,7 @@ def dig_time_per_dig(dig_speed: float) -> float:
     """
     if dig_speed <= 0:
         return 1.0
-    return 143.9 * (dig_speed ** -0.93)
+    return 143.9 * (dig_speed**-0.93)
 
 
 def items_per_pan(capacity: float) -> float:
@@ -101,7 +101,7 @@ def effective_modifier_boost(
     panel_modifier_boost: float,
     solar_magnifier: bool = False,
     modifier_surge: bool = False,
-    for_which_modifier: bool = False
+    for_which_modifier: bool = False,
 ) -> float:
     """Calculate effective modifier boost.
 
@@ -140,20 +140,20 @@ def pct_ores_modified(effective_mb: float) -> float:
     # Using a sigmoid-like curve
     x = effective_mb / 1900
     # Steep rise: use x^0.3 for initial steepness, then level off
-    return min(99.4, 99.4 * (x ** 0.3) * 1.15)
+    return min(99.4, 99.4 * (x**0.3) * 1.15)
 
 
 # Modifier base distribution (from Stat Systems Guide table)
 MODIFIER_BASE_DISTRIBUTION = {
-    "Perfect": 0.002,      # 0.002%
-    "Treasured": 0.01,     # treasure chests only
-    "Lunar": 0.05,         # night only
-    "Voidtorn": 0.1,       # Void tools only
+    "Perfect": 0.002,  # 0.002%
+    "Treasured": 0.01,  # treasure chests only
+    "Lunar": 0.05,  # night only
+    "Voidtorn": 0.1,  # Void tools only
     "Mutated": 0.3,
     "Cosmic": 1.0,
     "Iridescent": 3.0,
     "Irradiated": 8.0,
-    "Crystalline": 15.0,   # geodes / Crystal Touch
+    "Crystalline": 15.0,  # geodes / Crystal Touch
     "Scorching": 25.0,
     "Glowing": 40.0,
     "Pure": 55.0,
@@ -240,13 +240,15 @@ def pans_per_hour(
     dig_strength: float,
     dig_speed: float,
     shake_strength: float,
-    shake_speed: float
+    shake_speed: float,
 ) -> float:
     """Calculate pans per hour."""
     digs = digs_per_pan(capacity, dig_strength)
     dig_time = dig_time_per_dig(dig_speed)
     shake_sps = shakes_per_second(shake_speed)
-    shake_time = capacity / (shake_strength * shake_sps) if shake_strength > 0 and shake_sps > 0 else 0
+    shake_time = (
+        capacity / (shake_strength * shake_sps) if shake_strength > 0 and shake_sps > 0 else 0
+    )
 
     pan_time = digs * dig_time + shake_time
     if pan_time <= 0:
@@ -285,9 +287,7 @@ def calculate_ev(
 
     # Effective modifier boost
     eff_mb = effective_modifier_boost(
-        modifier_boost,
-        solar_magnifier=solar_magnifier,
-        modifier_surge=modifier_surge
+        modifier_boost, solar_magnifier=solar_magnifier, modifier_surge=modifier_surge
     )
 
     # Modifier distribution
@@ -329,7 +329,7 @@ def calculate_ttg(
     ev_per_hour = location_ev_per_pan * pph
 
     if ev_per_hour <= 0:
-        hours = float('inf')
+        hours = float("inf")
     else:
         hours = goal_value / ev_per_hour
 
@@ -354,13 +354,13 @@ def calculate_modifier_odds(
         panel_modifier_boost,
         solar_magnifier=solar_magnifier,
         modifier_surge=modifier_surge,
-        for_which_modifier=False
+        for_which_modifier=False,
     )
     eff_mb_2 = effective_modifier_boost(
         panel_modifier_boost,
         solar_magnifier=solar_magnifier,
         modifier_surge=modifier_surge,
-        for_which_modifier=True
+        for_which_modifier=True,
     )
 
     pct_mod = pct_ores_modified(eff_mb_1)
@@ -423,18 +423,22 @@ def calculate_best_pan(
         pph = pans_per_hour(capacity, dig_str, dig_spd, shake_str, shake_spd) if dig_str > 0 else 0
 
         # Simple scoring: prioritize PPH, then capacity, then stats
-        score = (pph * 0.5) + (capacity * 0.2) + (luck * 0.1) + (size_boost * 0.1) + (mod_boost * 0.1)
+        score = (
+            (pph * 0.5) + (capacity * 0.2) + (luck * 0.1) + (size_boost * 0.1) + (mod_boost * 0.1)
+        )
 
-        scored_pans.append({
-            "pan": pan,
-            "score": round(score, 2),
-            "capacity": capacity,
-            "digs_per_pan": digs,
-            "pans_per_hour": round(pph, 2),
-            "luck": luck,
-            "size_boost": size_boost,
-            "modifier_boost": mod_boost,
-        })
+        scored_pans.append(
+            {
+                "pan": pan,
+                "score": round(score, 2),
+                "capacity": capacity,
+                "digs_per_pan": digs,
+                "pans_per_hour": round(pph, 2),
+                "luck": luck,
+                "size_boost": size_boost,
+                "modifier_boost": mod_boost,
+            }
+        )
 
     # Sort by score descending
     scored_pans.sort(key=lambda x: x["score"], reverse=True)
@@ -456,27 +460,13 @@ def calculate_best_pan(
 
 # Display configuration: rarity -> {free, locked_money, locked_shards, total}
 MUSEUM_DISPLAYS = {
-    "Common": {
-        "free": 1, "locked_money": 1, "locked_shards": 1, "total": 3
-    },
-    "Uncommon": {
-        "free": 1, "locked_money": 1, "locked_shards": 1, "total": 3
-    },
-    "Rare": {
-        "free": 1, "locked_money": 1, "locked_shards": 1, "total": 3
-    },
-    "Epic": {
-        "free": 1, "locked_money": 1, "locked_shards": 1, "total": 3
-    },
-    "Legendary": {
-        "free": 1, "locked_money": 1, "locked_shards": 1, "total": 3
-    },
-    "Mythic": {
-        "free": 0, "locked_money": 1, "locked_shards": 1, "total": 2
-    },
-    "Exotic": {
-        "free": 0, "locked_money": 0, "locked_shards": 1, "total": 1
-    },
+    "Common": {"free": 1, "locked_money": 1, "locked_shards": 1, "total": 3},
+    "Uncommon": {"free": 1, "locked_money": 1, "locked_shards": 1, "total": 3},
+    "Rare": {"free": 1, "locked_money": 1, "locked_shards": 1, "total": 3},
+    "Epic": {"free": 1, "locked_money": 1, "locked_shards": 1, "total": 3},
+    "Legendary": {"free": 1, "locked_money": 1, "locked_shards": 1, "total": 3},
+    "Mythic": {"free": 0, "locked_money": 1, "locked_shards": 1, "total": 2},
+    "Exotic": {"free": 0, "locked_money": 0, "locked_shards": 1, "total": 1},
 }
 
 # Rarity display order
@@ -576,10 +566,7 @@ def parse_bonus_stat(bonus_str: str) -> list[tuple[str, float]]:
 
 
 def calculate_effective_boost(
-    ore_data: dict,
-    kg: float,
-    modifier: str | None,
-    rarity: str
+    ore_data: dict, kg: float, modifier: str | None, rarity: str
 ) -> dict[str, float]:
     """Calculate total stat boost from an ore in a display using max_boost cap.
 
@@ -635,7 +622,7 @@ def calculate_museum_comparison(
     available_ores: list[dict],
     target_stats: dict[str, float],
     size_boost: float = 0.0,
-    ore_database: dict | None = None
+    ore_database: dict | None = None,
 ) -> dict[str, Any]:
     """Compare current museum displays with available ores to find upgrades.
 
@@ -713,7 +700,9 @@ def calculate_museum_comparison(
                 if ore_database:
                     avail_ore_data = ore_database.get((avail_name, rarity), {})
 
-                avail_boost = calculate_effective_boost(avail_ore_data, avail_kg, avail_modifier, rarity)
+                avail_boost = calculate_effective_boost(
+                    avail_ore_data, avail_kg, avail_modifier, rarity
+                )
 
                 # Score based on target stats
                 score = 0.0
@@ -740,21 +729,25 @@ def calculate_museum_comparison(
             else:
                 recommendation = "Keep current"
 
-            slot_comparisons.append({
-                "slot_id": slot_id,
-                "rarity": rarity,
-                "slot_index": slot.get("slot_index", 0),
-                "current_ore": ore_name,
-                "current_kg": kg,
-                "current_modifier": modifier,
-                "current_boost": {k: round(v, 4) for k, v in current_boost.items()},
-                "best_available_ore": best_available["name"] if best_available else None,
-                "best_available_kg": best_available.get("kg") if best_available else None,
-                "best_available_modifier": best_available.get("modifier") if best_available else None,
-                "best_boost": {k: round(v, 4) for k, v in best_boost.items()},
-                "stat_deltas": stat_deltas,
-                "recommendation": recommendation
-            })
+            slot_comparisons.append(
+                {
+                    "slot_id": slot_id,
+                    "rarity": rarity,
+                    "slot_index": slot.get("slot_index", 0),
+                    "current_ore": ore_name,
+                    "current_kg": kg,
+                    "current_modifier": modifier,
+                    "current_boost": {k: round(v, 4) for k, v in current_boost.items()},
+                    "best_available_ore": best_available["name"] if best_available else None,
+                    "best_available_kg": best_available.get("kg") if best_available else None,
+                    "best_available_modifier": best_available.get("modifier")
+                    if best_available
+                    else None,
+                    "best_boost": {k: round(v, 4) for k, v in best_boost.items()},
+                    "stat_deltas": stat_deltas,
+                    "recommendation": recommendation,
+                }
+            )
 
             # Add to current totals
             for stat, value in current_boost.items():
@@ -766,11 +759,9 @@ def calculate_museum_comparison(
                 for stat, value in best_boost.items():
                     optimized_total_stats[stat] = optimized_total_stats.get(stat, 0) + value
                     rarity_optimized_total[stat] = rarity_optimized_total.get(stat, 0) + value
-                recommended_swaps.append({
-                    "slot": slot_id,
-                    "from": ore_name,
-                    "to": best_available["name"]
-                })
+                recommended_swaps.append(
+                    {"slot": slot_id, "from": ore_name, "to": best_available["name"]}
+                )
             else:
                 for stat, value in current_boost.items():
                     optimized_total_stats[stat] = optimized_total_stats.get(stat, 0) + value
@@ -798,7 +789,9 @@ def calculate_museum_comparison(
                     if ore_database:
                         avail_ore_data = ore_database.get((avail_name, rarity), {})
 
-                    avail_boost = calculate_effective_boost(avail_ore_data, avail_kg, avail_modifier, rarity)
+                    avail_boost = calculate_effective_boost(
+                        avail_ore_data, avail_kg, avail_modifier, rarity
+                    )
 
                     score = 0.0
                     for stat, weight in target_stats.items():
@@ -810,30 +803,30 @@ def calculate_museum_comparison(
                         best_boost = avail_boost
 
                 if best_available:
-                    slot_comparisons.append({
-                        "slot_id": slot_id,
-                        "rarity": rarity,
-                        "slot_index": slot_idx + 1,
-                        "current_ore": None,
-                        "current_kg": 0,
-                        "current_modifier": None,
-                        "current_boost": {},
-                        "best_available_ore": best_available["name"],
-                        "best_available_kg": best_available.get("kg"),
-                        "best_available_modifier": best_available.get("modifier"),
-                        "best_boost": {k: round(v, 4) for k, v in best_boost.items()},
-                        "stat_deltas": {k: round(v, 4) for k, v in best_boost.items()},
-                        "recommendation": f"Fill with {best_available['name']}"
-                    })
+                    slot_comparisons.append(
+                        {
+                            "slot_id": slot_id,
+                            "rarity": rarity,
+                            "slot_index": slot_idx + 1,
+                            "current_ore": None,
+                            "current_kg": 0,
+                            "current_modifier": None,
+                            "current_boost": {},
+                            "best_available_ore": best_available["name"],
+                            "best_available_kg": best_available.get("kg"),
+                            "best_available_modifier": best_available.get("modifier"),
+                            "best_boost": {k: round(v, 4) for k, v in best_boost.items()},
+                            "stat_deltas": {k: round(v, 4) for k, v in best_boost.items()},
+                            "recommendation": f"Fill with {best_available['name']}",
+                        }
+                    )
 
                     for stat, value in best_boost.items():
                         optimized_total_stats[stat] = optimized_total_stats.get(stat, 0) + value
                         rarity_optimized_total[stat] = rarity_optimized_total.get(stat, 0) + value
-                    recommended_swaps.append({
-                        "slot": slot_id,
-                        "from": "Empty",
-                        "to": best_available["name"]
-                    })
+                    recommended_swaps.append(
+                        {"slot": slot_id, "from": "Empty", "to": best_available["name"]}
+                    )
 
         by_rarity[rarity] = {
             "slots_filled": filled_slots,
@@ -841,7 +834,7 @@ def calculate_museum_comparison(
             "current_total_boost": {k: round(v, 4) for k, v in rarity_current_total.items()},
             "optimized_total_boost": {k: round(v, 4) for k, v in rarity_optimized_total.items()},
             "current_ores": current_ores,
-            "recommended_swaps": recommended_swaps
+            "recommended_swaps": recommended_swaps,
         }
 
     # Round totals
@@ -852,14 +845,12 @@ def calculate_museum_comparison(
         "slot_comparisons": slot_comparisons,
         "current_total_stats": current_total_stats,
         "optimized_total_stats": optimized_total_stats,
-        "by_rarity": by_rarity
+        "by_rarity": by_rarity,
     }
 
 
 def calculate_museum_projection(
-    current_displays: list[dict],
-    size_boost: float = 0.0,
-    ore_database: dict | None = None
+    current_displays: list[dict], size_boost: float = 0.0, ore_database: dict | None = None
 ) -> dict[str, float]:
     """Calculate total stat projection from current museum setup.
 
@@ -892,9 +883,7 @@ def calculate_museum_projection(
 
 
 def calculate_weight_gate(
-    available_ores: list[dict],
-    size_boost: float,
-    ore_database: dict | None = None
+    available_ores: list[dict], size_boost: float, ore_database: dict | None = None
 ) -> list[dict]:
     """Check which ores meet min_kg requirement for their rarity.
 
@@ -923,14 +912,16 @@ def calculate_weight_gate(
         current_kg = ore.get("kg", 0)
         effective_kg = current_kg * weight_mult
 
-        results.append({
-            "ore_name": ore_name,
-            "rarity": rarity,
-            "min_kg": min_kg,
-            "current_kg": current_kg,
-            "effective_kg": round(effective_kg, 1),
-            "meets_requirement": effective_kg >= min_kg
-        })
+        results.append(
+            {
+                "ore_name": ore_name,
+                "rarity": rarity,
+                "min_kg": min_kg,
+                "current_kg": current_kg,
+                "effective_kg": round(effective_kg, 1),
+                "meets_requirement": effective_kg >= min_kg,
+            }
+        )
 
     return results
 
@@ -999,25 +990,29 @@ def calculate_museum_optimizer(
     if isinstance(unlocked, dict):
         for rarity, count in unlocked.items():
             for _ in range(int(count)):
-                current_displays.append({
-                    "slot_id": f"{rarity.lower()}-{slot_index}",
-                    "rarity": rarity,
-                    "slot_index": slot_index,
-                    "ore_name": "",
-                    "kg": 0,
-                    "modifier": None,
-                })
+                current_displays.append(
+                    {
+                        "slot_id": f"{rarity.lower()}-{slot_index}",
+                        "rarity": rarity,
+                        "slot_index": slot_index,
+                        "ore_name": "",
+                        "kg": 0,
+                        "modifier": None,
+                    }
+                )
                 slot_index += 1
     else:
         for i, ud in enumerate(unlocked):
-            current_displays.append({
-                "slot_id": ud.get("slot_id", f"slot-{i}"),
-                "rarity": ud.get("rarity", "Common"),
-                "slot_index": ud.get("slot_index", i),
-                "ore_name": ud.get("ore_name", ""),
-                "kg": ud.get("kg", 0),
-                "modifier": ud.get("modifier"),
-            })
+            current_displays.append(
+                {
+                    "slot_id": ud.get("slot_id", f"slot-{i}"),
+                    "rarity": ud.get("rarity", "Common"),
+                    "slot_index": ud.get("slot_index", i),
+                    "ore_name": ud.get("ore_name", ""),
+                    "kg": ud.get("kg", 0),
+                    "modifier": ud.get("modifier"),
+                }
+            )
 
     # Use the existing comparison engine
     comparison = calculate_museum_comparison(

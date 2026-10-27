@@ -86,4 +86,13 @@ def _parse_relic_content(name: str, content: str) -> dict[str, Any] | None:
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("’", "").replace(":", "").replace("#", "")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("’", "")
+        .replace(":", "")
+        .replace("#", "")
+    )

@@ -18,6 +18,7 @@ def rate_limit_key(request: Request) -> str:
 
 class ValidationError(Exception):
     """Custom validation error for API validation."""
+
     pass
 
 

@@ -42,9 +42,31 @@ pick-news = "scripts.news_scraper:main"
 where = ["."]
 include = ["app*", "scrapers*", "scripts*"]
 
+[tool.mypy]
+python_version = "3.11"
+explicit_package_bases = true
+mypy_path = "."
+ignore_missing_imports = true
+warn_unused_ignores = false
+# Legacy SQLAlchemy 1.x-style Column declarations and parser dicts are not
+# fully typed yet. Keep mypy useful for imports/name errors while the codebase
+# migrates incrementally.
+disable_error_code = [
+    "arg-type",
+    "assignment",
+    "attr-defined",
+    "call-arg",
+    "index",
+    "misc",
+    "var-annotated",
+]
+
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+markers = [
+    "integration: tests that hit the live wiki or require a database",
+]
 addopts = "-v --cov=app --cov=scrapers --cov=scripts --cov-report=term-missing"
 
 [tool.ruff]

@@ -67,7 +67,7 @@ def _parse_location_mastery(location: str, content: str) -> list[dict[str, Any]]
 def _parse_quest(location: str, boost_type: str, template_text: str) -> dict[str, Any] | None:
     """Parse a single {{Quest}} template into a mastery item."""
     # First, extract the Quest name field specifically
-    quest_name_match = re.search(r'\|\s*Quest\s*=\s*([^\n]+)', template_text)
+    quest_name_match = re.search(r"\|\s*Quest\s*=\s*([^\n]+)", template_text)
     if not quest_name_match:
         return None
 
@@ -81,12 +81,12 @@ def _parse_quest(location: str, boost_type: str, template_text: str) -> dict[str
 
     # Extract other fields - parse line by line
     fields = {}
-    lines = template_text.split('\n')
+    lines = template_text.split("\n")
     for line in lines:
         line = line.strip()
-        if line.startswith('|'):
+        if line.startswith("|"):
             # Extract field name and value
-            field_match = re.match(r'\|\s*(\w+)\s*=\s*(.*)', line)
+            field_match = re.match(r"\|\s*(\w+)\s*=\s*(.*)", line)
             if field_match:
                 key = field_match.group(1).strip()
                 value = field_match.group(2).strip()
@@ -140,4 +140,22 @@ def _parse_quest(location: str, boost_type: str, template_text: str) -> dict[str
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("’", "").replace("&", "").replace("#", "").replace("×", "x").replace(":", "").replace("/", "-").replace("[", "").replace("]", "").replace(",", "").replace(".", "").replace("!", "").replace(";", "")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("’", "")
+        .replace("&", "")
+        .replace("#", "")
+        .replace("×", "x")
+        .replace(":", "")
+        .replace("/", "-")
+        .replace("[", "")
+        .replace("]", "")
+        .replace(",", "")
+        .replace(".", "")
+        .replace("!", "")
+        .replace(";", "")
+    )

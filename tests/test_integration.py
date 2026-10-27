@@ -17,8 +17,7 @@ from app.utils.mw_api import MediaWikiClient
 async def test_engine():
     """Create a test database engine."""
     database_url = os.getenv(
-        "TEST_DATABASE_URL",
-        "postgresql+asyncpg://postgres:postgres@localhost/pick"
+        "TEST_DATABASE_URL", "postgresql+asyncpg://postgres:postgres@localhost/pick"
     )
     engine = create_async_engine(database_url, echo=False)
 
@@ -37,9 +36,7 @@ async def test_engine():
 @pytest_asyncio.fixture
 async def db_session(test_engine):
     """Create a database session for testing."""
-    async_session = sessionmaker(
-        test_engine, class_=AsyncSession, expire_on_commit=False
-    )
+    async_session = sessionmaker(test_engine, class_=AsyncSession, expire_on_commit=False)
     async with async_session() as session:
         yield session
 
@@ -139,11 +136,13 @@ class TestWebhookIntegration:
 
         # Create mock request
         mock_request = MagicMock(spec=Request)
-        mock_request.json = AsyncMock(return_value={
-            "title": "Pans",
-            "user": "TestUser",
-            "comment": "Updated stats",
-        })
+        mock_request.json = AsyncMock(
+            return_value={
+                "title": "Pans",
+                "user": "TestUser",
+                "comment": "Updated stats",
+            }
+        )
         mock_request.body = AsyncMock(return_value=b'{"title": "Pans", "user": "TestUser"}')
 
         # Mock settings to skip signature verification
@@ -169,21 +168,21 @@ class TestScraperUnit:
         from scrapers.pans import parse_pans
 
         mock_client = MagicMock(spec=MediaWikiClient)
-        mock_client.get_page_info = AsyncMock(return_value={
-            "title": "Test Item",
-            "wikitext": "{{Pan row\n|name=Test Pan\n|luck=100\n}}",
-            "page_id": 123,
-            "revision_id": 456,
-        })
+        mock_client.get_page_info = AsyncMock(
+            return_value={
+                "title": "Test Item",
+                "wikitext": "{{Pan row\n|name=Test Pan\n|luck=100\n}}",
+                "page_id": 123,
+                "revision_id": 456,
+            }
+        )
 
         # Mock parser - use actual parser
         changed = await scrape_page(db_session, mock_client, "Pans", parse_pans)
         assert changed is True
 
         # Verify item was created
-        item = await db_session.execute(
-            select(Item).where(Item.slug == "test-pan")
-        )
+        item = await db_session.execute(select(Item).where(Item.slug == "test-pan"))
         item = item.scalar_one_or_none()
         assert item is not None
         assert item.name == "Test Pan"
@@ -203,3 +202,98 @@ def pytest_configure(config):
 
 # Allow running integration tests with: pytest -m integration
 # Skip by default: pytest -m "not integration"
+
+
+@pytest.mark.asyncio
+async def test_scrape_page_soft_deletes_and_reactivates(db_session):
+    """Items removed from a page are deactivated, not deleted, and reactivate on return."""
+    from unittest.mock import AsyncMock, MagicMock
+
+    from app.models import Item
+
+    old_item = {
+        "type": "pan",
+        "name": "Old Pan",
+        "slug": "old-pan",
+        "data": {"luck": 1},
+        "image_url": None,
+    }
+    new_item = {
+        "type": "pan",
+        "name": "New Pan",
+        "slug": "new-pan",
+        "data": {"luck": 2},
+        "image_url": None,
+    }
+
+    def parser(wikitext: str):
+        return [old_item] if "old" in wikitext else [new_item]
+
+    mock_client = MagicMock(spec=MediaWikiClient)
+    mock_client.get_page_info = AsyncMock(
+        side_effect=[
+            {"wikitext": "old", "page_id": 900, "revision_id": 1},
+            {"wikitext": "new", "page_id": 900, "revision_id": 2},
+            {"wikitext": "old", "page_id": 900, "revision_id": 3},
+        ]
+    )
+
+    assert await scrape_page(db_session, mock_client, "Pans", parser) is True
+    assert await scrape_page(db_session, mock_client, "Pans", parser) is True
+
+    old = (await db_session.execute(select(Item).where(Item.slug == "old-pan"))).scalar_one()
+    new = (await db_session.execute(select(Item).where(Item.slug == "new-pan"))).scalar_one()
+    assert old.is_active is False
+    assert new.is_active is True
+
+    assert await scrape_page(db_session, mock_client, "Pans", parser) is True
+    await db_session.refresh(old)
+    await db_session.refresh(new)
+    assert old.is_active is True
+    assert new.is_active is False
+
+
+@pytest.mark.asyncio
+async def test_scrape_page_deduplicates_parser_slugs(db_session):
+    """A parser that emits the same slug twice must not violate the unique constraint."""
+    from unittest.mock import AsyncMock, MagicMock
+
+    from app.models import Item
+
+    duplicate_items = [
+        {"type": "npc", "name": "Merchant", "slug": "merchant", "data": {"region": "A"}},
+        {"type": "npc", "name": "Merchant", "slug": "merchant", "data": {"region": "B"}},
+    ]
+
+    mock_client = MagicMock(spec=MediaWikiClient)
+    mock_client.get_page_info = AsyncMock(
+        return_value={"wikitext": "npcs", "page_id": 901, "revision_id": 1}
+    )
+
+    changed = await scrape_page(db_session, mock_client, "NPCs", lambda _wikitext: duplicate_items)
+    assert changed is True
+
+    rows = (await db_session.execute(select(Item).where(Item.slug == "merchant"))).scalars().all()
+    assert len(rows) == 1
+    assert rows[0].data["region"] == "A"
+
+
+@pytest.mark.asyncio
+async def test_scrape_page_does_not_store_parser_id_as_wiki_id(db_session):
+    """Synthetic parser IDs can exceed the wiki_id column length and must not be stored."""
+    from unittest.mock import AsyncMock, MagicMock
+
+    from app.models import Item
+
+    long_id = "x" * 150
+    parsed = [{"id": long_id, "type": "quest", "name": "Long Quest", "data": {}}]
+
+    mock_client = MagicMock(spec=MediaWikiClient)
+    mock_client.get_page_info = AsyncMock(
+        return_value={"wikitext": "quests", "page_id": 902, "revision_id": 1}
+    )
+
+    assert await scrape_page(db_session, mock_client, "Quests", lambda _: parsed) is True
+
+    item = (await db_session.execute(select(Item).where(Item.slug == long_id))).scalar_one()
+    assert item.wiki_id is None

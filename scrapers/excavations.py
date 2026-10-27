@@ -132,11 +132,7 @@ def _parse_levels(wikitext: str) -> list[dict[str, Any]]:
     items = []
 
     # Find the levels table - it has "Level" header
-    table_match = re.search(
-        r'\{\| class="wikitable".*?Level.*?\n(.*?)\n\|\}',
-        wikitext,
-        re.DOTALL
-    )
+    table_match = re.search(r'\{\| class="wikitable".*?Level.*?\n(.*?)\n\|\}', wikitext, re.DOTALL)
     if not table_match:
         return items
 
@@ -189,14 +185,16 @@ def _parse_levels(wikitext: str) -> list[dict[str, Any]]:
             data["speed_multiplier"] = cell_values[8]
             data["durations"] = cell_values[9:15]
 
-        items.append({
-            "id": f"excavation-level-{level}",
-            "type": "excavation_level",
-            "name": f"Excavation Level {level}",
-            "slug": f"excavation-level-{level}",
-            "data": data,
-            "image_url": None,
-        })
+        items.append(
+            {
+                "id": f"excavation-level-{level}",
+                "type": "excavation_level",
+                "name": f"Excavation Level {level}",
+                "slug": f"excavation-level-{level}",
+                "data": data,
+                "image_url": None,
+            }
+        )
 
     return items
 
@@ -240,18 +238,10 @@ def _parse_reward_table(site_name: str, content: str) -> list[dict[str, Any]]:
     items = []
 
     # Find the wikitable - try multiple patterns
-    table_match = re.search(
-        r'\{\| class="wikitable[^}]*".*?\n(.*?)\n\|\}',
-        content,
-        re.DOTALL
-    )
+    table_match = re.search(r'\{\| class="wikitable[^}]*".*?\n(.*?)\n\|\}', content, re.DOTALL)
     if not table_match:
         # Try simpler pattern
-        table_match = re.search(
-            r'\{\|.*?\n(.*?)\n\|\}',
-            content,
-            re.DOTALL
-        )
+        table_match = re.search(r"\{\|.*?\n(.*?)\n\|\}", content, re.DOTALL)
     if not table_match:
         return items
 
@@ -291,19 +281,21 @@ def _parse_reward_table(site_name: str, content: str) -> list[dict[str, Any]]:
         if not item_name:
             continue
 
-        items.append({
-            "id": _slugify(f"{site_name}-{item_name}"),
-            "type": "excavation_reward",
-            "name": item_name,
-            "slug": _slugify(f"{site_name}-{item_name}"),
-            "data": {
-                "site": site_name,
-                "description": description,
-                "activation": activation,
-                "chance": chance,
-            },
-            "image_url": None,
-        })
+        items.append(
+            {
+                "id": _slugify(f"{site_name}-{item_name}"),
+                "type": "excavation_reward",
+                "name": item_name,
+                "slug": _slugify(f"{site_name}-{item_name}"),
+                "data": {
+                    "site": site_name,
+                    "description": description,
+                    "activation": activation,
+                    "chance": chance,
+                },
+                "image_url": None,
+            }
+        )
 
     return items
 
@@ -338,4 +330,26 @@ def _clean_cell(text: str) -> str:
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("’", "").replace("&", "").replace("#", "").replace("×", "x").replace(":", "").replace("/", "-").replace("[", "").replace("]", "").replace(",", "").replace(".", "").replace("!", "").replace(";", "").replace("×", "x").replace("=", "").replace("?", "").replace("|", "")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("’", "")
+        .replace("&", "")
+        .replace("#", "")
+        .replace("×", "x")
+        .replace(":", "")
+        .replace("/", "-")
+        .replace("[", "")
+        .replace("]", "")
+        .replace(",", "")
+        .replace(".", "")
+        .replace("!", "")
+        .replace(";", "")
+        .replace("×", "x")
+        .replace("=", "")
+        .replace("?", "")
+        .replace("|", "")
+    )

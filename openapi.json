@@ -2,6 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "PICK",
+    "description": "Community-built companion API for the Roblox game **Prospecting!**. It exposes wiki-sourced items, formulas, calculators, community news, search, and public dataset snapshots.\n\nData is scraped from the official Prospecting! wiki on a schedule. Calculator endpoints are grouped under `/api/v1/calculators`.",
     "version": "0.1.0"
   },
   "paths": {
@@ -383,7 +384,7 @@
           "formulas"
         ],
         "summary": "Get Formula",
-        "description": "Get a single formula by its ID.",
+        "description": "Get a single formula by its stable formula ID.",
         "operationId": "get_formula_api_v1_formulas__formula_id__get",
         "parameters": [
           {
@@ -2135,19 +2136,46 @@
         "properties": {
           "id": {
             "type": "integer",
-            "title": "Id"
+            "title": "Id",
+            "description": "Database identifier"
           },
           "formula_id": {
             "type": "string",
-            "title": "Formula Id"
+            "title": "Formula Id",
+            "description": "Stable formula key used by API clients"
           },
           "name": {
             "type": "string",
-            "title": "Name"
+            "title": "Name",
+            "description": "Human-readable formula name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Explanation of the formula"
+          },
+          "formula": {
+            "type": "string",
+            "title": "Formula",
+            "description": "Formula expression"
+          },
+          "params": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Params",
+            "description": "Parameters or components used by the formula"
           },
           "confidence": {
             "type": "string",
-            "title": "Confidence"
+            "title": "Confidence",
+            "description": "Confidence level: confirmed, likely, or speculative"
           },
           "source_url": {
             "anyOf": [
@@ -2158,7 +2186,26 @@
                 "type": "null"
               }
             ],
-            "title": "Source Url"
+            "title": "Source Url",
+            "description": "Wiki source URL"
+          },
+          "patch_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Patch Version",
+            "description": "Game patch that introduced or verified the formula"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Creation timestamp"
           }
         },
         "type": "object",
@@ -2166,9 +2213,13 @@
           "id",
           "formula_id",
           "name",
-          "confidence"
+          "formula",
+          "params",
+          "confidence",
+          "created_at"
         ],
-        "title": "FormulaResponse"
+        "title": "FormulaResponse",
+        "description": "A game formula with its expression and confidence metadata."
       },
       "GearItemInput": {
         "properties": {
@@ -3953,5 +4004,47 @@
         "description": "Weight gate check result for an ore."
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "items",
+      "description": "Wiki items such as pans, shovels, minerals, and relics."
+    },
+    {
+      "name": "formulas",
+      "description": "Game formulas and their confidence levels."
+    },
+    {
+      "name": "calculators",
+      "description": "Stat, EV, museum, and hunting calculators."
+    },
+    {
+      "name": "news",
+      "description": "Community news aggregated from Reddit."
+    },
+    {
+      "name": "meta",
+      "description": "Application and dataset metadata."
+    },
+    {
+      "name": "search",
+      "description": "Full-text search across items."
+    },
+    {
+      "name": "export",
+      "description": "Public dataset snapshot export."
+    },
+    {
+      "name": "webhooks",
+      "description": "Wiki edit webhooks for targeted rescrapes."
+    },
+    {
+      "name": "health",
+      "description": "Liveness and readiness checks."
+    },
+    {
+      "name": "metrics",
+      "description": "Prometheus metrics."
+    }
+  ]
 }

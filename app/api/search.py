@@ -18,8 +18,8 @@ async def search(
     db: AsyncSession = Depends(get_session),  # noqa: B008
 ):
     """Full-text search across items."""
-    query = select(Item)
-    count_query = select(func.count(Item.id))
+    query = select(Item).where(Item.is_active.is_(True))
+    count_query = select(func.count(Item.id)).where(Item.is_active.is_(True))
 
     search_term = f"%{q}%"
     query = query.where(

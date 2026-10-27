@@ -82,7 +82,7 @@ def _parse_rune_row(row: str) -> dict[str, Any] | None:
     location = _extract_location(location_cell)
 
     # Extract color from name cell for type classification
-    color_match = re.search(r'color:#([0-9A-Fa-f]+)', name_cell)
+    color_match = re.search(r"color:#([0-9A-Fa-f]+)", name_cell)
     color = color_match.group(1) if color_match else ""
 
     return {
@@ -116,4 +116,14 @@ def _extract_location(text: str) -> str:
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("’", "").replace(":", "").replace("#", "").replace("–", "-")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("’", "")
+        .replace(":", "")
+        .replace("#", "")
+        .replace("–", "-")
+    )

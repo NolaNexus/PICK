@@ -45,9 +45,7 @@ def _parse_all_tabbers(wikitext: str) -> list[dict[str, Any]]:
     # Find all tabber tags with their preceding headers
     # The pattern: header (== ... ==) followed by <tabber>
     tabber_sections = re.finditer(
-        r"==\s*([^=]+)\s*==\s*\n<tabber>(.*?)</tabber>",
-        wikitext,
-        re.DOTALL
+        r"==\s*([^=]+)\s*==\s*\n<tabber>(.*?)</tabber>", wikitext, re.DOTALL
     )
 
     for match in tabber_sections:
@@ -175,4 +173,18 @@ def _extract_section(content: str, section_name: str) -> list[str]:
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("’", "").replace("&", "").replace("#", "").replace("|", "").replace("?", "").replace("×", "x").replace(":", "").replace("/", "-")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("’", "")
+        .replace("&", "")
+        .replace("#", "")
+        .replace("|", "")
+        .replace("?", "")
+        .replace("×", "x")
+        .replace(":", "")
+        .replace("/", "-")
+    )

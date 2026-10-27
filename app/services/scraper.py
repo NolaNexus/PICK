@@ -75,7 +75,8 @@ async def run_daily_scrape(db: "AsyncSession") -> dict:
         new_version = await check_for_game_update(db, client)
         if new_version:
             logger.info("Game update detected, running full scrape")
-            return await _run_scrape(db, incremental=False)
+            # Changelog was already fetched by check_for_game_update.
+            return await _run_scrape(db, incremental=False, skip_titles={"Changelog"})
     finally:
         await client.close()
 
@@ -87,10 +88,15 @@ async def run_full_scrape(db: "AsyncSession") -> dict:
     return await _run_scrape(db, incremental=False)
 
 
-async def _run_scrape(db: "AsyncSession", incremental: bool) -> dict:
+async def _run_scrape(
+    db: "AsyncSession",
+    incremental: bool,
+    skip_titles: set[str] | None = None,
+) -> dict:
     """Run the wiki scrape cycle."""
     from app.models import ScraperRun
 
+    skip_titles = skip_titles or set()
     run = ScraperRun(status="running")
     db.add(run)
     await db.flush()
@@ -105,12 +111,15 @@ async def _run_scrape(db: "AsyncSession", incremental: bool) -> dict:
         if incremental:
             changes = await client.get_recent_changes(days=1)
             titles_to_scrape = [
-                change.get("title", "") for change in changes
+                change.get("title", "")
+                for change in changes
                 if change.get("title", "") in TRACKED_PAGES
             ]
         else:
             # Full scrape: iterate all tracked pages
             titles_to_scrape = TRACKED_PAGES
+
+        titles_to_scrape = [title for title in titles_to_scrape if title not in skip_titles]
 
         for title in titles_to_scrape:
             try:
@@ -186,17 +195,27 @@ async def scrape_page(
         await db.flush()
 
     # Batch-load existing items for this page to avoid a per-item N+1 query
-    slugs = [
-        item_data.get("slug") or item_data["name"].lower().replace(" ", "-")
-        for item_data in items
-    ]
+    parsed_items: list[tuple[dict, str]] = []
+    seen_slugs: set[str] = set()
+    for item_data in items:
+        slug = (
+            item_data.get("slug")
+            or item_data.get("id")
+            or item_data["name"].lower().replace(" ", "-")
+        )
+        if slug in seen_slugs:
+            logger.warning("Duplicate slug %r on %s; keeping first occurrence", slug, title)
+            continue
+        seen_slugs.add(slug)
+        parsed_items.append((item_data, slug))
+
+    slugs = [slug for _, slug in parsed_items]
     existing_items: dict[str, Item] = {}
     if slugs:
         result = await db.execute(select(Item).where(Item.slug.in_(slugs)))
         existing_items = {item.slug: item for item in result.scalars().all()}
 
-    for item_data in items:
-        slug = item_data.get("slug") or item_data["name"].lower().replace(" ", "-")
+    for item_data, slug in parsed_items:
         item = existing_items.get(slug)
 
         if item is None:
@@ -209,6 +228,7 @@ async def scrape_page(
                 image_url=item_data.get("image_url"),
                 description=item_data.get("description"),
                 wiki_page=wiki_page,
+                is_active=True,
             )
             db.add(item)
         else:
@@ -218,21 +238,23 @@ async def scrape_page(
             item.data = item_data.get("data", {})
             item.image_url = item_data.get("image_url")
             item.description = item_data.get("description")
+            item.wiki_page = wiki_page
+            item.is_active = True
             item.updated_at = datetime.now(UTC)
 
-    # Remove items from this page that no longer exist on the wiki page
-    parsed_slugs = [item_data.get("slug") or item_data["name"].lower().replace(" ", "-") for item_data in items]
-    if parsed_slugs:
+    # Soft-delete items from this page that no longer exist on the wiki page.
+    # Do not wipe a page when a parser unexpectedly yields no items.
+    if slugs:
         await db.execute(
-            Item.__table__.delete().where(
+            Item.__table__.update()
+            .where(
                 Item.source_page_id == wiki_page.id,
-                Item.slug.notin_(parsed_slugs),
+                Item.slug.notin_(slugs),
             )
+            .values(is_active=False)
         )
     else:
-        await db.execute(
-            Item.__table__.delete().where(Item.source_page_id == wiki_page.id)
-        )
+        logger.warning("Parser returned no items for %s; keeping existing items active", title)
 
     wiki_page.last_revision_id = revision_id
     wiki_page.content_hash = content_hash

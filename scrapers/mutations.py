@@ -67,11 +67,7 @@ def _parse_chance_table(event_name: str, content: str) -> list[dict[str, Any]]:
     items = []
 
     # Find the wikitable
-    table_match = re.search(
-        r'\{\| class="wikitable".*?\n(.*?)\n\|\}',
-        content,
-        re.DOTALL
-    )
+    table_match = re.search(r'\{\| class="wikitable".*?\n(.*?)\n\|\}', content, re.DOTALL)
     if not table_match:
         return items
 
@@ -131,25 +127,27 @@ def _parse_chance_table(event_name: str, content: str) -> list[dict[str, Any]]:
             if i < len(catalyst_counts):
                 chance_str = cell.strip()
                 # Remove % if present
-                chance_str = chance_str.rstrip('%')
+                chance_str = chance_str.rstrip("%")
                 try:
                     chance = float(chance_str)
                 except (ValueError, TypeError):
                     chance = 0.0
                 chances[catalyst_counts[i]] = chance
 
-        items.append({
-            "id": _slugify(f"{event_name}-{mutation_name}"),
-            "type": "mutation_chance",
-            "name": f"{mutation_name} ({event_name})",
-            "slug": _slugify(f"{event_name}-{mutation_name}"),
-            "data": {
-                "event": event_name,
-                "mutation": mutation_name,
-                "chances_by_catalysts": chances,
-            },
-            "image_url": None,
-        })
+        items.append(
+            {
+                "id": _slugify(f"{event_name}-{mutation_name}"),
+                "type": "mutation_chance",
+                "name": f"{mutation_name} ({event_name})",
+                "slug": _slugify(f"{event_name}-{mutation_name}"),
+                "data": {
+                    "event": event_name,
+                    "mutation": mutation_name,
+                    "chances_by_catalysts": chances,
+                },
+                "image_url": None,
+            }
+        )
 
     return items
 
@@ -182,18 +180,20 @@ def _parse_effects(wikitext: str) -> list[dict[str, Any]]:
         for value, stat in add_matches:
             additives[stat] = int(value)
 
-        items.append({
-            "id": _slugify(f"mutation-effect-{mutation_name}"),
-            "type": "mutation_effect",
-            "name": mutation_name,
-            "slug": _slugify(f"mutation-effect-{mutation_name}"),
-            "data": {
-                "multiplier": multiplier,
-                "additives": additives,
-                "description": effect_text,
-            },
-            "image_url": None,
-        })
+        items.append(
+            {
+                "id": _slugify(f"mutation-effect-{mutation_name}"),
+                "type": "mutation_effect",
+                "name": mutation_name,
+                "slug": _slugify(f"mutation-effect-{mutation_name}"),
+                "data": {
+                    "multiplier": multiplier,
+                    "additives": additives,
+                    "description": effect_text,
+                },
+                "image_url": None,
+            }
+        )
 
     return items
 
@@ -236,7 +236,7 @@ def _parse_catalyst_table(rarity: str, content: str) -> list[dict[str, Any]]:
     items = []
 
     # The tab content IS the table - extract mutations rows directly from content
-    mutations_rows = re.findall(r'\{\{Mutations Row\s*\n(.*?)(?:\n\}\}|\}\})', content, re.DOTALL)
+    mutations_rows = re.findall(r"\{\{Mutations Row\s*\n(.*?)(?:\n\}\}|\}\})", content, re.DOTALL)
     items = []
     for mr_content in mutations_rows:
         catalyst = _parse_mutations_row(rarity, mr_content)
@@ -251,11 +251,11 @@ def _parse_mutations_row(rarity: str, content: str) -> dict[str, Any] | None:
     fields = {}
 
     # Parse template fields line by line
-    for line in content.split('\n'):
+    for line in content.split("\n"):
         line = line.strip()
-        if line.startswith('|'):
+        if line.startswith("|"):
             # Parse | key = value
-            parts = line[1:].split('=', 1)
+            parts = line[1:].split("=", 1)
             if len(parts) == 2:
                 key = parts[0].strip()
                 value = parts[1].strip()
@@ -292,4 +292,27 @@ def _parse_mutations_row(rarity: str, content: str) -> dict[str, Any] | None:
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("’", "").replace("&", "").replace("#", "").replace("×", "x").replace(":", "").replace("/", "-").replace("[", "").replace("]", "").replace(",", "").replace(".", "").replace("!", "").replace(";", "").replace("×", "x").replace("=", "").replace("?", "").replace("|", "").replace("%", "")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("’", "")
+        .replace("&", "")
+        .replace("#", "")
+        .replace("×", "x")
+        .replace(":", "")
+        .replace("/", "-")
+        .replace("[", "")
+        .replace("]", "")
+        .replace(",", "")
+        .replace(".", "")
+        .replace("!", "")
+        .replace(";", "")
+        .replace("×", "x")
+        .replace("=", "")
+        .replace("?", "")
+        .replace("|", "")
+        .replace("%", "")
+    )

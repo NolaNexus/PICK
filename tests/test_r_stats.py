@@ -27,9 +27,19 @@ from app.services.r_stats import (
 client = TestClient(app)
 
 MODIFIER_NAMES = [
-    "Perfect", "Treasured", "Lunar", "Voidtorn", "Mutated", "Cosmic",
-    "Iridescent", "Irradiated", "Crystalline", "Scorching", "Glowing",
-    "Pure", "Shiny",
+    "Perfect",
+    "Treasured",
+    "Lunar",
+    "Voidtorn",
+    "Mutated",
+    "Cosmic",
+    "Iridescent",
+    "Irradiated",
+    "Crystalline",
+    "Scorching",
+    "Glowing",
+    "Pure",
+    "Shiny",
 ]
 
 
@@ -71,19 +81,25 @@ class TestRStatsBridgeUnit:
         assert result["mean"] > 0
 
     def test_score_gear_r_path(self):
-        gear = [{
-            "name": "Golden Pan",
-            "capacity": 100,
-            "dig_strength": 20,
-            "shake_strength": 20,
-            "shake_speed": 600,
-            "luck": 500,
-            "size_boost": 50,
-            "modifier_boost": 100,
-        }]
+        gear = [
+            {
+                "name": "Golden Pan",
+                "capacity": 100,
+                "dig_strength": 20,
+                "shake_strength": 20,
+                "shake_speed": 600,
+                "luck": 500,
+                "size_boost": 50,
+                "modifier_boost": 100,
+            }
+        ]
         result = score_gear_r(
-            gear=gear, dig_strength=50, shake_strength=50, shake_speed=500,
-            target_capacity=80, min_luck=100,
+            gear=gear,
+            dig_strength=50,
+            shake_strength=50,
+            shake_speed=500,
+            target_capacity=80,
+            min_luck=100,
         )
         assert len(result) == 1
         assert result[0]["name"] == "Golden Pan"
@@ -126,8 +142,12 @@ class TestRStatsBridgeUnit:
 
     def test_optimize_luck_cap_r_path(self):
         result = optimize_luck_cap_r(
-            current_luck=5000, modifier_boost=200, solar_magnifier=False,
-            modifier_surge=False, bonus_interval=10, n_quests=100,
+            current_luck=5000,
+            modifier_boost=200,
+            solar_magnifier=False,
+            modifier_surge=False,
+            bonus_interval=10,
+            n_quests=100,
             luck_caps=[0, 5000, 10000, 20000, 50000],
         )
         assert len(result) == 5
@@ -157,8 +177,11 @@ class TestRStatsFallbackParity:
     def test_monte_carlo_ev_fallback(self):
         with patch("app.services.r_stats.R_AVAILABLE", False):
             result = monte_carlo_ev(
-                samples=1000, ev_per_pan_mean=500.0, ev_per_pan_sd=50.0,
-                pph_mean=100.0, pph_sd=10.0,
+                samples=1000,
+                ev_per_pan_mean=500.0,
+                ev_per_pan_sd=50.0,
+                pph_mean=100.0,
+                pph_sd=10.0,
             )
         assert set(result.keys()) == {"mean", "p05", "p95"}
         assert result["p05"] <= result["mean"] <= result["p95"]
@@ -220,12 +243,21 @@ class TestStatsApiEndpoints:
 
     def test_gear_recommendations_endpoint_r_used(self):
         payload = {
-            "gear": [{
-                "name": "Golden Pan", "capacity": 100, "dig_strength": 20,
-                "shake_strength": 20, "shake_speed": 600, "luck": 500,
-                "size_boost": 50, "modifier_boost": 100,
-            }],
-            "dig_strength": 50, "shake_strength": 50, "shake_speed": 500,
+            "gear": [
+                {
+                    "name": "Golden Pan",
+                    "capacity": 100,
+                    "dig_strength": 20,
+                    "shake_strength": 20,
+                    "shake_speed": 600,
+                    "luck": 500,
+                    "size_boost": 50,
+                    "modifier_boost": 100,
+                }
+            ],
+            "dig_strength": 50,
+            "shake_strength": 50,
+            "shake_speed": 500,
         }
         response = client.post("/api/v1/calculators/stats/gear-recommendations", json=payload)
         assert response.status_code == 200
@@ -244,9 +276,12 @@ class TestStatsApiEndpoints:
 
     def test_optimize_luck_cap_endpoint_r_used(self):
         payload = {
-            "current_luck": 5000, "modifier_boost": 200,
-            "solar_magnifier": False, "modifier_surge": False,
-            "bonus_interval": 10, "n_quests": 100,
+            "current_luck": 5000,
+            "modifier_boost": 200,
+            "solar_magnifier": False,
+            "modifier_surge": False,
+            "bonus_interval": 10,
+            "n_quests": 100,
             "luck_caps": [0, 5000, 10000, 20000, 50000],
         }
         response = client.post("/api/v1/calculators/stats/optimize-luck-cap", json=payload)
@@ -262,14 +297,22 @@ class TestOptimizeLuckCapContinuous:
 
     def test_optimize_luck_cap_continuous_r_path(self):
         result = optimize_luck_cap_continuous_r(
-            current_luck=5000, modifier_boost=200, solar_magnifier=False,
-            modifier_surge=False, bonus_interval=10, n_quests=100,
-            lower=0, upper=100000,
+            current_luck=5000,
+            modifier_boost=200,
+            solar_magnifier=False,
+            modifier_surge=False,
+            bonus_interval=10,
+            n_quests=100,
+            lower=0,
+            upper=100000,
         )
         assert result is not None
         assert set(result.keys()) == {
-            "optimal_cap", "optimal_bonuses_per_hour", "saturation_cap",
-            "lower", "upper",
+            "optimal_cap",
+            "optimal_bonuses_per_hour",
+            "saturation_cap",
+            "lower",
+            "upper",
         }
         assert result["optimal_bonuses_per_hour"] > 0
         assert 0 <= result["saturation_cap"] <= result["upper"]
@@ -288,10 +331,14 @@ class TestOptimizeLuckCapContinuous:
 
     def test_optimize_luck_cap_continuous_endpoint_r_used(self):
         payload = {
-            "current_luck": 5000, "modifier_boost": 200,
-            "solar_magnifier": False, "modifier_surge": False,
-            "bonus_interval": 10, "n_quests": 100,
-            "lower": 0, "upper": 100000,
+            "current_luck": 5000,
+            "modifier_boost": 200,
+            "solar_magnifier": False,
+            "modifier_surge": False,
+            "bonus_interval": 10,
+            "n_quests": 100,
+            "lower": 0,
+            "upper": 100000,
         }
         response = client.post(
             "/api/v1/calculators/stats/optimize-luck-cap-continuous", json=payload
@@ -331,17 +378,24 @@ class TestFitModifierFraction:
 
     def test_fit_modifier_fraction_r_all_zero(self):
         result = fit_modifier_fraction_r(
-            query_eff_mb=[100, 200], obs_eff_mb=[100, 200],
-            obs_modified=[0, 0], obs_total=[100, 100],
+            query_eff_mb=[100, 200],
+            obs_eff_mb=[100, 200],
+            obs_modified=[0, 0],
+            obs_total=[100, 100],
         )
         assert result is None
 
     def test_fit_modifier_fraction_r_fallback_returns_none(self):
         with patch("app.services.r_stats.R_AVAILABLE", False):
-            assert fit_modifier_fraction_r(
-                query_eff_mb=[100, 500], obs_eff_mb=[100, 500, 1000],
-                obs_modified=[5, 30, 60], obs_total=[100, 100, 100],
-            ) is None
+            assert (
+                fit_modifier_fraction_r(
+                    query_eff_mb=[100, 500],
+                    obs_eff_mb=[100, 500, 1000],
+                    obs_modified=[5, 30, 60],
+                    obs_total=[100, 100, 100],
+                )
+                is None
+            )
 
     def test_modifier_fraction_endpoint_r_used(self):
         payload = {
@@ -350,9 +404,7 @@ class TestFitModifierFraction:
             "obs_modified": [5, 30, 60, 85, 95],
             "obs_total": [100, 100, 100, 100, 100],
         }
-        response = client.post(
-            "/api/v1/calculators/stats/modifier-fraction", json=payload
-        )
+        response = client.post("/api/v1/calculators/stats/modifier-fraction", json=payload)
         assert response.status_code == 200
         data = response.json()
         assert data["r_used"] is True
@@ -369,9 +421,7 @@ class TestFitModifierFraction:
             "obs_modified": [5],
             "obs_total": [100],
         }
-        response = client.post(
-            "/api/v1/calculators/stats/modifier-fraction", json=payload
-        )
+        response = client.post("/api/v1/calculators/stats/modifier-fraction", json=payload)
         assert response.status_code == 200
         data = response.json()
         assert data["r_used"] is False
@@ -383,15 +433,24 @@ class TestQuestSurvival:
 
     def test_quest_survival_r_path(self):
         result = quest_survival_r(
-            n_runs=40, n_quests=20, max_time_hours=24,
+            n_runs=40,
+            n_quests=20,
+            max_time_hours=24,
             time_points=[1, 5, 10, 24],
-            luck_levels=[0, 5000], modifier_boost_levels=[0, 200],
+            luck_levels=[0, 5000],
+            modifier_boost_levels=[0, 200],
         )
         assert result is not None
         assert set(result.keys()) >= {
-            "coefficients", "hazard_ratios", "baseline_median_time_hours",
-            "n_runs", "n_completed", "n_censored", "survival_curve",
-            "completion_prob_within", "r_used",
+            "coefficients",
+            "hazard_ratios",
+            "baseline_median_time_hours",
+            "n_runs",
+            "n_completed",
+            "n_censored",
+            "survival_curve",
+            "completion_prob_within",
+            "r_used",
         }
         assert result["r_used"] is True
         assert result["n_runs"] > 0
@@ -403,8 +462,11 @@ class TestQuestSurvival:
     def test_quest_survival_single_covariate(self):
         # Only one luck level: no varying covariates -> intercept-only model.
         result = quest_survival_r(
-            n_runs=30, n_quests=10, max_time_hours=24,
-            luck_levels=[5000], modifier_boost_levels=[200],
+            n_runs=30,
+            n_quests=10,
+            max_time_hours=24,
+            luck_levels=[5000],
+            modifier_boost_levels=[200],
         )
         assert result is not None
         assert result["r_used"] is True
@@ -416,7 +478,9 @@ class TestQuestSurvival:
 
     def test_quest_survival_endpoint_r_used(self):
         payload = {
-            "n_runs": 40, "n_quests": 20, "max_time_hours": 24,
+            "n_runs": 40,
+            "n_quests": 20,
+            "max_time_hours": 24,
             "time_points": [1, 5, 10, 24],
             "luck_levels": [0, 5000],
             "modifier_boost_levels": [0, 200],
@@ -437,12 +501,27 @@ class TestEvParetoFrontier:
 
     def test_ev_pareto_frontier_r_path(self):
         candidates = [
-            {"name": "Build A", "ev_per_pan_mean": 5000, "ev_per_pan_sd": 500,
-             "pph_mean": 100, "pph_sd": 10},
-            {"name": "Build B", "ev_per_pan_mean": 4000, "ev_per_pan_sd": 200,
-             "pph_mean": 150, "pph_sd": 20},
-            {"name": "Build C", "ev_per_pan_mean": 6000, "ev_per_pan_sd": 1500,
-             "pph_mean": 80, "pph_sd": 40},
+            {
+                "name": "Build A",
+                "ev_per_pan_mean": 5000,
+                "ev_per_pan_sd": 500,
+                "pph_mean": 100,
+                "pph_sd": 10,
+            },
+            {
+                "name": "Build B",
+                "ev_per_pan_mean": 4000,
+                "ev_per_pan_sd": 200,
+                "pph_mean": 150,
+                "pph_sd": 20,
+            },
+            {
+                "name": "Build C",
+                "ev_per_pan_mean": 6000,
+                "ev_per_pan_sd": 1500,
+                "pph_mean": 80,
+                "pph_sd": 40,
+            },
         ]
         result = ev_pareto_frontier_r(candidates=candidates, n_samples=3000)
         assert result is not None
@@ -450,8 +529,12 @@ class TestEvParetoFrontier:
         # Every candidate has the expected fields.
         for row in result:
             assert set(row.keys()) >= {
-                "name", "mean_ev_hour", "p05_ev_hour", "p95_ev_hour",
-                "on_frontier", "dominated_by",
+                "name",
+                "mean_ev_hour",
+                "p05_ev_hour",
+                "p95_ev_hour",
+                "on_frontier",
+                "dominated_by",
             }
             assert isinstance(row["on_frontier"], bool)
         # At least one candidate is on the frontier.
@@ -466,24 +549,42 @@ class TestEvParetoFrontier:
 
     def test_ev_pareto_frontier_r_fallback_returns_none(self):
         with patch("app.services.r_stats.R_AVAILABLE", False):
-            assert ev_pareto_frontier_r(
-                candidates=[{"name": "X", "ev_per_pan_mean": 1000,
-                             "ev_per_pan_sd": 100, "pph_mean": 50, "pph_sd": 5}]
-            ) is None
+            assert (
+                ev_pareto_frontier_r(
+                    candidates=[
+                        {
+                            "name": "X",
+                            "ev_per_pan_mean": 1000,
+                            "ev_per_pan_sd": 100,
+                            "pph_mean": 50,
+                            "pph_sd": 5,
+                        }
+                    ]
+                )
+                is None
+            )
 
     def test_ev_pareto_frontier_endpoint_r_used(self):
         payload = {
             "candidates": [
-                {"name": "Build A", "ev_per_pan_mean": 5000, "ev_per_pan_sd": 500,
-                 "pph_mean": 100, "pph_sd": 10},
-                {"name": "Build B", "ev_per_pan_mean": 4000, "ev_per_pan_sd": 200,
-                 "pph_mean": 150, "pph_sd": 20},
+                {
+                    "name": "Build A",
+                    "ev_per_pan_mean": 5000,
+                    "ev_per_pan_sd": 500,
+                    "pph_mean": 100,
+                    "pph_sd": 10,
+                },
+                {
+                    "name": "Build B",
+                    "ev_per_pan_mean": 4000,
+                    "ev_per_pan_sd": 200,
+                    "pph_mean": 150,
+                    "pph_sd": 20,
+                },
             ],
             "n_samples": 3000,
         }
-        response = client.post(
-            "/api/v1/calculators/stats/ev-pareto-frontier", json=payload
-        )
+        response = client.post("/api/v1/calculators/stats/ev-pareto-frontier", json=payload)
         assert response.status_code == 200
         data = response.json()
         assert data["r_used"] is True

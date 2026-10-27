@@ -26,31 +26,28 @@ Tests core mathematical functions:
 Coverage target: ≥80% for new calculator tests
 """
 
-import pytest
-import math
-
 from app.services.calculators import (
-    shakes_per_second,
-    digs_per_pan,
-    dig_time_per_dig,
-    items_per_pan,
-    weight_multiplier,
-    sell_multiplier,
-    modifier_luck,
-    effective_modifier_boost,
-    pct_ores_modified,
-    modifier_distribution,
-    quality_multiplier,
-    pans_per_hour,
-    calculate_ev,
-    calculate_ttg,
-    calculate_modifier_odds,
     calculate_best_pan,
+    calculate_ev,
+    calculate_modifier_odds,
     calculate_museum_comparison,
-    calculate_museum_projection,
-    calculate_weight_gate,
-    calculate_unlock_costs,
     calculate_museum_optimizer,
+    calculate_museum_projection,
+    calculate_ttg,
+    calculate_unlock_costs,
+    calculate_weight_gate,
+    dig_time_per_dig,
+    digs_per_pan,
+    effective_modifier_boost,
+    items_per_pan,
+    modifier_distribution,
+    modifier_luck,
+    pans_per_hour,
+    pct_ores_modified,
+    quality_multiplier,
+    sell_multiplier,
+    shakes_per_second,
+    weight_multiplier,
 )
 
 
@@ -196,7 +193,7 @@ class TestBasicCalculatorFunctions:
             panel_modifier_boost=100.0,
             solar_magnifier=True,
             modifier_surge=True,
-            for_which_modifier=False
+            for_which_modifier=False,
         )
         # Expected: 100 * 2 * 2 = 400
         assert result == 400.0
@@ -207,7 +204,7 @@ class TestBasicCalculatorFunctions:
             panel_modifier_boost=100.0,
             solar_magnifier=True,
             modifier_surge=True,
-            for_which_modifier=True
+            for_which_modifier=True,
         )
         # Expected: 100 * 2 = 200 (Solar Magnifier does NOT affect Job 2)
         assert result == 200.0
@@ -218,7 +215,7 @@ class TestBasicCalculatorFunctions:
             panel_modifier_boost=100.0,
             solar_magnifier=False,
             modifier_surge=False,
-            for_which_modifier=False
+            for_which_modifier=False,
         )
         assert result == 100.0
 
@@ -243,11 +240,24 @@ class TestBasicCalculatorFunctions:
         result = modifier_distribution(effective_mb=500.0)
         # Should return dict with all modifier keys
         assert isinstance(result, dict)
-        assert all(key in result for key in [
-            "Perfect", "Treasured", "Lunar", "Voidtorn", "Mutated",
-            "Cosmic", "Iridescent", "Irradiated", "Crystalline",
-            "Scorching", "Glowing", "Pure", "Shiny"
-        ])
+        assert all(
+            key in result
+            for key in [
+                "Perfect",
+                "Treasured",
+                "Lunar",
+                "Voidtorn",
+                "Mutated",
+                "Cosmic",
+                "Iridescent",
+                "Irradiated",
+                "Crystalline",
+                "Scorching",
+                "Glowing",
+                "Pure",
+                "Shiny",
+            ]
+        )
         # All values should be percentages
         assert all(0 <= v <= 100 for v in result.values())
         # Sum should be pct_ores_modified(effective_mb)
@@ -287,7 +297,7 @@ class TestBasicCalculatorFunctions:
             dig_strength=dig_strength,
             dig_speed=dig_speed,
             shake_strength=shake_strength,
-            shake_speed=shake_speed
+            shake_speed=shake_speed,
         )
 
         assert result > 0
@@ -381,7 +391,7 @@ class TestCalculateTTG:
             shake_speed=900.0,
         )
 
-        assert result["hours_to_goal"] == float('inf')
+        assert result["hours_to_goal"] == float("inf")
 
 
 class TestCalculateModifierOdds:
@@ -431,7 +441,7 @@ class TestCalculateBestPan:
                     "luck": 100,
                     "size_boost": 50,
                     "modifier_boost": 200,
-                }
+                },
             },
             {
                 "name": "Pan B",
@@ -444,7 +454,7 @@ class TestCalculateBestPan:
                     "luck": 150,
                     "size_boost": 75,
                     "modifier_boost": 300,
-                }
+                },
             },
         ]
 
@@ -478,7 +488,7 @@ class TestCalculateBestPan:
                     "luck": 100,
                     "size_boost": 50,
                     "modifier_boost": 200,
-                }
+                },
             },
             {
                 "name": "Pan B",
@@ -491,7 +501,7 @@ class TestCalculateBestPan:
                     "luck": 150,
                     "size_boost": 75,
                     "modifier_boost": 300,
-                }
+                },
             },
         ]
 
@@ -603,8 +613,8 @@ class TestMuseumCalculators:
 
         assert isinstance(result, list)
         assert len(result) == 2
-        assert result[0]["meets_requirement"] == True  # 50 * 1.5 = 75 >= 10
-        assert result[1]["meets_requirement"] == True  # 20 * 1.5 = 30 >= 30
+        assert result[0]["meets_requirement"]  # 50 * 1.5 = 75 >= 10
+        assert result[1]["meets_requirement"]  # 20 * 1.5 = 30 >= 30
 
     def test_calculate_unlock_costs_basic(self):
         """Test calculate_unlock_costs with basic inputs."""
@@ -672,11 +682,6 @@ class TestMuseumCalculators:
         unlocked_displays = {"Common": 1}
 
         target_stats = {"Luck": 1.0, "Capacity": 1.0}
-
-        ore_database = {
-            ("Iron", "Common"): {"min_kg": 10, "bonus_stat": "Luck", "max_boost": "0.5×"},
-            ("Gold", "Uncommon"): {"min_kg": 20, "bonus_stat": "Capacity", "max_boost": "0.3×"},
-        }
 
         result = calculate_museum_optimizer(
             available_ores=available_ores,

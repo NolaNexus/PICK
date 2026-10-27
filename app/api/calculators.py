@@ -147,7 +147,7 @@ async def calculate_museum_endpoint(request: MuseumCalculatorRequest):
                 "slot_index": i + 1,
                 "ore_name": ore.name,
                 "kg": ore.kg,
-                "modifier": ore.modifier
+                "modifier": ore.modifier,
             }
             for i, ore in enumerate(request.available_ores)
         ]
@@ -160,7 +160,7 @@ async def calculate_museum_endpoint(request: MuseumCalculatorRequest):
             "total_stats": total_stats,
             "by_rarity": {},
             "unlock_costs": None,
-            "weight_gate_info": None
+            "weight_gate_info": None,
         }
     elif request.mode == "weight_gate":
         weight_info = calculate_weight_gate(
@@ -172,7 +172,7 @@ async def calculate_museum_endpoint(request: MuseumCalculatorRequest):
             "total_stats": {},
             "by_rarity": {},
             "unlock_costs": None,
-            "weight_gate_info": weight_info
+            "weight_gate_info": weight_info,
         }
     elif request.mode == "unlock_cost":
         unlock_info = calculate_unlock_costs(request.unlocked_displays)
@@ -181,7 +181,7 @@ async def calculate_museum_endpoint(request: MuseumCalculatorRequest):
             "total_stats": {},
             "by_rarity": {},
             "unlock_costs": unlock_info,
-            "weight_gate_info": None
+            "weight_gate_info": None,
         }
     else:
         result = {
@@ -189,7 +189,7 @@ async def calculate_museum_endpoint(request: MuseumCalculatorRequest):
             "total_stats": {},
             "by_rarity": {},
             "unlock_costs": None,
-            "weight_gate_info": None
+            "weight_gate_info": None,
         }
 
     return result
@@ -288,10 +288,14 @@ async def hunt_locations_endpoint(
     minerals get a bonus for Exotic hunting potential.
     """
     # Fetch all locations and minerals from the database
-    loc_result = await db.execute(select(Item).where(Item.type == "location"))
+    loc_result = await db.execute(
+        select(Item).where(Item.type == "location", Item.is_active.is_(True))
+    )
     locations = loc_result.scalars().all()
 
-    min_result = await db.execute(select(Item).where(Item.type == "mineral"))
+    min_result = await db.execute(
+        select(Item).where(Item.type == "mineral", Item.is_active.is_(True))
+    )
     minerals = min_result.scalars().all()
 
     # Build mineral lookup: name -> {tier, value}
@@ -374,10 +378,14 @@ async def exotic_locations_endpoint(
     Exotic modifier odds.
     """
     # Fetch all locations and minerals from the database
-    loc_result = await db.execute(select(Item).where(Item.type == "location"))
+    loc_result = await db.execute(
+        select(Item).where(Item.type == "location", Item.is_active.is_(True))
+    )
     locations = loc_result.scalars().all()
 
-    min_result = await db.execute(select(Item).where(Item.type == "mineral"))
+    min_result = await db.execute(
+        select(Item).where(Item.type == "mineral", Item.is_active.is_(True))
+    )
     minerals = min_result.scalars().all()
 
     # Build mineral lookup: name -> tier

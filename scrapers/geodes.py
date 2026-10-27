@@ -26,19 +26,21 @@ def parse_geodes(wikitext: str) -> list[dict[str, Any]]:
         slug = _slugify(name)
         seen[slug] = len(geodes)
 
-        geodes.append({
-            "id": slug,
-            "type": "geode",
-            "name": name,
-            "slug": slug,
-            "data": {
-                "location": location,
-                "description": f"Geode found in {location}",
-                "image": "",
-                "requires_geothermal": False,
-            },
-            "image_url": None,
-        })
+        geodes.append(
+            {
+                "id": slug,
+                "type": "geode",
+                "name": name,
+                "slug": slug,
+                "data": {
+                    "location": location,
+                    "description": f"Geode found in {location}",
+                    "image": "",
+                    "requires_geothermal": False,
+                },
+                "image_url": None,
+            }
+        )
 
     # Second pass: geothermal-only section
     geothermal_section = False
@@ -59,22 +61,26 @@ def parse_geodes(wikitext: str) -> list[dict[str, Any]]:
                     # Update existing entry to mark as geothermal
                     idx = seen[slug]
                     geodes[idx]["data"]["requires_geothermal"] = True
-                    geodes[idx]["data"]["description"] = f"Geode found in {location} (requires Geothermal shovel enchant)"
+                    geodes[idx]["data"]["description"] = (
+                        f"Geode found in {location} (requires Geothermal shovel enchant)"
+                    )
                 else:
                     seen[slug] = len(geodes)
-                    geodes.append({
-                        "id": slug,
-                        "type": "geode",
-                        "name": name,
-                        "slug": slug,
-                        "data": {
-                            "location": location,
-                            "description": f"Geode found in {location} (requires Geothermal shovel enchant)",
-                            "image": "",
-                            "requires_geothermal": True,
-                        },
-                        "image_url": None,
-                    })
+                    geodes.append(
+                        {
+                            "id": slug,
+                            "type": "geode",
+                            "name": name,
+                            "slug": slug,
+                            "data": {
+                                "location": location,
+                                "description": f"Geode found in {location} (requires Geothermal shovel enchant)",
+                                "image": "",
+                                "requires_geothermal": True,
+                            },
+                            "image_url": None,
+                        }
+                    )
         elif geothermal_section and stripped and not stripped.startswith("*"):
             geothermal_section = False
 
@@ -82,4 +88,11 @@ def parse_geodes(wikitext: str) -> list[dict[str, Any]]:
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("’", "")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("’", "")
+    )

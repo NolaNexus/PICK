@@ -21,16 +21,18 @@ async def main():
                 select(Formula).where(Formula.formula_id == f["formula_id"])
             )
             if existing.scalar_one_or_none() is None:
-                session.add(Formula(
-                    formula_id=f["formula_id"],
-                    name=f["name"],
-                    description=f["description"],
-                    formula=f["formula"],
-                    params=f["params"],
-                    confidence=f["confidence"],
-                    source_url=f["source_url"],
-                    patch_version=f["patch_version"],
-                ))
+                session.add(
+                    Formula(
+                        formula_id=f["formula_id"],
+                        name=f["name"],
+                        description=f["description"],
+                        formula=f["formula"],
+                        params=f["params"],
+                        confidence=f["confidence"],
+                        source_url=f["source_url"],
+                        patch_version=f["patch_version"],
+                    )
+                )
         await session.commit()
         print(f"Seeded {len(formulas)} formulas")
 

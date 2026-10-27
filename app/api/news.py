@@ -16,7 +16,7 @@ async def list_news(
     db: AsyncSession = Depends(get_session),  # noqa: B008
 ):
     """List news articles from Reddit."""
-    query = select(News).order_by(News.posted_at.desc())
+    query = select(News).order_by(News.published_at.desc())
     count_query = select(func.count(News.id))
 
     if tag:
@@ -40,11 +40,9 @@ async def list_news(
                 "title": a.title,
                 "url": a.url,
                 "author": a.author,
-                "subreddit": a.subreddit,
                 "score": a.score,
                 "tags": a.tags,
-                "posted_at": a.posted_at,
-                "created_at": a.created_at,
+                "published_at": a.published_at,
             }
             for a in articles
         ],
@@ -61,9 +59,7 @@ async def latest_news(
     db: AsyncSession = Depends(get_session),  # noqa: B008
 ):
     """Get the latest news articles."""
-    result = await db.execute(
-        select(News).order_by(News.posted_at.desc()).limit(limit)
-    )
+    result = await db.execute(select(News).order_by(News.published_at.desc()).limit(limit))
     articles = result.scalars().all()
 
     return [
@@ -72,10 +68,9 @@ async def latest_news(
             "title": a.title,
             "url": a.url,
             "author": a.author,
-            "subreddit": a.subreddit,
             "score": a.score,
             "tags": a.tags,
-            "posted_at": a.posted_at,
+            "published_at": a.published_at,
         }
         for a in articles
     ]

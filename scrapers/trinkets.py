@@ -68,7 +68,7 @@ def _parse_trinket_row(row: str) -> dict[str, Any] | None:
     # Cell 1: Perk/Function (image with alt text describing the effect)
     perk_cell = cells[1]
     perk = ""
-    alt_match = re.search(r'alt=([^\]]+)', perk_cell)
+    alt_match = re.search(r"alt=([^\]]+)", perk_cell)
     if alt_match:
         perk = alt_match.group(1).strip()
     else:
@@ -95,7 +95,7 @@ def _parse_trinket_row(row: str) -> dict[str, Any] | None:
         location = location.strip()
 
     # Extract color from name cell
-    color_match = re.search(r'color:#([0-9A-Fa-f]+)', name_cell)
+    color_match = re.search(r"color:#([0-9A-Fa-f]+)", name_cell)
     color = f"#{color_match.group(1)}" if color_match else ""
 
     return {
@@ -114,4 +114,11 @@ def _parse_trinket_row(row: str) -> dict[str, Any] | None:
 
 
 def _slugify(name: str) -> str:
-    return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "").replace("’", "")
+    return (
+        name.lower()
+        .replace(" ", "-")
+        .replace("'", "")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("’", "")
+    )

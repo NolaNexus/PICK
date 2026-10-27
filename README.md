@@ -10,8 +10,7 @@
 
 PICK is a community-built companion for players of [Prospecting!](https://www.roblox.com/games/1298271121136), a Roblox simulator where you sift sand to find minerals and build your fortune.
 
-It exists to give back to the community and help players understand more of the game's mechanics — without needing to install or run anything locally. Just visit the site and look things up.
-
+It exists to give back to the community and help players understand more of the game's mechanics. 
 ## PICK is not the wiki
 
 PICK does not replace the official [Prospecting! Wiki](https://prospecting.miraheze.org/). It scrapes the wiki and depends entirely on the work of its maintainers and contributors. If something is missing or wrong on the wiki, it will be missing or wrong here too.
@@ -58,24 +57,6 @@ Run the wiki scraper:
 ```bash
 docker compose exec api python -m scripts.scraper
 ```
-
-## Contributing
-
-PICK is a community project. Contributions are welcome — whether it's fixing a typo, adding a calculator, improving the scraper, or updating the wiki data.
-
-1. Fork the repo and create a branch from `master`
-2. Make your changes
-3. Run the checks: `pytest tests/ -v && ruff check` (backend) and `npm run lint && npm run typecheck` (frontend)
-4. Open a pull request
-
-## Deployment
-
-The frontend deploys to GitHub Pages via GitHub Actions. Push to `master` and the workflow builds `frontend/dist` and deploys it. No backend or secret is required — the frontend runs fully client-side from a bundled snapshot.
-
-## Roadmap
-
-See `ROADMAP.md` for the implementation phases.
-
 ## License
 
 MIT License

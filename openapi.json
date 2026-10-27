@@ -635,6 +635,436 @@
         }
       }
     },
+    "/api/v1/calculators/stats/modifier-distribution": {
+      "post": {
+        "tags": [
+          "calculators",
+          "calculators"
+        ],
+        "summary": "Fit Modifier Distribution Endpoint",
+        "description": "Fit a modifier drop distribution from observed counts using R.\n\nFalls back to the pure-Python approximation when R/rpy2 is not\navailable.",
+        "operationId": "fit_modifier_distribution_endpoint_api_v1_calculators_stats_modifier_distribution_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModifierDistributionFitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModifierDistributionFitResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/calculators/stats/monte-carlo-ev": {
+      "post": {
+        "tags": [
+          "calculators",
+          "calculators"
+        ],
+        "summary": "Monte Carlo Ev Endpoint",
+        "description": "Monte Carlo simulation of EV per hour using R.\n\nReturns the mean and 5th/95th percentile EV per hour. Falls back to\na deterministic point estimate when R/rpy2 is not available.",
+        "operationId": "monte_carlo_ev_endpoint_api_v1_calculators_stats_monte_carlo_ev_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MonteCarloEVRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonteCarloEVResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/calculators/stats/gear-recommendations": {
+      "post": {
+        "tags": [
+          "calculators",
+          "calculators"
+        ],
+        "summary": "Gear Recommendations Endpoint",
+        "description": "Score and rank gear using R's recommendation model.\n\nFalls back to an empty list when R/rpy2 is not available.",
+        "operationId": "gear_recommendations_endpoint_api_v1_calculators_stats_gear_recommendations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GearRecommendationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GearRecommendationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/calculators/stats/hunt-locations": {
+      "post": {
+        "tags": [
+          "calculators",
+          "calculators"
+        ],
+        "summary": "Hunt Locations Endpoint",
+        "description": "Recommend locations for a mineral hunt list.\n\nScores each location by how many hunt-list minerals it has, weighted by\nmineral tier (Exotic > Mythic > ... > Common). Locations with Exotic-tier\nminerals get a bonus for Exotic hunting potential.",
+        "operationId": "hunt_locations_endpoint_api_v1_calculators_stats_hunt_locations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HuntListRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HuntRecommendationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/calculators/stats/exotic-locations": {
+      "post": {
+        "tags": [
+          "calculators",
+          "calculators"
+        ],
+        "summary": "Exotic Locations Endpoint",
+        "description": "Recommend locations for Exotic modifier hunting.\n\nScores each location by its Exotic mineral density combined with the\nplayer's modifier distribution (fitted via R when available). Higher\nmodifier boost shifts the distribution toward rarer modifiers, improving\nExotic modifier odds.",
+        "operationId": "exotic_locations_endpoint_api_v1_calculators_stats_exotic_locations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExoticHuntRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExoticHuntResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/calculators/stats/optimize-luck-cap": {
+      "post": {
+        "tags": [
+          "calculators",
+          "calculators"
+        ],
+        "summary": "Optimize Luck Cap Endpoint",
+        "description": "Optimize the luck cap for Dredge Master quest completion.\n\nModels quest completion rate as a function of luck cap, accounting for\nthe modifier_luck curve, +3 luck per completed quest, and bonus rewards\nevery X quests. Returns results for each evaluated cap with an optimal\nflag on the best-performing cap.",
+        "operationId": "optimize_luck_cap_endpoint_api_v1_calculators_stats_optimize_luck_cap_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LuckCapOptimizationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LuckCapOptimizationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/calculators/stats/optimize-luck-cap-continuous": {
+      "post": {
+        "tags": [
+          "calculators",
+          "calculators"
+        ],
+        "summary": "Optimize Luck Cap Continuous Endpoint",
+        "description": "Continuously optimize the luck cap using R's bounded Brent search.\n\nFinds the luck cap maximizing expected bonuses per hour without being\ntied to a fixed grid. Falls back to a deterministic result when R/rpy2\nis unavailable.",
+        "operationId": "optimize_luck_cap_continuous_endpoint_api_v1_calculators_stats_optimize_luck_cap_continuous_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LuckCapContinuousRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LuckCapContinuousResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/calculators/stats/modifier-fraction": {
+      "post": {
+        "tags": [
+          "calculators",
+          "calculators"
+        ],
+        "summary": "Fit Modifier Fraction Endpoint",
+        "description": "Fit the % ores modified curve from observed data using R.\n\nFits a saturating asymptotic-exponential model\n(pct_modified ~ Asym * (1 - exp(-k * eff_mb))) via stats::nls and\nreturns predicted pct_modified at each query eff_mb point. Falls back to\nan empty curve with r_used: false when R/rpy2 is unavailable or the fit\nfails to converge (too few points / no variation).",
+        "operationId": "fit_modifier_fraction_endpoint_api_v1_calculators_stats_modifier_fraction_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModifierFractionFitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModifierFractionFitResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/calculators/stats/quest-survival": {
+      "post": {
+        "tags": [
+          "calculators",
+          "calculators"
+        ],
+        "summary": "Quest Survival Endpoint",
+        "description": "Dredge Master quest survival analysis using R's Cox proportional\nhazards model.\n\nSimulates many quest runs across a grid of build/event configurations,\nfits survival::coxph, and returns coefficients, hazard ratios, baseline\nmedian time-to-completion, a survival curve, and quest-completion\nprobabilities within key time windows. Falls back to a deterministic\nreference result when R/rpy2 is unavailable.",
+        "operationId": "quest_survival_endpoint_api_v1_calculators_stats_quest_survival_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuestSurvivalRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestSurvivalResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/calculators/stats/ev-pareto-frontier": {
+      "post": {
+        "tags": [
+          "calculators",
+          "calculators"
+        ],
+        "summary": "Ev Pareto Frontier Endpoint",
+        "description": "EV / risk Pareto frontier for candidate builds using R.\n\nRuns a Monte Carlo simulation of EV/hour for each candidate build, then\nreturns the non-dominated Pareto frontier on mean EV/hour vs p05 EV/hour\n(risk-adjusted downside). Falls back to an empty frontier when R/rpy2 is\nunavailable.",
+        "operationId": "ev_pareto_frontier_endpoint_api_v1_calculators_stats_ev_pareto_frontier_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EVParetoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EVParetoResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/news": {
       "get": {
         "tags": [
@@ -959,6 +1389,27 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/export/snapshot": {
+      "get": {
+        "tags": [
+          "export",
+          "export"
+        ],
+        "summary": "Export Snapshot",
+        "description": "Export the full public dataset as a single JSON snapshot for client-side caching.",
+        "operationId": "export_snapshot_api_v1_export_snapshot_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
               }
             }
           }
@@ -1327,6 +1778,192 @@
           "shake_strength": 50
         }
       },
+      "EVParetoCandidate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "ev_per_pan_mean": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Ev Per Pan Mean",
+            "default": 0.0
+          },
+          "ev_per_pan_sd": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Ev Per Pan Sd",
+            "default": 0.0
+          },
+          "pph_mean": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Pph Mean",
+            "default": 0.0
+          },
+          "pph_sd": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Pph Sd",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "EVParetoCandidate",
+        "description": "A candidate build for EV / risk Pareto frontier analysis.",
+        "example": {
+          "ev_per_pan_mean": 5500,
+          "ev_per_pan_sd": 800,
+          "name": "Build D",
+          "pph_mean": 110,
+          "pph_sd": 15
+        }
+      },
+      "EVParetoPoint": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "mean_ev_hour": {
+            "type": "number",
+            "title": "Mean Ev Hour"
+          },
+          "p05_ev_hour": {
+            "type": "number",
+            "title": "P05 Ev Hour"
+          },
+          "p95_ev_hour": {
+            "type": "number",
+            "title": "P95 Ev Hour"
+          },
+          "ev_per_pan_mean": {
+            "type": "number",
+            "title": "Ev Per Pan Mean"
+          },
+          "pph_mean": {
+            "type": "number",
+            "title": "Pph Mean"
+          },
+          "on_frontier": {
+            "type": "boolean",
+            "title": "On Frontier"
+          },
+          "dominated_by": {
+            "type": "string",
+            "title": "Dominated By"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "mean_ev_hour",
+          "p05_ev_hour",
+          "p95_ev_hour",
+          "ev_per_pan_mean",
+          "pph_mean",
+          "on_frontier",
+          "dominated_by"
+        ],
+        "title": "EVParetoPoint",
+        "description": "A single point on the EV / risk Pareto frontier."
+      },
+      "EVParetoRequest": {
+        "properties": {
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/EVParetoCandidate"
+            },
+            "type": "array",
+            "title": "Candidates"
+          },
+          "n_samples": {
+            "type": "integer",
+            "maximum": 200000.0,
+            "minimum": 100.0,
+            "title": "N Samples",
+            "default": 10000
+          }
+        },
+        "type": "object",
+        "title": "EVParetoRequest",
+        "description": "Request for EV / risk Pareto frontier analysis.\n\ncandidates: list of builds to compare. Each build is characterized by the\nmean and standard deviation of EV per pan and pans per hour.\nn_samples: Monte Carlo draws per candidate.",
+        "example": {
+          "candidates": [
+            {
+              "ev_per_pan_mean": 5000,
+              "ev_per_pan_sd": 500,
+              "name": "Build A",
+              "pph_mean": 100,
+              "pph_sd": 10
+            },
+            {
+              "ev_per_pan_mean": 4000,
+              "ev_per_pan_sd": 200,
+              "name": "Build B",
+              "pph_mean": 150,
+              "pph_sd": 20
+            }
+          ],
+          "n_samples": 10000
+        }
+      },
+      "EVParetoResponse": {
+        "properties": {
+          "frontier": {
+            "items": {
+              "$ref": "#/components/schemas/EVParetoPoint"
+            },
+            "type": "array",
+            "title": "Frontier"
+          },
+          "all_candidates": {
+            "items": {
+              "$ref": "#/components/schemas/EVParetoPoint"
+            },
+            "type": "array",
+            "title": "All Candidates"
+          },
+          "n_frontier": {
+            "type": "integer",
+            "title": "N Frontier"
+          },
+          "r_used": {
+            "type": "boolean",
+            "title": "R Used"
+          }
+        },
+        "type": "object",
+        "required": [
+          "frontier",
+          "all_candidates",
+          "n_frontier",
+          "r_used"
+        ],
+        "title": "EVParetoResponse",
+        "description": "EV / risk Pareto frontier results.\n\nfrontier: non-dominated candidates (on_frontier == true), sorted by mean\nEV/hour descending.\nall_candidates: every candidate with its dominance status.\nn_frontier: number of candidates on the frontier.\nr_used: whether R was used.",
+        "example": {
+          "all_candidates": [],
+          "frontier": [
+            {
+              "dominated_by": "",
+              "ev_per_pan_mean": 5500,
+              "mean_ev_hour": 604818.6,
+              "name": "Build D",
+              "on_frontier": true,
+              "p05_ev_hour": 409727.1,
+              "p95_ev_hour": 817773.2,
+              "pph_mean": 110
+            }
+          ],
+          "n_frontier": 1,
+          "r_used": true
+        }
+      },
       "EVResponse": {
         "properties": {
           "ev_per_pan": {
@@ -1397,6 +2034,103 @@
           "quality_multiplier": 1.0
         }
       },
+      "ExoticHuntRequest": {
+        "properties": {
+          "modifier_boost": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Modifier Boost",
+            "default": 0.0
+          },
+          "luck": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Luck",
+            "default": 0.0
+          },
+          "solar_magnifier": {
+            "type": "boolean",
+            "title": "Solar Magnifier",
+            "default": false
+          },
+          "modifier_surge": {
+            "type": "boolean",
+            "title": "Modifier Surge",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "ExoticHuntRequest",
+        "description": "Request for Exotic hunting location recommendations.\n\nmodifier_boost: Player's panel modifier boost.\nluck: Player's panel luck.\nsolar_magnifier: Whether Solar Magnifier is active.\nmodifier_surge: Whether Modifier Surge is active.",
+        "example": {
+          "luck": 10000,
+          "modifier_boost": 500,
+          "modifier_surge": false,
+          "solar_magnifier": true
+        }
+      },
+      "ExoticHuntResponse": {
+        "properties": {
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/ExoticLocationResult"
+            },
+            "type": "array",
+            "title": "Recommendations"
+          },
+          "r_used": {
+            "type": "boolean",
+            "title": "R Used"
+          }
+        },
+        "type": "object",
+        "required": [
+          "recommendations",
+          "r_used"
+        ],
+        "title": "ExoticHuntResponse",
+        "description": "Location recommendations for Exotic modifier hunting.",
+        "example": {
+          "r_used": false,
+          "recommendations": [
+            {
+              "exotic_mod_prob": 0.083,
+              "exotic_rate": 0.15,
+              "name": "Void Depths",
+              "score": 12.5
+            }
+          ]
+        }
+      },
+      "ExoticLocationResult": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "exotic_rate": {
+            "type": "number",
+            "title": "Exotic Rate"
+          },
+          "exotic_mod_prob": {
+            "type": "number",
+            "title": "Exotic Mod Prob"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "score",
+          "exotic_rate",
+          "exotic_mod_prob"
+        ],
+        "title": "ExoticLocationResult",
+        "description": "Score and Exotic hunting details for a single location."
+      },
       "FormulaResponse": {
         "properties": {
           "id": {
@@ -1436,6 +2170,174 @@
         ],
         "title": "FormulaResponse"
       },
+      "GearItemInput": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "capacity": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Capacity",
+            "default": 0
+          },
+          "dig_strength": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Dig Strength",
+            "default": 0
+          },
+          "shake_strength": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Shake Strength",
+            "default": 0
+          },
+          "shake_speed": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Shake Speed",
+            "default": 0
+          },
+          "luck": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Luck",
+            "default": 0
+          },
+          "size_boost": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Size Boost",
+            "default": 0
+          },
+          "modifier_boost": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Modifier Boost",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "GearItemInput",
+        "description": "A single piece of gear for recommendation scoring."
+      },
+      "GearRecommendationRequest": {
+        "properties": {
+          "gear": {
+            "items": {
+              "$ref": "#/components/schemas/GearItemInput"
+            },
+            "type": "array",
+            "title": "Gear"
+          },
+          "dig_strength": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Dig Strength",
+            "default": 0
+          },
+          "shake_strength": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Shake Strength",
+            "default": 0
+          },
+          "shake_speed": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Shake Speed",
+            "default": 0
+          },
+          "target_capacity": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Target Capacity",
+            "default": 0
+          },
+          "min_luck": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Min Luck",
+            "default": 0
+          },
+          "min_size_boost": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Min Size Boost",
+            "default": 0
+          },
+          "min_modifier_boost": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Min Modifier Boost",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "GearRecommendationRequest",
+        "description": "Request to score and rank gear using R's recommendation model.\n\ngear: List of gear items to evaluate.\ndig_strength/shake_strength/shake_speed: Player's build stats.\ntarget_capacity/min_luck/min_size_boost/min_modifier_boost: Filters.",
+        "example": {
+          "dig_strength": 50,
+          "gear": [
+            {
+              "capacity": 100,
+              "dig_strength": 20,
+              "luck": 500,
+              "modifier_boost": 100,
+              "name": "Golden Pan",
+              "shake_speed": 600,
+              "shake_strength": 20,
+              "size_boost": 50
+            }
+          ],
+          "min_luck": 100,
+          "min_modifier_boost": 0,
+          "min_size_boost": 0,
+          "shake_speed": 500,
+          "shake_strength": 50,
+          "target_capacity": 80
+        }
+      },
+      "GearRecommendationResponse": {
+        "properties": {
+          "recommendations": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Recommendations"
+          },
+          "r_used": {
+            "type": "boolean",
+            "title": "R Used"
+          }
+        },
+        "type": "object",
+        "required": [
+          "recommendations",
+          "r_used"
+        ],
+        "title": "GearRecommendationResponse",
+        "description": "Scored and ranked gear recommendations.",
+        "example": {
+          "r_used": false,
+          "recommendations": [
+            {
+              "capacity": 100,
+              "digs_per_pan": 3,
+              "name": "Golden Pan",
+              "pans_per_hour": 150.0,
+              "score": 85.5
+            }
+          ]
+        }
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -1448,6 +2350,97 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "HuntListRequest": {
+        "properties": {
+          "minerals": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Minerals"
+          }
+        },
+        "type": "object",
+        "title": "HuntListRequest",
+        "description": "Request for location recommendations based on a mineral hunt list.\n\nminerals: List of mineral names the player is hunting for.\nThe endpoint scores each location by how many hunt-list minerals it has,\nweighted by mineral tier (Exotic > Mythic > ... > Common).",
+        "example": {
+          "minerals": [
+            "Diamond",
+            "Gold",
+            "Aetherite",
+            "Void Crystal"
+          ]
+        }
+      },
+      "HuntLocationResult": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "hunt_count": {
+            "type": "integer",
+            "title": "Hunt Count"
+          },
+          "hunt_weight": {
+            "type": "number",
+            "title": "Hunt Weight"
+          },
+          "exotic_count": {
+            "type": "integer",
+            "title": "Exotic Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "score",
+          "hunt_count",
+          "hunt_weight",
+          "exotic_count"
+        ],
+        "title": "HuntLocationResult",
+        "description": "Score and hunt details for a single location."
+      },
+      "HuntRecommendationResponse": {
+        "properties": {
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/HuntLocationResult"
+            },
+            "type": "array",
+            "title": "Recommendations"
+          },
+          "r_used": {
+            "type": "boolean",
+            "title": "R Used"
+          }
+        },
+        "type": "object",
+        "required": [
+          "recommendations",
+          "r_used"
+        ],
+        "title": "HuntRecommendationResponse",
+        "description": "Location recommendations for a mineral hunt list.",
+        "example": {
+          "r_used": false,
+          "recommendations": [
+            {
+              "exotic_count": 2,
+              "hunt_count": 4,
+              "hunt_weight": 64.0,
+              "name": "Crystal Caves",
+              "score": 75.0
+            }
+          ]
+        }
       },
       "ItemResponse": {
         "properties": {
@@ -1559,6 +2552,488 @@
           "updated_at": "2026-10-25T00:00:00Z"
         }
       },
+      "LuckCapContinuousRequest": {
+        "properties": {
+          "current_luck": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Current Luck",
+            "default": 0.0
+          },
+          "modifier_boost": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Modifier Boost",
+            "default": 0.0
+          },
+          "solar_magnifier": {
+            "type": "boolean",
+            "title": "Solar Magnifier",
+            "default": false
+          },
+          "modifier_surge": {
+            "type": "boolean",
+            "title": "Modifier Surge",
+            "default": false
+          },
+          "bonus_interval": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Bonus Interval",
+            "default": 10
+          },
+          "n_quests": {
+            "type": "integer",
+            "maximum": 10000.0,
+            "minimum": 1.0,
+            "title": "N Quests",
+            "default": 100
+          },
+          "lower": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Lower",
+            "default": 0.0
+          },
+          "upper": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Upper",
+            "default": 100000.0
+          }
+        },
+        "type": "object",
+        "title": "LuckCapContinuousRequest",
+        "description": "Request for continuous luck-cap optimization.\n\nUses R's bounded Brent search over [lower, upper] to find the luck cap\nmaximizing expected bonuses per hour, without being tied to a fixed grid.",
+        "example": {
+          "bonus_interval": 10,
+          "current_luck": 5000,
+          "lower": 0,
+          "modifier_boost": 200,
+          "modifier_surge": false,
+          "n_quests": 100,
+          "solar_magnifier": false,
+          "upper": 100000
+        }
+      },
+      "LuckCapContinuousResponse": {
+        "properties": {
+          "optimal_cap": {
+            "type": "number",
+            "title": "Optimal Cap"
+          },
+          "optimal_bonuses_per_hour": {
+            "type": "number",
+            "title": "Optimal Bonuses Per Hour"
+          },
+          "saturation_cap": {
+            "type": "number",
+            "title": "Saturation Cap"
+          },
+          "lower": {
+            "type": "number",
+            "title": "Lower"
+          },
+          "upper": {
+            "type": "number",
+            "title": "Upper"
+          },
+          "r_used": {
+            "type": "boolean",
+            "title": "R Used"
+          }
+        },
+        "type": "object",
+        "required": [
+          "optimal_cap",
+          "optimal_bonuses_per_hour",
+          "saturation_cap",
+          "lower",
+          "upper",
+          "r_used"
+        ],
+        "title": "LuckCapContinuousResponse",
+        "description": "Continuous luck-cap optimization results.\n\nsaturation_cap is the actionable recommendation: the smallest cap within\n1% tolerance of the maximum bonuses per hour. Anything beyond adds no\nmeaningful benefit.",
+        "example": {
+          "lower": 0.0,
+          "optimal_bonuses_per_hour": 10534.32,
+          "optimal_cap": 100000.0,
+          "r_used": true,
+          "saturation_cap": 5000.0,
+          "upper": 100000.0
+        }
+      },
+      "LuckCapOptimizationRequest": {
+        "properties": {
+          "current_luck": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Current Luck",
+            "default": 0.0
+          },
+          "modifier_boost": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Modifier Boost",
+            "default": 0.0
+          },
+          "solar_magnifier": {
+            "type": "boolean",
+            "title": "Solar Magnifier",
+            "default": false
+          },
+          "modifier_surge": {
+            "type": "boolean",
+            "title": "Modifier Surge",
+            "default": false
+          },
+          "bonus_interval": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Bonus Interval",
+            "default": 10
+          },
+          "n_quests": {
+            "type": "integer",
+            "maximum": 10000.0,
+            "minimum": 1.0,
+            "title": "N Quests",
+            "default": 100
+          },
+          "luck_caps": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Luck Caps"
+          }
+        },
+        "type": "object",
+        "title": "LuckCapOptimizationRequest",
+        "description": "Request to optimize the luck cap for Dredge Master quest completion.\n\ncurrent_luck: Player's current luck.\nmodifier_boost: Player's panel modifier boost.\nsolar_magnifier: Whether Solar Magnifier is active.\nmodifier_surge: Whether Modifier Surge is active.\nbonus_interval: Quests between bonus rewards (default 10).\nn_quests: Number of quests to simulate (default 100).\nluck_caps: List of luck cap values to evaluate. Defaults to a standard\n    range if not provided.",
+        "example": {
+          "bonus_interval": 10,
+          "current_luck": 5000,
+          "luck_caps": [
+            0,
+            5000,
+            10000,
+            20000,
+            50000
+          ],
+          "modifier_boost": 200,
+          "modifier_surge": false,
+          "n_quests": 100,
+          "solar_magnifier": false
+        }
+      },
+      "LuckCapOptimizationResponse": {
+        "properties": {
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/LuckCapResult"
+            },
+            "type": "array",
+            "title": "Recommendations"
+          },
+          "optimal_cap": {
+            "type": "number",
+            "title": "Optimal Cap"
+          },
+          "r_used": {
+            "type": "boolean",
+            "title": "R Used"
+          }
+        },
+        "type": "object",
+        "required": [
+          "recommendations",
+          "optimal_cap",
+          "r_used"
+        ],
+        "title": "LuckCapOptimizationResponse",
+        "description": "Luck cap optimization results.",
+        "example": {
+          "optimal_cap": 10000,
+          "r_used": false,
+          "recommendations": [
+            {
+              "avg_luck": 6650,
+              "bonuses_earned": 10,
+              "bonuses_per_hour": 0.22,
+              "final_luck": 8300,
+              "luck_cap": 10000,
+              "optimal": true,
+              "quests_done": 100,
+              "total_time_hours": 45.5
+            }
+          ]
+        }
+      },
+      "LuckCapResult": {
+        "properties": {
+          "luck_cap": {
+            "type": "number",
+            "title": "Luck Cap"
+          },
+          "quests_done": {
+            "type": "integer",
+            "title": "Quests Done"
+          },
+          "total_time_hours": {
+            "type": "number",
+            "title": "Total Time Hours"
+          },
+          "bonuses_earned": {
+            "type": "integer",
+            "title": "Bonuses Earned"
+          },
+          "bonuses_per_hour": {
+            "type": "number",
+            "title": "Bonuses Per Hour"
+          },
+          "final_luck": {
+            "type": "number",
+            "title": "Final Luck"
+          },
+          "avg_luck": {
+            "type": "number",
+            "title": "Avg Luck"
+          },
+          "optimal": {
+            "type": "boolean",
+            "title": "Optimal"
+          }
+        },
+        "type": "object",
+        "required": [
+          "luck_cap",
+          "quests_done",
+          "total_time_hours",
+          "bonuses_earned",
+          "bonuses_per_hour",
+          "final_luck",
+          "avg_luck",
+          "optimal"
+        ],
+        "title": "LuckCapResult",
+        "description": "Result for a single luck cap evaluation."
+      },
+      "ModifierDistributionFitRequest": {
+        "properties": {
+          "observed_counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Observed Counts"
+          },
+          "effective_mb": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Effective Mb",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "title": "ModifierDistributionFitRequest",
+        "description": "Request to fit a modifier drop distribution from observed data.\n\nobserved_counts: Mapping of modifier name -> observed drop count from\nscraped wiki data or player tracking.\neffective_mb: Player's effective modifier boost.",
+        "example": {
+          "effective_mb": 500,
+          "observed_counts": {
+            "Glowing": 20,
+            "Iridescent": 5,
+            "Perfect": 1,
+            "Pure": 50,
+            "Shiny": 100
+          }
+        }
+      },
+      "ModifierDistributionFitResponse": {
+        "properties": {
+          "modifier_distribution": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Modifier Distribution"
+          },
+          "r_used": {
+            "type": "boolean",
+            "title": "R Used"
+          },
+          "effective_mb": {
+            "type": "number",
+            "title": "Effective Mb"
+          }
+        },
+        "type": "object",
+        "required": [
+          "modifier_distribution",
+          "r_used",
+          "effective_mb"
+        ],
+        "title": "ModifierDistributionFitResponse",
+        "description": "Fitted modifier distribution percentages (0-100 scale).",
+        "example": {
+          "effective_mb": 500,
+          "modifier_distribution": {
+            "Cosmic": 10.0,
+            "Crystalline": 150.0,
+            "Glowing": 400.0,
+            "Iridescent": 30.0,
+            "Irradiated": 80.0,
+            "Lunar": 0.5,
+            "Mutated": 3.0,
+            "Perfect": 0.02,
+            "Pure": 550.0,
+            "Scorching": 250.0,
+            "Shiny": 700.0,
+            "Treasured": 0.1,
+            "Voidtorn": 1.0
+          },
+          "r_used": false
+        }
+      },
+      "ModifierFractionFitPoint": {
+        "properties": {
+          "eff_mb": {
+            "type": "number",
+            "title": "Eff Mb"
+          },
+          "pct_modified": {
+            "type": "number",
+            "title": "Pct Modified"
+          }
+        },
+        "type": "object",
+        "required": [
+          "eff_mb",
+          "pct_modified"
+        ],
+        "title": "ModifierFractionFitPoint",
+        "description": "A single point on the fitted % ores modified curve."
+      },
+      "ModifierFractionFitRequest": {
+        "properties": {
+          "query_eff_mb": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Query Eff Mb"
+          },
+          "obs_eff_mb": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Obs Eff Mb"
+          },
+          "obs_modified": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Obs Modified"
+          },
+          "obs_total": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Obs Total"
+          }
+        },
+        "type": "object",
+        "title": "ModifierFractionFitRequest",
+        "description": "Request to fit the % ores modified curve from observed data.\n\nquery_eff_mb: effective MB values at which to predict pct_modified.\nobs_eff_mb/obs_modified/obs_total: observed data points (one per observed\neffective-MB level). Requires at least 3 points with variation in eff_mb\nand some non-zero modified counts for the fit to succeed.",
+        "example": {
+          "obs_eff_mb": [
+            100,
+            500,
+            1000,
+            1500,
+            1900
+          ],
+          "obs_modified": [
+            5,
+            30,
+            60,
+            85,
+            95
+          ],
+          "obs_total": [
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "query_eff_mb": [
+            0,
+            250,
+            500,
+            1000,
+            1500,
+            1900
+          ]
+        }
+      },
+      "ModifierFractionFitResponse": {
+        "properties": {
+          "curve": {
+            "items": {
+              "$ref": "#/components/schemas/ModifierFractionFitPoint"
+            },
+            "type": "array",
+            "title": "Curve"
+          },
+          "r_used": {
+            "type": "boolean",
+            "title": "R Used"
+          }
+        },
+        "type": "object",
+        "required": [
+          "curve",
+          "r_used"
+        ],
+        "title": "ModifierFractionFitResponse",
+        "description": "Fitted % ores modified curve.\n\ncurve: list of {eff_mb, pct_modified} points (0-100 scale).\nr_used: whether R was used (False means the fit failed or R unavailable).",
+        "example": {
+          "curve": [
+            {
+              "eff_mb": 0,
+              "pct_modified": 0.0
+            },
+            {
+              "eff_mb": 500,
+              "pct_modified": 39.9
+            },
+            {
+              "eff_mb": 1000,
+              "pct_modified": 63.9
+            },
+            {
+              "eff_mb": 1500,
+              "pct_modified": 78.3
+            },
+            {
+              "eff_mb": 1900,
+              "pct_modified": 85.5
+            }
+          ],
+          "r_used": true
+        }
+      },
       "ModifierOddsResponse": {
         "properties": {
           "effective_modifier_boost_job1": {
@@ -1618,6 +3093,86 @@
           },
           "note": "Solar Magnifier doubles for Job 1 only. Modifier Surge doubles for both jobs.",
           "pct_ores_modified": 99.4
+        }
+      },
+      "MonteCarloEVRequest": {
+        "properties": {
+          "samples": {
+            "type": "integer",
+            "maximum": 1000000.0,
+            "minimum": 1.0,
+            "title": "Samples",
+            "default": 10000
+          },
+          "ev_per_pan_mean": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Ev Per Pan Mean",
+            "default": 0.0
+          },
+          "ev_per_pan_sd": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Ev Per Pan Sd",
+            "default": 0.0
+          },
+          "pph_mean": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Pph Mean",
+            "default": 0.0
+          },
+          "pph_sd": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Pph Sd",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "title": "MonteCarloEVRequest",
+        "description": "Request for Monte Carlo EV per hour simulation.\n\nsamples: Number of simulation draws.\nev_per_pan_mean: Mean expected value per pan.\nev_per_pan_sd: Standard deviation of EV per pan.\npph_mean: Mean pans per hour.\npph_sd: Standard deviation of pans per hour.",
+        "example": {
+          "ev_per_pan_mean": 5000.0,
+          "ev_per_pan_sd": 500.0,
+          "pph_mean": 120.0,
+          "pph_sd": 10.0,
+          "samples": 10000
+        }
+      },
+      "MonteCarloEVResponse": {
+        "properties": {
+          "mean": {
+            "type": "number",
+            "title": "Mean"
+          },
+          "p05": {
+            "type": "number",
+            "title": "P05"
+          },
+          "p95": {
+            "type": "number",
+            "title": "P95"
+          },
+          "r_used": {
+            "type": "boolean",
+            "title": "R Used"
+          }
+        },
+        "type": "object",
+        "required": [
+          "mean",
+          "p05",
+          "p95",
+          "r_used"
+        ],
+        "title": "MonteCarloEVResponse",
+        "description": "Monte Carlo EV per hour simulation results.",
+        "example": {
+          "mean": 600000.0,
+          "p05": 540000.0,
+          "p95": 660000.0,
+          "r_used": false
         }
       },
       "MuseumCalculatorRequest": {
@@ -1908,6 +3463,232 @@
           "modifier_boost"
         ],
         "title": "PanRecommendation"
+      },
+      "QuestSurvivalPoint": {
+        "properties": {
+          "time": {
+            "type": "number",
+            "title": "Time"
+          },
+          "survival_prob": {
+            "type": "number",
+            "title": "Survival Prob"
+          }
+        },
+        "type": "object",
+        "required": [
+          "time",
+          "survival_prob"
+        ],
+        "title": "QuestSurvivalPoint",
+        "description": "A single point on the quest-completion survival curve."
+      },
+      "QuestSurvivalRequest": {
+        "properties": {
+          "n_runs": {
+            "type": "integer",
+            "maximum": 2000.0,
+            "minimum": 1.0,
+            "title": "N Runs",
+            "default": 200
+          },
+          "n_quests": {
+            "type": "integer",
+            "maximum": 1000.0,
+            "minimum": 1.0,
+            "title": "N Quests",
+            "default": 50
+          },
+          "max_time_hours": {
+            "type": "number",
+            "minimum": 1.0,
+            "title": "Max Time Hours",
+            "default": 48.0
+          },
+          "time_points": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Time Points"
+          },
+          "luck_levels": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Luck Levels"
+          },
+          "modifier_boost_levels": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Modifier Boost Levels"
+          },
+          "meteor": {
+            "type": "boolean",
+            "title": "Meteor",
+            "default": false
+          },
+          "weather_events": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Weather Events",
+            "default": 0
+          },
+          "solar_magnifier": {
+            "type": "boolean",
+            "title": "Solar Magnifier",
+            "default": false
+          },
+          "modifier_surge": {
+            "type": "boolean",
+            "title": "Modifier Surge",
+            "default": false
+          },
+          "bonus_interval": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Bonus Interval",
+            "default": 10
+          },
+          "base_pph": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Base Pph",
+            "default": 100.0
+          }
+        },
+        "type": "object",
+        "title": "QuestSurvivalRequest",
+        "description": "Request for Dredge Master quest survival analysis.\n\nSimulates many quest runs across a grid of build/event configurations and\nfits a Cox proportional hazards model (survival::coxph) to estimate how\nluck, modifier boost, and event bonuses affect time-to-quest-completion.",
+        "example": {
+          "base_pph": 100,
+          "bonus_interval": 10,
+          "luck_levels": [
+            0,
+            5000,
+            10000,
+            25000,
+            50000
+          ],
+          "max_time_hours": 48.0,
+          "meteor": false,
+          "modifier_boost_levels": [
+            0,
+            200,
+            500,
+            1000
+          ],
+          "modifier_surge": false,
+          "n_quests": 50,
+          "n_runs": 200,
+          "solar_magnifier": false,
+          "time_points": [
+            1,
+            5,
+            10,
+            24,
+            48
+          ],
+          "weather_events": 0
+        }
+      },
+      "QuestSurvivalResponse": {
+        "properties": {
+          "coefficients": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Coefficients"
+          },
+          "hazard_ratios": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Hazard Ratios"
+          },
+          "baseline_median_time_hours": {
+            "type": "number",
+            "title": "Baseline Median Time Hours"
+          },
+          "n_runs": {
+            "type": "integer",
+            "title": "N Runs"
+          },
+          "n_completed": {
+            "type": "integer",
+            "title": "N Completed"
+          },
+          "n_censored": {
+            "type": "integer",
+            "title": "N Censored"
+          },
+          "survival_curve": {
+            "items": {
+              "$ref": "#/components/schemas/QuestSurvivalPoint"
+            },
+            "type": "array",
+            "title": "Survival Curve"
+          },
+          "completion_prob_within": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Completion Prob Within"
+          },
+          "r_used": {
+            "type": "boolean",
+            "title": "R Used"
+          }
+        },
+        "type": "object",
+        "required": [
+          "coefficients",
+          "hazard_ratios",
+          "baseline_median_time_hours",
+          "n_runs",
+          "n_completed",
+          "n_censored",
+          "survival_curve",
+          "completion_prob_within",
+          "r_used"
+        ],
+        "title": "QuestSurvivalResponse",
+        "description": "Quest survival analysis results.\n\ncoefficients / hazard_ratios: log-hazard and hazard ratio per covariate\n(luck, modifier_boost). A hazard ratio > 1 means the covariate speeds up\nquest completion.\nbaseline_median_time_hours: median time to complete the quest at the\nreference build (luck=0, modifier_boost=0).\nsurvival_curve: {time, survival_prob} points.\ncompletion_prob_within: probability of finishing a quest within each\nrequested time window.",
+        "example": {
+          "baseline_median_time_hours": 0.56,
+          "coefficients": {
+            "luck": 0.0002,
+            "modifier_boost": 0.108
+          },
+          "completion_prob_within": {
+            "1": 1.0,
+            "24": 1.0
+          },
+          "hazard_ratios": {
+            "luck": 1.0002,
+            "modifier_boost": 1.114
+          },
+          "n_censored": 0,
+          "n_completed": 200,
+          "n_runs": 200,
+          "r_used": true,
+          "survival_curve": [
+            {
+              "survival_prob": 0.0,
+              "time": 1
+            },
+            {
+              "survival_prob": 0.0,
+              "time": 24
+            }
+          ]
+        }
       },
       "RarityBreakdown": {
         "properties": {

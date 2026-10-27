@@ -30,12 +30,23 @@ import calculateTtgEndpointApiV1CalculatorsTtgPostMutator from './client';
 import calculateModifierOddsEndpointApiV1CalculatorsModifierOddsPostMutator from './client';
 import calculateBestPanEndpointApiV1CalculatorsBestPanPostMutator from './client';
 import calculateMuseumEndpointApiV1CalculatorsMuseumPostMutator from './client';
+import fitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPostMutator from './client';
+import monteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPostMutator from './client';
+import gearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPostMutator from './client';
+import huntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPostMutator from './client';
+import exoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPostMutator from './client';
+import optimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPostMutator from './client';
+import optimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPostMutator from './client';
+import fitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPostMutator from './client';
+import questSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPostMutator from './client';
+import evParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPostMutator from './client';
 import listNewsApiV1NewsGetMutator from './client';
 import latestNewsApiV1NewsLatestGetMutator from './client';
 import listNewsTagsApiV1NewsTagsGetMutator from './client';
 import metaApiV1MetaGetMutator from './client';
 import wikiEditWebhookApiV1WebhooksWikiEditPostMutator from './client';
 import searchApiV1SearchGetMutator from './client';
+import exportSnapshotApiV1ExportSnapshotGetMutator from './client';
 export type SearchApiV1SearchGetParams = {
   /**
    * Search query
@@ -205,6 +216,80 @@ export interface RarityBreakdown {
   total_slots: number;
 }
 
+export type QuestSurvivalResponseHazardRatios = { [key: string]: number };
+
+export type QuestSurvivalResponseCompletionProbWithin = {
+  [key: string]: number;
+};
+
+export type QuestSurvivalResponseCoefficients = { [key: string]: number };
+
+/**
+ * Request for Dredge Master quest survival analysis.
+
+Simulates many quest runs across a grid of build/event configurations and
+fits a Cox proportional hazards model (survival::coxph) to estimate how
+luck, modifier boost, and event bonuses affect time-to-quest-completion.
+ */
+export interface QuestSurvivalRequest {
+  /** @minimum 0 */
+  base_pph?: number;
+  /** @minimum 1 */
+  bonus_interval?: number;
+  luck_levels?: number[];
+  /** @minimum 1 */
+  max_time_hours?: number;
+  meteor?: boolean;
+  modifier_boost_levels?: number[];
+  modifier_surge?: boolean;
+  /**
+   * @minimum 1
+   * @maximum 1000
+   */
+  n_quests?: number;
+  /**
+   * @minimum 1
+   * @maximum 2000
+   */
+  n_runs?: number;
+  solar_magnifier?: boolean;
+  time_points?: number[];
+  /** @minimum 0 */
+  weather_events?: number;
+}
+
+/**
+ * A single point on the quest-completion survival curve.
+ */
+export interface QuestSurvivalPoint {
+  survival_prob: number;
+  time: number;
+}
+
+/**
+ * Quest survival analysis results.
+
+coefficients / hazard_ratios: log-hazard and hazard ratio per covariate
+(luck, modifier_boost). A hazard ratio > 1 means the covariate speeds up
+quest completion.
+baseline_median_time_hours: median time to complete the quest at the
+reference build (luck=0, modifier_boost=0).
+survival_curve: {time, survival_prob} points.
+completion_prob_within: probability of finishing a quest within each
+requested time window.
+ */
+export interface QuestSurvivalResponse {
+  baseline_median_time_hours: number;
+  coefficients: QuestSurvivalResponseCoefficients;
+  completion_prob_within: QuestSurvivalResponseCompletionProbWithin;
+  hazard_ratios: QuestSurvivalResponseHazardRatios;
+  n_censored: number;
+  n_completed: number;
+  n_runs: number;
+  r_used: boolean;
+  survival_curve: QuestSurvivalPoint[];
+}
+
 export type PanRecommendationPan = { [key: string]: unknown };
 
 export interface PanRecommendation {
@@ -276,6 +361,41 @@ export interface MuseumCalculatorRequest {
   unlocked_displays?: MuseumCalculatorRequestUnlockedDisplays;
 }
 
+/**
+ * Monte Carlo EV per hour simulation results.
+ */
+export interface MonteCarloEVResponse {
+  mean: number;
+  p05: number;
+  p95: number;
+  r_used: boolean;
+}
+
+/**
+ * Request for Monte Carlo EV per hour simulation.
+
+samples: Number of simulation draws.
+ev_per_pan_mean: Mean expected value per pan.
+ev_per_pan_sd: Standard deviation of EV per pan.
+pph_mean: Mean pans per hour.
+pph_sd: Standard deviation of pans per hour.
+ */
+export interface MonteCarloEVRequest {
+  /** @minimum 0 */
+  ev_per_pan_mean?: number;
+  /** @minimum 0 */
+  ev_per_pan_sd?: number;
+  /** @minimum 0 */
+  pph_mean?: number;
+  /** @minimum 0 */
+  pph_sd?: number;
+  /**
+   * @minimum 1
+   * @maximum 1000000
+   */
+  samples?: number;
+}
+
 export type ModifierOddsResponseModifierDistribution = {
   [key: string]: number;
 };
@@ -292,6 +412,166 @@ export interface ModifierOddsResponse {
    * @maximum 100
    */
   pct_ores_modified: number;
+}
+
+/**
+ * Fitted % ores modified curve.
+
+curve: list of {eff_mb, pct_modified} points (0-100 scale).
+r_used: whether R was used (False means the fit failed or R unavailable).
+ */
+export interface ModifierFractionFitResponse {
+  curve: ModifierFractionFitPoint[];
+  r_used: boolean;
+}
+
+/**
+ * Request to fit the % ores modified curve from observed data.
+
+query_eff_mb: effective MB values at which to predict pct_modified.
+obs_eff_mb/obs_modified/obs_total: observed data points (one per observed
+effective-MB level). Requires at least 3 points with variation in eff_mb
+and some non-zero modified counts for the fit to succeed.
+ */
+export interface ModifierFractionFitRequest {
+  obs_eff_mb?: number[];
+  obs_modified?: number[];
+  obs_total?: number[];
+  query_eff_mb?: number[];
+}
+
+/**
+ * A single point on the fitted % ores modified curve.
+ */
+export interface ModifierFractionFitPoint {
+  eff_mb: number;
+  pct_modified: number;
+}
+
+export type ModifierDistributionFitResponseModifierDistribution = {
+  [key: string]: number;
+};
+
+/**
+ * Fitted modifier distribution percentages (0-100 scale).
+ */
+export interface ModifierDistributionFitResponse {
+  effective_mb: number;
+  modifier_distribution: ModifierDistributionFitResponseModifierDistribution;
+  r_used: boolean;
+}
+
+export type ModifierDistributionFitRequestObservedCounts = {
+  [key: string]: number;
+};
+
+/**
+ * Request to fit a modifier drop distribution from observed data.
+
+observed_counts: Mapping of modifier name -> observed drop count from
+scraped wiki data or player tracking.
+effective_mb: Player's effective modifier boost.
+ */
+export interface ModifierDistributionFitRequest {
+  /** @minimum 0 */
+  effective_mb?: number;
+  observed_counts?: ModifierDistributionFitRequestObservedCounts;
+}
+
+/**
+ * Result for a single luck cap evaluation.
+ */
+export interface LuckCapResult {
+  avg_luck: number;
+  bonuses_earned: number;
+  bonuses_per_hour: number;
+  final_luck: number;
+  luck_cap: number;
+  optimal: boolean;
+  quests_done: number;
+  total_time_hours: number;
+}
+
+/**
+ * Luck cap optimization results.
+ */
+export interface LuckCapOptimizationResponse {
+  optimal_cap: number;
+  r_used: boolean;
+  recommendations: LuckCapResult[];
+}
+
+export type LuckCapOptimizationRequestLuckCaps = number[] | null;
+
+/**
+ * Request to optimize the luck cap for Dredge Master quest completion.
+
+current_luck: Player's current luck.
+modifier_boost: Player's panel modifier boost.
+solar_magnifier: Whether Solar Magnifier is active.
+modifier_surge: Whether Modifier Surge is active.
+bonus_interval: Quests between bonus rewards (default 10).
+n_quests: Number of quests to simulate (default 100).
+luck_caps: List of luck cap values to evaluate. Defaults to a standard
+    range if not provided.
+ */
+export interface LuckCapOptimizationRequest {
+  /** @minimum 1 */
+  bonus_interval?: number;
+  /** @minimum 0 */
+  current_luck?: number;
+  luck_caps?: LuckCapOptimizationRequestLuckCaps;
+  /** @minimum 0 */
+  modifier_boost?: number;
+  modifier_surge?: boolean;
+  /**
+   * @minimum 1
+   * @maximum 10000
+   */
+  n_quests?: number;
+  solar_magnifier?: boolean;
+}
+
+/**
+ * Continuous luck-cap optimization results.
+
+saturation_cap is the actionable recommendation: the smallest cap within
+1% tolerance of the maximum bonuses per hour. Anything beyond adds no
+meaningful benefit.
+ */
+export interface LuckCapContinuousResponse {
+  lower: number;
+  optimal_bonuses_per_hour: number;
+  optimal_cap: number;
+  r_used: boolean;
+  saturation_cap: number;
+  upper: number;
+}
+
+/**
+ * Request for continuous luck-cap optimization.
+
+Uses R's bounded Brent search over [lower, upper] to find the luck cap
+maximizing expected bonuses per hour, without being tied to a fixed grid.
+ */
+export interface LuckCapContinuousRequest {
+  /** @minimum 1 */
+  bonus_interval?: number;
+  /** @minimum 0 */
+  current_luck?: number;
+  /** @minimum 0 */
+  lower?: number;
+  /** @minimum 0 */
+  modifier_boost?: number;
+  modifier_surge?: boolean;
+  /**
+   * @minimum 1
+   * @maximum 10000
+   */
+  n_quests?: number;
+  solar_magnifier?: boolean;
+  /** @minimum 0 */
+  upper?: number;
 }
 
 /**
@@ -339,8 +619,97 @@ export interface ItemResponse {
   wiki_id?: ItemResponseWikiId;
 }
 
+/**
+ * Score and hunt details for a single location.
+ */
+export interface HuntLocationResult {
+  exotic_count: number;
+  hunt_count: number;
+  hunt_weight: number;
+  name: string;
+  score: number;
+}
+
+/**
+ * Location recommendations for a mineral hunt list.
+ */
+export interface HuntRecommendationResponse {
+  r_used: boolean;
+  recommendations: HuntLocationResult[];
+}
+
+/**
+ * Request for location recommendations based on a mineral hunt list.
+
+minerals: List of mineral names the player is hunting for.
+The endpoint scores each location by how many hunt-list minerals it has,
+weighted by mineral tier (Exotic > Mythic > ... > Common).
+ */
+export interface HuntListRequest {
+  /** @minItems 1 */
+  minerals?: string[];
+}
+
 export interface HTTPValidationError {
   detail?: ValidationError[];
+}
+
+export type GearRecommendationResponseRecommendationsItem = {
+  [key: string]: unknown;
+};
+
+/**
+ * Scored and ranked gear recommendations.
+ */
+export interface GearRecommendationResponse {
+  r_used: boolean;
+  recommendations: GearRecommendationResponseRecommendationsItem[];
+}
+
+/**
+ * A single piece of gear for recommendation scoring.
+ */
+export interface GearItemInput {
+  /** @minimum 0 */
+  capacity?: number;
+  /** @minimum 0 */
+  dig_strength?: number;
+  /** @minimum 0 */
+  luck?: number;
+  /** @minimum 0 */
+  modifier_boost?: number;
+  name: string;
+  /** @minimum 0 */
+  shake_speed?: number;
+  /** @minimum 0 */
+  shake_strength?: number;
+  /** @minimum 0 */
+  size_boost?: number;
+}
+
+/**
+ * Request to score and rank gear using R's recommendation model.
+
+gear: List of gear items to evaluate.
+dig_strength/shake_strength/shake_speed: Player's build stats.
+target_capacity/min_luck/min_size_boost/min_modifier_boost: Filters.
+ */
+export interface GearRecommendationRequest {
+  /** @minimum 0 */
+  dig_strength?: number;
+  gear?: GearItemInput[];
+  /** @minimum 0 */
+  min_luck?: number;
+  /** @minimum 0 */
+  min_modifier_boost?: number;
+  /** @minimum 0 */
+  min_size_boost?: number;
+  /** @minimum 0 */
+  shake_speed?: number;
+  /** @minimum 0 */
+  shake_strength?: number;
+  /** @minimum 0 */
+  target_capacity?: number;
 }
 
 export type FormulaResponseSourceUrl = string | null;
@@ -351,6 +720,41 @@ export interface FormulaResponse {
   id: number;
   name: string;
   source_url?: FormulaResponseSourceUrl;
+}
+
+/**
+ * Score and Exotic hunting details for a single location.
+ */
+export interface ExoticLocationResult {
+  exotic_mod_prob: number;
+  exotic_rate: number;
+  name: string;
+  score: number;
+}
+
+/**
+ * Location recommendations for Exotic modifier hunting.
+ */
+export interface ExoticHuntResponse {
+  r_used: boolean;
+  recommendations: ExoticLocationResult[];
+}
+
+/**
+ * Request for Exotic hunting location recommendations.
+
+modifier_boost: Player's panel modifier boost.
+luck: Player's panel luck.
+solar_magnifier: Whether Solar Magnifier is active.
+modifier_surge: Whether Modifier Surge is active.
+ */
+export interface ExoticHuntRequest {
+  /** @minimum 0 */
+  luck?: number;
+  /** @minimum 0 */
+  modifier_boost?: number;
+  modifier_surge?: boolean;
+  solar_magnifier?: boolean;
 }
 
 export type EVResponseModifierDistribution = { [key: string]: number };
@@ -373,6 +777,67 @@ export interface EVResponse {
    * @maximum 1
    */
   quality_multiplier: number;
+}
+
+/**
+ * A single point on the EV / risk Pareto frontier.
+ */
+export interface EVParetoPoint {
+  dominated_by: string;
+  ev_per_pan_mean: number;
+  mean_ev_hour: number;
+  name: string;
+  on_frontier: boolean;
+  p05_ev_hour: number;
+  p95_ev_hour: number;
+  pph_mean: number;
+}
+
+/**
+ * EV / risk Pareto frontier results.
+
+frontier: non-dominated candidates (on_frontier == true), sorted by mean
+EV/hour descending.
+all_candidates: every candidate with its dominance status.
+n_frontier: number of candidates on the frontier.
+r_used: whether R was used.
+ */
+export interface EVParetoResponse {
+  all_candidates: EVParetoPoint[];
+  frontier: EVParetoPoint[];
+  n_frontier: number;
+  r_used: boolean;
+}
+
+/**
+ * A candidate build for EV / risk Pareto frontier analysis.
+ */
+export interface EVParetoCandidate {
+  /** @minimum 0 */
+  ev_per_pan_mean?: number;
+  /** @minimum 0 */
+  ev_per_pan_sd?: number;
+  name: string;
+  /** @minimum 0 */
+  pph_mean?: number;
+  /** @minimum 0 */
+  pph_sd?: number;
+}
+
+/**
+ * Request for EV / risk Pareto frontier analysis.
+
+candidates: list of builds to compare. Each build is characterized by the
+mean and standard deviation of EV per pan and pans per hour.
+n_samples: Monte Carlo draws per candidate.
+ */
+export interface EVParetoRequest {
+  candidates?: EVParetoCandidate[];
+  /**
+   * @minimum 100
+   * @maximum 200000
+   */
+  n_samples?: number;
 }
 
 export interface CalculatorTTGRequest {
@@ -1929,6 +2394,1227 @@ export const useCalculateMuseumEndpointApiV1CalculatorsMuseumPost = <
 };
 
 /**
+ * Fit a modifier drop distribution from observed counts using R.
+
+Falls back to the pure-Python approximation when R/rpy2 is not
+available.
+ * @summary Fit Modifier Distribution Endpoint
+ */
+const fitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPost =
+  (
+    modifierDistributionFitRequest: ModifierDistributionFitRequest,
+    options?: SecondParameter<
+      typeof fitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPostMutator
+    >
+  ) => {
+    return fitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPostMutator<ModifierDistributionFitResponse>(
+      {
+        url: `/api/v1/calculators/stats/modifier-distribution`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: modifierDistributionFitRequest,
+      },
+      options
+    );
+  };
+
+export const getFitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPostMutationOptions =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof fitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPost
+        >
+      >,
+      TError,
+      { data: ModifierDistributionFitRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof fitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPostMutator
+    >;
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof fitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPost
+      >
+    >,
+    TError,
+    { data: ModifierDistributionFitRequest },
+    TContext
+  > => {
+    const { mutation: mutationOptions, request: requestOptions } =
+      options ?? {};
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof fitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPost
+        >
+      >,
+      { data: ModifierDistributionFitRequest }
+    > = (props) => {
+      const { data } = props ?? {};
+
+      return fitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPost(
+        data,
+        requestOptions
+      );
+    };
+
+    return { mutationFn, ...mutationOptions };
+  };
+
+export type FitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof fitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPost
+      >
+    >
+  >;
+export type FitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPostMutationBody =
+  ModifierDistributionFitRequest;
+export type FitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPostMutationError =
+  HTTPValidationError;
+
+/**
+ * @summary Fit Modifier Distribution Endpoint
+ */
+export const useFitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPost =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof fitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPost
+        >
+      >,
+      TError,
+      { data: ModifierDistributionFitRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof fitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPostMutator
+    >;
+  }): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof fitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPost
+      >
+    >,
+    TError,
+    { data: ModifierDistributionFitRequest },
+    TContext
+  > => {
+    const mutationOptions =
+      getFitModifierDistributionEndpointApiV1CalculatorsStatsModifierDistributionPostMutationOptions(
+        options
+      );
+
+    return useMutation(mutationOptions);
+  };
+
+/**
+ * Monte Carlo simulation of EV per hour using R.
+
+Returns the mean and 5th/95th percentile EV per hour. Falls back to
+a deterministic point estimate when R/rpy2 is not available.
+ * @summary Monte Carlo Ev Endpoint
+ */
+const monteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPost = (
+  monteCarloEVRequest: MonteCarloEVRequest,
+  options?: SecondParameter<
+    typeof monteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPostMutator
+  >
+) => {
+  return monteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPostMutator<MonteCarloEVResponse>(
+    {
+      url: `/api/v1/calculators/stats/monte-carlo-ev`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: monteCarloEVRequest,
+    },
+    options
+  );
+};
+
+export const getMonteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPostMutationOptions =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof monteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPost
+        >
+      >,
+      TError,
+      { data: MonteCarloEVRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof monteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPostMutator
+    >;
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof monteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPost
+      >
+    >,
+    TError,
+    { data: MonteCarloEVRequest },
+    TContext
+  > => {
+    const { mutation: mutationOptions, request: requestOptions } =
+      options ?? {};
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof monteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPost
+        >
+      >,
+      { data: MonteCarloEVRequest }
+    > = (props) => {
+      const { data } = props ?? {};
+
+      return monteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPost(
+        data,
+        requestOptions
+      );
+    };
+
+    return { mutationFn, ...mutationOptions };
+  };
+
+export type MonteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof monteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPost
+      >
+    >
+  >;
+export type MonteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPostMutationBody =
+  MonteCarloEVRequest;
+export type MonteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPostMutationError =
+  HTTPValidationError;
+
+/**
+ * @summary Monte Carlo Ev Endpoint
+ */
+export const useMonteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPost = <
+  TError = HTTPValidationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof monteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPost
+      >
+    >,
+    TError,
+    { data: MonteCarloEVRequest },
+    TContext
+  >;
+  request?: SecondParameter<
+    typeof monteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPostMutator
+  >;
+}): UseMutationResult<
+  Awaited<
+    ReturnType<typeof monteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPost>
+  >,
+  TError,
+  { data: MonteCarloEVRequest },
+  TContext
+> => {
+  const mutationOptions =
+    getMonteCarloEvEndpointApiV1CalculatorsStatsMonteCarloEvPostMutationOptions(
+      options
+    );
+
+  return useMutation(mutationOptions);
+};
+
+/**
+ * Score and rank gear using R's recommendation model.
+
+Falls back to an empty list when R/rpy2 is not available.
+ * @summary Gear Recommendations Endpoint
+ */
+const gearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPost =
+  (
+    gearRecommendationRequest: GearRecommendationRequest,
+    options?: SecondParameter<
+      typeof gearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPostMutator
+    >
+  ) => {
+    return gearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPostMutator<GearRecommendationResponse>(
+      {
+        url: `/api/v1/calculators/stats/gear-recommendations`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: gearRecommendationRequest,
+      },
+      options
+    );
+  };
+
+export const getGearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPostMutationOptions =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof gearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPost
+        >
+      >,
+      TError,
+      { data: GearRecommendationRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof gearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPostMutator
+    >;
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof gearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPost
+      >
+    >,
+    TError,
+    { data: GearRecommendationRequest },
+    TContext
+  > => {
+    const { mutation: mutationOptions, request: requestOptions } =
+      options ?? {};
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof gearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPost
+        >
+      >,
+      { data: GearRecommendationRequest }
+    > = (props) => {
+      const { data } = props ?? {};
+
+      return gearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPost(
+        data,
+        requestOptions
+      );
+    };
+
+    return { mutationFn, ...mutationOptions };
+  };
+
+export type GearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof gearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPost
+      >
+    >
+  >;
+export type GearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPostMutationBody =
+  GearRecommendationRequest;
+export type GearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPostMutationError =
+  HTTPValidationError;
+
+/**
+ * @summary Gear Recommendations Endpoint
+ */
+export const useGearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPost =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof gearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPost
+        >
+      >,
+      TError,
+      { data: GearRecommendationRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof gearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPostMutator
+    >;
+  }): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof gearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPost
+      >
+    >,
+    TError,
+    { data: GearRecommendationRequest },
+    TContext
+  > => {
+    const mutationOptions =
+      getGearRecommendationsEndpointApiV1CalculatorsStatsGearRecommendationsPostMutationOptions(
+        options
+      );
+
+    return useMutation(mutationOptions);
+  };
+
+/**
+ * Recommend locations for a mineral hunt list.
+
+Scores each location by how many hunt-list minerals it has, weighted by
+mineral tier (Exotic > Mythic > ... > Common). Locations with Exotic-tier
+minerals get a bonus for Exotic hunting potential.
+ * @summary Hunt Locations Endpoint
+ */
+const huntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPost = (
+  huntListRequest: HuntListRequest,
+  options?: SecondParameter<
+    typeof huntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPostMutator
+  >
+) => {
+  return huntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPostMutator<HuntRecommendationResponse>(
+    {
+      url: `/api/v1/calculators/stats/hunt-locations`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: huntListRequest,
+    },
+    options
+  );
+};
+
+export const getHuntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPostMutationOptions =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof huntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPost
+        >
+      >,
+      TError,
+      { data: HuntListRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof huntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPostMutator
+    >;
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof huntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPost
+      >
+    >,
+    TError,
+    { data: HuntListRequest },
+    TContext
+  > => {
+    const { mutation: mutationOptions, request: requestOptions } =
+      options ?? {};
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof huntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPost
+        >
+      >,
+      { data: HuntListRequest }
+    > = (props) => {
+      const { data } = props ?? {};
+
+      return huntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPost(
+        data,
+        requestOptions
+      );
+    };
+
+    return { mutationFn, ...mutationOptions };
+  };
+
+export type HuntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof huntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPost
+      >
+    >
+  >;
+export type HuntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPostMutationBody =
+  HuntListRequest;
+export type HuntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPostMutationError =
+  HTTPValidationError;
+
+/**
+ * @summary Hunt Locations Endpoint
+ */
+export const useHuntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPost = <
+  TError = HTTPValidationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof huntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPost
+      >
+    >,
+    TError,
+    { data: HuntListRequest },
+    TContext
+  >;
+  request?: SecondParameter<
+    typeof huntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPostMutator
+  >;
+}): UseMutationResult<
+  Awaited<
+    ReturnType<
+      typeof huntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPost
+    >
+  >,
+  TError,
+  { data: HuntListRequest },
+  TContext
+> => {
+  const mutationOptions =
+    getHuntLocationsEndpointApiV1CalculatorsStatsHuntLocationsPostMutationOptions(
+      options
+    );
+
+  return useMutation(mutationOptions);
+};
+
+/**
+ * Recommend locations for Exotic modifier hunting.
+
+Scores each location by its Exotic mineral density combined with the
+player's modifier distribution (fitted via R when available). Higher
+modifier boost shifts the distribution toward rarer modifiers, improving
+Exotic modifier odds.
+ * @summary Exotic Locations Endpoint
+ */
+const exoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPost = (
+  exoticHuntRequest: ExoticHuntRequest,
+  options?: SecondParameter<
+    typeof exoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPostMutator
+  >
+) => {
+  return exoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPostMutator<ExoticHuntResponse>(
+    {
+      url: `/api/v1/calculators/stats/exotic-locations`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: exoticHuntRequest,
+    },
+    options
+  );
+};
+
+export const getExoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPostMutationOptions =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof exoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPost
+        >
+      >,
+      TError,
+      { data: ExoticHuntRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof exoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPostMutator
+    >;
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof exoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPost
+      >
+    >,
+    TError,
+    { data: ExoticHuntRequest },
+    TContext
+  > => {
+    const { mutation: mutationOptions, request: requestOptions } =
+      options ?? {};
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof exoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPost
+        >
+      >,
+      { data: ExoticHuntRequest }
+    > = (props) => {
+      const { data } = props ?? {};
+
+      return exoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPost(
+        data,
+        requestOptions
+      );
+    };
+
+    return { mutationFn, ...mutationOptions };
+  };
+
+export type ExoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof exoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPost
+      >
+    >
+  >;
+export type ExoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPostMutationBody =
+  ExoticHuntRequest;
+export type ExoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPostMutationError =
+  HTTPValidationError;
+
+/**
+ * @summary Exotic Locations Endpoint
+ */
+export const useExoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPost =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof exoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPost
+        >
+      >,
+      TError,
+      { data: ExoticHuntRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof exoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPostMutator
+    >;
+  }): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof exoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPost
+      >
+    >,
+    TError,
+    { data: ExoticHuntRequest },
+    TContext
+  > => {
+    const mutationOptions =
+      getExoticLocationsEndpointApiV1CalculatorsStatsExoticLocationsPostMutationOptions(
+        options
+      );
+
+    return useMutation(mutationOptions);
+  };
+
+/**
+ * Optimize the luck cap for Dredge Master quest completion.
+
+Models quest completion rate as a function of luck cap, accounting for
+the modifier_luck curve, +3 luck per completed quest, and bonus rewards
+every X quests. Returns results for each evaluated cap with an optimal
+flag on the best-performing cap.
+ * @summary Optimize Luck Cap Endpoint
+ */
+const optimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPost = (
+  luckCapOptimizationRequest: LuckCapOptimizationRequest,
+  options?: SecondParameter<
+    typeof optimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPostMutator
+  >
+) => {
+  return optimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPostMutator<LuckCapOptimizationResponse>(
+    {
+      url: `/api/v1/calculators/stats/optimize-luck-cap`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: luckCapOptimizationRequest,
+    },
+    options
+  );
+};
+
+export const getOptimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPostMutationOptions =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof optimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPost
+        >
+      >,
+      TError,
+      { data: LuckCapOptimizationRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof optimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPostMutator
+    >;
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof optimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPost
+      >
+    >,
+    TError,
+    { data: LuckCapOptimizationRequest },
+    TContext
+  > => {
+    const { mutation: mutationOptions, request: requestOptions } =
+      options ?? {};
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof optimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPost
+        >
+      >,
+      { data: LuckCapOptimizationRequest }
+    > = (props) => {
+      const { data } = props ?? {};
+
+      return optimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPost(
+        data,
+        requestOptions
+      );
+    };
+
+    return { mutationFn, ...mutationOptions };
+  };
+
+export type OptimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof optimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPost
+      >
+    >
+  >;
+export type OptimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPostMutationBody =
+  LuckCapOptimizationRequest;
+export type OptimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPostMutationError =
+  HTTPValidationError;
+
+/**
+ * @summary Optimize Luck Cap Endpoint
+ */
+export const useOptimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPost =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof optimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPost
+        >
+      >,
+      TError,
+      { data: LuckCapOptimizationRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof optimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPostMutator
+    >;
+  }): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof optimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPost
+      >
+    >,
+    TError,
+    { data: LuckCapOptimizationRequest },
+    TContext
+  > => {
+    const mutationOptions =
+      getOptimizeLuckCapEndpointApiV1CalculatorsStatsOptimizeLuckCapPostMutationOptions(
+        options
+      );
+
+    return useMutation(mutationOptions);
+  };
+
+/**
+ * Continuously optimize the luck cap using R's bounded Brent search.
+
+Finds the luck cap maximizing expected bonuses per hour without being
+tied to a fixed grid. Falls back to a deterministic result when R/rpy2
+is unavailable.
+ * @summary Optimize Luck Cap Continuous Endpoint
+ */
+const optimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPost =
+  (
+    luckCapContinuousRequest: LuckCapContinuousRequest,
+    options?: SecondParameter<
+      typeof optimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPostMutator
+    >
+  ) => {
+    return optimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPostMutator<LuckCapContinuousResponse>(
+      {
+        url: `/api/v1/calculators/stats/optimize-luck-cap-continuous`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: luckCapContinuousRequest,
+      },
+      options
+    );
+  };
+
+export const getOptimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPostMutationOptions =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof optimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPost
+        >
+      >,
+      TError,
+      { data: LuckCapContinuousRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof optimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPostMutator
+    >;
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof optimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPost
+      >
+    >,
+    TError,
+    { data: LuckCapContinuousRequest },
+    TContext
+  > => {
+    const { mutation: mutationOptions, request: requestOptions } =
+      options ?? {};
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof optimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPost
+        >
+      >,
+      { data: LuckCapContinuousRequest }
+    > = (props) => {
+      const { data } = props ?? {};
+
+      return optimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPost(
+        data,
+        requestOptions
+      );
+    };
+
+    return { mutationFn, ...mutationOptions };
+  };
+
+export type OptimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof optimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPost
+      >
+    >
+  >;
+export type OptimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPostMutationBody =
+  LuckCapContinuousRequest;
+export type OptimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPostMutationError =
+  HTTPValidationError;
+
+/**
+ * @summary Optimize Luck Cap Continuous Endpoint
+ */
+export const useOptimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPost =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof optimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPost
+        >
+      >,
+      TError,
+      { data: LuckCapContinuousRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof optimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPostMutator
+    >;
+  }): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof optimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPost
+      >
+    >,
+    TError,
+    { data: LuckCapContinuousRequest },
+    TContext
+  > => {
+    const mutationOptions =
+      getOptimizeLuckCapContinuousEndpointApiV1CalculatorsStatsOptimizeLuckCapContinuousPostMutationOptions(
+        options
+      );
+
+    return useMutation(mutationOptions);
+  };
+
+/**
+ * Fit the % ores modified curve from observed data using R.
+
+Fits a saturating asymptotic-exponential model
+(pct_modified ~ Asym * (1 - exp(-k * eff_mb))) via stats::nls and
+returns predicted pct_modified at each query eff_mb point. Falls back to
+an empty curve with r_used: false when R/rpy2 is unavailable or the fit
+fails to converge (too few points / no variation).
+ * @summary Fit Modifier Fraction Endpoint
+ */
+const fitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPost = (
+  modifierFractionFitRequest: ModifierFractionFitRequest,
+  options?: SecondParameter<
+    typeof fitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPostMutator
+  >
+) => {
+  return fitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPostMutator<ModifierFractionFitResponse>(
+    {
+      url: `/api/v1/calculators/stats/modifier-fraction`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: modifierFractionFitRequest,
+    },
+    options
+  );
+};
+
+export const getFitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPostMutationOptions =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof fitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPost
+        >
+      >,
+      TError,
+      { data: ModifierFractionFitRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof fitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPostMutator
+    >;
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof fitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPost
+      >
+    >,
+    TError,
+    { data: ModifierFractionFitRequest },
+    TContext
+  > => {
+    const { mutation: mutationOptions, request: requestOptions } =
+      options ?? {};
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof fitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPost
+        >
+      >,
+      { data: ModifierFractionFitRequest }
+    > = (props) => {
+      const { data } = props ?? {};
+
+      return fitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPost(
+        data,
+        requestOptions
+      );
+    };
+
+    return { mutationFn, ...mutationOptions };
+  };
+
+export type FitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof fitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPost
+      >
+    >
+  >;
+export type FitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPostMutationBody =
+  ModifierFractionFitRequest;
+export type FitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPostMutationError =
+  HTTPValidationError;
+
+/**
+ * @summary Fit Modifier Fraction Endpoint
+ */
+export const useFitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPost =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof fitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPost
+        >
+      >,
+      TError,
+      { data: ModifierFractionFitRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof fitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPostMutator
+    >;
+  }): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof fitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPost
+      >
+    >,
+    TError,
+    { data: ModifierFractionFitRequest },
+    TContext
+  > => {
+    const mutationOptions =
+      getFitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPostMutationOptions(
+        options
+      );
+
+    return useMutation(mutationOptions);
+  };
+
+/**
+ * Dredge Master quest survival analysis using R's Cox proportional
+hazards model.
+
+Simulates many quest runs across a grid of build/event configurations,
+fits survival::coxph, and returns coefficients, hazard ratios, baseline
+median time-to-completion, a survival curve, and quest-completion
+probabilities within key time windows. Falls back to a deterministic
+reference result when R/rpy2 is unavailable.
+ * @summary Quest Survival Endpoint
+ */
+const questSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPost = (
+  questSurvivalRequest: QuestSurvivalRequest,
+  options?: SecondParameter<
+    typeof questSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPostMutator
+  >
+) => {
+  return questSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPostMutator<QuestSurvivalResponse>(
+    {
+      url: `/api/v1/calculators/stats/quest-survival`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: questSurvivalRequest,
+    },
+    options
+  );
+};
+
+export const getQuestSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPostMutationOptions =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof questSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPost
+        >
+      >,
+      TError,
+      { data: QuestSurvivalRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof questSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPostMutator
+    >;
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof questSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPost
+      >
+    >,
+    TError,
+    { data: QuestSurvivalRequest },
+    TContext
+  > => {
+    const { mutation: mutationOptions, request: requestOptions } =
+      options ?? {};
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof questSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPost
+        >
+      >,
+      { data: QuestSurvivalRequest }
+    > = (props) => {
+      const { data } = props ?? {};
+
+      return questSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPost(
+        data,
+        requestOptions
+      );
+    };
+
+    return { mutationFn, ...mutationOptions };
+  };
+
+export type QuestSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof questSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPost
+      >
+    >
+  >;
+export type QuestSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPostMutationBody =
+  QuestSurvivalRequest;
+export type QuestSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPostMutationError =
+  HTTPValidationError;
+
+/**
+ * @summary Quest Survival Endpoint
+ */
+export const useQuestSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPost = <
+  TError = HTTPValidationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof questSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPost
+      >
+    >,
+    TError,
+    { data: QuestSurvivalRequest },
+    TContext
+  >;
+  request?: SecondParameter<
+    typeof questSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPostMutator
+  >;
+}): UseMutationResult<
+  Awaited<
+    ReturnType<
+      typeof questSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPost
+    >
+  >,
+  TError,
+  { data: QuestSurvivalRequest },
+  TContext
+> => {
+  const mutationOptions =
+    getQuestSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPostMutationOptions(
+      options
+    );
+
+  return useMutation(mutationOptions);
+};
+
+/**
+ * EV / risk Pareto frontier for candidate builds using R.
+
+Runs a Monte Carlo simulation of EV/hour for each candidate build, then
+returns the non-dominated Pareto frontier on mean EV/hour vs p05 EV/hour
+(risk-adjusted downside). Falls back to an empty frontier when R/rpy2 is
+unavailable.
+ * @summary Ev Pareto Frontier Endpoint
+ */
+const evParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPost = (
+  eVParetoRequest: EVParetoRequest,
+  options?: SecondParameter<
+    typeof evParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPostMutator
+  >
+) => {
+  return evParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPostMutator<EVParetoResponse>(
+    {
+      url: `/api/v1/calculators/stats/ev-pareto-frontier`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: eVParetoRequest,
+    },
+    options
+  );
+};
+
+export const getEvParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPostMutationOptions =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof evParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPost
+        >
+      >,
+      TError,
+      { data: EVParetoRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof evParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPostMutator
+    >;
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof evParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPost
+      >
+    >,
+    TError,
+    { data: EVParetoRequest },
+    TContext
+  > => {
+    const { mutation: mutationOptions, request: requestOptions } =
+      options ?? {};
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof evParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPost
+        >
+      >,
+      { data: EVParetoRequest }
+    > = (props) => {
+      const { data } = props ?? {};
+
+      return evParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPost(
+        data,
+        requestOptions
+      );
+    };
+
+    return { mutationFn, ...mutationOptions };
+  };
+
+export type EvParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof evParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPost
+      >
+    >
+  >;
+export type EvParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPostMutationBody =
+  EVParetoRequest;
+export type EvParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPostMutationError =
+  HTTPValidationError;
+
+/**
+ * @summary Ev Pareto Frontier Endpoint
+ */
+export const useEvParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPost =
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof evParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPost
+        >
+      >,
+      TError,
+      { data: EVParetoRequest },
+      TContext
+    >;
+    request?: SecondParameter<
+      typeof evParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPostMutator
+    >;
+  }): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof evParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPost
+      >
+    >,
+    TError,
+    { data: EVParetoRequest },
+    TContext
+  > => {
+    const mutationOptions =
+      getEvParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPostMutationOptions(
+        options
+      );
+
+    return useMutation(mutationOptions);
+  };
+
+/**
  * List news articles from Reddit.
  * @summary List News
  */
@@ -2427,6 +4113,87 @@ export const useSearchApiV1SearchGet = <
   }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = getSearchApiV1SearchGetQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Export the full public dataset as a single JSON snapshot for client-side caching.
+ * @summary Export Snapshot
+ */
+const exportSnapshotApiV1ExportSnapshotGet = (
+  options?: SecondParameter<typeof exportSnapshotApiV1ExportSnapshotGetMutator>,
+  signal?: AbortSignal
+) => {
+  return exportSnapshotApiV1ExportSnapshotGetMutator<unknown>(
+    { url: `/api/v1/export/snapshot`, method: 'GET', signal },
+    options
+  );
+};
+
+export const getExportSnapshotApiV1ExportSnapshotGetQueryKey = () => {
+  return [`/api/v1/export/snapshot`] as const;
+};
+
+export const getExportSnapshotApiV1ExportSnapshotGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof exportSnapshotApiV1ExportSnapshotGet>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof exportSnapshotApiV1ExportSnapshotGet>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof exportSnapshotApiV1ExportSnapshotGetMutator>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getExportSnapshotApiV1ExportSnapshotGetQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof exportSnapshotApiV1ExportSnapshotGet>>
+  > = ({ signal }) =>
+    exportSnapshotApiV1ExportSnapshotGet(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof exportSnapshotApiV1ExportSnapshotGet>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ExportSnapshotApiV1ExportSnapshotGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof exportSnapshotApiV1ExportSnapshotGet>>
+>;
+export type ExportSnapshotApiV1ExportSnapshotGetQueryError = unknown;
+
+/**
+ * @summary Export Snapshot
+ */
+export const useExportSnapshotApiV1ExportSnapshotGet = <
+  TData = Awaited<ReturnType<typeof exportSnapshotApiV1ExportSnapshotGet>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof exportSnapshotApiV1ExportSnapshotGet>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof exportSnapshotApiV1ExportSnapshotGetMutator>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions =
+    getExportSnapshotApiV1ExportSnapshotGetQueryOptions(options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;

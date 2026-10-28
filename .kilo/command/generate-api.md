@@ -26,8 +26,11 @@ cd /home/nola/Desktop/PICK && git status --short openapi.json frontend/src/api/
 If that shows changes you did not expect, the spec and the app disagree — check
 whether a route was added without being registered in `app/api/__init__.py`.
 
-Never hand-edit `frontend/src/api/pick.ts` or `pick.schemas.ts`. They are
-orval output and are overwritten on the next run.
+Never hand-edit `frontend/src/api/pick.ts` or `frontend/src/api/client.ts`. The
+first is orval output and is overwritten on the next run; the second is
+hand-written. Note that orval writes only `pick.ts`: its `mode` is `import`, so it
+does not emit a separate schemas file, and the `pick.schemas.ts` that the
+`tags-split` era left behind has been deleted.
 
 ## The snapshot contract
 

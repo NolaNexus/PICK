@@ -1,7 +1,12 @@
 /**
- * Calculator math ported from app/services/calculators.py
- * Uses Decimal.js for precise tiny-probability arithmetic
- * (e.g. Key of Life at Lifespring Oasis: ~1.549e-11)
+ * The calculator maths.
+ *
+ * The numbers come from the Stat Systems Guide wiki page, and this is the only
+ * implementation: the site is static and computes everything in the browser,
+ * so there is nothing on the server to keep in step with.
+ *
+ * Decimal.js is used for the precise tiny-probability arithmetic
+ * (e.g. Key of Life at Lifespring Oasis: ~1.549e-11).
  */
 
 import Decimal from 'decimal.js'

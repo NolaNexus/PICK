@@ -40,13 +40,13 @@ If you only want to run the app, `requirements.txt` on its own is enough.
 ### A note on the old R bridge
 
 There is no R dependency any more. `app/services/r_stats.py`, the `R/` scripts and
-`requirements-r.txt` were removed; the calculators' Python implementations live in
-`app/services/stats.py` and always run.
+`requirements-r.txt` were removed, and with them the endpoints that could only ever
+return an empty result.
 
-The endpoints that could only ever return an empty result were removed along with it,
-rather than left answering with nothing. The six calculators that do work are
-`/calculators/ev`, `/ttg`, `/modifier-odds`, `/best-pan`, `/museum` and
-`/calculators/stats/modifier-distribution`.
+There is no backend calculator either. The calculators live in the site, in
+`frontend/src/lib/calculators.ts` and `frontend/src/lib/museum.ts`, and they run in the
+browser from the published snapshot. The API serves the data — items, formulas,
+search, metadata and the snapshot export — and nothing else.
 
 ### Start Backend + Database
 

@@ -27,15 +27,15 @@ Think of PICK as a companion layer on top of the wiki: structured data, calculat
 ## What it does
 
 - Scrapes the official Prospecting! wiki on a schedule and keeps a local copy of pages, items, and formulas
-- Exposes a REST API (FastAPI) for items, formulas, calculators, and metadata
-- Powers calculators for modifier odds, expected value, best pan, museum optimization, and time-to-goal
+- Exposes a REST API (FastAPI) for items, formulas, search, and metadata
+- Powers calculators for modifier odds, expected value, best pan, museum optimization, and time-to-goal, computed in the browser
 - Serves a React + Vite frontend on GitHub Pages
 
 ## Tech stack
 
 - Python 3.11+, FastAPI, PostgreSQL (async SQLAlchemy)
 - React + TypeScript + Vite frontend
-- Pure-Python statistics for the calculators (`app/services/stats.py`); no R or rpy2
+- The calculators are TypeScript in the browser (`frontend/src/lib/calculators.ts`); no R, no rpy2, no server-side maths
 - Docker Compose for local development
 - GitHub Actions for CI/CD and frontend deployment
 

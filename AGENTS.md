@@ -20,7 +20,7 @@ The API is local-only. See `README.md` and `SETUP.md` for narrative docs.
 | Path | Purpose |
 | --- | --- |
 | `app/` | FastAPI app: `api/` routers, `services/` domain logic, `models/` SQLAlchemy models, `schemas/` Pydantic, `taxonomy.py`, `config.py` |
-| `scrapers/` | One module per wiki page; each exposes a `parse_*` function. `registry.py` maps page titles → parsers and holds `TRACKED_PAGES` |
+| `scrapers/` | One module per wiki page; each exposes a `parse_*` function. `registry.py` maps page titles → parsers and holds `TRACKED_PAGES`; `types.py` holds `ParsedItem` |
 | `scripts/` | CLI entry points: `scraper.py`, `export_snapshot.py`, `seed_formulas.py`, `coverage_report.py`, `refresh_site.sh` |
 | `frontend/` | Vite app. `src/api/` is **generated** by orval; `src/lib/snapshot.types.ts` is **generated** by json-schema-to-typescript; `src/lib/snapshot.ts` loads the static snapshot |
 | `alembic/versions/` | Migrations, numbered sequentially |
@@ -129,14 +129,11 @@ the snapshot. It publishes from this checkout, so the checkout has to be clean �
 stray edit would otherwise fail the pull with a message that reads like a network
 problem, or be left behind by the commit.
 
-**The calculator API has six working endpoints; the rest were removed.** `/ev`, `/ttg`,
-`/modifier-odds`, `/best-pan`, `/museum` and `/stats/modifier-distribution`. The nine
-that could only ever answer with an empty result were deleted rather than left
-returning nothing, and the always-`False` `r_used` field went with them. Do not
-reintroduce an endpoint that returns a placeholder — `tests/test_calculator_stats.py`
-asserts the removed paths now answer 404. Note that the published site never calls this
-API: `frontend/src/lib/calculators.ts` is a port of `app/services/calculators.py`, and
-the site is static.
+**The calculators live in the frontend, not the API.** `frontend/src/lib/calculators.ts`
+and `frontend/src/lib/museum.ts` hold the only implementation, and they run in the
+browser. There is no backend calculator: the API serves the data — items, formulas,
+search, metadata, and the snapshot export — and nothing else. The site is static and
+never calls the API.
 
 **`ruff format --check` fails on `alembic/` today.** That drift is pre-existing and
 outside CI's scope (`ruff format --check app scrapers scripts tests`). Do not "fix" it as
@@ -213,6 +210,31 @@ changes, change the schema first, regenerate, then regenerate the API spec.
 **`.env` is dotenv, not shell.** `scripts/refresh_site.sh` parses it line by line rather
 than sourcing it, because `USER_AGENT=PICK/1.0 (Prospecting Information & Community Kit)`
 contains spaces and parentheses. Do not `source .env` in a shell.
+
+**The typecheck is strict — do not widen it.** `pyproject.toml` used to disable seven
+error codes (`arg-type`, `assignment`, `attr-defined`, `call-arg`, `index`, `misc`,
+`var-annotated`) because the models used the legacy SQLAlchemy 1.x `Column()` form,
+which left every query result untyped, and the parsers returned `dict[str, Any]`. Both
+are fixed, so all seven are on. To see what one would catch, run
+`mypy app/ scrapers/ scripts/ --enable-error-code=<code>`.
+
+**The models use `Mapped[]`, not `Column()`.** `app/models/*.py` declare their columns
+with `Mapped[T]` and `mapped_column()`. That is what makes a query result
+`list[Item]` rather than `list[Any]`, which is what the typecheck checks against.
+`Item.type` is `Mapped[str]`, not an enum type: the column is a database enum but
+Python sees the string, and the reconciler compares and assigns it as one.
+
+**The parsers return `ParsedItem`.** `scrapers/types.py` declares the shape a page
+parser produces, and the 24 parsers in `scrapers/registry.py` are annotated with it.
+`ParsedItem` requires `id`, `type`, `name`, `slug`, `data` and `image_url`;
+`description` is `NotRequired` because some parsers put it inside `data` instead.
+A parser that builds a different shape needs its own TypedDict, not a loosened one.
+
+**The models and the migrations must describe the same schema.**
+`tests/test_schema_parity.py` compares the columns, nullability and defaults the
+models declare with the ones the database has. The database is created by the
+migrations in production and by `Base.metadata.create_all` in the tests, so a
+disagreement means a test can pass against a schema the site never runs on.
 
 ## Virtualenv
 

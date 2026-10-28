@@ -1,0 +1,46 @@
+name: Task
+description: Chores, refactors, tooling, or documentation work.
+title: "[Task] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For work that is not a bug or a new feature — refactors, tooling,
+        formatting, documentation.
+
+        Before filing, please check `AGENTS.md` in the repository root: it
+        records the commands, the traps, and the things already known to be
+        broken. Some tasks are already written down there.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What needs doing
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it matters
+      description: What is wrong or harder because of this?
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: How would you know it is done?
+      description: The acceptance criteria. For code, the checks that should pass.
+    validations:
+      required: false
+
+  - type: input
+    id: files
+    attributes:
+      label: Relevant files
+      description: If you know where this lives.
+      placeholder: frontend/src/lib/calculators.ts
+    validations:
+      required: false

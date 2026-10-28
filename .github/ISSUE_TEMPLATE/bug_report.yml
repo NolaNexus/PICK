@@ -1,0 +1,59 @@
+name: Bug report
+description: Something on the site or in the data is wrong.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug. PICK scrapes the
+        [Prospecting! wiki](https://prospecting.miraheze.org/), so if something is
+        missing or wrong **in the game data**, it is probably wrong on the wiki
+        too — please check there before filing, and link the wiki page if you can.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you see, and what did you expect instead?
+      placeholder: The Museum tab shows empty slot recommendations and zero stats.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: How did you get there?
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: input
+    id: page
+    attributes:
+      label: Page or URL
+      description: Which page of the site was this on?
+      placeholder: Calculators → Museum
+    validations:
+      required: false
+
+  - type: input
+    id: commit
+    attributes:
+      label: Commit or date
+      description: The site's commit SHA, or roughly when you saw it. This helps us find the change that caused it.
+      placeholder: 3439db5, or "last week"
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: Console errors, screenshots, the item you were looking at.
+    validations:
+      required: false

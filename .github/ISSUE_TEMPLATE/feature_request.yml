@@ -1,0 +1,50 @@
+name: Feature request
+description: Something new for the site, the API, or the data.
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature. A few things that help us act on it:
+
+        - What problem does it solve? A request without a problem is hard to judge.
+        - Is it about the **site**, the **API**, or the **data**? They have very
+          different costs.
+        - Is there an upstream wiki change it depends on?
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of PICK?
+      options:
+        - The website (React frontend)
+        - The API (FastAPI)
+        - The scraper or the data model
+        - The calculators
+        - Documentation
+        - Something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like to happen?
+      description: What the feature does, from a user's point of view.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered
+    validations:
+      required: false

@@ -5,17 +5,15 @@
   "description": "The published dataset. The site reads this file and nothing else, so its shape is a contract: the exporter writes it and the client reads it, and nothing else is allowed to change underneath either of them.",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "schema_version",
-    "taxonomy",
-    "generated_at",
-    "counts",
-    "items",
-    "formulas",
-    "wiki_pages",
-    "game_version",
-    "last_scrape"
-  ],
+    "required": [
+      "schema_version",
+      "taxonomy",
+      "generated_at",
+      "counts",
+      "items",
+      "game_version",
+      "last_scrape"
+    ],
   "properties": {
     "schema_version": {
       "description": "The version of this shape. The client refuses a snapshot older than the version it knows.",
@@ -35,7 +33,7 @@
       "description": "How much of everything there is.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["items", "formulas", "wiki_pages"],
+      "required": ["items"],
       "properties": {
         "items": { "type": "integer", "minimum": 0 },
         "formulas": { "type": "integer", "minimum": 0 },
@@ -46,16 +44,6 @@
       "description": "Everything the site can show a page about.",
       "type": "array",
       "items": { "$ref": "#/definitions/item" }
-    },
-    "formulas": {
-      "description": "The formulas the calculators use.",
-      "type": "array",
-      "items": { "$ref": "#/definitions/formula" }
-    },
-    "wiki_pages": {
-      "description": "The wiki pages that were read.",
-      "type": "array",
-      "items": { "$ref": "#/definitions/wikiPage" }
     },
     "game_version": {
       "description": "The game version the data was read from.",
@@ -110,21 +98,14 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "id",
         "type",
         "name",
         "slug",
         "data",
         "image_url",
-        "description",
-        "created_at",
-        "updated_at"
+        "description"
       ],
       "properties": {
-        "id": {
-          "description": "The row's identifier. Stable for as long as the row lives.",
-          "type": "integer"
-        },
         "type": { "$ref": "#/definitions/itemType" },
         "name": {
           "description": "The name to show a user.",
@@ -147,9 +128,7 @@
         "description": {
           "description": "The description, when there is one.",
           "type": ["string", "null"]
-        },
-        "created_at": { "type": "string" },
-        "updated_at": { "type": "string" }
+        }
       }
     },
     "formula": {

@@ -89,4 +89,3 @@ def _parse_mineral_locations(locations_str: str) -> list[str]:
 
 def _slugify(name: str) -> str:
     return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "")
-PY

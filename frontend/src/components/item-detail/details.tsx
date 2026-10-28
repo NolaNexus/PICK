@@ -66,8 +66,6 @@ export function ItemDetailShell({
   item: Item
   children: React.ReactNode
 }) {
-  const data = (item.data ?? {}) as ItemData
-
   return (
     <div className="space-y-4">
       <div className="flex gap-4">

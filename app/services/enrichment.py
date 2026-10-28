@@ -21,6 +21,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import Item
 from app.services.item_data import normalize_item_data
+from app.services.reconcile import CANONICAL_PREFERENCE, type_prefixed_slug
 from app.utils.mw_api import MediaWikiClient
 from scrapers.item_page import parse_item_page
 from scrapers.pages import is_index_page, is_item_page

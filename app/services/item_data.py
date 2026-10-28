@@ -68,4 +68,3 @@ def public_item_data(data: Any) -> dict[str, Any]:
     # same, but the door stays open for fields that are useful while scraping
     # and not useful to the site.
     return {key: value for key, value in data.items() if value is not None}
-PY

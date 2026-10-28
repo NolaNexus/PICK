@@ -253,7 +253,7 @@ export default function SearchPage() {
                 </TableHeader>
                 <TableBody>
                   {pageResults.map((item) => (
-                    <TableRow key={item.id} className="cursor-pointer hover:bg-muted/30">
+                    <TableRow key={item.slug} className="cursor-pointer hover:bg-muted/30">
                       <TableCell className="font-medium">{item.name}</TableCell>
                       <TableCell>
                         <Badge variant="outline">{labelOf(taxonomy, item.type)}</Badge>

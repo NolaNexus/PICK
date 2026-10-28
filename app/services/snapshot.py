@@ -98,16 +98,3 @@ async def build_snapshot(db: AsyncSession) -> dict:
         if last_run
         else None,
     }
-        if game_version
-        else None,
-        "last_scrape": {
-            "status": last_run.status if last_run else "never",
-            "started_at": _iso(last_run.started_at) if last_run else None,
-            "finished_at": _iso(last_run.finished_at) if last_run else None,
-            "pages_scraped": last_run.pages_scraped if last_run else 0,
-            "pages_changed": last_run.pages_changed if last_run else 0,
-            "pages_errors": last_run.pages_errors if last_run else 0,
-        }
-        if last_run
-        else None,
-    }

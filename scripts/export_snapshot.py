@@ -10,15 +10,22 @@ import copy
 import json
 import os
 
+import re
+
 import app.database as app_database
 from app.services.snapshot import build_snapshot
 
 OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "frontend", "public", "snapshot.json")
+SCHEMA_PATH = os.path.join(os.path.dirname(__file__), "..", "snapshot.schema.json")
 
 # A snapshot that loses this much of the catalogue is treated as broken rather
 # than as news. The scramble this prevents: a scrape whose requests were all
 # refused still completes, and publishing it would erase the site.
 MAX_ITEM_DROP = 0.20
+
+# Wiki markup that should never reach the published file. The scraper renders
+# it before writing, so any occurrence here is a parser that missed a case.
+_MARKUP_RE = re.compile(r"\{\{|\[\[|</|&lt;|&gt;")
 
 
 def _item_count(snapshot: dict) -> int:
@@ -44,6 +51,33 @@ def _refusal_reason(existing: dict, snapshot: dict) -> str | None:
     return None
 
 
+def _data_quality_reason(snapshot: dict) -> str | None:
+    """Why the snapshot must not be published for data-quality reasons."""
+    for item in snapshot.get("items") or []:
+        if not isinstance(item, dict):
+            continue
+        if _MARKUP_RE.search(json.dumps(item, ensure_ascii=False)):
+            return "an item still carries raw wiki markup"
+    return None
+
+
+def _schema_reason(snapshot: dict) -> str | None:
+    """Why the snapshot does not match the published contract."""
+    try:
+        with open(SCHEMA_PATH, encoding="utf-8") as f:
+            schema = json.load(f)
+        from jsonschema import Draft7Validator
+
+        errors = sorted(Draft7Validator(schema).iter_errors(snapshot), key=lambda e: list(e.path))
+    except Exception as exc:
+        return f"the snapshot contract could not be checked: {exc}"
+    if errors:
+        error = errors[0]
+        path = ".".join(str(part) for part in error.path) or "<root>"
+        return f"the snapshot does not match the contract at {path}: {error.message}"
+    return None
+
+
 def _strip_volatile(snapshot: dict) -> dict:
     """Return a copy of the snapshot without the parts that always differ.
 
@@ -51,16 +85,9 @@ def _strip_volatile(snapshot: dict) -> dict:
     allowed to differ between two runs: scrape timestamps, the per-run
     telemetry, and the merchant's last-seen stamp, because the merchant's
     stock rotates daily.
-
-    The list is an exclusion list rather than a list of the fields to keep,
-    so a field that is added to the snapshot later is compared by default.
-    Getting it wrong here fails loud — an unnecessary commit — rather than
-    quiet, which would leave the site serving stale data.
     """
     cleaned = copy.deepcopy(snapshot)
 
-    # The time the snapshot was built and the telemetry of the run that built
-    # it. Both differ every run even when the wiki did not change.
     cleaned.pop("generated_at", None)
     cleaned.pop("last_scrape", None)
 
@@ -71,21 +98,11 @@ def _strip_volatile(snapshot: dict) -> dict:
     for item in cleaned.get("items") or []:
         if not isinstance(item, dict):
             continue
-        item.pop("created_at", None)
-        item.pop("updated_at", None)
         data = item.get("data")
         if isinstance(data, dict):
             merchant = data.get("merchant")
             if isinstance(merchant, dict):
                 merchant.pop("last_seen", None)
-
-    for formula in cleaned.get("formulas") or []:
-        if isinstance(formula, dict):
-            formula.pop("created_at", None)
-
-    for page in cleaned.get("wiki_pages") or []:
-        if isinstance(page, dict):
-            page.pop("last_scraped", None)
 
     return cleaned
 
@@ -134,6 +151,10 @@ async def export_snapshot(
 
         if not force:
             reason = _refusal_reason(existing, snapshot)
+            if reason is None:
+                reason = _data_quality_reason(snapshot)
+            if reason is None:
+                reason = _schema_reason(snapshot)
             if reason is not None:
                 return {
                     "status": "refused",

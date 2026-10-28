@@ -67,21 +67,13 @@ export interface PICKSnapshot {
    */
   counts: {
     items: number;
-    formulas: number;
-    wiki_pages: number;
+    formulas?: number;
+    wiki_pages?: number;
   };
   /**
    * Everything the site can show a page about.
    */
   items: Item[];
-  /**
-   * The formulas the calculators use.
-   */
-  formulas: Formula[];
-  /**
-   * The wiki pages that were read.
-   */
-  wiki_pages: WikiPage[];
   /**
    * The game version the data was read from.
    */
@@ -123,10 +115,6 @@ export interface TaxonomyEntry {
  * via the `definition` "item".
  */
 export interface Item {
-  /**
-   * The row's identifier. Stable for as long as the row lives.
-   */
-  id: number;
   type: ItemType;
   /**
    * The name to show a user.
@@ -148,8 +136,26 @@ export interface Item {
    * The description, when there is one.
    */
   description: string | null;
-  created_at: string;
-  updated_at: string;
+}
+/**
+ * This interface was referenced by `PICKSnapshot`'s JSON-Schema
+ * via the `definition` "gameVersion".
+ */
+export interface GameVersion {
+  version: string | null;
+  detected_at: string | null;
+}
+/**
+ * This interface was referenced by `PICKSnapshot`'s JSON-Schema
+ * via the `definition` "lastScrape".
+ */
+export interface LastScrape {
+  status: string | null;
+  started_at: string | null;
+  finished_at: string | null;
+  pages_scraped: number;
+  pages_changed: number;
+  pages_errors: number;
 }
 /**
  * This interface was referenced by `PICKSnapshot`'s JSON-Schema
@@ -188,24 +194,4 @@ export interface WikiPage {
   last_scraped: string | null;
   content_hash: string;
   namespace: number;
-}
-/**
- * This interface was referenced by `PICKSnapshot`'s JSON-Schema
- * via the `definition` "gameVersion".
- */
-export interface GameVersion {
-  version: string | null;
-  detected_at: string | null;
-}
-/**
- * This interface was referenced by `PICKSnapshot`'s JSON-Schema
- * via the `definition` "lastScrape".
- */
-export interface LastScrape {
-  status: string | null;
-  started_at: string | null;
-  finished_at: string | null;
-  pages_scraped: number;
-  pages_changed: number;
-  pages_errors: number;
 }

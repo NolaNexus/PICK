@@ -72,8 +72,6 @@ def test_timestamps_alone_are_not_a_change():
     second = _snapshot(
         generated_at="2026-10-27T20:30:01.586710+00:00",
     )
-    second["items"][0]["created_at"] = "2026-10-27T20:29:53.923138+00:00"
-    second["items"][0]["updated_at"] = "2026-10-27T20:29:53.923171+00:00"
     second["last_scrape"]["started_at"] = "2026-10-27T20:29:53.928706+00:00"
     second["last_scrape"]["finished_at"] = "2026-10-27T20:30:01.439051+00:00"
     second["game_version"]["detected_at"] = "2026-10-27T20:29:53.920656+00:00"

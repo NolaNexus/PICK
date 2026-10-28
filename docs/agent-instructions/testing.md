@@ -51,8 +51,7 @@ MEDIAWIKI_API_URL="http://invalid.invalid/api.php" .venv/bin/python -m pytest -q
 
 - `npm run test` runs vitest. Config: `frontend/vitest.config.ts`. It runs in the **node**
   environment.
-- The modules under test (`calculators.ts`, `museum.ts`, `taxonomy.ts`, `snapshot.ts`) are
-  pure. Only `lib/idb.ts` touches `indexedDB`, and it is not under test.
+- The modules under test (`taxonomy.ts`, `snapshot.ts`) are pure. Only `lib/idb.ts` touches `indexedDB`, and it is not under test.
 - Import `describe`, `it` and `expect` from `vitest` explicitly. Do not rely on globals.
   This needs no tsconfig change and keeps ESLint's `no-undef` quiet.
 - A test that needs the DOM opts in with a `// @vitest-environment jsdom` docblock.

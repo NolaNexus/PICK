@@ -20,7 +20,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import Item
-from app.services.reconcile import CANONICAL_PREFERENCE, type_prefixed_slug
+from app.services.item_data import normalize_item_data
 from app.utils.mw_api import MediaWikiClient
 from scrapers.item_page import parse_item_page
 from scrapers.pages import is_index_page, is_item_page
@@ -361,7 +361,7 @@ def _merge_into(item: Item, parsed: dict[str, Any]) -> tuple[int, list[dict[str,
             filled += 1
 
     if filled:
-        item.data = data
+        item.data = normalize_item_data(data, item.type)
         item.updated_at = datetime.now(UTC)
 
     return filled, conflicts
@@ -419,12 +419,9 @@ def _new_item(
         type=item_type,
         name=name,
         slug=slug,
-        data=data,
+        data=normalize_item_data(data, item_type),
         image_url=image_url,
         description=description,
         is_active=True,
     )
-    # The page the item came from is kept in its data, because the wiki page
-    # row is only for the pages the scraper reads as index pages.
-    item.data = {**data, "source_page": source_page}
     return item

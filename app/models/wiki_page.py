@@ -19,7 +19,7 @@ class WikiPage(Base):
     last_revision_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
     last_scraped: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
-        default=datetime.now(UTC),
+        default=lambda: datetime.now(UTC),
         server_default=func.now(),
         nullable=False,
     )

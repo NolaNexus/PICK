@@ -9,67 +9,51 @@ from scrapers.types import ParsedItem
 
 def parse_minerals(wikitext: str) -> list[ParsedItem]:
     """Parse mineral data from wikitext containing Mineral tables with tabber tiers."""
-    tree = mwparserfromhell.parse(wikitext)
     minerals: list[ParsedItem] = []
 
-    # Find all tabber sections (tiers like Common, Uncommon, etc.)
-    tabbers = tree.filter_tags(matches="tabber")
-    for tabber in tabbers:
-        # Get the tabber content
-        tabber_text = str(tabber).strip()
+    # Find tabber sections (tiers like Common, Uncommon, etc.).
+    tabber_pattern = r"<tabber>(.*?)</tabber>"
+    tabber_match = re.search(tabber_pattern, wikitext, re.DOTALL | re.IGNORECASE)
+    if tabber_match:
+        tabber_text = tabber_match.group(1)
+        tab_pattern = r"\|\-\|\s*([^=]+)\s*=(.*?)(?=\|\-\||\Z)"
+        for tab_match in re.finditer(tab_pattern, tabber_text, re.DOTALL):
+            tier = tab_match.group(1).strip()
+            _parse_mineral_templates(tab_match.group(2), tier, minerals)
 
-        # Parse the tab labels using regex
-        # Pattern: |-| TierName =
-        tab_pattern = r"\|\-\|\s*([^=]+)\s*=(.*?)(?=\|\-\||</?tabber>|\Z)"
-        tab_matches = re.finditer(tab_pattern, tabber_text, re.DOTALL)
+    # Templates outside a tabber have no tier.
+    outside = re.sub(tabber_pattern, "", wikitext, flags=re.DOTALL | re.IGNORECASE)
+    _parse_mineral_templates(outside, "", minerals)
 
-        current_tier = ""
-        for tab_match in tab_matches:
-            current_tier = tab_match.group(1).strip()
-            tab_content = tab_match.group(2).strip()
-            _parse_mineral_table(tab_content, current_tier, minerals)
-
-    # Also parse minerals from any non-tabber tables
-    _parse_all_mineral_templates(wikitext, minerals)
-
-    # The tabber pass and the global template pass can both yield the same
-    # mineral. Keep the first occurrence (which carries the tabber tier) and
-    # drop duplicates so slugs remain unique for the database upsert.
-    unique_minerals: list[ParsedItem] = []
-    seen_slugs: set[str] = set()
+    # Keep the first occurrence of a slug so the tabber tier wins.
+    unique: list[ParsedItem] = []
+    seen: set[str] = set()
     for mineral in minerals:
-        slug = mineral["slug"]
-        if slug in seen_slugs:
+        if mineral["slug"] in seen:
             continue
-        seen_slugs.add(slug)
-        unique_minerals.append(mineral)
+        seen.add(mineral["slug"])
+        unique.append(mineral)
+    return unique
 
-    return unique_minerals
 
-
-def _parse_mineral_table(table_text: str, tier: str, minerals: list[ParsedItem]) -> None:
-    """Parse mineral rows from a table within a tabber section."""
-    # Match {{Mineral row slim ...}} templates
-    template_pattern = r"\{\{Mineral row slim[^}]*\}\}"
-
-    for match in re.finditer(template_pattern, table_text, re.DOTALL):
-        template_text = match.group(0)
-        params = _extract_mineral_params(template_text)
+def _parse_mineral_templates(text: str, tier: str, minerals: list[ParsedItem]) -> None:
+    """Parse every Mineral row slim template in a block of wikitext."""
+    tree = mwparserfromhell.parse(text)
+    for template in tree.filter_templates(matches="Mineral row slim"):
+        params = {str(p.name).strip().lower(): str(p.value).strip() for p in template.params}
 
         name = params.get("name", "")
         if not name:
             continue
 
         try:
-            value = float(str(params.get("value", "0")).replace(",", "").strip())
+            value = float(params.get("value", "0").replace(",", "").strip())
         except (ValueError, TypeError):
             value = 0
 
-        # Parse locations from wiki template references like {{LocationName}}
         locations = _parse_mineral_locations(params.get("locations", ""))
-
-        description = str(params.get("description", "")).strip()
-        image = str(params.get("image", "")).strip()
+        description = params.get("description", "")
+        image = params.get("image", "")
 
         minerals.append(
             {
@@ -90,9 +74,12 @@ def _parse_mineral_table(table_text: str, tier: str, minerals: list[ParsedItem])
 
 
 def _parse_mineral_locations(locations_str: str) -> list[str]:
-    """Parse location names from the locations parameter string."""
+    """Parse location names from a locations parameter."""
     locations: list[str] = []
-    # Find wikilink names: [[Name]] or [[Name|Display]]
+    for match in re.finditer(r"\{\{([^}]+)\}\}", locations_str):
+        name = match.group(1).strip()
+        if name and name not in locations:
+            locations.append(name)
     for match in re.finditer(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", locations_str):
         name = match.group(1).strip()
         if name and name not in locations:
@@ -100,61 +87,6 @@ def _parse_mineral_locations(locations_str: str) -> list[str]:
     return locations
 
 
-def _extract_mineral_params(template_text: str) -> dict[str, str]:
-    """Extract parameters from a Mineral row slim template."""
-    params = {}
-
-    # Match key=value pairs within the template
-    # Pattern: | key = value (value extends to end or next pipe)
-    param_pattern = r"\|\s*(\w+)\s*=\s*([^|}]+)"
-    for match in re.finditer(param_pattern, template_text):
-        key = match.group(1).strip().lower()
-        value = match.group(2).strip()
-        # Clean up value - remove trailing whitespace, newlines
-        value = re.sub(r"\s+\|.*$", "", value).strip()
-        params[key] = value
-
-    return params
-
-
-def _parse_all_mineral_templates(wikitext: str, minerals: list[ParsedItem]) -> None:
-    """Parse any {{Mineral row slim ...}} templates found anywhere in the wikitext."""
-    template_pattern = r"\{\{Mineral row slim[^}]*\}\}"
-
-    for match in re.finditer(template_pattern, wikitext, re.DOTALL):
-        template_text = match.group(0)
-        params = _extract_mineral_params(template_text)
-
-        name = params.get("name", "")
-        if not name:
-            continue
-
-        try:
-            value = float(str(params.get("value", "0")).replace(",", "").strip())
-        except (ValueError, TypeError):
-            value = 0
-
-        locations = _parse_mineral_locations(params.get("locations", ""))
-        description = str(params.get("description", "")).strip()
-        image = str(params.get("image", "")).strip()
-
-        minerals.append(
-            {
-                "id": _slugify(name),
-                "type": "mineral",
-                "name": name,
-                "slug": _slugify(name),
-                "data": {
-                    "image": image,
-                    "value": value,
-                    "locations": locations,
-                    "description": description,
-                    "tier": "",
-                },
-                "image_url": None,
-            }
-        )
-
-
 def _slugify(name: str) -> str:
     return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "")
+PY

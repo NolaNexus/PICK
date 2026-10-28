@@ -46,8 +46,8 @@ export default function HomePage() {
     return result
   }, [snapshot, taxonomy])
 
-  const updated = snapshot?.meta?.last_scrape?.finished_at
-    ? new Date(snapshot.meta.last_scrape.finished_at).toLocaleDateString(undefined, {
+  const updated = snapshot?.last_scrape?.finished_at
+    ? new Date(snapshot.last_scrape.finished_at).toLocaleDateString(undefined, {
         year: "numeric",
         month: "short",
         day: "numeric",
@@ -116,8 +116,8 @@ export default function HomePage() {
               Data updated {updated}
             </>
           )}
-          {snapshot?.meta?.game_version?.version && (
-            <> · Game version {snapshot.meta.game_version.version}</>
+          {snapshot?.game_version?.version && (
+            <> · Game version {snapshot.game_version.version}</>
           )}
         </p>
       </section>

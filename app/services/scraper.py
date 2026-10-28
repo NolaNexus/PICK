@@ -9,12 +9,13 @@ from typing import TYPE_CHECKING, Any
 
 from sqlalchemy import select, update
 
+from app.services.item_data import normalize_item_data
 from app.services.enrichment import enrich_items_from_pages
 from app.services.reconcile import reconcile_items, type_prefixed_slug
 from app.utils.mw_api import MediaWikiClient
 from scrapers import PARSER_VERSION, PARSERS, TRACKED_PAGES
 from scrapers.types import ParsedItem
-from scrapers.wikitext import render_item_data
+from scrapers.wikitext import render_item_data, render_text
 
 if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncSession
@@ -183,6 +184,16 @@ async def _run_scrape(
         logger.exception("Item reconciliation failed")
         reconciled = {}
 
+    # Normalise the stored payload once, after every page has been merged, so
+    # the database never keeps a field the site does not read.
+    from app.models import Item
+
+    for item in (await db.execute(select(Item).where(Item.is_active.is_(True)))).scalars().all():
+        normalized = normalize_item_data(item.data, item.type)
+        if normalized != (item.data or {}):
+            item.data = normalized
+            item.updated_at = datetime.now(UTC)
+
     run.finished_at = datetime.now(UTC)
     run.status = "success" if pages_errors == 0 else "partial"
     run.pages_scraped = pages_scraped
@@ -319,9 +330,16 @@ async def scrape_page(
 
         # Item data is public API and is read as plain text, so the wiki
         # markup is resolved once, here, instead of in every parser.
+        description = item_data.get("description")
+        if isinstance(description, str):
+            description = render_text(description)
         item_data = {
             **item_data,
-            "data": render_item_data(item_data.get("data", {}) or {}),
+            "data": normalize_item_data(
+                render_item_data(item_data.get("data", {}) or {}),
+                item_data.get("type"),
+            ),
+            "description": description,
         }
 
         image_url = image_urls.get(_image_name(item_data.get("data", {})))

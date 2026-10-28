@@ -20,18 +20,16 @@ class ScraperRun(Base):
     )
     started_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
-        default=datetime.now(UTC),
+        default=lambda: datetime.now(UTC),
         server_default=func.now(),
         nullable=False,
     )
     finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     status: Mapped[str | None] = mapped_column(String(20))
-    # These three are nullable in the database, which is what the initial
-    # migration created. The model matches it rather than being stricter, so
-    # the two cannot disagree about the schema.
-    pages_scraped: Mapped[int | None] = mapped_column(BigInteger, default=0, server_default="0")
-    pages_changed: Mapped[int | None] = mapped_column(BigInteger, default=0, server_default="0")
-    pages_errors: Mapped[int | None] = mapped_column(BigInteger, default=0, server_default="0")
+    # These are counts: a run that has not recorded one is a zero, not a null.
+    pages_scraped: Mapped[int] = mapped_column(BigInteger, default=0, server_default="0", nullable=False)
+    pages_changed: Mapped[int] = mapped_column(BigInteger, default=0, server_default="0", nullable=False)
+    pages_errors: Mapped[int] = mapped_column(BigInteger, default=0, server_default="0", nullable=False)
     error_log: Mapped[str | None] = mapped_column(Text)
 
     def __repr__(self):

@@ -26,8 +26,6 @@ export type {
 };
 
 export type SnapshotCounts = PICKSnapshot["counts"];
-export type SnapshotFormula = Formula;
-export type SnapshotWikiPage = WikiPage;
 
 export interface SnapshotMeta {
   game_version: GameVersion | null;
@@ -48,9 +46,8 @@ export interface SnapshotData {
   generated_at: string;
   counts: SnapshotCounts;
   items: Item[];
-  formulas: SnapshotFormula[];
-  wiki_pages: SnapshotWikiPage[];
-  meta: SnapshotMeta;
+  game_version: GameVersion | null;
+  last_scrape: LastScrape | null;
 }
 
 export interface CachedSnapshot {
@@ -80,7 +77,7 @@ const EMPTY_VERSION: GameVersion = {
  * a snapshot of a different shape, the cached one is discarded so the new
  * data is fetched instead of the old data being rendered by new code.
  */
-export const SNAPSHOT_SCHEMA_VERSION = 6;
+export const SNAPSHOT_SCHEMA_VERSION = 7;
 
 /** Shape of a snapshot payload before it is normalized. */
 interface RawSnapshot {
@@ -89,14 +86,8 @@ interface RawSnapshot {
   generated_at?: string;
   counts?: SnapshotData["counts"];
   items?: SnapshotData["items"];
-  formulas?: SnapshotData["formulas"];
-  wiki_pages?: SnapshotData["wiki_pages"];
   game_version?: Partial<GameVersion> | null;
   last_scrape?: Partial<LastScrape> | null;
-  meta?: {
-    game_version?: Partial<GameVersion> | null;
-    last_scrape?: Partial<LastScrape> | null;
-  } | null;
 }
 
 /**
@@ -108,8 +99,8 @@ interface RawSnapshot {
  * `meta.game_version` and `meta.last_scrape` being present.
  */
 export function normalizeSnapshot(raw: RawSnapshot | null | undefined): SnapshotData {
-  const gameVersion = raw?.game_version ?? raw?.meta?.game_version ?? null;
-  const lastScrape = raw?.last_scrape ?? raw?.meta?.last_scrape ?? null;
+  const gameVersion = raw?.game_version ?? null;
+  const lastScrape = raw?.last_scrape ?? null;
 
   return {
     schema_version: raw?.schema_version ?? SNAPSHOT_SCHEMA_VERSION,
@@ -117,30 +108,24 @@ export function normalizeSnapshot(raw: RawSnapshot | null | undefined): Snapshot
     generated_at: raw?.generated_at ?? new Date().toISOString(),
     counts: raw?.counts ?? {
       items: raw?.items?.length ?? 0,
-      formulas: raw?.formulas?.length ?? 0,
-      wiki_pages: raw?.wiki_pages?.length ?? 0,
     },
     items: raw?.items ?? [],
-    formulas: raw?.formulas ?? [],
-    wiki_pages: raw?.wiki_pages ?? [],
-    meta: {
-      game_version: gameVersion
-        ? {
-            version: gameVersion.version ?? null,
-            detected_at: gameVersion.detected_at ?? null,
-          }
-        : EMPTY_VERSION,
-      last_scrape: lastScrape
-        ? {
-            status: lastScrape.status ?? null,
-            started_at: lastScrape.started_at ?? null,
-            finished_at: lastScrape.finished_at ?? null,
-            pages_scraped: lastScrape.pages_scraped ?? 0,
-            pages_changed: lastScrape.pages_changed ?? 0,
-            pages_errors: lastScrape.pages_errors ?? 0,
-          }
-        : EMPTY_SCRAPE,
-    },
+    game_version: gameVersion
+      ? {
+          version: gameVersion.version ?? null,
+          detected_at: gameVersion.detected_at ?? null,
+        }
+      : EMPTY_VERSION,
+    last_scrape: lastScrape
+      ? {
+          status: lastScrape.status ?? null,
+          started_at: lastScrape.started_at ?? null,
+          finished_at: lastScrape.finished_at ?? null,
+          pages_scraped: lastScrape.pages_scraped ?? 0,
+          pages_changed: lastScrape.pages_changed ?? 0,
+          pages_errors: lastScrape.pages_errors ?? 0,
+        }
+      : EMPTY_SCRAPE,
   };
 }
 
@@ -235,25 +220,6 @@ export class SnapshotCache {
       });
     }
     return list.sort((a, b) => a.name.localeCompare(b.name));
-  }
-
-  getFormulas(data: SnapshotData): SnapshotFormula[] {
-    return data.formulas;
-  }
-
-  getOreData(data: SnapshotData, slug: string): Record<string, unknown> | undefined {
-    const item = data.items.find((i) => i.slug === slug);
-    return item?.data ?? undefined;
-  }
-
-  buildOreDatabase(data: SnapshotData): Record<string, Record<string, unknown>> {
-    const db: Record<string, Record<string, unknown>> = {};
-    for (const item of data.items) {
-      const rarity = (item.data as Record<string, unknown> | undefined)?.rarity as string | undefined;
-      if (!rarity) continue;
-      db[`${item.name}|${rarity}`] = item.data as Record<string, unknown>;
-    }
-    return db;
   }
 }
 

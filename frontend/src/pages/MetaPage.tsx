@@ -61,8 +61,8 @@ export default function MetaPage() {
     if (!snapshot) return null
     const counts = snapshot.counts
     const types = snapshotCache.getTypes(snapshot)
-    const lastScrape = snapshot.meta.last_scrape
-    const game_version = snapshot.meta.game_version
+    const lastScrape = snapshot.last_scrape
+    const game_version = snapshot.game_version
 
     return {
       total_items: counts.items,

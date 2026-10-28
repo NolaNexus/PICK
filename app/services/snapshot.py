@@ -5,7 +5,7 @@ from datetime import UTC, datetime
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models import Formula, GameVersion, Item, ScraperRun, WikiPage
+from app.models import GameVersion, Item, ScraperRun
 from app.taxonomy import load_taxonomy
 
 #: Version of the shape of the snapshot payload.
@@ -14,7 +14,7 @@ from app.taxonomy import load_taxonomy
 #: of the data changes, this version is bumped so a client discards the
 #: snapshot it has and fetches the new one, instead of rendering old data
 #: with the new code.
-SNAPSHOT_SCHEMA_VERSION = 6
+SNAPSHOT_SCHEMA_VERSION = 7
 
 
 def _iso(value):
@@ -23,15 +23,12 @@ def _iso(value):
 
 def _item_row(item: Item) -> dict:
     return {
-        "id": item.id,
         "type": item.type,
         "name": item.name,
         "slug": item.slug,
         "data": item.data,
         "image_url": item.image_url,
         "description": item.description,
-        "created_at": _iso(item.created_at),
-        "updated_at": _iso(item.updated_at),
     }
 
 
@@ -63,20 +60,11 @@ def _wiki_page_row(page: WikiPage) -> dict:
 
 
 async def build_snapshot(db: AsyncSession) -> dict:
-    """Build the full public dataset snapshot dict from the database.
-
-    The rows are ordered explicitly. Without an ORDER BY, PostgreSQL returns
-    rows in whatever order the plan happens to produce, and that order is not
-    stable between runs: the same data would then produce a different file
-    every time, and the export would commit it daily for no reason.
-    """
     items = (
         (await db.execute(select(Item).where(Item.is_active.is_(True)).order_by(Item.slug)))
         .scalars()
         .all()
     )
-    formulas = (await db.execute(select(Formula).order_by(Formula.formula_id))).scalars().all()
-    wiki_pages = (await db.execute(select(WikiPage).order_by(WikiPage.title))).scalars().all()
     game_version = (
         await db.execute(select(GameVersion).order_by(GameVersion.detected_at.desc()).limit(1))
     ).scalar_one_or_none()
@@ -91,16 +79,25 @@ async def build_snapshot(db: AsyncSession) -> dict:
         "generated_at": datetime.now(UTC).isoformat(),
         "counts": {
             "items": len(items),
-            "formulas": len(formulas),
-            "wiki_pages": len(wiki_pages),
         },
         "items": [_item_row(i) for i in items],
-        "formulas": [_formula_row(f) for f in formulas],
-        "wiki_pages": [_wiki_page_row(p) for p in wiki_pages],
         "game_version": {
             "version": game_version.version if game_version else None,
             "detected_at": _iso(game_version.detected_at) if game_version else None,
         }
+        if game_version
+        else None,
+        "last_scrape": {
+            "status": last_run.status if last_run else "never",
+            "started_at": _iso(last_run.started_at) if last_run else None,
+            "finished_at": _iso(last_run.finished_at) if last_run else None,
+            "pages_scraped": last_run.pages_scraped if last_run else 0,
+            "pages_changed": last_run.pages_changed if last_run else 0,
+            "pages_errors": last_run.pages_errors if last_run else 0,
+        }
+        if last_run
+        else None,
+    }
         if game_version
         else None,
         "last_scrape": {

@@ -50,7 +50,7 @@ _HEADING = re.compile(r"^==+\s*([^=]+?)\s*==+\s*$", re.MULTILINE)
 
 # A drop chance line, e.g. "* '''Haunted Creek''' - 0.00000002161% (~1 in 4,626,836,341)".
 _CHANCE = re.compile(
-    r"^\*\s*'{0,2}(?P<location>[^:]+?)\s*'{0,2}\s*-\s*(?P<chance>[\d.]+)%(?P<one_in>\s*\(~1 in [\d,]+\))?",
+    r"^\*\s*'{0,2}(?P<location>[^\n:]+?)\s*'{0,2}\s*-\s*(?P<chance>[\d.]+)%(?P<one_in>\s*\(~1 in [\d,]+\))?",
     re.MULTILINE,
 )
 

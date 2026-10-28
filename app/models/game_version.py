@@ -18,7 +18,7 @@ class GameVersion(Base):
     raw_header: Mapped[str | None] = mapped_column(Text)
     detected_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
-        default=datetime.now(UTC),
+        default=lambda: datetime.now(UTC),
         server_default=func.now(),
         nullable=False,
     )

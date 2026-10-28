@@ -73,8 +73,8 @@ export function ItemDetailShell({
       <div className="flex gap-4">
         <ItemImage src={item.image_url} alt={item.name} />
         <div className="min-w-0 flex-1 space-y-2">
-          {str(data, "description") ? (
-            <TextBlock>{str(data, "description")}</TextBlock>
+          {item.description ? (
+            <TextBlock>{item.description}</TextBlock>
           ) : null}
         </div>
       </div>

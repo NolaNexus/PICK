@@ -1,248 +1,308 @@
-# File the known gaps as GitHub issues
+# Remove the API layer — the project becomes a static site plus a scraper
 
 **Status:** implemented.
 
+## Outcome
+
+The API is gone. `app/api/`, `app/main.py`, `app/schemas/`, `app/monitoring.py`,
+`app/utils/__init__.py`, `openapi.json`, the orval client and the `Dockerfile` were
+all removed, along with the `fastapi`, `uvicorn` and `prometheus_client`
+dependencies. **7,355 lines deleted, 1,197 added.**
+
+Reddit was already gone and needed nothing.
+
+The gates are green: ruff check and format clean, mypy clean on 54 files, 402
+backend tests pass (398 with the wiki unreachable), and the frontend's 126 tests
+across 4 files pass with typecheck, lint and build clean.
+
 ## Context
 
-The previous plan (also `1793193469627-agents-md-reconcile.md`, before it was
-repurposed) closed four documentation gaps and is implemented and pushed.
-Separately, five known gaps were identified and listed for the user, who asked for
-issues to be opened for all of them.
+Two requests: remove the Reddit connection altogether, and remove the API if there is
+no practical reason to keep it.
 
-While researching them to write accurate issue bodies, a **sixth and more severe
-defect** turned up: the Museum calculator is broken end-to-end, not merely missing
-a feature. It replaces the "mode select does nothing" gap with a larger one. The
-user confirmed the Museum issues should be **one issue**, not three.
+**Reddit is already gone.** There is nothing to remove:
 
-No code changes to the application. This plan files **four issues** covering the
-five gaps, and adds the issue templates as a commit.
+- Zero `reddit` references anywhere outside `.kilo/plans/`.
+- No `app/services/news_scraper.py`, no `scripts/news_scraper.py`.
+- No `REDDIT_*` variable in `.env.example`.
+- The `news_articles` table was dropped in `alembic/versions/005_drop_news_articles.py`;
+  no news model remains in `app/models/`.
+- The News *page* was removed too. There are seven pages: Calculators, Home, Items,
+  Meta, Minerals, Search, World. The README describes no News page.
 
-## What to file, and the evidence for each
+The only Reddit residue is in three stale plan files, which now say so.
 
-Every claim below was verified against the code, not inferred.
+**The API is fully redundant.** Every one of these was checked, not assumed:
 
-### Issue 1 — the Museum calculator returns empty results (bug)
+| Check | Finding |
+| --- | --- |
+| Deployment | None. No `render.yaml`, no deploy-api workflow (only `ci.yml` and `static.yml`), no Render integration. The systemd units run `scripts/refresh_site.sh`, not uvicorn. |
+| Frontend consumer | None. No file imports `@/api/pick`; the generated `pick.ts` is imported by nothing. `snapshot.ts` uses the raw `request()` client for `/api/v1/export/snapshot`, guarded by `if (!API_BASE_URL)` with a fallback to the committed `snapshot.json`. |
+| The export pipeline | **Bypasses the API entirely.** `scripts/export_snapshot.py` imports `build_snapshot` from `app.services.snapshot` directly. `app/api/export.py` is a thin HTTP wrapper over the same function. |
+| Search | Equivalent, not richer. `app/api/search.py` is `ILIKE %q%` over name/description/data. `snapshotCache.searchItems` does the same, including `JSON.stringify(i.data)` for the location filter. |
+| Pagination | On both sides. API uses `page`/`size`; the frontend slices with `PAGE_SIZE = 50`. |
+| Meta | Snapshot-backed. `MetaPage.tsx` reads `snapshot.meta.*`. |
+| Layer imports | Nothing outside `app/api/` and `app/main.py` imports the API layer. |
 
-Three independent defects, each fatal on its own. All must be fixed for the tab to
-work, which is why they are one issue.
+The user chose **remove the API entirely**.
 
-**(a) Rarity casing mismatch.** `frontend/src/lib/museum.ts:22` defines
-`RARITY_ORDER = ["Common", "Uncommon", "Rare", ...]` in title case, and
-`calculateMuseumComparison` iterates exactly those strings, looking up
-`oreDatabase[`${oreName}|${rarity}`]` (`:282`, `:296`). But
-`frontend/src/pages/CalculatorsPage.tsx:132` and `:246` seed the user's ore rows
-with `rarity: 'common'` — lowercase — and `:594` accepts free text. `availableOres`
-is bucketed by the ore's own typed rarity (`:236-242`), then only the `RARITY_ORDER`
-buckets are read (`:262`). A lowercase `common` ore lands in a bucket nobody reads.
-The default ore row contributes nothing.
+## What gets removed
 
-**(b) The ore data is nested where the code reads it flat.** The snapshot stores
-museum ore data at `data.museum = { rarity, max_boost, bonus_stat, min_weight_kg }`
-— see `mineral-amber`, `frontend/public/snapshot.json:11784-11789`.
-`CalculatorsPage.tsx:257` stores the whole `data` object as the ore record, but
-`museum.ts:137-139` reads `oreData.min_kg`, `oreData.bonus_stat`,
-`oreData.max_boost` at the **top level**. So `bonus_stat` and `max_boost` are
-undefined, and the weight field is not merely nested but *differently named*:
-the data has `min_weight_kg`, the code wants `min_kg`. Every boost computes to 0.
+### Backend
 
-**(c) The page's ore database is discarded.** `CalculatorsPage.tsx:250-265` builds
-`oreDb` from the snapshot. `calculateMuseumOptimizer` never accepts it — it builds
-its own at `museum.ts:588-591` with `oreDatabase[key] = {} as OreData`, i.e. empty
-objects for every ore. The page's `oreDb` work is thrown away.
+| Path | Lines | Why it goes |
+| --- | --- | --- |
+| `app/api/` (6 files) | ~430 | The routers. Nothing outside `app/main.py` imports them. |
+| `app/main.py` | ~60 | The ASGI app. Only `docker-compose.yml`'s `api` service and the CI `generated-files` job reference it. |
+| `app/monitoring.py` | ~130 | Prometheus metrics and the health router, mounted only by `app/main.py`. |
+| `app/schemas/` (3 files) | ~120 | Pydantic response models, imported only by `app/api/`. |
+| `app/utils/__init__.py` | ~30 | `get_client_ip` and `rate_limit_key` take a FastAPI `Request`. **Verified unused**: nothing imports `from app.utils import ...`. `app/utils/mw_api.py` — which IS used — does not import the package `__init__`. |
+| `tests/test_api.py` | 288 | The only test that builds the ASGI app (`httpx.ASGITransport(app=app)`). |
+| `openapi.json` | ~2900 | The published spec. Cannot be regenerated without the app. |
+| `Dockerfile` | 24 | Exists only to run the API (`CMD uvicorn app.main:app`). Nothing else builds it — `docker-compose.yml` is its only referrer. |
+| `docker-compose.yml`'s `api` service | 20 | Runs uvicorn against `app.main:app`. |
 
-**Observed effect.** The Museum tab shows empty slot recommendations and zero
-stats. The render block (`CalculatorsPage.tsx:627-656`) shows only
-`slot_recommendations` and `total_stats`; `by_rarity`, `weight_gate_info` and
-`unlock_costs` are computed by `calculateMuseumOptimizer` (`museum.ts:562-568`) and
-**never rendered**.
+### Frontend
 
-**(d) The `mode` select is dead.** `museumSchema.mode`
-(`CalculatorsPage.tsx:75`) offers `optimize | project | weight_gate |
-unlock_cost`. `values.mode` is never read — `handleMuseumSubmit` (`:247-278`)
-passes only `availableOres`, `unlockedDisplays`, `targetStats` and `sizeBoost`.
-The three modes map exactly onto the three unrendered outputs, so the select
-promises views that do not exist.
+| Path | Why it goes |
+| --- | --- |
+| `frontend/src/api/pick.ts` | The orval client. Generated from `openapi.json`, imported by nothing. |
+| `frontend/src/api/client.ts` | The raw `request()` helper. Imported by exactly one file: `snapshot.ts:1`. |
+| `frontend/orval.config.mjs` | The orval config. Its only output was `pick.ts`. |
 
-**Also note:** `unlockedDisplays` is hard-coded to `[]` (`:269`), so the calculator
-never sees the player's current museum.
+### Dependencies
 
-### Issue 2 — `calculateEV` uses price as a drop chance (bug)
+Drop from `requirements.txt`: `fastapi`, `uvicorn[standard]`, `prometheus_client`.
 
-`frontend/src/lib/calculators.ts:247-252`:
+**Keep `pydantic` and `pydantic-settings`** — `app/config.py` uses
+`pydantic_settings.BaseSettings` and `app/config.py` is needed by `app/database.py`,
+`app/utils/mw_api.py` and `tests/conftest.py`. `pydantic` itself is a transitive
+dependency of `pydantic-settings`.
 
-```ts
-const dropChance = new Decimal(item.base_price ?? 0) // placeholder: actual drop chance field varies
-const price = new Decimal(item.base_price ?? 0)
-totalEv = totalEv.plus(dropChance.times(price).times(weightMultiplier(0)))
+**Keep `httpx`** — `app/utils/mw_api.py` uses it for the wiki client, and
+`tests/conftest.py` uses it for the live-wiki check.
+
+**Keep `jsonschema`** — `tests/test_snapshot_contract.py` validates the committed
+snapshot against `snapshot.schema.json`, which stays.
+
+## What stays, and why
+
+The scraper, the database models, the reconciler, the taxonomy, the exporter and the
+frontend are the product. None of them touch the API layer:
+
+- `app/services/scraper.py`, `reconcile.py`, `enrichment.py`, `snapshot.py`,
+  `seed_formulas.py` — unchanged.
+- `app/models/` — unchanged. The schema is the database's, not the API's.
+- `app/config.py`, `app/database.py`, `app/taxonomy.py`, `app/logging_config.py`,
+  `app/utils/mw_api.py` — unchanged.
+- `app/api/export.py` was the only API module with real logic, and that logic is
+  `build_snapshot`, which lives in `app/services/snapshot.py` and stays.
+- `scripts/export_snapshot.py` — unchanged. It never went through the API.
+- `scripts/refresh_site.sh` — unchanged. It starts only the `db` compose service.
+- `snapshot.schema.json` and the generated `frontend/src/lib/snapshot.types.ts` —
+  unchanged. The snapshot contract is independent of the API.
+
+## The changes
+
+### 1. Delete the API layer
+
+```bash
+git rm -r app/api app/schemas
+git rm app/main.py app/monitoring.py app/utils/__init__.py
+git rm tests/test_api.py openapi.json Dockerfile
 ```
 
-`evPerPan` is therefore `Σ(base_price² × 1)`. The real formula is
-`Σ(drop_chance × price × weight_multiplier)`; the code's own comment says so.
+### 2. Trim `docker-compose.yml`
 
-The good news, verified: **the real drop chances are already in the snapshot.**
-Minerals carry `data.chances[]` with `chance_percent` and `one_in` — see
-`mineral-amber`, `snapshot.json:11791-11812` (`chance_percent: 0.05837`,
-`one_in: 1713`). No new scraper field is needed.
+Remove the `api` service. The `db` service and the `pick_db_data` volume stay —
+the scraper needs the database.
 
-Two smaller defects in the same function:
+### 3. Trim `requirements.txt`
 
-- `inputs.luck` and `inputs.quality` are accepted (`:217-218`) and then ignored.
-- `weightMultiplier(0)` is hard-coded, so the weight multiplier never applies.
-- `base_weight` is collected in the UI (`CalculatorsPage.tsx:363`) and passed in
-  (`:150`) but is never used by the maths.
+Remove `fastapi==0.162.0`, `uvicorn[standard]==0.54.0`, `prometheus_client==0.26.0`.
+`pyproject.toml` reads its dependency list from `requirements.txt`, so it follows
+automatically.
 
-The existing test `frontend/src/lib/calculators.test.ts` pins the current behaviour
-with a `TODO` comment, so it will need updating with the fix.
+### 4. Reduce the CI `generated-files` job
 
-### Issue 3 — the frontend has mixed indentation (enhancement)
+It currently regenerates `openapi.json` from `app.main.app`, runs
+`npm run generate:api`, and diffs three files. After the removal there is one
+generated file left: `frontend/src/lib/snapshot.types.ts`.
 
-`frontend/src/lib/calculators.ts` (322 tab-indented lines) and
-`frontend/src/lib/museum.ts` (469) use **tabs**. Everything else under
-`frontend/src/` uses **two spaces**. `frontend/.prettierrc` says `tabWidth: 2` with
-no `useTabs`, so those two files disagree with the config as well as with their
-neighbours.
+The job becomes:
 
-Why it matters: CI never runs `prettier --check`. The `build-frontend` job runs
-`typecheck`, `test`, `lint` and `build` only (`.github/workflows/ci.yml:135-161`),
-and the only `format` step in the workflow is `ruff format --check` on the Python
-side (`:28-29`). So running `npm run format` across `src/` would rewrite ~790
-lines of those two files, bury a real change in whitespace, and **nothing would
-warn you**.
+```yaml
+  generated-files:
+    # The frontend's snapshot types are generated from snapshot.schema.json and
+    # committed. Nothing else keeps them honest, so a change to the schema can
+    # leave the committed types describing a shape that no longer exists. This
+    # job regenerates them and fails if they differ.
+    needs: [lint, typecheck]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install frontend dependencies
+        run: npm ci --legacy-peer-deps
+        working-directory: frontend
+      - name: Regenerate the snapshot types
+        run: npm run generate:snapshot-types
+        working-directory: frontend
+      - name: Check that the generated files are unchanged
+        run: git diff --exit-code frontend/src/lib/snapshot.types.ts
+```
 
-Note the two test files `calculators.test.ts` and `museum.test.ts` match their
-(tab-indented) modules; `snapshot.test.ts` and `taxonomy.test.ts` match their
-(2-space) modules. The convention is "match the file you are editing".
+The Python setup step goes too — the job no longer needs Python.
 
-The fix is a whitespace-only commit re-indenting those two source files to 2 spaces,
-after which `npm run format` becomes safe across `src/`.
+### 5. Remove the frontend's API path
 
-### Issue 4 — `ruff format` fails on `alembic/` (chore)
+`frontend/src/lib/snapshot.ts` is the only consumer. It currently:
 
-`ruff format --check alembic/` reports 4 files needing reformatting, while
-`ruff format --check app scrapers scripts tests` passes with 110 files already
-formatted.
+```ts
+import request from "@/api/client";
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
+```
 
-CI never sees it: `.github/workflows/ci.yml:29` runs
-`ruff format --check app scrapers scripts tests` — `alembic/` is simply not in the
-scope. `pyproject.toml` has no `extend-exclude`, so the directory is not excluded
-either; it is just unchecked.
+and in `fetch()`:
 
-Two acceptable resolutions, and the issue should say so rather than dictate:
-re-format the 4 files, **or** add `alembic/` to the CI scope (which would require
-re-formatting them anyway). What is not acceptable is leaving it unchecked,
-because a migration edited by hand will not match the formatter.
+```ts
+try {
+  if (!API_BASE_URL) {
+    throw new Error("No API base URL configured");
+  }
+  const apiData = await request<RawSnapshot>({ url: "/api/v1/export/snapshot", method: "GET" });
+  data = normalizeSnapshot(apiData);
+} catch {
+  const response = await fetch(`${import.meta.env.BASE_URL}snapshot.json`);
+  ...
+}
+```
 
-### Issue 5 — the repo has no issue tracker in use (chore)
+With no API to talk to, the `try` branch goes and the static fetch becomes the only
+path. `RawSnapshot` is then only used by the static fetch — check whether it is
+still needed or collapses into the response type.
 
-`NolaNexus/PICK` has issue tracking enabled and ten labels, but **zero issues had
-ever been created** — verified four ways: `list_issues` (open and all),
-`search_issues` (scoped and global), `gh issue list --state all`, and
-`gh repo view` → `.issues.totalCount == 0`. There were also no pull requests and
-no issue templates.
+**Also remove** `frontend/src/api/` entirely, the `generate:api` script from
+`frontend/package.json`, and the `orval` devDependency (and `@tanstack/react-query`
+if nothing else uses it — check `frontend/src/lib/queryClient.ts` and `App.tsx`,
+which wrap the app in a `QueryClientProvider` that nothing consumes).
 
-Worth a small housekeeping job: add issue templates so future work has
-somewhere to be recorded, and so the Copilot Coding Agent has issues to pick up.
+`frontend/src/lib/snapshot.ts` also caches to IndexedDB via `lib/idb.ts`; that stays.
 
-**This one was done as committed work rather than filed as an issue** — see
-"How they were filed" below. The templates landed in commit `19be56e`, and
-`AGENTS.md` gained an "Issues" section in commit `9ceb1f2` recording both the
-templates and the fact that issue types cannot be set on this repository.
+### 6. Remove `VITE_API_BASE_URL` from the deploy workflow
 
-### Not an issue — already handled
+`.github/workflows/static.yml` passes it as a build env var. With the API gone there
+is nothing to point it at, so the env block and its comment go.
 
-The `calculateEV` placeholder and the dead `mode` select are the only two of the
-five original gaps that are real defects; the other three are cosmetic or already
-documented in `AGENTS.md`. Issue #1 supersedes the "mode select does nothing" item
-because the select is not merely inert — the whole tab is inert.
+### 7. Update the docs
 
-## How they were filed
+- **`README.md`** — remove "Exposes a REST API (FastAPI) for items, formulas, search
+  and metadata" from "What it does", and the FastAPI entry in the tech stack.
+- **`SETUP.md`** — remove the API section: the `curl http://localhost:8000/...`
+  example, the "API Client Generation" section, `npm run generate:api`, and the
+  `app/api/` line in the tree listing. Keep the `VITE_API_BASE_URL` mention removed.
+- **`AGENTS.md`** — this is the big one. It documents the API surface, the doubled
+  health path, `openapi.json`/`pick.ts` as generated files, the `generated-files` job,
+  and `app/monitoring.py`/`app/logging_config.py`. All of that must go, and the
+  "Backend — FastAPI" description must become "Backend — scraper and exporter".
+- **`.kilo/command/check.md`** — the generated-files check loses `openapi.json` and
+  `frontend/src/api/pick.ts` from its diff list.
+- **`.kilo/command/generate-api.md`** — this command generates the API client from
+  the spec. With both gone it has no purpose; delete the file, or repoint it at the
+  snapshot types if that is worth a separate command.
 
-All went to `NolaNexus/PICK`. The repo's labels are `accessibility`, `bug`,
-`documentation`, `duplicate`, `enhancement`, `help wanted`, `good first issue`,
-`invalid`, `question`, `wontfix`. There is **no `chore` label** — verified against
-`gh label list`.
+### 8. The stale plan files
 
-**Issue types do not work on this repository, so the labels carry the split.**
-GitHub's issue types are an *organisation* feature, and `NolaNexus/PICK` is
-user-owned: `GET /repos/NolaNexus/PICK` returns `owner.type == "User"`. The
-`GET /repos/{owner}/{repo}/issue-types` endpoint lists the three defaults
-(`Task`, `Bug`, `Feature`, all `is_enabled: true`) because it lists types
-"inherited from the repository owner" — but for a user-owned repo there is no
-owner to inherit from, so assigning one is a **silent no-op**. Every attempt
-returns `200` with `issueType: null` and records no event on the issue timeline:
-REST `-f type=Bug`, REST `-F issue_type_id=431597676`, GraphQL `issueTypeId`,
-GraphQL `issueType: {issueTypeId, suggest}`, and creation-time `issueTypeId`.
-This is not a permission problem — the token has `repo` and the account has
-`admin` on the repo. The `orgs/NolaNexus/issue-types` endpoint 404s because
-there is no organisation.
-
-| # | GitHub | Title | Label |
-| --- | --- | --- | --- |
-| 1 | #1 | Museum calculator returns empty results: rarity casing, nested ore data, and a discarded ore database | `bug` |
-| 2 | #6 | `calculateEV` uses `base_price` as the drop chance, so EV/pan is price squared | `bug` |
-| 3 | #7 | Normalise the frontend's mixed tab/space indentation so `npm run format` is safe | `enhancement` |
-| 4 | #8 | `ruff format` fails on `alembic/`, a directory CI never checks | `enhancement` |
-| 5 | commit `19be56e` | Add issue templates so work has somewhere to be tracked | — |
-
-Issue 5 was done as committed work rather than an issue, because it is the
-enabling step: the templates carry the type information that the type field
-cannot, and a reporter picks the template that matches their work. The three
-templates are `bug_report.yml` (`bug`), `feature_request.yml` (`enhancement`) and
-`task.yml` (`enhancement`), plus `config.yml` with
-`blank_issues_enabled: false`.
-
-Each issue body follows the repo's commit convention — say **what** is broken and
-**why it matters**, then the acceptance criteria — and includes the verified
-file:line references so a reader can check the claim without hunting.
-
-**Do not assign the Copilot Coding Agent** for issues #1 and #6 without a decision
-first: both need the fix's *shape* agreed (for #1, whether the ore database
-becomes an input to `calculateMuseumOptimizer` or the data is flattened in the
-page; for #6, whether the EV form takes a drop-chance column or reads the
-snapshot's `chances[]` directly). Issues #7 and #8 are mechanical and can be
-assigned freely.
+The three that discuss a live API or a live Reddit integration are already marked
+superseded (`1793066334615-remaining-work-plan.md`, `r-statistical-tiers-implementation.md`).
+Update the wording of those markers to say the API and the Reddit scraper have been
+removed, so nobody revives them.
 
 ## Validation
 
-After filing, confirm:
+Every gate CI runs, plus the ones it will no longer run:
 
 ```bash
-gh issue list --repo NolaNexus/PICK --state all --limit 10
-gh issue view <n> --repo NolaNexus/PICK
+# Backend gates
+.venv/bin/ruff check app scrapers scripts tests
+.venv/bin/ruff format --check app scrapers scripts tests
+.venv/bin/mypy app/ scrapers/ scripts/
+
+# Backend tests (needs the test database)
+docker compose up -d db
+docker exec pick-db psql -U pick -d pick -c "CREATE DATABASE pick_test;"
+TEST_DATABASE_URL="postgresql+asyncpg://pick:pick@localhost:5432/pick_test" \
+DATABASE_URL="postgresql+asyncpg://pick:pick@localhost:5432/pick" \
+  .venv/bin/python -m pytest -q
+
+# Frontend gates
+cd frontend
+npm run typecheck
+npm run test
+npm run lint
+npm run build
+
+# The one remaining generated file
+npm run generate:snapshot-types
+cd .. && git diff --exit-code frontend/src/lib/snapshot.types.ts
 ```
 
-Expected: **four** open issues with the titles above, each with its label and a body
-citing the files it concerns, plus the four templates in `.github/ISSUE_TEMPLATE/`.
+Then confirm the site still works: `npm run build` must produce a `dist/` that
+serves the snapshot, and the deployed site must still render all seven pages. The
+scraper must still run: `scripts/refresh_site.sh --dry-run` must complete without
+touching the removed modules.
 
-Verified on completion:
+**The test count will drop.** `tests/test_api.py` is 288 lines and holds a
+meaningful number of tests; the remaining suite will be smaller. Record the new
+number so `AGENTS.md` states the truth.
 
-- #1 `bug` — 4926-character body, cites `frontend/src/lib/museum.ts:22`,
-  `frontend/src/pages/CalculatorsPage.tsx:132`, `frontend/public/snapshot.json:11784`
-- #6 `bug` — 4091-character body, cites `frontend/src/lib/calculators.ts:244`,
-  `frontend/public/snapshot.json:11791`
-- #7 `enhancement` — 3044-character body, cites the four tab-indented files and
-  `.github/workflows/ci.yml`
-- #8 `enhancement` — 3471-character body, cites `.github/workflows/ci.yml:28` and
-  `pyproject.toml`
-- Templates: `bug_report.yml`, `feature_request.yml`, `task.yml`, `config.yml`
+### What actually happened
 
-**No issue types.** They cannot be set on this repository — see "How they were
-filed" above. The validation is therefore on labels, not types.
+- Backend tests: **412 → 402**. The 10 tests in `test_api.py` went with it. The
+  "no database" figure is **335 passed, 67 errors** (was 77 — the 10 API errors
+  went too). `AGENTS.md` now says 67 and drops `test_api` from the list.
+- mypy: 66 → 54 source files.
+- `ruff format --check`: 110 → 97 files.
+- npm audit: **18 vulnerabilities (10 critical) → 7 high**. Removing `orval` and
+  `@tanstack/react-query` took the critical ones with it.
+
+Two things the plan did not anticipate:
+
+- **`triggered_full_scrape` was a lie in the frontend.** `snapshot.ts` had a
+  hand-written `GameVersionResponse` with a `triggered_full_scrape` field, but
+  `snapshot.schema.json` explicitly excludes it — the generated `GameVersion` has
+  only `version` and `detected_at`. So `MetaPage` rendered "Full scrape triggered:
+  0" unconditionally. Unifying the hand-written type with the generated one
+  removed the field and the dead row.
+- **`@tanstack/react-query` had no consumer.** It existed only for the orval
+  client's `QueryClientProvider` wrapper; no `useQuery` or `useMutation` was
+  called anywhere. With the client gone, the provider, `queryClient.ts` and the
+  dependency all went.
+
 
 ## Risks
 
 | Risk | Mitigation |
 | --- | --- |
-| Filing a duplicate of an existing issue | The repo had zero issues, verified four ways. Re-checked with `gh issue list --state all` immediately before creating. |
-| Issue #1's body being read as a single small bug | The body leads with "The Museum calculator tab always shows empty slot recommendations and zero stats" and then lists the three independent causes, since fixing one alone still leaves it broken. |
-| The `chore` label not existing | Verified: the label list has no `chore`. `enhancement` is used instead, and `documentation` was not needed once the templates landed as a commit. |
-| Bodies getting stale as the code moves | Each body includes the file:line references and states they were verified against commit `3439db5`, so a future reader knows what was true when. |
-| Probe issues left behind during API diagnosis | Four probes were created while working out the issue-type API and all four were deleted. The repo went from zero issues to exactly the four above. Creating real issues as probes was the wrong tool; a placeholder title would have avoided it. |
+| Something still imports the API | `grep` for `app.api`, `app.main`, `app.schemas`, `app.monitoring`, and `from app.utils import` before deleting. The only referrers found are `app/main.py` itself, `docker-compose.yml`, `tests/test_api.py`, and the CI job. `mypy` and the test suite catch the rest. |
+| `pydantic` removed by mistake | It is a transitive dependency of `pydantic-settings`, and `app/config.py` needs `pydantic_settings.BaseSettings`. Verify the import still resolves before committing. |
+| The frontend loses its API fetch path but keeps the `try`/`catch` shape | Remove the branch, not just the import — a silent `catch` that swallows a failed static fetch would leave the page empty with no error. |
+| The `QueryClientProvider` in `App.tsx` becomes obviously dead | Remove it with `queryClient.ts` and `@tanstack/react-query`, or keep it and say why. Leaving an unexplained provider is the kind of thing that confuses the next reader. |
+| `openapi.json` was a published contract | It is not published anywhere — no domain, no deployment, no documentation pointing consumers at it. Confirm no one is reading it before deleting. |
+| The plan's claim that "nothing imports the API" is wrong | It was checked with grep against the current tree. Re-check after deleting, with mypy and the test suite as the backstop. |
 
 ## Out of scope
 
-- Fixing any of the issues. This plan only files them.
-- Choosing the fix shape for issues #1 and #6 — that is a design decision for
-  whoever picks them up, and it is why they are not pre-assigned.
-- The `alembic/` re-format itself, and the frontend re-indent itself.
-- Assigning the Copilot Coding Agent to any issue.
+- The four open GitHub issues (#1, #6, #7, #8). Those are separate work; #1 and #6
+  need their fix shape agreed first.
+- The custom domain, dark mode, and a Reddit/News feature. Reddit is removed, not
+  rebuilt — if News is wanted later it starts from nothing.
+- Keeping a hand-maintained `openapi.json`. Nothing would regenerate it, so it
+  would drift — exactly the failure the `generated-files` job exists to prevent.
+- The `Render` deployment and the `render.yaml` the old plan wanted. There is no
+  longer an application to deploy.

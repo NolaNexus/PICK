@@ -27,13 +27,12 @@ Think of PICK as a companion layer on top of the wiki: structured data, calculat
 ## What it does
 
 - Scrapes the official Prospecting! wiki on a schedule and keeps a local copy of pages, items, and formulas
-- Exposes a REST API (FastAPI) for items, formulas, search, and metadata
 - Powers calculators for modifier odds, expected value, best pan, museum optimization, and time-to-goal, computed in the browser
 - Serves a React + Vite frontend on GitHub Pages
 
 ## Tech stack
 
-- Python 3.11+, FastAPI, PostgreSQL (async SQLAlchemy)
+- Python 3.11+, PostgreSQL (async SQLAlchemy)
 - React + TypeScript + Vite frontend
 - The calculators are TypeScript in the browser (`frontend/src/lib/calculators.ts`); no R, no rpy2, no server-side maths
 - Docker Compose for local development
@@ -85,14 +84,13 @@ Want to run PICK yourself or contribute? You'll need Python 3.11+ and PostgreSQL
 git clone https://github.com/NolaNexus/PICK.git
 cd PICK
 cp .env.example .env
-docker compose up --build
-open http://localhost:8000/docs
+docker compose up -d db
 ```
 
 Run the wiki scraper:
 
 ```bash
-docker compose exec api python -m scripts.scraper
+.venv/bin/python -m scripts.scraper
 ```
 
 For a host-side virtualenv, create `.venv` **after** the checkout is in its final
@@ -105,7 +103,7 @@ checkout moves.
 ## Frontend development
 
 The frontend is a Vite + React app in `frontend/`. It runs standalone against the
-committed snapshot, so no API is needed for UI work.
+committed snapshot, so no backend is needed for UI work.
 
 ```bash
 cd frontend
@@ -144,9 +142,9 @@ commits it, which redeploys the site. See
 Deep links work through `frontend/public/404.html`, which stashes the requested
 route and hands it back to the app after redirecting to the entry point.
 
-The optional backend (FastAPI + Postgres) runs locally through Docker Compose
-for development. The published site does not need it, but setting a
-`VITE_API_BASE_URL` repository secret points the app at a live API instead.
+The published site is fully static: it reads the committed `snapshot.json` and needs
+no backend at runtime. The scraper needs Postgres, which runs locally through Docker
+Compose.
 
 ## License
 

@@ -61,7 +61,7 @@ describe('normalizeSnapshot', () => {
       last_scrape: { status: 'ok', pages_scraped: 21 },
     })
     expect(result.meta.game_version?.version).toBe('1.2.3')
-    expect(result.meta.game_version?.triggered_full_scrape).toBe(0)
+    expect(result.meta.game_version?.detected_at).toBe('2026-01-01T00:00:00Z')
     expect(result.meta.last_scrape?.status).toBe('ok')
     expect(result.meta.last_scrape?.pages_scraped).toBe(21)
   })
@@ -82,7 +82,6 @@ describe('normalizeSnapshot', () => {
     expect(result.meta.game_version).toEqual({
       version: null,
       detected_at: null,
-      triggered_full_scrape: 0,
     })
     expect(result.meta.last_scrape).toEqual({
       status: 'never',

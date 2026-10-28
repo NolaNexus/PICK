@@ -1,4 +1,3 @@
-import request from "@/api/client";
 import { dbGet, dbPut, dbClear } from "./idb";
 import type {
   Formula,
@@ -15,10 +14,6 @@ const STORE = "snapshot";
 const KEY = "main";
 const STALE_MS = 1000 * 60 * 60 * 24; // 24 hours
 
-// Optional live API origin. When unset the site runs fully static and reads
-// the snapshot.json committed alongside the build.
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
-
 export type {
   Formula,
   GameVersion,
@@ -34,24 +29,9 @@ export type SnapshotCounts = PICKSnapshot["counts"];
 export type SnapshotFormula = Formula;
 export type SnapshotWikiPage = WikiPage;
 
-export interface GameVersionResponse {
-  version: string | null;
-  detected_at: string | null;
-  triggered_full_scrape: number;
-}
-
-export interface LastScrapeResponse {
-  status: string | null;
-  started_at: string | null;
-  finished_at: string | null;
-  pages_scraped: number;
-  pages_changed: number;
-  pages_errors: number;
-}
-
 export interface SnapshotMeta {
-  game_version: GameVersionResponse | null;
-  last_scrape: LastScrapeResponse | null;
+  game_version: GameVersion | null;
+  last_scrape: LastScrape | null;
 }
 
 /**
@@ -79,7 +59,7 @@ export interface CachedSnapshot {
   saved_at: number;
 }
 
-const EMPTY_SCRAPE: LastScrapeResponse = {
+const EMPTY_SCRAPE: LastScrape = {
   status: "never",
   started_at: null,
   finished_at: null,
@@ -88,11 +68,10 @@ const EMPTY_SCRAPE: LastScrapeResponse = {
   pages_errors: 0,
 };
 
-const EMPTY_VERSION: GameVersionResponse = {
+const EMPTY_VERSION: GameVersion = {
   version: null,
   detected_at: null,
-  triggered_full_scrape: 0,
-}
+};
 
 /**
  * The shape of the snapshot this build understands.
@@ -112,21 +91,21 @@ interface RawSnapshot {
   items?: SnapshotData["items"];
   formulas?: SnapshotData["formulas"];
   wiki_pages?: SnapshotData["wiki_pages"];
-  game_version?: Partial<GameVersionResponse> | null;
-  last_scrape?: Partial<LastScrapeResponse> | null;
+  game_version?: Partial<GameVersion> | null;
+  last_scrape?: Partial<LastScrape> | null;
   meta?: {
-    game_version?: Partial<GameVersionResponse> | null;
-    last_scrape?: Partial<LastScrapeResponse> | null;
+    game_version?: Partial<GameVersion> | null;
+    last_scrape?: Partial<LastScrape> | null;
   } | null;
 }
 
 /**
  * Brings a raw snapshot payload into the shape the pages expect.
  *
- * The API and the committed snapshot.json expose the same fields, but the
- * `meta` object is only present on payloads that have already been through
- * this normalization. Both sources are normalized here so every page can rely
- * on `meta.game_version` and `meta.last_scrape` being present.
+ * The committed snapshot.json may predate the current schema, so the `meta`
+ * object is only present on payloads that have already been through this
+ * normalization. It is normalized here so every page can rely on
+ * `meta.game_version` and `meta.last_scrape` being present.
  */
 export function normalizeSnapshot(raw: RawSnapshot | null | undefined): SnapshotData {
   const gameVersion = raw?.game_version ?? raw?.meta?.game_version ?? null;
@@ -149,7 +128,6 @@ export function normalizeSnapshot(raw: RawSnapshot | null | undefined): Snapshot
         ? {
             version: gameVersion.version ?? null,
             detected_at: gameVersion.detected_at ?? null,
-            triggered_full_scrape: gameVersion.triggered_full_scrape ?? 0,
           }
         : EMPTY_VERSION,
       last_scrape: lastScrape
@@ -210,25 +188,13 @@ export class SnapshotCache {
       return cached;
     }
 
-    let data: SnapshotData;
-    try {
-      if (!API_BASE_URL) {
-        throw new Error("No API base URL configured");
-      }
-      const apiData = await request<RawSnapshot>({
-        url: "/api/v1/export/snapshot",
-        method: "GET",
-      });
-      data = normalizeSnapshot(apiData);
-    } catch {
-      // Static fallback: the committed snapshot shipped with the site.
-      // It lives under the Vite base path (e.g. /PICK/snapshot.json), not the API origin.
-      const response = await fetch(`${import.meta.env.BASE_URL}snapshot.json`);
-      if (!response.ok) {
-        throw new Error(`Failed to load snapshot.json (${response.status})`);
-      }
-      data = normalizeSnapshot(await response.json());
+    // The snapshot committed alongside the build. It lives under the Vite base
+    // path (e.g. /PICK/snapshot.json).
+    const response = await fetch(`${import.meta.env.BASE_URL}snapshot.json`);
+    if (!response.ok) {
+      throw new Error(`Failed to load snapshot.json (${response.status})`);
     }
+    const data = normalizeSnapshot((await response.json()) as RawSnapshot);
 
     await this.save(data);
     return data;

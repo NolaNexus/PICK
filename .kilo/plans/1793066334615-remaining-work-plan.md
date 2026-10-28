@@ -12,14 +12,16 @@ acting. Verified at `5f9ca0d`:
 - **Backend calculators (T4.1)** — the backend was deleted in `5af31c5`; there are no
   Python calculator functions left to test. The frontend maths is the only
   implementation, and it is covered by `frontend/src/lib/calculators.test.ts`.
-- **`render.yaml` (T2.2) and the deploy-api workflow (T2.3)** — still absent, and
-  still a decision rather than a task: the API is local-only by design and the site
-  works without it.
+- **`render.yaml` (T2.2) and the deploy-api workflow (T2.3)** — moot. There is no
+  longer an application to deploy: `app/api/`, `app/main.py`, `app/schemas/`,
+  `app/monitoring.py`, `openapi.json` and the orval client were all removed. The
+  project is a scraper plus a static site, and the site needs no server.
 - **Phase 2 polish (Priority 3)** — the soft-delete behaviour, the single-source
   `TRACKED_PAGES`, the taxonomy fold and the `SNAPSHOT_SCHEMA_VERSION` bump are all
   done; see `.kilo/plans/1793173475507-core-simplification.md`.
-- **OpenAPI docs (Priority 5)** — the spec is generated and CI-checked
-  (`generated-files` job); the remaining items are cosmetic.
+- **OpenAPI docs (Priority 5)** — moot. There is no OpenAPI spec and no API. The
+  published file's contract is `snapshot.schema.json`, which is generated from and
+  validated against the exporter.
 - **Calculator test coverage (T4.1)** — the frontend now has 126 tests across 4
   files.
 
@@ -90,17 +92,13 @@ The core code is implemented and working. You just need:
   - Add `ruff format --check` step
 
 ### 2.2 Create Render deployment config
-- [ ] **T2.2**: Create `render.yaml` at repo root (referenced in Phase 3-5 plan):
-  - Web service (FastAPI)
-  - PostgreSQL database
-  - Daily cron job (scraper)
-  - Weekly cron job (full scraper)
-  - Environment variables from GitHub secrets
+- [~] **T2.2**: MOOT — there is no application to deploy. The API was removed
+  (see the status note above). The scraper runs locally via a systemd timer
+  (`deploy/systemd/`) and the site is published by the `static.yml` workflow.
 
 ### 2.3 Add API deploy workflow
-- [ ] **T2.3**: Create `.github/workflows/deploy-api.yml`:
-  - Trigger on push to master/main
-  - Deploy to Render via API or GitHub integration
+- [~] **T2.3**: MOOT — same reason as T2.2. There is no API and no
+  `deploy-api.yml`.
 
 ---
 
@@ -138,9 +136,11 @@ The core code is implemented and working. You just need:
 
 ## Priority 5: Documentation
 
-- [ ] **T5.1**: Add descriptions/examples to Pydantic models (OpenAPI)
-- [ ] **T5.2**: Tag/group endpoints logically in OpenAPI
-- [ ] **T5.3**: Verify `openapi.json` generation works for external consumers
+- [~] **T5.1**: MOOT — there is no OpenAPI spec and no Pydantic response models.
+- [~] **T5.2**: MOOT — there are no endpoints to group.
+- [~] **T5.3**: MOOT — `openapi.json` no longer exists. The published file's
+  contract is `snapshot.schema.json`, and `tests/test_snapshot_contract.py`
+  validates the committed snapshot against it.
 
 ---
 
@@ -148,33 +148,31 @@ The core code is implemented and working. You just need:
 
 | Dependency | Risk |
 |------------|------|
-| Reddit OAuth2 credentials | Must be created manually at developers.reddit.com |
-| GitHub Actions secrets | `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, `VITE_API_BASE_URL` |
+| Reddit OAuth2 credentials | Only if the News feature is rebuilt from scratch — the scraper was deleted. |
 | PostgreSQL 16 in CI | Already working in daily/weekly scrape workflows |
-| Render account | Needed for `render.yaml` deployment |
 
 ---
 
 ## Validation Checklist
 
+Most of these criteria no longer apply — they were written when there was a Reddit
+scraper, a Render deployment, an OpenAPI spec and a backend calculator. The ones
+that still stand:
+
 | Criterion | How Verified |
 |-----------|--------------|
-| Reddit news fetches & stores posts | Run `scripts.news_scraper`, check `News` table |
 | CI pipeline passes (lint + typecheck + test) | GitHub Actions green |
-| Render deployment works | Deploy to Render staging |
-| Calculator tests added, coverage ≥80% | `pytest --cov=app/services/calculators` |
-| OpenAPI docs enhanced | Browse `/docs` and `/redoc` |
+| Calculator tests added, coverage ≥80% | `cd frontend && npm run test` — 126 tests across 4 files |
 
 ---
 
 ## Recommended Execution Order
 
-1. **Reddit credentials** (blocks Phase 4) — manual step at developers.reddit.com
-2. **CI enhancements** (typecheck, matrix) — code change to `.github/workflows/ci.yml`
-3. **Render config** — create `render.yaml`
-4. **Tests** — add calculator unit tests + API integration tests
-5. **Phase 2 polish** — if time permits
-6. **Documentation** — OpenAPI enhancements
+1. **CI enhancements** — done.
+2. **Tests** — done for the frontend. The backend has no calculators left to test.
+3. **Phase 2 polish** — done.
+4. **Documentation** — the OpenAPI items are moot; the contract is
+   `snapshot.schema.json`.
 
 ---
 

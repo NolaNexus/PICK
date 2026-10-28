@@ -39,10 +39,6 @@ jobs:
       - name: Build
         run: npm run build
         working-directory: frontend
-        env:
-          # The site runs fully static against the committed snapshot.json.
-          # Set a repository secret to point the app at a live API instead.
-          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

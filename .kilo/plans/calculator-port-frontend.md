@@ -116,23 +116,27 @@ All functions use `Decimal` internally:
 
 **Note on the two remaining boxes** (checked 2026-10-28, at `5f9ca0d`):
 
-- *Offline pages — now verified.* `snapshot.ts:215` guards the API call with
-  `if (!API_BASE_URL)` and falls through to `fetch(\`${BASE_URL}snapshot.json\`)`, so
-  with no API configured the site reads the committed file and never touches the
-  network. Every page sources its data from `useSnapshot()` or `snapshotCache`:
-  `HomePage`, `ItemsPage`, `MineralsPage` and `WorldPage` via `useSnapshot()`;
-  `CalculatorsPage`, `MetaPage` and `SearchPage` via `snapshotCache`. There are
-  seven pages, not six — `MineralsPage` was added after this plan was written.
+- *Offline pages — now verified.* Every page sources its data from `useSnapshot()` or
+  `snapshotCache`: `HomePage`, `ItemsPage`, `MineralsPage` and `WorldPage` via
+  `useSnapshot()`; `CalculatorsPage`, `MetaPage` and `SearchPage` via
+  `snapshotCache`. There are seven pages, not six — `MineralsPage` was added after
+  this plan was written. The API branch that used to sit in front of the static
+  fetch has since been removed too, so the static file is now the only path.
 - *Backend parity — now impossible, not merely pending.* The backend calculators
   were deleted with the API in commit `5af31c5`: `app/services/calculators.py` does
   not exist, and no `shakes_per_second`, `calculate_ev` or `digs_per_pan` remains
   anywhere in `app/` or `scripts/`. There is nothing to compare against. The
   frontend maths is now the only implementation, which is why
   `frontend/src/lib/calculators.test.ts` exists to pin it.
-- *The repo secrets.* `VITE_API_BASE_URL` / `VITE_BASE_URL` are still read by
-  `frontend/src/api/client.ts:1` and `frontend/src/lib/snapshot.ts:20`, so removing
-  them changes behaviour only if the API is meant to stay unused. The site works
-  with no API at all, which is the shipped design.
+- *The repo secrets.* `VITE_API_BASE_URL` / `VITE_BASE_URL` are no longer read
+  anywhere, and the API itself has been removed along with the orval client and
+  `openapi.json`. The site reads the committed `snapshot.json` and nothing else.
+
+**Later note:** the API layer was removed entirely after this plan was written.
+`app/api/`, `app/main.py`, `app/schemas/`, `app/monitoring.py`, `openapi.json`,
+`frontend/src/api/` and the `Dockerfile` are all gone, along with the `fastapi`,
+`uvicorn` and `prometheus_client` dependencies. The lines above that mention an
+"API" describe the state at the time of the port, not the current state.
 
 ## Validation Checklist
 

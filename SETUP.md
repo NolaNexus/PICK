@@ -45,15 +45,22 @@ return an empty result.
 
 There is no backend calculator either. The calculators live in the site, in
 `frontend/src/lib/calculators.ts` and `frontend/src/lib/museum.ts`, and they run in the
-browser from the published snapshot. The API serves the data — items, formulas,
-search, metadata and the snapshot export — and nothing else.
+browser from the published snapshot.
 
-### Start Backend + Database
+### There is no API
+
+There is no HTTP server in this project. `app/api/`, `app/main.py`, `app/schemas/`,
+`app/monitoring.py` and `openapi.json` were removed: nothing deployed the API, no
+frontend code called it, and the exporter writes the snapshot directly rather than
+through a route. The scraper produces `frontend/public/snapshot.json`; the site
+reads that file. If you need a programmatic interface, the dataset is
+`snapshot.json` and its contract is `snapshot.schema.json`.
+
+### Start the Database
 
 ```bash
-# Start all services
 cd PICK
-docker compose up --build -d
+docker compose up -d db
 
 # Database migrations
 ./.venv/bin/python -m alembic upgrade head
@@ -93,8 +100,6 @@ GitHub Actions are already configured:
 1. **Settings → Pages → Build and deployment → Source → GitHub Actions**
    The `static.yml` workflow publishes through the Pages API and will not work while
    Pages is set to serve a branch.
-2. Optional secret `VITE_API_BASE_URL` — leave unset for a fully static site. When set,
-   the app prefers the live API and falls back to the committed `snapshot.json`.
 
 ## Refreshing the data
 
@@ -184,7 +189,6 @@ DATABASE_URL=postgresql+asyncpg://pick:pick@localhost:5432/pick
 - `npm run build`: Production build
 - `npm run lint`: ESLint
 - `npm run typecheck`: TypeScript type checking
-- `npm run generate:api`: Generate API client from OpenAPI spec
 - `npm run generate:snapshot-types`: Generate the frontend's types from `snapshot.schema.json`
 
 ## Development Workflow
@@ -208,8 +212,8 @@ variables spelled out.
 # Test wiki scraper
 ./.venv/bin/python -m scripts.scraper
 
-# Check data
-curl http://localhost:8000/api/v1/items?limit=10
+# Check the exported data
+./.venv/bin/python -c "import json; d=json.load(open('frontend/public/snapshot.json')); print(len(d['items']), 'items')"
 ```
 
 ### 4. Deploy
@@ -227,11 +231,10 @@ npm run build
 # Project Structure
 
 ```
-├── app/                    # FastAPI backend
-│   ├── api/              # API endpoints
+├── app/                    # Scraper and exporter
 │   ├── services/         # Business logic
 │   ├── models/           # SQLAlchemy models
-│   ├── schemas/          # Pydantic schemas
+│   ├── utils/            # MediaWiki client
 │   └── database.py       # Database setup
 ├── scrapers/              # Wiki page parsers
 ├── scripts/               # CLI tools
@@ -271,12 +274,12 @@ npm install --legacy-peer-deps
 npm run build
 ```
 
-### API Client Generation
+### Snapshot Types Generation
 
 ```bash
-# Regenerate API client from OpenAPI spec
+# Regenerate the frontend's types from snapshot.schema.json
 cd frontend
-npm run generate:api
+npm run generate:snapshot-types
 ```
 
 ## Support

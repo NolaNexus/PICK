@@ -73,7 +73,6 @@ export default function MetaPage() {
       scrape_status: lastScrape?.status ?? 'never',
       pages_changed: lastScrape?.pages_changed ?? 0,
       pages_errors: lastScrape?.pages_errors ?? 0,
-      triggered_full_scrape: game_version?.triggered_full_scrape ?? 0,
     }
   }, [snapshot])
 
@@ -179,11 +178,6 @@ export default function MetaPage() {
           {meta.last_scrape && (
             <div className="mt-4 text-sm text-muted-foreground">
               Last scrape: {meta.last_scrape}
-            </div>
-          )}
-          {meta.triggered_full_scrape !== undefined && (
-            <div className="mt-1 text-sm text-muted-foreground">
-              Full scrape triggered: {String(meta.triggered_full_scrape)}
             </div>
           )}
         </CardContent>

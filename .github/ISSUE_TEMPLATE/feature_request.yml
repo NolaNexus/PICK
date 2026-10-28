@@ -26,8 +26,8 @@ body:
       label: Which part of PICK?
       options:
         - The website (React frontend)
-        - The API (FastAPI)
         - The scraper or the data model
+        - The snapshot export
         - The calculators
         - Documentation
         - Something else

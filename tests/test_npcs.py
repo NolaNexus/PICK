@@ -65,9 +65,6 @@ def test_unique_npc_slug_is_name_only():
     assert john["slug"] == "john"
     assert john["data"]["locations"] == ["Rubble Creek"]
 
-    regionless = next(i for i in items if i["name"] == "Merchant")
-    assert regionless["slug"] == "global-merchant"
-
 
 def test_repeated_npcs_are_grouped_by_name():
     """A flavour NPC that appears in several locations is one entry."""
@@ -83,15 +80,19 @@ def test_repeated_npcs_are_grouped_by_name():
     assert set(resident["data"]["portraits"]) == {"Fortune River", "Seashell Isle"}
 
 
-def test_town_services_stay_per_location():
-    """Each town's merchant/blacksmith/alchemist/trader is a distinct NPC."""
+def test_town_services_are_grouped_across_locations():
+    """A name that shows up in several towns is one character in several places.
+
+    Each town has its own picture of them, so a portrait per location is kept.
+    """
     wikitext = FIXTURE_PATH.read_text()
     items = parse_npcs(wikitext)
 
     merchants = [i for i in items if i["name"] == "Merchant"]
-    assert len(merchants) == 8
-    assert len({m["slug"] for m in merchants}) == 8
-    assert all("region" in m["data"] for m in merchants)
+    assert len(merchants) == 1, "The Merchant should be one NPC in several towns"
+    assert merchants[0]["slug"] == "merchant"
+    assert len(merchants[0]["data"]["locations"]) >= 3
+    assert len(merchants[0]["data"]["portraits"]) == len(merchants[0]["data"]["locations"])
 
 
 def test_same_name_in_one_location_stay_distinct():
@@ -104,17 +105,16 @@ def test_same_name_in_one_location_stay_distinct():
     assert len({t["slug"] for t in tourists}) == 2
 
 
-def test_npcs_with_same_name_in_different_regions_are_distinct():
-    """Merchant exists in many regions and each must produce its own item."""
+def test_npcs_with_same_name_in_different_regions_are_one():
+    """A name that appears in many regions becomes one entry holding them all."""
     wikitext = FIXTURE_PATH.read_text()
     items = parse_npcs(wikitext)
 
     merchants = [i for i in items if i["name"] == "Merchant"]
-    assert len(merchants) >= 3, f"Expected several Merchants, got {len(merchants)}"
+    assert len(merchants) == 1
 
-    regions = {m["data"]["region"] for m in merchants}
-    assert len(regions) == len(merchants), "Merchants should each be in a distinct region"
-    assert len({m["slug"] for m in merchants}) == len(merchants)
+    regions = set(merchants[0]["data"]["locations"])
+    assert len(regions) >= 3, f"Expected several regions, got {regions}"
 
 
 def test_known_npcs_parsed():

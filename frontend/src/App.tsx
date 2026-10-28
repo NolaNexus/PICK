@@ -8,9 +8,11 @@ import { Footer } from '@/components/layout/footer'
 import { container } from '@/components/layout/container'
 import { queryClient } from '@/lib/queryClient'
 
-import ItemBrowserPage from '@/pages/ItemBrowserPage'
+import HomePage from '@/pages/HomePage'
+import ItemsPage from '@/pages/ItemsPage'
+import MineralsPage from '@/pages/MineralsPage'
+import WorldPage from '@/pages/WorldPage'
 import CalculatorsPage from '@/pages/CalculatorsPage'
-import FormulasPage from '@/pages/FormulasPage'
 import NewsPage from '@/pages/NewsPage'
 import MetaPage from '@/pages/MetaPage'
 import SearchPage from '@/pages/SearchPage'
@@ -51,9 +53,11 @@ function App() {
             <main className={`flex-1 ${container.base} py-6`}>
               <RedirectHandler />
               <Routes>
-                <Route path="/" element={<ItemBrowserPage />} />
+                <Route path="/" element={<HomePage />} />
+                <Route path="/items" element={<ItemsPage />} />
+                <Route path="/minerals" element={<MineralsPage />} />
+                <Route path="/world" element={<WorldPage />} />
                 <Route path="/calculators" element={<CalculatorsPage />} />
-                <Route path="/formulas" element={<FormulasPage />} />
                 <Route path="/news" element={<NewsPage />} />
                 <Route path="/meta" element={<MetaPage />} />
                 <Route path="/search" element={<SearchPage />} />

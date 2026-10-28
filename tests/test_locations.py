@@ -1,4 +1,4 @@
-"""Tests for locations parser using live wiki fixtures."""
+"""Tests for the locations parser using live wiki fixtures."""
 
 from pathlib import Path
 
@@ -7,20 +7,20 @@ from scrapers.locations import parse_locations
 FIXTURE_PATH = Path(__file__).parent / "fixtures" / "locations.wiki"
 
 
-def test_locations_parser_returns_correct_count():
-    """Locations parser should parse exactly 18 locations from fixture."""
-    wikitext = FIXTURE_PATH.read_text()
-    items = parse_locations(wikitext)
+def _items():
+    return parse_locations(FIXTURE_PATH.read_text())
 
-    assert len(items) == 18, f"Expected 18 locations, got {len(items)}"
+
+def test_locations_parser_returns_correct_count():
+    """The page has 18 tabs, but the Museum is a place inside Caldera Park."""
+    items = _items()
+
+    assert len(items) == 17, f"Expected 17 areas, got {len(items)}"
 
 
 def test_locations_have_required_fields():
     """Every location item must have id, type, name, slug, data, image_url."""
-    wikitext = FIXTURE_PATH.read_text()
-    items = parse_locations(wikitext)
-
-    for item in items:
+    for item in _items():
         assert "id" in item
         assert "type" in item
         assert "name" in item
@@ -31,25 +31,18 @@ def test_locations_have_required_fields():
 
 
 def test_locations_data_structure():
-    """Location data dict should contain description, minerals, shopkeepers."""
-    wikitext = FIXTURE_PATH.read_text()
-    items = parse_locations(wikitext)
-
-    for item in items:
+    """Location data holds the category, the description and its places."""
+    for item in _items():
         data = item["data"]
+        assert "category" in data
         assert "description" in data
-        assert "minerals" in data
-        assert "shopkeepers" in data
-        assert isinstance(data["minerals"], list)
-        assert isinstance(data["shopkeepers"], list)
+        assert "sublocations" in data
+        assert isinstance(data["sublocations"], list)
 
 
 def test_locations_slug_matches_name():
     """Slug should be lowercase name with spaces/hyphens normalized."""
-    wikitext = FIXTURE_PATH.read_text()
-    items = parse_locations(wikitext)
-
-    for item in items:
+    for item in _items():
         expected_slug = (
             item["name"]
             .lower()
@@ -62,13 +55,63 @@ def test_locations_slug_matches_name():
         assert item["id"] == expected_slug
 
 
-def test_known_location_parsed():
-    """Rubble Creek should be parsed with minerals and shopkeepers."""
-    wikitext = FIXTURE_PATH.read_text()
-    items = parse_locations(wikitext)
+def test_the_two_kinds_of_area():
+    """Areas are either always there or only during an event."""
+    categories = {item["name"]: item["data"]["category"] for item in _items()}
 
-    rubble_creek = next((i for i in items if i["name"] == "Rubble Creek"), None)
-    assert rubble_creek is not None, "Rubble Creek not found"
-    # The fixture doesn't have explicit mineral references in the Rubble Creek section
-    # Just verify shopkeepers are extracted
-    assert len(rubble_creek["data"]["shopkeepers"]) > 0
+    assert categories["Caldera Park"] == "regular"
+    assert categories["Haunted Creek"] == "limited_time"
+    assert categories["Easter Event Shop"] == "limited_time"
+
+
+def test_a_place_inside_an_area():
+    """A known area holds the places inside it."""
+    caldera = next(i for i in _items() if i["name"] == "Caldera Park")
+    names = [entry["name"] for entry in caldera["data"]["sublocations"]]
+
+    assert "Volcanic Sands" in names
+    assert "Volcanic Springs" in names
+    assert "Windswept Beach" in names
+    assert "Magma Furnace" in names
+    assert "Infernal Heart" in names
+
+
+def test_the_museum_is_a_place_in_caldera_park():
+    """The Museum is a place inside Caldera Park, not an area of its own."""
+    items = _items()
+
+    assert not any(item["name"] == "Museum" for item in items)
+
+    caldera = next(i for i in items if i["name"] == "Caldera Park")
+    museum = next(
+        (entry for entry in caldera["data"]["sublocations"] if entry["name"] == "Museum"),
+        None,
+    )
+    assert museum is not None, "The Museum should be a place inside Caldera Park"
+
+
+def test_every_place_is_found():
+    """The page holds 34 places across its areas."""
+    places = [entry["name"] for item in _items() for entry in item["data"]["sublocations"]]
+    assert len(places) == 34, f"Expected 34 places, got {len(places)}"
+
+
+def test_a_place_knows_its_toughness_and_people():
+    """A place reads its toughness, its people and its picture."""
+    caldera = next(i for i in _items() if i["name"] == "Caldera Park")
+    sands = next(
+        entry for entry in caldera["data"]["sublocations"] if entry["name"] == "Volcanic Sands"
+    )
+
+    assert sands["toughness"] == 4.0
+    assert "Ranger" in sands["npcs"]
+    assert sands["image"] == "volcanichuts.png"
+
+
+def test_a_place_without_a_toughness_is_allowed():
+    """The Museum has no toughness, which is not an error."""
+    caldera = next(i for i in _items() if i["name"] == "Caldera Park")
+    museum = next(entry for entry in caldera["data"]["sublocations"] if entry["name"] == "Museum")
+
+    assert museum["toughness"] is None
+    assert "Receptionist" in museum["npcs"]

@@ -16,6 +16,7 @@ from scrapers import (
     minerals,
     modifiers,
     museum,
+    mutations,
     npcs,
     pans,
     potions,
@@ -88,13 +89,13 @@ PARSERS: dict[str, Any] = {
     "Museum": museum.parse_museum,
     "Excavations": excavations.parse_excavations,
     "Mastery": mastery.parse_mastery,
+    "Mutations": mutations.parse_mutations,
     "Treasure_Map": treasure_map.parse_treasure_maps,
     "Treasure Chest": treasure_chest.parse_treasure_chests,
 }
 
 # Add remaining tracked pages when parsers are implemented
 for page in [
-    "Mutations",
     "Codes",
     "Changelog",
     "Guides",
@@ -107,6 +108,6 @@ for page in [
 #: The scraper only re-parses a page when its wikitext changes. Bumping this
 #: value makes every page look changed, so a change to a parser or to the
 #: shared wikitext renderer is applied to the data that is already stored.
-PARSER_VERSION = 7
+PARSER_VERSION = 8
 
 __all__ = ["PARSERS", "PARSER_VERSION", "TRACKED_PAGES"]

@@ -100,6 +100,7 @@ export interface SnapshotFormula {
 
 export interface SnapshotData {
   schema_version: number;
+  taxonomy?: unknown;
   generated_at: string;
   counts: SnapshotCounts;
   items: ItemResponse[];
@@ -137,11 +138,12 @@ const EMPTY_VERSION: GameVersionResponse = {
  * a snapshot of a different shape, the cached one is discarded so the new
  * data is fetched instead of the old data being rendered by new code.
  */
-export const SNAPSHOT_SCHEMA_VERSION = 3;
+export const SNAPSHOT_SCHEMA_VERSION = 4;
 
 /** Shape of a snapshot payload before it is normalized. */
 interface RawSnapshot {
   schema_version?: number;
+  taxonomy?: unknown;
   generated_at?: string;
   counts?: SnapshotData["counts"];
   items?: SnapshotData["items"];
@@ -170,6 +172,7 @@ export function normalizeSnapshot(raw: RawSnapshot | null | undefined): Snapshot
 
   return {
     schema_version: raw?.schema_version ?? SNAPSHOT_SCHEMA_VERSION,
+    taxonomy: raw?.taxonomy,
     generated_at: raw?.generated_at ?? new Date().toISOString(),
     counts: raw?.counts ?? {
       items: raw?.items?.length ?? 0,

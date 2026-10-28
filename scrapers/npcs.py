@@ -143,16 +143,13 @@ def _parse_gallery(region: str, content: str) -> list[dict[str, Any]]:
     return entries
 
 
-# NPCs that exist once per town as a service. Each town's merchant, blacksmith,
-# alchemist and trader is a distinct character, even though they share a name.
-TOWN_SERVICE_NAMES = {"merchant", "blacksmith", "alchemist", "trader"}
-
-
 def _group_npcs(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Group the same NPC across locations into one entry.
 
-    Town services stay separate per location, and same-name entries inside one
-    location (e.g. two tourists) remain distinct individuals.
+    A name that appears in more than one location is one character that shows
+    up in several places, so it becomes a single entry with a portrait per
+    location. Names that appear twice in the same location (two tourists) stay
+    separate individuals.
     """
     groups: dict[str, list[dict[str, Any]]] = {}
     for entry in entries:
@@ -165,7 +162,8 @@ def _group_npcs(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
         regions = [row["region"] for row in rows]
         one_per_location = len(regions) == len(set(regions))
 
-        if name.lower() in TOWN_SERVICE_NAMES or not one_per_location:
+        if not one_per_location:
+            # Two characters with the same name in one place stay separate.
             for row in rows:
                 slug = _slugify(f"{_slug_region(row['region'])}-{name}")
                 if slug in seen_slugs:

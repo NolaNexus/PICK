@@ -117,6 +117,19 @@ def parse_item_page(title: str, wikitext: str) -> dict[str, Any] | None:
     }
 
 
+def _as_list(value: str) -> list[str]:
+    """Turn a block of text into a list of names, one per line."""
+    entries: list[str] = []
+    for line in value.split("\n"):
+        cleaned = line.strip()
+        # A line that is only an HTML tag is not a name.
+        if not cleaned or cleaned.startswith("<"):
+            continue
+        if cleaned not in entries:
+            entries.append(cleaned)
+    return entries
+
+
 def _read_image(wikitext: str) -> str:
     """Read the picture of the item from the page.
 
@@ -235,10 +248,12 @@ def _infobox_fields(item_type: str, params: dict[str, str]) -> dict[str, Any]:
     modifiers: list[dict[str, Any]] = []
 
     if item_type == "mineral":
-        for key in ("description", "rarity", "value", "locations"):
+        for key in ("description", "rarity", "value"):
             value = params.get(key)
             if value:
                 fields[key] = render_text(value)
+        if params.get("locations"):
+            fields["locations"] = _as_list(render_text(params["locations"]))
         if params.get("image"):
             fields["image"] = render_image(params["image"])
         return {"fields": fields, "modifiers": modifiers}

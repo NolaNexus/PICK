@@ -5,13 +5,22 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_session
 from app.models import Item
 from app.schemas import ItemResponse, PaginatedResponse
+from app.taxonomy import TAXONOMY, taxonomy_payload
 
 router = APIRouter()
+
+
+@router.get("/taxonomy", tags=["items"])
+async def list_taxonomy():
+    """List the item types, with the area, group and label each one has."""
+    return taxonomy_payload()
 
 
 @router.get("", response_model=PaginatedResponse, tags=["items"])
 async def list_items(
     type: str | None = Query(None, description="Filter by item type (e.g., pan, shovel, mineral)"),
+    area: str | None = Query(None, description="Filter by area (e.g., items, minerals, world)"),
+    group: str | None = Query(None, description="Filter by group inside an area (e.g., gear)"),
     search: str | None = Query(None, description="Search in item name and description"),
     page: int = Query(1, ge=1, description="Page number"),
     size: int = Query(20, ge=1, le=100, description="Items per page"),
@@ -24,6 +33,13 @@ async def list_items(
     if type:
         query = query.where(Item.type == type)
         count_query = count_query.where(Item.type == type)
+
+    if area or group:
+        types = [item_type for item_type in TAXONOMY if _matches_area(item_type, area, group)]
+        if not types:
+            return PaginatedResponse(items=[], total=0, page=page, size=size, pages=0)
+        query = query.where(Item.type.in_(types))
+        count_query = count_query.where(Item.type.in_(types))
 
     if search:
         search_term = f"%{search}%"
@@ -68,6 +84,18 @@ async def list_items(
         size=size,
         pages=(total + size - 1) // size,
     )
+
+
+def _matches_area(item_type: str, area: str | None, group: str | None) -> bool:
+    """Return True when a type is in the requested area and group."""
+    entry = TAXONOMY.get(item_type)
+    if not entry:
+        return False
+    if area and entry[0] != area:
+        return False
+    if group and entry[1] != group:
+        return False
+    return True
 
 
 @router.get("/types", response_model=list[str], tags=["items"])

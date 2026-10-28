@@ -70,6 +70,9 @@ _PRESERVED_KEYS = {
 # Keys holding a file name rather than display text.
 _IMAGE_KEYS = {"icon", "image"}
 
+# Keys whose value is a list of names, written one per line on the wiki.
+_LIST_FIELDS = {"locations"}
+
 _MARKUP_MARKERS = ("[", "{", "&", "<")
 
 
@@ -280,15 +283,38 @@ def _render_value(key: str, value: Any) -> Any:
     return value
 
 
+def _normalize_list_field(key: str, value: Any) -> Any:
+    """Turn a multi-line value into a list.
+
+    The wiki writes a list of places one per line, so the value arrives as a
+    block of text. Keeping it a list lets the site group and filter by it.
+    """
+    if key not in _LIST_FIELDS or not isinstance(value, str):
+        return value
+
+    entries: list[str] = []
+    for line in value.split("\n"):
+        cleaned = line.strip()
+        # A line that is only an HTML tag is not a place.
+        if not cleaned or cleaned.startswith("<"):
+            continue
+        if cleaned not in entries:
+            entries.append(cleaned)
+
+    return entries
+
+
 def render_item_data(data: dict) -> dict:
-    """Render every text value of an item's data.
+    """Render every text value of an item.
 
     Machine values (slugs, colours, identifiers) and numeric values are left
     alone; file references are reduced to their file name.
     """
     if not isinstance(data, dict):
         return data
-    return {key: _render_value(key, value) for key, value in data.items()}
+    return {
+        key: _normalize_list_field(key, _render_value(key, value)) for key, value in data.items()
+    }
 
 
 def slugify(name: str) -> str:

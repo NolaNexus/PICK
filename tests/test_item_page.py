@@ -25,7 +25,7 @@ class TestMineralPage:
         )
         assert parsed["fields"]["rarity"] == "Exotic"
         assert parsed["fields"]["value"] == "45,000,000"
-        assert parsed["fields"]["locations"] == "Haunted Creek"
+        assert parsed["fields"]["locations"] == ["Haunted Creek"]
 
     def test_the_image_is_a_file_name(self):
         parsed = parse_item_page("Moonspire", _page("Moonspire"))

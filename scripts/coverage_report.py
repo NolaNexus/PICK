@@ -151,8 +151,48 @@ async def build_report(
         "pages": pages,
         "untracked": untracked,
         "missing_items": missing_items,
+        "unmatched_places": await _unmatched_places(),
         "errors": errors,
     }
+
+
+async def _unmatched_places() -> list[str]:
+    """Return the places minerals name that no area holds.
+
+    A place without an area cannot be filtered by area, so it is worth
+    knowing about.
+    """
+    try:
+        from sqlalchemy import select
+
+        import app.database as app_database
+        from app.models import Item
+
+        await app_database.get_engine()
+        async with app_database.async_session_factory() as session:
+            result = await session.execute(
+                select(Item.name, Item.data).where(
+                    Item.is_active.is_(True),
+                    Item.type == "mineral",
+                )
+            )
+            rows = result.all()
+    except Exception:
+        return []
+
+    places: set[str] = set()
+    for _name, data in rows:
+        if not isinstance(data, dict):
+            continue
+        if data.get("areas"):
+            continue
+        locations = data.get("locations")
+        if isinstance(locations, list):
+            for location in locations:
+                if isinstance(location, str) and location.strip():
+                    places.add(location.strip())
+
+    return sorted(places)
 
 
 async def _scraped_names(client: MediaWikiClient) -> set[str]:
@@ -214,6 +254,15 @@ def render_markdown(report: dict[str, Any]) -> str:
         lines.append("")
         for page in report["untracked"]:
             lines.append(f"- {page['page']} ({page['table_rows']} table rows)")
+
+    if report.get("unmatched_places"):
+        lines.append("")
+        lines.append("### Places with no area")
+        lines.append("")
+        lines.append("Minerals name these places, but no area holds them:")
+        lines.append("")
+        for place in report["unmatched_places"]:
+            lines.append(f"- {place}")
 
     if report["errors"]:
         lines.append("")

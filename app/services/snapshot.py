@@ -6,6 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import Formula, GameVersion, Item, News, ScraperRun, WikiPage
+from app.taxonomy import taxonomy_payload
 
 #: Version of the shape of the snapshot payload.
 #:
@@ -13,7 +14,7 @@ from app.models import Formula, GameVersion, Item, News, ScraperRun, WikiPage
 #: of the data changes, this version is bumped so a client discards the
 #: snapshot it has and fetches the new one, instead of rendering old data
 #: with the new code.
-SNAPSHOT_SCHEMA_VERSION = 3
+SNAPSHOT_SCHEMA_VERSION = 4
 
 
 def _iso(value):
@@ -93,6 +94,7 @@ async def build_snapshot(db: AsyncSession) -> dict:
 
     return {
         "schema_version": SNAPSHOT_SCHEMA_VERSION,
+        "taxonomy": taxonomy_payload(),
         "generated_at": datetime.now(UTC).isoformat(),
         "counts": {
             "items": len(items),

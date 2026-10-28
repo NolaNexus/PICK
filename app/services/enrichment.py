@@ -70,8 +70,24 @@ PAGE_FIELDS = (
     "color",
 )
 
+# The fields whose value is a list of names, one per line on the wiki.
+LIST_FIELDS = {"locations"}
+
 # A value that counts as missing.
 _EMPTY = (None, "", [], {}, ())
+
+
+def _as_list(value: str) -> list[str]:
+    """Turn a block of text into a list of names, one per line."""
+    entries: list[str] = []
+    for line in value.split("\n"):
+        cleaned = line.strip()
+        # A line that is only an HTML tag is not a name.
+        if not cleaned or cleaned.startswith("<"):
+            continue
+        if cleaned not in entries:
+            entries.append(cleaned)
+    return entries
 
 
 def _is_empty(value: Any) -> bool:
@@ -319,9 +335,18 @@ def _merge_into(item: Item, parsed: dict[str, Any]) -> tuple[int, list[dict[str,
         if value is None:
             continue
 
+        # A list of places stays a list, whichever source it came from.
+        if key in LIST_FIELDS and isinstance(value, str):
+            value = _as_list(value)
+
         stored = data.get(key)
         if _is_empty(stored):
             data[key] = value
+            filled += 1
+        elif key in LIST_FIELDS and isinstance(stored, str):
+            # A list of places that was stored as text becomes a list, so the
+            # site can group and filter by it.
+            data[key] = _as_list(stored)
             filled += 1
         elif not _values_agree(stored, value):
             conflicts.append({"item": item.name, "field": key, "stored": stored, "page": value})

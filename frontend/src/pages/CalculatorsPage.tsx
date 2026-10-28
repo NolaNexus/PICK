@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -13,6 +13,7 @@ import {
 } from '@/lib/museum'
 import { snapshotCache } from '@/lib/snapshot'
 import type { SnapshotData } from '@/lib/snapshot'
+import { FormulasTab, MasteryTab, MutationsTab } from '@/components/calculators/reference'
 import type {
   EVResponse,
   TTGResponse,
@@ -35,7 +36,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Plus, Clock, ShieldAlert, Compass, TrendingUp } from 'lucide-react'
+import { Plus, Clock, ShieldAlert, Compass, TrendingUp, Sigma, Sparkles } from 'lucide-react'
 
 const evSchema = z.object({
   luck: z.coerce.number().default(0),
@@ -348,13 +349,22 @@ export default function CalculatorsPage() {
       const data = await snapshotCache.fetch(false)
       setSnapshot(data)
     } catch {
-      // Non-fatal; museum will use empty ore DB
+      // Non-fatal; the museum will use an empty ore DB
     }
   }
 
-  if (activeTab === 'museum' && !snapshot) {
-    void loadSnapshot()
-  }
+  // The museum and the reference tabs read the snapshot.
+  const needsSnapshot =
+    activeTab === 'museum' ||
+    activeTab === 'formulas' ||
+    activeTab === 'mastery' ||
+    activeTab === 'mutations'
+
+  useEffect(() => {
+    if (needsSnapshot && !snapshot) {
+      void loadSnapshot()
+    }
+  }, [needsSnapshot, snapshot])
 
   return (
     <div className="space-y-6">
@@ -382,7 +392,28 @@ export default function CalculatorsPage() {
           <TabsTrigger value="museum" className="text-sm">
             <TrendingUp className="h-3 w-3 mr-2" /> Museum
           </TabsTrigger>
+          <TabsTrigger value="formulas" className="text-sm">
+            <Sigma className="h-3 w-3 mr-2" /> Formulas
+          </TabsTrigger>
+          <TabsTrigger value="mastery" className="text-sm">
+            <TrendingUp className="h-3 w-3 mr-2" /> Mastery
+          </TabsTrigger>
+          <TabsTrigger value="mutations" className="text-sm">
+            <Sparkles className="h-3 w-3 mr-2" /> Mutations
+          </TabsTrigger>
         </TabsList>
+
+        <TabsContent value="formulas">
+          <FormulasTab />
+        </TabsContent>
+
+        <TabsContent value="mastery">
+          <MasteryTab />
+        </TabsContent>
+
+        <TabsContent value="mutations">
+          <MutationsTab />
+        </TabsContent>
 
         <TabsContent value="ev" className="space-y-4">
           <form onSubmit={evForm.handleSubmit(handleEvSubmit)} className="space-y-4">

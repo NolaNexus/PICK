@@ -1,9 +1,37 @@
-"""Locations scraper - parse location tables from the Locations wiki page."""
+"""Locations scraper - parse the Areas and their sub-locations.
+
+The Locations page lists the areas a player can travel to. Each area is a tab
+and holds the places inside it, marked with a ``; {{Name}}`` heading. The areas
+come in two kinds, regular and limited time.
+
+The Museum is listed as an area of its own, but it is a place inside Caldera
+Park, so it is moved there.
+"""
 
 import re
 from typing import Any
 
-import mwparserfromhell
+__all__ = ["parse_locations"]
+
+# The heading that tells the two kinds of area apart.
+_CATEGORY_HEADINGS = {
+    "regular areas": "regular",
+    "limited time areas": "limited_time",
+}
+
+# An area that is really a place inside another area.
+AREA_PARENTS = {
+    "museum": "calderapark",
+}
+
+# A sub-location heading, e.g. "; {{Volcanic Sands}}".
+_SUBLOCATION_HEADING = re.compile(r"^;\s*\{\{([^}|]+)(?:\|[^}]*)?\}\}", re.MULTILINE)
+
+# A sub-location's toughness, e.g. "* {{Volcanic Sands}} - '''Toughness 4'''".
+_TOUGHNESS = re.compile(r"'''Toughness\s*(\d+(?:\.\d+)?)'''", re.IGNORECASE)
+
+# The NPCs that are in a place, e.g. "* NPCs: [[Ranger]], [[Tourist]]".
+_NPCS = re.compile(r"^\*\s*NPCs?:\s*(.+)$", re.MULTILINE | re.IGNORECASE)
 
 
 def _slugify(name: str) -> str:
@@ -11,126 +39,229 @@ def _slugify(name: str) -> str:
 
 
 def parse_locations(wikitext: str) -> list[dict[str, Any]]:
-    """Parse location data from wiki page using <tabber> structure.
+    """Parse the areas and their sub-locations from the Locations page."""
+    if not wikitext:
+        return []
 
-    Returns list of location dicts with name, description, minerals, shopkeepers.
-    """
-    tree = mwparserfromhell.parse(wikitext)
-    locations = []
+    areas = _parse_areas(wikitext)
+    if not areas:
+        return []
 
-    tabbers = tree.filter_tags("tabber")
-    for tabber in tabbers:
-        if not hasattr(tabber, "tag") or tabber.tag != "tabber":
-            continue
+    _apply_parents(areas)
 
-        tabber_text = str(tabber).strip()
-
-        tab_pattern = r"\|\-\|\s*([^=]+)\s*=(.*?)(?=\|\-\||</?tabber>|\Z)"
-        tab_matches = re.finditer(tab_pattern, tabber_text, re.DOTALL)
-
-        for match in tab_matches:
-            tab_name = match.group(1).strip()
-            tab_content = match.group(2).strip()
-
-            if not tab_name:
-                continue
-
-            location_data = _parse_location_content(tab_content)
-
-            location_item = {
-                "id": _slugify(tab_name),
+    locations: list[dict[str, Any]] = []
+    for area in areas:
+        locations.append(
+            {
+                "id": area["slug"],
                 "type": "location",
-                "name": tab_name,
-                "slug": _slugify(tab_name),
+                "name": area["name"],
+                "slug": area["slug"],
                 "data": {
-                    "description": location_data.get("description", ""),
-                    "minerals": location_data.get("minerals", []),
-                    "shopkeepers": location_data.get("shopkeepers", []),
+                    "category": area["category"],
+                    "description": area["description"],
+                    "image": area["image"],
+                    "sublocations": area["sublocations"],
                 },
                 "image_url": None,
             }
-
-            locations.append(location_item)
+        )
 
     return locations
 
 
-def _parse_location_content(content_wikitext: str) -> dict[str, Any]:
-    """Extract description, minerals, and shopkeepers from location content."""
-    result = {
-        "description": "",
-        "minerals": [],
-        "shopkeepers": [],
-    }
+def _parse_areas(wikitext: str) -> list[dict[str, Any]]:
+    """Read every area tab and the places inside it."""
+    areas: list[dict[str, Any]] = []
+    category = "regular"
 
-    if not content_wikitext:
-        return result
+    # The category headings and the tabbers are read in document order, so the
+    # area under a heading gets that heading's category.
+    for match in re.finditer(
+        r"^==+\s*'''?(?P<heading>[^'=]+?)'''?\s*==+\s*$|<tabber>(?P<tabber>.*?)</tabber>",
+        wikitext,
+        re.DOTALL | re.MULTILINE,
+    ):
+        heading = match.group("heading")
+        if heading is not None:
+            key = heading.strip().lower()
+            if key in _CATEGORY_HEADINGS:
+                category = _CATEGORY_HEADINGS[key]
+            continue
 
-    lines = content_wikitext.split("\n")
+        tabber = match.group("tabber") or ""
+        for area in _parse_tabs(tabber, category):
+            areas.append(area)
 
-    desc_parts = []
-    for line in lines:
+    return areas
+
+
+def _parse_tabs(table: str, category: str) -> list[dict[str, Any]]:
+    """Read the areas of one tabber."""
+    areas: list[dict[str, Any]] = []
+
+    tab_pattern = r"\|\-\|\s*([^=]+?)\s*=(.*?)(?=\|\-\||\Z)"
+    for match in re.finditer(tab_pattern, table, re.DOTALL):
+        name = match.group(1).strip()
+        content = match.group(2).strip()
+        if not name:
+            continue
+
+        sublocations = _parse_sublocations(content)
+        areas.append(
+            {
+                "name": name,
+                "slug": _slugify(name),
+                "category": category,
+                "description": _area_description(content),
+                "image": _area_image(content),
+                "sublocations": sublocations,
+            }
+        )
+
+    return areas
+
+
+def _parse_sublocations(content: str) -> list[dict[str, Any]]:
+    """Read the places inside an area."""
+    sublocations: list[dict[str, Any]] = []
+
+    matches = list(_SUBLOCATION_HEADING.finditer(content))
+    for index, match in enumerate(matches):
+        name = match.group(1).strip()
+        if not name:
+            continue
+
+        start = match.end()
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(content)
+        block = content[start:end]
+
+        toughness = _TOUGHNESS.search(block)
+        npcs = _read_npcs(block)
+        notes = _read_notes(block)
+
+        sublocations.append(
+            {
+                "name": name,
+                "slug": _slugify(name),
+                "toughness": float(toughness.group(1)) if toughness else None,
+                "npcs": npcs,
+                "notes": notes,
+                "image": _block_image(block),
+            }
+        )
+
+    return sublocations
+
+
+def _read_npcs(block: str) -> list[str]:
+    """Read the NPCs that are in a place."""
+    match = _NPCS.search(block)
+    if not match:
+        return []
+
+    names: list[str] = []
+    for link in re.findall(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", match.group(1)):
+        name = link.strip()
+        if name and name not in names:
+            names.append(name)
+    return names
+
+
+def _read_notes(block: str) -> list[str]:
+    """Read the notes about a place."""
+    notes: list[str] = []
+
+    for line in block.splitlines():
+        stripped = line.strip()
+        if not stripped.startswith("*"):
+            continue
+        if _NPCS.match(stripped):
+            continue
+
+        text = stripped.lstrip("* ").strip()
+        text = re.sub(r"\{\{([^}|]+)(?:\|[^}]*)?\}\}", r"\1", text)
+        text = re.sub(r"'''?", "", text)
+        text = re.sub(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", r"\1", text)
+        text = text.strip()
+        # The toughness is read on its own, so it is not repeated here.
+        if text and not _TOUGHNESS.search(stripped):
+            notes.append(text)
+
+    return notes
+
+
+def _block_image(block: str) -> str:
+    """Read the picture of a place."""
+    match = re.search(r"\[\[File:([^\]|]+)", block)
+    return match.group(1).strip() if match else ""
+
+
+def _area_image(content: str) -> str:
+    """Read the picture of an area."""
+    return _block_image(content)
+
+
+def _area_description(content: str) -> str:
+    """Read the description of an area.
+
+    The description is the text of the area that is not part of one of its
+    places.
+    """
+    parts: list[str] = []
+
+    for line in content.splitlines():
         stripped = line.strip()
         if not stripped:
             continue
-        if stripped.startswith(";") or stripped.startswith("{{"):
+        if stripped.startswith((";", "[[File:", "*")):
             continue
-        if "File:" in stripped:
+        if stripped.startswith("{{"):
             continue
-        if stripped.startswith("* NPCs:"):
+        text = re.sub(r"\{\{([^}|]+)(?:\|[^}]*)?\}\}", r"\1", stripped)
+        text = re.sub(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", r"\1", text)
+        text = text.strip()
+        if text:
+            parts.append(text)
+
+    return " ".join(parts)
+
+
+def _apply_parents(areas: list[dict[str, Any]]) -> None:
+    """Move an area that is really a place inside another area.
+
+    The Locations page gives the Museum its own tab, but it is a place inside
+    Caldera Park, so it belongs there as one of its places.
+    """
+    by_key = {_name_key(area["name"]): area for area in areas}
+
+    for name, parent_key in AREA_PARENTS.items():
+        child = by_key.get(name)
+        parent = by_key.get(parent_key)
+        if child is None or parent is None:
             continue
-        if stripped.startswith("* "):
-            # Bullet point - could be description
-            text = stripped[2:].strip()
-            if text.startswith("Toughness"):
-                continue
-            if text.startswith("{{"):
-                continue
-            # Remove wikilinks for cleaner description
-            text = re.sub(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", r"\1", text)
-            desc_parts.append(text)
 
-    result["description"] = " ".join(desc_parts).strip()
+        # The child keeps its own places; they move to the parent.
+        moved = child["sublocations"] or [
+            {
+                "name": child["name"],
+                "slug": child["slug"],
+                "toughness": None,
+                "npcs": [],
+                "notes": [],
+                "image": child["image"],
+            }
+        ]
 
-    result["minerals"] = _extract_mineral_references(content_wikitext)
-    result["shopkeepers"] = _extract_shopkeeper_references(content_wikitext)
+        existing = {entry["name"] for entry in parent["sublocations"]}
+        for entry in moved:
+            if entry["name"] not in existing:
+                parent["sublocations"].append(entry)
+                existing.add(entry["name"])
 
-    return result
-
-
-def _extract_mineral_references(content: str) -> list[str]:
-    """Extract mineral names from [[Minerals|Name]] wikilinks."""
-    minerals = []
-
-    # Pattern: [[Minerals|MineralName]] - this is how minerals are referenced
-    minerals_matches = re.findall(r"\[\[Minerals\|([^\]]+)\]\]", content)
-    for m in minerals_matches:
-        if m and m not in minerals:
-            minerals.append(m)
-
-    # Also look for mineral template references like {{Mineral Name}}
-    # but only for known patterns
-    return minerals
+        areas.remove(child)
 
 
-def _extract_shopkeeper_references(content: str) -> list[str]:
-    """Extract shopkeeper names from NPCs: [[Name]], [[Name2]] lines."""
-    shopkeepers = []
-
-    # Find NPCs: lines and extract all [[Name]] or [[Name|Display]] links
-    npc_pattern = r"NPCs?:\s*([^\n]+)"
-    for match in re.finditer(npc_pattern, content):
-        line = match.group(1)
-        # Extract all wikilinks from this line
-        wikilink_pattern = r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]"
-        for wl_match in re.finditer(wikilink_pattern, line):
-            name = wl_match.group(1).strip()
-            # Filter out generic names
-            if name and name not in shopkeepers:
-                if name not in ("John", "Trader", "Mechanic", "Shopkeeper", "NPC"):
-                    shopkeepers.append(name)
-                elif name in ("John", "Trader", "Mechanic"):
-                    # These are actually shopkeepers
-                    shopkeepers.append(name)
-
-    return shopkeepers
+def _name_key(name: str) -> str:
+    """Return a comparison key for a name."""
+    return re.sub(r"[^a-z0-9]+", "", str(name or "").lower())

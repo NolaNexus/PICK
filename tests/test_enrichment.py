@@ -60,7 +60,7 @@ class TestMerging:
 
         assert filled >= 1
         assert conflicts == []
-        assert item.data["locations"] == "Haunted Creek"
+        assert item.data["locations"] == ["Haunted Creek"]
         assert item.data["description"].startswith("A spire of crystallised moonlight")
 
     def test_a_stored_value_is_kept(self):
@@ -128,4 +128,4 @@ def test_the_merge_works_on_an_item_row():
     filled, _ = _merge_into(item, parsed)
 
     assert filled > 0
-    assert item.data["locations"] == "Haunted Creek"
+    assert item.data["locations"] == ["Haunted Creek"]

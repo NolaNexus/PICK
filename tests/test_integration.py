@@ -1,41 +1,12 @@
 """Integration tests for database operations and scraper pipeline."""
 
 import pytest
-import pytest_asyncio
 from sqlalchemy import func, select
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import sessionmaker
 
-from app.models import Base, GameVersion, Item, ScraperRun, WikiPage
+from app.models import GameVersion, Item, ScraperRun, WikiPage
 from app.services.scraper import run_daily_scrape, run_full_scrape, scrape_page
 from app.utils.mw_api import MediaWikiClient
-from tests.conftest import get_test_database_url, requires_wiki
-
-
-@pytest_asyncio.fixture
-async def test_engine():
-    """Create a test database engine."""
-    database_url = get_test_database_url()
-    engine = create_async_engine(database_url, echo=False)
-
-    # Create tables
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-
-    yield engine
-
-    # Cleanup
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
-    await engine.dispose()
-
-
-@pytest_asyncio.fixture
-async def db_session(test_engine):
-    """Create a database session for testing."""
-    async_session = sessionmaker(test_engine, class_=AsyncSession, expire_on_commit=False)
-    async with async_session() as session:
-        yield session
+from tests.conftest import requires_wiki
 
 
 @pytest.mark.integration

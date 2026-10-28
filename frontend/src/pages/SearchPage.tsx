@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { snapshotCache } from '@/lib/snapshot'
 import type { SnapshotData } from '@/lib/snapshot'
+import { labelOf, readTaxonomy } from '@/lib/taxonomy'
 import { useDebounce } from '@/hooks/useDebounce'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -23,6 +24,7 @@ export default function SearchPage() {
   const [page, setPage] = useState(1)
   const [size] = useState(15)
   const [type, setType] = useState<string | null>(null)
+  const [area, setArea] = useState<string | null>(null)
   const [location, setLocation] = useState('')
   const [snapshot, setSnapshot] = useState<SnapshotData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -76,17 +78,34 @@ export default function SearchPage() {
     }
   }, [])
 
+  const taxonomy = useMemo(() => readTaxonomy(snapshot?.taxonomy), [snapshot])
+
   const types = useMemo(() => {
     if (!snapshot) return []
-    return snapshotCache.getTypes(snapshot)
-  }, [snapshot])
+    // Only the types that are browsable on their own are offered as filters.
+    return snapshotCache
+      .getTypes(snapshot)
+      .filter((type) => taxonomy.entries.get(type)?.listed !== false)
+      .sort()
+  }, [snapshot, taxonomy])
+
+  const groups = useMemo(() => {
+    const areas = new Set<string>()
+    for (const type of types) {
+      const area = taxonomy.entries.get(type)?.area
+      if (area) areas.add(area)
+    }
+    return [...areas].sort()
+  }, [types, taxonomy])
 
   const hasQuery = debounced.length >= 2
 
   const results = useMemo(() => {
     if (!snapshot || !hasQuery) return []
-    return snapshotCache.searchItems(snapshot, debounced, type || undefined, location || undefined)
-  }, [snapshot, debounced, type, location, hasQuery])
+    const all = snapshotCache.searchItems(snapshot, debounced, type || undefined, location || undefined)
+    if (!area) return all
+    return all.filter((item) => taxonomy.entries.get(item.type)?.area === area)
+  }, [snapshot, debounced, type, location, area, hasQuery, taxonomy])
 
   const total = results.length
   const totalPages = Math.max(1, Math.ceil(total / size))
@@ -135,7 +154,7 @@ export default function SearchPage() {
           <CardTitle>Search items</CardTitle>
         </CardHeader>
         <CardContent className="py-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Query</label>
               <Input
@@ -146,6 +165,28 @@ export default function SearchPage() {
               {!hasQuery && query.length > 0 && (
                 <p className="text-xs text-muted-foreground">Type at least 2 characters</p>
               )}
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium">Area</label>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  onClick={() => setArea(null)}
+                  variant={area === null ? 'default' : 'outline'}
+                  size="sm"
+                >
+                  All
+                </Button>
+                {groups.map((group) => (
+                  <Button
+                    key={group}
+                    onClick={() => setArea(group)}
+                    variant={area === group ? 'default' : 'outline'}
+                    size="sm"
+                  >
+                    {group}
+                  </Button>
+                ))}
+              </div>
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Type</label>
@@ -164,7 +205,7 @@ export default function SearchPage() {
                     variant={type === t ? 'default' : 'outline'}
                     size="sm"
                   >
-                    {t}
+                    {labelOf(taxonomy, t)}
                   </Button>
                 ))}
               </div>
@@ -215,7 +256,7 @@ export default function SearchPage() {
                     <TableRow key={item.id} className="cursor-pointer hover:bg-muted/30">
                       <TableCell className="font-medium">{item.name}</TableCell>
                       <TableCell>
-                        <Badge variant="outline">{item.type}</Badge>
+                        <Badge variant="outline">{labelOf(taxonomy, item.type)}</Badge>
                       </TableCell>
                       <TableCell className="text-muted-foreground text-sm">—</TableCell>
                       <TableCell className="text-right">

@@ -89,6 +89,7 @@ export function ItemDetailShell({
 export function ToolDetail({ item }: { item: ItemResponse }) {
   const data = (item.data ?? {}) as ItemData
   const statModifiers = modifiers(data)
+  const enchantments = records(data, "enchantments")
 
   return (
     <ItemDetailShell item={item}>
@@ -113,6 +114,25 @@ export function ToolDetail({ item }: { item: ItemResponse }) {
       {str(data, "obtainment") ? (
         <Section title="Obtainment">
           <TextBlock>{str(data, "obtainment")}</TextBlock>
+        </Section>
+      ) : null}
+      {enchantments?.length ? (
+        <Section title="Enchantments">
+          <ul className="list-disc space-y-1 pl-5 text-sm">
+            {enchantments.map((enchantment, index) => {
+              const name = str(enchantment, "name") ?? str(enchantment, "effect")
+              return (
+                <li key={index}>
+                  {name}
+                  {str(enchantment, "applies_to") ? (
+                    <span className="ml-2 text-xs text-muted-foreground">
+                      {str(enchantment, "applies_to")}
+                    </span>
+                  ) : null}
+                </li>
+              )
+            })}
+          </ul>
         </Section>
       ) : null}
       {str(data, "trivia") ? (
@@ -149,6 +169,11 @@ function Recipe({ text }: { text: string }) {
 export function EquipmentDetail({ item }: { item: ItemResponse }) {
   const data = (item.data ?? {}) as ItemData
   const statModifiers = modifiers(data)
+  const blueprint = data["blueprint"] as Record<string, unknown> | undefined
+  const catalyst = data["catalyst"] as Record<string, unknown> | undefined
+  const questSteps = blueprint
+    ? (Array.isArray(blueprint.quest_steps) ? blueprint.quest_steps : [])
+    : []
 
   return (
     <ItemDetailShell item={item}>
@@ -163,10 +188,70 @@ export function EquipmentDetail({ item }: { item: ItemResponse }) {
         {num(data, "price") != null ? (
           <Field label="Price">{formatCurrency(num(data, "price"))}</Field>
         ) : null}
+        {catalyst ? (
+          <Field label="Mutation catalyst">
+            {str(catalyst, "name")}
+            {str(catalyst, "mineral") ? (
+              <span className="ml-1 text-xs text-muted-foreground">
+                ({str(catalyst, "mineral")})
+              </span>
+            ) : null}
+          </Field>
+        ) : null}
       </dl>
       {statModifiers ? (
         <Section title="Stats">
           <StatList modifiers={statModifiers} />
+        </Section>
+      ) : null}
+      {blueprint ? (
+        <Section title="How to get it">
+          <dl className="space-y-2 text-sm">
+            {str(blueprint, "quest_giver") ? (
+              <Field label="Quest giver">{str(blueprint, "quest_giver")}</Field>
+            ) : null}
+            {str(blueprint, "quest_name") ? (
+              <Field label="Quest">{str(blueprint, "quest_name")}</Field>
+            ) : null}
+            {str(blueprint, "event_shop") ? (
+              <Field label="Event shop">{str(blueprint, "event_shop")}</Field>
+            ) : null}
+            {str(blueprint, "purchase_info") ? (
+              <Field label="Purchase">{str(blueprint, "purchase_info")}</Field>
+            ) : null}
+          </dl>
+          {questSteps.length > 0 ? (
+            <ul className="mt-2 space-y-2 text-sm">
+              {questSteps.map((step, index) => {
+                const entry = step as Record<string, unknown>
+                const quest = str(entry, "Quest")
+                const sub = str(entry, "QuestSub")
+                const rewards = str(entry, "Rewards")
+                const lines = Object.entries(entry)
+                  .filter(([key]) => key.startsWith("QuestStep"))
+                  .sort(([a], [b]) => a.localeCompare(b))
+                  .map(([, value]) => (typeof value === "string" ? value : ""))
+                  .filter(Boolean)
+
+                return (
+                  <li key={index} className="border-l-2 border-gold-500/40 pl-3">
+                    {quest ? <div className="font-medium">{quest}</div> : null}
+                    {sub ? <div className="text-muted-foreground">{sub}</div> : null}
+                    {lines.length > 0 ? (
+                      <ul className="mt-1 list-disc pl-5 text-muted-foreground">
+                        {lines.map((line, lineIndex) => (
+                          <li key={lineIndex}>{line}</li>
+                        ))}
+                      </ul>
+                    ) : null}
+                    {rewards ? (
+                      <div className="mt-1 text-xs text-muted-foreground">Rewards: {rewards}</div>
+                    ) : null}
+                  </li>
+                )
+              })}
+            </ul>
+          ) : null}
         </Section>
       ) : null}
     </ItemDetailShell>
@@ -180,6 +265,8 @@ export function MineralDetail({ item }: { item: ItemResponse }) {
   const data = (item.data ?? {}) as ItemData
   const chances = records(data, "chances")
   const recipes = records(data, "recipes")
+  const museum = data["museum"] as Record<string, unknown> | undefined
+  const areas = list(data, "areas")
 
   return (
     <ItemDetailShell item={item}>
@@ -189,7 +276,27 @@ export function MineralDetail({ item }: { item: ItemResponse }) {
         ) : null}
         {str(data, "tier") ? <Field label="Tier">{str(data, "tier")}</Field> : null}
         {str(data, "rarity") ? <Field label="Rarity">{str(data, "rarity")}</Field> : null}
+        {museum ? (
+          <>
+            {num(museum, "min_weight_kg") != null ? (
+              <Field label="Museum weight">
+                {formatNumber(num(museum, "min_weight_kg"))} kg
+              </Field>
+            ) : null}
+            {str(museum, "bonus_stat") ? (
+              <Field label="Museum bonus">{str(museum, "bonus_stat")}</Field>
+            ) : null}
+            {str(museum, "max_boost") ? (
+              <Field label="Maximum boost">{str(museum, "max_boost")}</Field>
+            ) : null}
+          </>
+        ) : null}
       </dl>
+      {areas?.length ? (
+        <Section title="Areas">
+          <BulletList items={areas} />
+        </Section>
+      ) : null}
       {list(data, "locations") ? (
         <Section title="Found at">
           <BulletList items={list(data, "locations")} />
@@ -945,6 +1052,48 @@ export function FallbackDetail({ item }: { item: ItemResponse }) {
 }
 
 /**
+ * An excavation site: what it costs, how long it takes and what it drops.
+ */
+export function ExcavationSiteDetail({ item }: { item: ItemResponse }) {
+  const data = (item.data ?? {}) as ItemData
+  const drops = records(data, "drops")
+
+  return (
+    <ItemDetailShell item={item}>
+      <dl className="space-y-2">
+        {str(data, "region") ? <Field label="Region">{str(data, "region")}</Field> : null}
+        {str(data, "permit_cost") ? (
+          <Field label="Permit">{str(data, "permit_cost")}</Field>
+        ) : null}
+        {str(data, "excavation_cost") ? (
+          <Field label="Excavation cost">{str(data, "excavation_cost")}</Field>
+        ) : null}
+        {str(data, "duration") ? <Field label="Duration">{str(data, "duration")}</Field> : null}
+        {str(data, "items_range") ? (
+          <Field label="Items per run">{str(data, "items_range")}</Field>
+        ) : null}
+      </dl>
+      {drops?.length ? (
+        <Section title="Drops">
+          <ul className="space-y-1 text-sm">
+            {drops.map((drop, index) => {
+              const name = str(drop, "name")
+              const chance = str(drop, "chance")
+              return (
+                <li key={index} className="flex items-baseline justify-between gap-3">
+                  <span className="text-muted-foreground">{name}</span>
+                  <span className="font-medium tabular-nums">{chance}</span>
+                </li>
+              )
+            })}
+          </ul>
+        </Section>
+      ) : null}
+    </ItemDetailShell>
+  )
+}
+
+/**
  * The detail view to use for an item, by its type.
  */
 const DETAILS: Record<string, (props: { item: ItemResponse }) => React.ReactElement> = {
@@ -971,9 +1120,8 @@ const DETAILS: Record<string, (props: { item: ItemResponse }) => React.ReactElem
   treasure_map: TreasureDetail,
   museum_display: MuseumDetail,
   museum_info: MuseumDetail,
-  excavation_site: ExcavationDetail,
-  excavation_level: ExcavationDetail,
-  excavation_reward: ExcavationDetail,
+  excavation_site: ExcavationSiteDetail,
+  excavation_level: ExcavationSiteDetail,
   geode: GeodeDetail,
   modifier: ModifierDetail,
   trinket: TrinketDetail,

@@ -14,7 +14,8 @@ defect** turned up: the Museum calculator is broken end-to-end, not merely missi
 a feature. It replaces the "mode select does nothing" gap with a larger one. The
 user confirmed the Museum issues should be **one issue**, not three.
 
-No code changes here. This plan creates **five issues** covering the six gaps.
+No code changes to the application. This plan files **four issues** covering the
+five gaps, and adds the issue templates as a commit.
 
 ## What to file, and the evidence for each
 
@@ -139,22 +140,24 @@ ever been created** — verified four ways: `list_issues` (open and all),
 `gh repo view` → `.issues.totalCount == 0`. There were also no pull requests and
 no issue templates.
 
-Worth a small housekeeping issue: add issue templates so future work has
+Worth a small housekeeping job: add issue templates so future work has
 somewhere to be recorded, and so the Copilot Coding Agent has issues to pick up.
 
 **This one was done as committed work rather than filed as an issue** — see
-"How to file them" below. The templates landed in commit `19be56e`.
+"How they were filed" below. The templates landed in commit `19be56e`, and
+`AGENTS.md` gained an "Issues" section in commit `9ceb1f2` recording both the
+templates and the fact that issue types cannot be set on this repository.
 
 ### Not an issue — already handled
 
 The `calculateEV` placeholder and the dead `mode` select are the only two of the
 five original gaps that are real defects; the other three are cosmetic or already
-documented in `AGENTS.md`. Issue 1 supersedes the "mode select does nothing" item
+documented in `AGENTS.md`. Issue #1 supersedes the "mode select does nothing" item
 because the select is not merely inert — the whole tab is inert.
 
-## How to file them
+## How they were filed
 
-All go to `NolaNexus/PICK`. The repo's labels are `accessibility`, `bug`,
+All went to `NolaNexus/PICK`. The repo's labels are `accessibility`, `bug`,
 `documentation`, `duplicate`, `enhancement`, `help wanted`, `good first issue`,
 `invalid`, `question`, `wontfix`. There is **no `chore` label** — verified against
 `gh label list`.
@@ -188,8 +191,8 @@ templates are `bug_report.yml` (`bug`), `feature_request.yml` (`enhancement`) an
 `task.yml` (`enhancement`), plus `config.yml` with
 `blank_issues_enabled: false`.
 
-Each issue body should follow the repo's commit convention — say **what** is
-broken and **why it matters**, then the acceptance criteria. Include the verified
+Each issue body follows the repo's commit convention — say **what** is broken and
+**why it matters**, then the acceptance criteria — and includes the verified
 file:line references so a reader can check the claim without hunting.
 
 **Do not assign the Copilot Coding Agent** for issues #1 and #6 without a decision
@@ -208,24 +211,38 @@ gh issue list --repo NolaNexus/PICK --state all --limit 10
 gh issue view <n> --repo NolaNexus/PICK
 ```
 
-Expected: five open issues with the titles above, each with its type and labels,
-and each body containing the file:line references that were verified above.
+Expected: **four** open issues with the titles above, each with its label and a body
+citing the files it concerns, plus the four templates in `.github/ISSUE_TEMPLATE/`.
+
+Verified on completion:
+
+- #1 `bug` — 4926-character body, cites `frontend/src/lib/museum.ts:22`,
+  `frontend/src/pages/CalculatorsPage.tsx:132`, `frontend/public/snapshot.json:11784`
+- #6 `bug` — 4091-character body, cites `frontend/src/lib/calculators.ts:244`,
+  `frontend/public/snapshot.json:11791`
+- #7 `enhancement` — 3044-character body, cites the four tab-indented files and
+  `.github/workflows/ci.yml`
+- #8 `enhancement` — 3471-character body, cites `.github/workflows/ci.yml:28` and
+  `pyproject.toml`
+- Templates: `bug_report.yml`, `feature_request.yml`, `task.yml`, `config.yml`
+
+**No issue types.** They cannot be set on this repository — see "How they were
+filed" above. The validation is therefore on labels, not types.
 
 ## Risks
 
 | Risk | Mitigation |
 | --- | --- |
-| Filing a duplicate of an existing issue | The repo has zero issues today, verified four ways. Re-check with `gh issue list --state all` immediately before creating, in case one was filed between planning and execution. |
-| Issue 1's body being read as a single small bug | The body must lead with "the tab always shows empty results" and then list the three independent causes, since fixing one alone still leaves it broken. |
-| The `chore` label not existing | Verified label list has no `chore`. Use `enhancement` for issues 4 and 5, or `documentation` for issue 5. |
-| Bodies getting stale as the code moves | Include the file:line references and the commit they were verified against (`3439db5`), so a future reader knows what was true when. |
+| Filing a duplicate of an existing issue | The repo had zero issues, verified four ways. Re-checked with `gh issue list --state all` immediately before creating. |
+| Issue #1's body being read as a single small bug | The body leads with "The Museum calculator tab always shows empty slot recommendations and zero stats" and then lists the three independent causes, since fixing one alone still leaves it broken. |
+| The `chore` label not existing | Verified: the label list has no `chore`. `enhancement` is used instead, and `documentation` was not needed once the templates landed as a commit. |
+| Bodies getting stale as the code moves | Each body includes the file:line references and states they were verified against commit `3439db5`, so a future reader knows what was true when. |
+| Probe issues left behind during API diagnosis | Four probes were created while working out the issue-type API and all four were deleted. The repo went from zero issues to exactly the four above. Creating real issues as probes was the wrong tool; a placeholder title would have avoided it. |
 
 ## Out of scope
 
 - Fixing any of the issues. This plan only files them.
-- Choosing the fix shape for issues 1 and 2 — that is a design decision for
+- Choosing the fix shape for issues #1 and #6 — that is a design decision for
   whoever picks them up, and it is why they are not pre-assigned.
 - The `alembic/` re-format itself, and the frontend re-indent itself.
-- `APP.md`/`AGENTS.md` updates. `AGENTS.md` already documents the mixed
-  indentation and the `alembic/` drift, so it needs no change until the issues
-  are fixed.
+- Assigning the Copilot Coding Agent to any issue.

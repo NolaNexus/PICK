@@ -22,12 +22,6 @@ export interface Taxonomy {
   groups: Map<string, string[]>;
 }
 
-export interface Taxonomy {
-  entries: Map<string, TaxonomyEntry>
-  areas: string[]
-  groups: Map<string, string[]>
-}
-
 const FALLBACK_AREA = "items"
 
 function humanise(type: string): string {

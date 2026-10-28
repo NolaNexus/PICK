@@ -82,8 +82,8 @@ and `ck_items_slug_prefix`.
 - `tests/test_schema_constraints.py` asserts the database rejects rows that break each one.
   A rule that exists only in Python fails no test, so put it in the database.
 - `items.data` is JSONB with `jsonb_typeof(data) = 'object'`. That check is added by hand
-  in `app/models/item.py`, because the JSON type function is named differently in
-  PostgreSQL and SQLite.
+  in `app/models/item.py`, because the JSON type function is not part of the SQL
+  standard.
 
 ## Models and parity
 

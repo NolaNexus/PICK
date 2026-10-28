@@ -28,8 +28,8 @@ cd /home/nola/Desktop/PICK
 .venv/bin/python -m scripts.export_snapshot
 ```
 
-`scripts/export_snapshot.py` validates the payload against the schema before
-writing it, so a mismatch fails the export rather than shipping.
+The exporter does not validate the payload against the schema. The committed file is
+validated in CI, by `tests/test_snapshot_contract.py`.
 
 ## There is no API client
 

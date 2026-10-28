@@ -100,3 +100,8 @@ gh_*/
 # Database
 *.db
 *.db-journal
+
+# Kilo working plans. They are scratch documents for the current task, not
+# project documentation: they go stale the moment the code moves. See
+# docs/agent-instructions/git-and-issues.md.
+.kilo/plans/

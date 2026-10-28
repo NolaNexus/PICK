@@ -22,16 +22,13 @@
 ## Docs and slash commands
 
 - `README.md` is the overview. `SETUP.md` is the operational guide, including the systemd
-  install and deploy-key setup. `ROADMAP.md` records what shipped and what is open.
-- `frontend/README.md` is the stock Vite template README, not documentation for this
-  project. Ignore it.
-- `app/logging_config.py` is dead code: nothing imports it. Do not wire it up as part of
-  an unrelated change, and do not assume the scraper's logging is configured anywhere —
-  it uses the root logger's defaults.
-- `.kilo/plans/` holds dated working plans. They are committed history, not current
-  documentation. They describe intent at a point in time, and several describe code that
-  was later removed or rewritten. Some carry a `**Status:**` line. Re-verify a plan's
-  claims against the code before acting on them.
+  install and deploy-key setup.
+- **Plans are scratch, not documentation.** A plan file describes intent at one moment
+  and rots as soon as the code moves. `.kilo/plans/` is git-ignored for that reason:
+  plans are written when work starts and deleted when it lands. Do not read an old plan
+  as a description of the current tree, and do not treat its checkboxes as a work
+  queue. If you find one, re-verify every claim against the code before acting, or
+  throw it away.
 - `.kilo/command/` holds the repo's slash commands: `/check`, `/check-offline`, `/refresh`,
   `/generate-types`, `/verify-guards`. They carry the exact working invocations and the
   traps that go with them.

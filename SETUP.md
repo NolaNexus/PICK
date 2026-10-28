@@ -1,9 +1,13 @@
 # Setup Guide - PICK Project
 
+Operational guide. `README.md` is the project overview; `AGENTS.md` holds the rules
+for changing the code.
+
 ## Prerequisites
 
-- GitHub account
-- PostgreSQL (for local testing)
+- Python 3.11+
+- PostgreSQL 16 (Docker Compose provides it)
+- Node 22 (for the frontend)
 
 ## Step 1: Clone Repository
 
@@ -14,67 +18,56 @@ cd PICK
 
 ## Step 2: Configure the Environment
 
-Copy `.env.example` to `.env` and fill in the values you need:
-
 ```bash
 cp .env.example .env
 ```
 
-The file is read by `python-dotenv` and by `scripts/refresh_site.sh`, which parses it
-line by line rather than sourcing it: `USER_AGENT` contains spaces and parentheses,
-so it is not shell syntax.
+`.env` is dotenv, not shell. `scripts/refresh_site.sh` parses it line by line rather
+than sourcing it, because `USER_AGENT` contains spaces and parentheses.
 
 ## Step 3: Local Development
 
-### Python dependencies
+### The virtualenv
 
-`requirements.txt` holds the runtime dependencies and `requirements-dev.txt` holds the
-test and lint tools. For development you want both:
+`.venv` hard-codes its own absolute path. Create it *after* the checkout is in its
+final location, and if you move the directory afterwards, delete it and recreate
+it:
 
 ```bash
-pip install -r requirements.txt -r requirements-dev.txt
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt -r requirements-dev.txt
 ```
 
-If you only want to run the app, `requirements.txt` on its own is enough.
+Invoke tools as `.venv/bin/python -m <tool>`, not `.venv/bin/<tool>` — the shebangs
+in `.venv/bin` are what break. The systemd units for the refresh job hard-code the
+checkout path too; update them if the checkout moves.
 
-### A note on the old R bridge
-
-There is no R dependency any more. `app/services/r_stats.py`, the `R/` scripts and
-`requirements-r.txt` were removed, and with them the endpoints that could only ever
-return an empty result.
-
-There is no backend calculator either. The calculators live in the site, in
-`frontend/src/lib/calculators.ts` and `frontend/src/lib/museum.ts`, and they run in the
-browser from the published snapshot.
-
-### There is no API
-
-There is no HTTP server in this project. `app/api/`, `app/main.py`, `app/schemas/`,
-`app/monitoring.py` and `openapi.json` were removed: nothing deployed the API, no
-frontend code called it, and the exporter writes the snapshot directly rather than
-through a route. The scraper produces `frontend/public/snapshot.json`; the site
-reads that file. If you need a programmatic interface, the dataset is
-`snapshot.json` and its contract is `snapshot.schema.json`.
+`requirements.txt` holds the runtime dependencies and `requirements-dev.txt` holds the
+test and lint tools. You want both to work on the project.
 
 ### Start the Database
 
 ```bash
-cd PICK
 docker compose up -d db
+.venv/bin/python -m alembic upgrade head
+```
 
-# Database migrations
-./.venv/bin/python -m alembic upgrade head
+### Run the scraper
 
-# Run wiki scraper (test)
-./.venv/bin/python -m scripts.scraper
+```bash
+.venv/bin/python -m scripts.scraper
 ```
 
 ### Start Frontend
 
 ```bash
 cd frontend
+npm install
 npm run dev
 ```
+
+The frontend runs standalone against the committed snapshot, so no backend is needed
+for UI work.
 
 ## Step 4: CI/CD Setup
 
@@ -88,6 +81,7 @@ GitHub Actions are already configured:
 - Builds frontend
 - Lints frontend (ESLint)
 - Type checks frontend
+- Checks that the generated snapshot types are current
 
 ### Deployment
 - **Frontend**: Deploys to GitHub Pages on push to `master` via `static.yml`, using the
@@ -148,9 +142,7 @@ complete rebuild. The units use `%h/Desktop/PICK`; if the checkout moves, update
 
 ## Development Scripts
 
-### Available Scripts
-
-#### Backend Scripts
+### Backend
 
 - `scripts.scraper`: Wiki scraper main entry point
   - Arguments: `--full` for complete rebuild
@@ -163,7 +155,18 @@ complete rebuild. The units use `%h/Desktop/PICK`; if the checkout moves, update
 
 - `scripts.seed_formulas`: Seed formula data
 
-#### Environment Variables (`.env`)
+### Frontend
+
+- `npm run dev`: Vite dev server
+- `npm run build`: Production build
+- `npm run lint`: ESLint
+- `npm run typecheck`: TypeScript type checking
+- `npm run test`: vitest
+- `npm run generate:snapshot-types`: Generate the frontend's types from `snapshot.schema.json`
+
+### Environment Variables (`.env`)
+
+See `.env.example` for the full list. The four that matter:
 
 ```bash
 # MediaWiki API endpoint for Prospecting! Wiki
@@ -172,28 +175,16 @@ MEDIAWIKI_API_URL=https://prospecting.miraheze.org/w/api.php
 # User-Agent sent to the wiki API
 USER_AGENT=PICK/1.0 (Prospecting Information & Community Kit)
 
-# Application settings
-APP_NAME=PICK
-APP_VERSION=0.1.0
-DEBUG=false
+# Database (local PostgreSQL via docker-compose)
 DATABASE_URL=postgresql+asyncpg://pick:pick@localhost:5432/pick
 
-# CORS allowed origins (comma-separated; use "*" for dev, list domains for prod)
-# CORS_ORIGINS=https://pick.example.com,https://www.pick.example.com
+# Echo SQL statements
+DEBUG=false
 ```
 
-There is no HTTP server, so `CORS_ORIGINS` is not read by anything. It is a leftover
-from the API and can be deleted.
-
-### Frontend Scripts
-
-#### Package.json Scripts
-
-- `npm run dev`: Vite dev server
-- `npm run build`: Production build
-- `npm run lint`: ESLint
-- `npm run typecheck`: TypeScript type checking
-- `npm run generate:snapshot-types`: Generate the frontend's types from `snapshot.schema.json`
+`NTFY_TOPIC` is optional and only used by `scripts/refresh_site.sh` to push a
+notification when a run fails. There is no HTTP server, so `CORS_ORIGINS` is not
+read by anything.
 
 ## Development Workflow
 
@@ -203,21 +194,29 @@ from the API and can be deleted.
 - Update parsers in `scrapers/`
 
 ### 2. Test
-- Backend: `ruff check app scrapers scripts tests` + `ruff format --check app scrapers scripts tests` + `mypy app/ scrapers/ scripts/` + `pytest`
-- Frontend: `npm run lint` + `npm run typecheck` + `npm run build`
 
-The backend commands need a test database, and the scopes above are the ones CI
-uses. `.kilo/command/check.md` has the whole sequence with the environment
-variables spelled out.
+`.kilo/command/check.md` has the full sequence with the environment variables
+spelled out. The short version:
+
+```bash
+# Backend
+.venv/bin/python -m ruff check app scrapers scripts tests
+.venv/bin/python -m ruff format --check app scrapers scripts tests
+.venv/bin/python -m mypy app/ scrapers/ scripts/
+.venv/bin/python -m pytest -q
+
+# Frontend
+cd frontend && npm run typecheck && npm run test && npm run lint && npm run build
+```
 
 ### 3. Run End-to-End Tests
 
 ```bash
 # Test wiki scraper
-./.venv/bin/python -m scripts.scraper
+.venv/bin/python -m scripts.scraper
 
 # Check the exported data
-./.venv/bin/python -c "import json; d=json.load(open('frontend/public/snapshot.json')); print(len(d['items']), 'items')"
+.venv/bin/python -c "import json; d=json.load(open('frontend/public/snapshot.json')); print(len(d['items']), 'items')"
 ```
 
 ### 4. Deploy
@@ -257,8 +256,7 @@ npm run build
 ├── pyproject.toml         # Python project config
 ├── snapshot.schema.json   # The published file's contract
 ├── README.md              # Project overview
-├── ROADMAP.md             # What shipped and what is open
-└── .kilo/                # Kilo planning system and slash commands
+└── .kilo/                # Kilo slash commands
 ```
 
 ## Troubleshooting
@@ -267,10 +265,10 @@ npm run build
 
 ```bash
 # Check if PostgreSQL is running
-docker ps | grep postgres
+docker compose ps
 
 # Reinitialize database
-./.venv/bin/python -m alembic upgrade head
+.venv/bin/python -m alembic upgrade head
 ```
 
 ### Frontend Issues
@@ -293,16 +291,14 @@ npm run generate:snapshot-types
 
 ## Support
 
-For issues, please check:
-- <https://github.com/NolaNexus/PICK/issues>
-- GitHub Discussions
+Issues: <https://github.com/NolaNexus/PICK/issues>
 
 ## Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Run tests: `pytest tests/ -v` and `ruff check`
+4. Run the gates above
 5. Open a pull request
 
 ## License

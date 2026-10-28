@@ -10,7 +10,8 @@
 
 PICK is a community-built companion for players of [Prospecting!](https://www.roblox.com/games/1298271121136), a Roblox simulator where you sift sand to find minerals and build your fortune.
 
-It exists to give back to the community and help players understand more of the game's mechanics. 
+It exists to give back to the community and help players understand more of the game's mechanics.
+
 ## PICK is not the wiki
 
 PICK does not replace the official [Prospecting! Wiki](https://prospecting.miraheze.org/). It scrapes the wiki and depends entirely on the work of its maintainers and contributors. If something is missing or wrong on the wiki, it will be missing or wrong here too.
@@ -78,29 +79,18 @@ The same game object can appear on several wiki pages. PICK stores it once:
 
 ## Local development
 
-Want to run PICK yourself or contribute? You'll need Python 3.11+ and PostgreSQL 16+.
+Want to run PICK yourself or contribute? The full setup is in
+[SETUP.md](SETUP.md). In short: Python 3.11+, PostgreSQL 16+, and the frontend's
+Node toolchain.
 
 ```bash
 git clone https://github.com/NolaNexus/PICK.git
 cd PICK
 cp .env.example .env
 docker compose up -d db
-```
-
-Run the wiki scraper:
-
-```bash
+.venv/bin/python -m alembic upgrade head
 .venv/bin/python -m scripts.scraper
 ```
-
-For a host-side virtualenv, create `.venv` **after** the checkout is in its final
-location: a virtualenv hard-codes its own path, so moving or renaming the
-directory breaks every script in `.venv/bin`. If that happens, delete `.venv` and
-recreate it (`python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`).
-The systemd units for the refresh job also hard-code the path; update them if the
-checkout moves.
-
-## Frontend development
 
 The frontend is a Vite + React app in `frontend/`. It runs standalone against the
 committed snapshot, so no backend is needed for UI work.
@@ -115,8 +105,8 @@ To regenerate the static dataset the site is built from:
 
 ```bash
 # with a local Postgres running and DATABASE_URL pointing at it
-python -m scripts.seed_formulas
-python -m scripts.export_snapshot --output frontend/public/snapshot.json
+.venv/bin/python -m scripts.seed_formulas
+.venv/bin/python -m scripts.export_snapshot --output frontend/public/snapshot.json
 ```
 
 The export only rewrites `frontend/public/snapshot.json` when the rendered data

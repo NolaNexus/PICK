@@ -150,8 +150,8 @@ class Item(Base):
 
 #: The data must be a set of named fields, not a list or a scalar.
 #:
-#: The check is added by hand, because the function that reads the type of a
-#: JSON value is named differently in PostgreSQL and in SQLite.
+#: The check is added by hand because ``jsonb_typeof`` is PostgreSQL's name for
+#: it.
 @event.listens_for(Item.__table__, "after_create")
 def _add_data_object_check(target, connection, **kw):
     """Add the JSON object check for the dialect in use."""
@@ -162,29 +162,19 @@ def _add_data_object_check(target, connection, **kw):
                 "CHECK (jsonb_typeof(data) = 'object')"
             )
         )
-    elif connection.dialect.name == "sqlite":
-        connection.execute(
-            text(
-                "ALTER TABLE items ADD CONSTRAINT ck_items_data_object "
-                "CHECK (json_type(data) = 'object')"
-            )
-        )
 
 
 #: The indexes for the queries that actually run.
 #:
 #: Every read filters on is_active, so a partial index over the live rows is
-#: both smaller and faster than indexing the column on its own. PostgreSQL
-#: supports partial indexes; elsewhere these are the plain columns.
+#: both smaller and faster than indexing the column on its own.
 Index(
     "ix_items_active_type",
     Item.type,
     postgresql_where=text("is_active"),
-    sqlite_where=text("is_active"),
 )
 Index(
     "ix_items_active_name",
     Item.name,
     postgresql_where=text("is_active"),
-    sqlite_where=text("is_active"),
 )

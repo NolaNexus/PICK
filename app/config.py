@@ -17,9 +17,7 @@ class Settings(BaseSettings):
     # HTTP User-Agent sent to the wiki API
     user_agent: str = "PICK/1.0 (Prospecting Information & Community Kit)"
 
-    # App
-    app_name: str = "PICK"
-    app_version: str = "0.1.0"
+    # Echo SQL statements
     debug: bool = False
 
 

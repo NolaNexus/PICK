@@ -31,8 +31,8 @@ Notes:
 - The `ruff format` scope is `app scrapers scripts tests` on purpose. `alembic/`
   has pre-existing formatting drift that is not in CI's scope — do not "fix" it
   as part of an unrelated change, and do not let it block the run.
-- `pytest` needs `TEST_DATABASE_URL` to name a database ending in `_test`, or
-  67 tests error with `UnsafeTestDatabaseError`. Create it once with
+- `pytest` needs `TEST_DATABASE_URL` to name a database ending in `_test`, or the
+  database-backed test files error with `UnsafeTestDatabaseError`. Create it once with
   `docker exec pick-db psql -U pick -d pick -c "CREATE DATABASE pick_test;"`.
 - `npm ci` / `npm install` work without `--legacy-peer-deps`. The lockfile resolves
   cleanly; the flag is not needed.
@@ -40,3 +40,5 @@ Notes:
   are in `requirements-dev.txt`. Install both to work on the project.
 - There is no API client to regenerate. The only generated file is
   `frontend/src/lib/snapshot.types.ts`, produced from `snapshot.schema.json`.
+- The exporter does **not** validate against the schema. `jsonschema` is used only
+  by `tests/test_snapshot_contract.py`, which validates the committed file in CI.

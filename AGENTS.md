@@ -31,23 +31,33 @@ cd frontend && npm run typecheck && npm run test && npm run lint && npm run buil
 
 ## Known issues
 
-Do not re-derive these; they are already tracked. Check `ROADMAP.md` for the full list.
+Do not re-derive these; they are already tracked on
+[the issue tracker](https://github.com/NolaNexus/PICK/issues).
 
+- `calculateEV` uses `base_price` as the drop chance. Issue #6.
+- The museum calculator returns empty results. Issue #1.
 - `ruff format` fails on `alembic/` (4 files). Outside CI's scope. Issue #8.
 - `src/lib/calculators.ts` and `src/lib/museum.ts` use tabs; everything else uses two
   spaces. Match the file you are editing. Issue #7.
-- `calculateEV` uses `base_price` as the drop chance. Issue #6.
-- The museum calculator returns empty results. Issue #1.
 - mypy is **not** in strict mode. The seven type-error codes are on and the gate is
   green, but `mypy --strict` reports 42 errors. Do not claim the typecheck is strict.
   Issue #13.
 - 106 items in the committed snapshot carry raw wiki markup in `data`, and 455 of 853
   have no `image_url`. Both pass the schema contract. Issue #9, issue #10. See
   [snapshot-and-publishing.md](docs/agent-instructions/snapshot-and-publishing.md).
-- `app/logging_config.py`, `SlotComparison` in `frontend/src/lib/museum.ts` and
-  `frontend/.oxlintrc.json` are all dead. Issue #12.
 - `Codes`, `Changelog` and `Guides` are tracked with no parser, so they are never
   fetched. Issue #11.
+
+## Where things live
+
+- `app/` models, services and the MediaWiki client. `scrapers/` parses wiki wikitext
+  into items. `scripts/` holds the CLI entry points.
+- `frontend/` is the published site. `frontend/public/snapshot.json` is the dataset
+  and it is committed.
+- `docs/agent-instructions/` holds per-area guidance. `SETUP.md` is the operational
+  guide.
+- `.kilo/plans/` is git-ignored scratch space. A plan is written when work starts and
+  deleted when it lands. Never read one as a description of the current tree.
 
 ## Detailed guidance
 

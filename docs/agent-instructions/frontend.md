@@ -10,15 +10,13 @@ backend.
   cleanly against the React 19 peer ranges. `--legacy-peer-deps` is harmless but is no
   longer needed, and CI does not pass it.
 - The Vite `base` is `/PICK/`, matching the GitHub Pages repo path.
+- Vite 8 resolves the tsconfig `paths` aliases natively (`resolve.tsconfigPaths`), so
+  the `@/` alias needs no plugin. `vite-tsconfig-paths` was removed.
 - `frontend/public/404.html` is a hand-written SPA fallback for deep links. GitHub Pages
   has no rewrite rules.
 - Gates: `npm run typecheck`, `npm run test`, `npm run lint`, `npm run build`.
-- `npm run lint` runs **ESLint**, not oxlint. `frontend/.oxlintrc.json` configures a
-  linter that is not in `package.json`, not installed, and not run by any script or by
-  CI. Treat that file as dead configuration.
-- `frontend/README.md` is the stock Vite template README and describes a setup this
-  project does not use (it talks about Oxlint, the React Compiler and `oxlint-tsgolint`).
-  It is not documentation for this app.
+- `npm run lint` runs **ESLint**. There is no oxlint in this project, and no
+  `frontend/README.md` — the stock Vite template README that described one is gone.
 
 ## Types
 
@@ -31,10 +29,8 @@ backend.
 - Calculator result types are hand-written and live in the modules that compute them.
   `calculators.ts` exports `EVOutput`, `TTGOutput`, `ModifierOddsOutput` and
   `BestPanOutput` (camelCase), plus their `*Inputs` types. `museum.ts` exports
-  `MuseumComparatorOutput`, `MuseumOptimizerOutput`, `UnlockCostsOutput` and
-  `SlotComparison`. They are not in a generated file.
-- `SlotComparison` is exported but referenced nowhere else in `src/`. It is dead. Remove
-  it or use it; do not treat it as part of the module's public surface.
+  `MuseumComparatorOutput`, `MuseumOptimizerOutput` and `UnlockCostsOutput`. They are
+  not in a generated file.
 - There is no `src/api/` directory and no API client. Do not recreate one. The ESLint
   config still lists `src/api` in `ignorePatterns`; that is a leftover and is harmless.
 

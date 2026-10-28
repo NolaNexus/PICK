@@ -200,7 +200,7 @@ export interface MuseumComparatorInputs {
 	oreDatabase: Record<string, OreData>
 }
 
-export interface SlotComparison {
+interface SlotComparison {
 	slot_id: string
 	rarity: string
 	slot_index: number

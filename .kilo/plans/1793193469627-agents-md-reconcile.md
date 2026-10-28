@@ -1,210 +1,231 @@
-# AGENTS.md: reconcile with the current codebase
+# File the known gaps as GitHub issues
 
 **Status:** implemented.
 
 ## Context
 
-`AGENTS.md` was rewritten earlier in this session and its claims were verified against
-the code at that point. It is **accurate** — this plan does not rewrite it. What it
-does is close four gaps found on a second verification pass, after the
-`pick.schemas.ts` retirement and the vitest suite landed.
+The previous plan (also `1793193469627-agents-md-reconcile.md`, before it was
+repurposed) closed four documentation gaps and is implemented and pushed.
+Separately, five known gaps were identified and listed for the user, who asked for
+issues to be opened for all of them.
 
-The plan was written while the working tree carried uncommitted work from that
-earlier task: the `AGENTS.md` rewrite, the stale-file retirement, and the 126-test
-frontend suite. This plan added to that rather than replacing it.
+While researching them to write accurate issue bodies, a **sixth and more severe
+defect** turned up: the Museum calculator is broken end-to-end, not merely missing
+a feature. It replaces the "mode select does nothing" gap with a larger one. The
+user confirmed the Museum issues should be **one issue**, not three.
 
-## What was verified as already correct
+No code changes here. This plan creates **five issues** covering the six gaps.
 
-Re-checked against the code; all still true, so **keep them**:
+## What to file, and the evidence for each
 
-- 24 parsers, 33 item types, 8 fragment types (only 4 in `FOLDS`), 853 snapshot items.
-- `pages_ok` vs `pages_scraped`; the exclusion-list change detection; the
-  `ORDER BY` requirement; the three `items` check constraints; the taxonomy living
-  in the database; `SNAPSHOT_SCHEMA_VERSION` = 6 in both places; `Mapped[]` and the
-  strict mypy config; `ruff format` drift on `alembic/` (4 files, outside CI scope);
-  dotenv-not-shell; migrations `001`–`007`; 110 files ruff-formatted; the virtualenv
-  path hazard; `.env.example` tracked with `.env` ignored.
-- The vitest section, the item-type section, and the calculator-types section are all
-  correct as written.
+Every claim below was verified against the code, not inferred.
 
-## The four gaps
+### Issue 1 — the Museum calculator returns empty results (bug)
 
-### 1. Mixed indentation in the frontend
+Three independent defects, each fatal on its own. All must be fixed for the tab to
+work, which is why they are one issue.
+
+**(a) Rarity casing mismatch.** `frontend/src/lib/museum.ts:22` defines
+`RARITY_ORDER = ["Common", "Uncommon", "Rare", ...]` in title case, and
+`calculateMuseumComparison` iterates exactly those strings, looking up
+`oreDatabase[`${oreName}|${rarity}`]` (`:282`, `:296`). But
+`frontend/src/pages/CalculatorsPage.tsx:132` and `:246` seed the user's ore rows
+with `rarity: 'common'` — lowercase — and `:594` accepts free text. `availableOres`
+is bucketed by the ore's own typed rarity (`:236-242`), then only the `RARITY_ORDER`
+buckets are read (`:262`). A lowercase `common` ore lands in a bucket nobody reads.
+The default ore row contributes nothing.
+
+**(b) The ore data is nested where the code reads it flat.** The snapshot stores
+museum ore data at `data.museum = { rarity, max_boost, bonus_stat, min_weight_kg }`
+— see `mineral-amber`, `frontend/public/snapshot.json:11784-11789`.
+`CalculatorsPage.tsx:257` stores the whole `data` object as the ore record, but
+`museum.ts:137-139` reads `oreData.min_kg`, `oreData.bonus_stat`,
+`oreData.max_boost` at the **top level**. So `bonus_stat` and `max_boost` are
+undefined, and the weight field is not merely nested but *differently named*:
+the data has `min_weight_kg`, the code wants `min_kg`. Every boost computes to 0.
+
+**(c) The page's ore database is discarded.** `CalculatorsPage.tsx:250-265` builds
+`oreDb` from the snapshot. `calculateMuseumOptimizer` never accepts it — it builds
+its own at `museum.ts:588-591` with `oreDatabase[key] = {} as OreData`, i.e. empty
+objects for every ore. The page's `oreDb` work is thrown away.
+
+**Observed effect.** The Museum tab shows empty slot recommendations and zero
+stats. The render block (`CalculatorsPage.tsx:627-656`) shows only
+`slot_recommendations` and `total_stats`; `by_rarity`, `weight_gate_info` and
+`unlock_costs` are computed by `calculateMuseumOptimizer` (`museum.ts:562-568`) and
+**never rendered**.
+
+**(d) The `mode` select is dead.** `museumSchema.mode`
+(`CalculatorsPage.tsx:75`) offers `optimize | project | weight_gate |
+unlock_cost`. `values.mode` is never read — `handleMuseumSubmit` (`:247-278`)
+passes only `availableOres`, `unlockedDisplays`, `targetStats` and `sizeBoost`.
+The three modes map exactly onto the three unrendered outputs, so the select
+promises views that do not exist.
+
+**Also note:** `unlockedDisplays` is hard-coded to `[]` (`:269`), so the calculator
+never sees the player's current museum.
+
+### Issue 2 — `calculateEV` uses price as a drop chance (bug)
+
+`frontend/src/lib/calculators.ts:247-252`:
+
+```ts
+const dropChance = new Decimal(item.base_price ?? 0) // placeholder: actual drop chance field varies
+const price = new Decimal(item.base_price ?? 0)
+totalEv = totalEv.plus(dropChance.times(price).times(weightMultiplier(0)))
+```
+
+`evPerPan` is therefore `Σ(base_price² × 1)`. The real formula is
+`Σ(drop_chance × price × weight_multiplier)`; the code's own comment says so.
+
+The good news, verified: **the real drop chances are already in the snapshot.**
+Minerals carry `data.chances[]` with `chance_percent` and `one_in` — see
+`mineral-amber`, `snapshot.json:11791-11812` (`chance_percent: 0.05837`,
+`one_in: 1713`). No new scraper field is needed.
+
+Two smaller defects in the same function:
+
+- `inputs.luck` and `inputs.quality` are accepted (`:217-218`) and then ignored.
+- `weightMultiplier(0)` is hard-coded, so the weight multiplier never applies.
+- `base_weight` is collected in the UI (`CalculatorsPage.tsx:363`) and passed in
+  (`:150`) but is never used by the maths.
+
+The existing test `frontend/src/lib/calculators.test.ts` pins the current behaviour
+with a `TODO` comment, so it will need updating with the fix.
+
+### Issue 3 — the frontend has mixed indentation (enhancement)
 
 `frontend/src/lib/calculators.ts` (322 tab-indented lines) and
-`frontend/src/lib/museum.ts` (469) are **tab**-indented. Every other file under
-`frontend/src/` uses **2 spaces**. `.prettierrc` sets `tabWidth: 2` and no
-`useTabs`, so those two files disagree with the config as well as with their
+`frontend/src/lib/museum.ts` (469) use **tabs**. Everything else under
+`frontend/src/` uses **two spaces**. `frontend/.prettierrc` says `tabWidth: 2` with
+no `useTabs`, so those two files disagree with the config as well as with their
 neighbours.
 
-The danger is that CI never runs `prettier --check` — the `build-frontend` job runs
-`typecheck`, `test`, `lint` and `build` only, and the only `format` step in the
-workflow is `ruff format --check` on the Python side. So `npm run format` on the
-frontend would rewrite ~790 lines of those two files, burying a real change in
-whitespace, and nothing would fail to warn you.
+Why it matters: CI never runs `prettier --check`. The `build-frontend` job runs
+`typecheck`, `test`, `lint` and `build` only (`.github/workflows/ci.yml:135-161`),
+and the only `format` step in the workflow is `ruff format --check` on the Python
+side (`:28-29`). So running `npm run format` across `src/` would rewrite ~790
+lines of those two files, bury a real change in whitespace, and **nothing would
+warn you**.
 
-### 2. The health routes have a doubled path segment
+Note the two test files `calculators.test.ts` and `museum.test.ts` match their
+(tab-indented) modules; `snapshot.test.ts` and `taxonomy.test.ts` match their
+(2-space) modules. The convention is "match the file you are editing".
 
-`app/main.py` mounts the health router at prefix `/api/v1/health`, and
-`app/monitoring.py` declares `health_router = APIRouter(prefix="/health")` with
-routes at `""`, `/ready` and `/live`. The real URLs therefore carry **two**
-`health` segments:
+The fix is a whitespace-only commit re-indenting those two source files to 2 spaces,
+after which `npm run format` becomes safe across `src/`.
 
-- `/api/v1/health/health`
-- `/api/v1/health/health/ready`
-- `/api/v1/health/health/live`
+### Issue 4 — `ruff format` fails on `alembic/` (chore)
 
-Confirmed in `openapi.json` (lines 41, 65, 89) and in the generated
-`frontend/src/api/pick.ts`. An agent that guesses `/api/v1/health` or
-`/api/v1/health/ready` gets a 404, and the more natural guess looks plausible
-enough to waste time on.
+`ruff format --check alembic/` reports 4 files needing reformatting, while
+`ruff format --check app scrapers scripts tests` passes with 110 files already
+formatted.
 
-Related: `/metrics` is a plain route declared on `app` in `app/main.py`, **not** the
-`router` object in `app/monitoring.py`. That router is mounted nowhere, so the
-`@router.get("")` metrics handler in `app/monitoring.py` is dead code — the live
-handler is `metrics_endpoint` in `app/main.py`. Worth one sentence so nobody
-"fixes" the wrong function.
+CI never sees it: `.github/workflows/ci.yml:29` runs
+`ruff format --check app scrapers scripts tests` — `alembic/` is simply not in the
+scope. `pyproject.toml` has no `extend-exclude`, so the directory is not excluded
+either; it is just unchecked.
 
-### 3. Two backend modules are missing from the layout table
+Two acceptable resolutions, and the issue should say so rather than dictate:
+re-format the 4 files, **or** add `alembic/` to the CI scope (which would require
+re-formatting them anyway). What is not acceptable is leaving it unchecked,
+because a migration edited by hand will not match the formatter.
 
-`app/monitoring.py` (Prometheus metrics, health checks, the metrics middleware) and
-`app/logging_config.py` (`setup_logging`, JSON logs unless `debug`) are real
-entrypoints wired into `app/main.py` but absent from the layout table.
+### Issue 5 — the repo has no issue tracker in use (chore)
 
-### 4. The API route surface is never named
+`NolaNexus/PICK` has issue tracking enabled and ten labels, but **zero issues had
+ever been created** — verified four ways: `list_issues` (open and all),
+`search_issues` (scoped and global), `gh issue list --state all`, and
+`gh repo view` → `.issues.totalCount == 0`. There were also no pull requests and
+no issue templates.
 
-`AGENTS.md` says what the API serves but not where it lives. The actual surface:
+Worth a small housekeeping issue: add issue templates so future work has
+somewhere to be recorded, and so the Copilot Coding Agent has issues to pick up.
 
-| Route | Source |
-| --- | --- |
-| `/api/v1/items`, `/api/v1/formulas`, `/api/v1/meta`, `/api/v1/search`, `/api/v1/export` | the five routers in `app/api/__init__.py` |
-| `/` | `app/main.py` |
-| `/metrics` | `app/main.py` |
-| `/api/v1/health/health{,/ready,/live}` | `app/monitoring.py` via `app/main.py` |
+**This one was done as committed work rather than filed as an issue** — see
+"How to file them" below. The templates landed in commit `19be56e`.
 
-## Decisions made
+### Not an issue — already handled
 
-- **Indentation:** document the split, and fix the two test files that do not match
-  their own modules. Do **not** re-indent the two source modules — that is a
-  ~790-line whitespace change that belongs in its own commit, and the user chose
-  against it here.
-- The plan is documentation plus a two-file whitespace fix. No behaviour changes.
+The `calculateEV` placeholder and the dead `mode` select are the only two of the
+five original gaps that are real defects; the other three are cosmetic or already
+documented in `AGENTS.md`. Issue 1 supersedes the "mode select does nothing" item
+because the select is not merely inert — the whole tab is inert.
 
-## Tasks
+## How to file them
 
-### Task 1 — Re-indent `snapshot.test.ts` and `taxonomy.test.ts` to 2 spaces
+All go to `NolaNexus/PICK`. The repo's labels are `accessibility`, `bug`,
+`documentation`, `duplicate`, `enhancement`, `help wanted`, `good first issue`,
+`invalid`, `question`, `wontfix`. There is **no `chore` label** — verified against
+`gh label list`.
 
-`frontend/src/lib/snapshot.test.ts` (147 tab-indented lines) and
-`frontend/src/lib/taxonomy.test.ts` (135) are tab-indented, but their modules
-`snapshot.ts` and `taxonomy.ts` use 2 spaces. Each test file should match the
-module it tests.
+**Issue types do not work on this repository, so the labels carry the split.**
+GitHub's issue types are an *organisation* feature, and `NolaNexus/PICK` is
+user-owned: `GET /repos/NolaNexus/PICK` returns `owner.type == "User"`. The
+`GET /repos/{owner}/{repo}/issue-types` endpoint lists the three defaults
+(`Task`, `Bug`, `Feature`, all `is_enabled: true`) because it lists types
+"inherited from the repository owner" — but for a user-owned repo there is no
+owner to inherit from, so assigning one is a **silent no-op**. Every attempt
+returns `200` with `issueType: null` and records no event on the issue timeline:
+REST `-f type=Bug`, REST `-F issue_type_id=431597676`, GraphQL `issueTypeId`,
+GraphQL `issueType: {issueTypeId, suggest}`, and creation-time `issueTypeId`.
+This is not a permission problem — the token has `repo` and the account has
+`admin` on the repo. The `orgs/NolaNexus/issue-types` endpoint 404s because
+there is no organisation.
 
-Both files were verified to contain **no tab characters other than leading
-indentation**, and no literal `\t` escapes or template literals that a naive
-replacement could damage. The conversion is therefore safe.
+| # | GitHub | Title | Label |
+| --- | --- | --- | --- |
+| 1 | #1 | Museum calculator returns empty results: rarity casing, nested ore data, and a discarded ore database | `bug` |
+| 2 | #6 | `calculateEV` uses `base_price` as the drop chance, so EV/pan is price squared | `bug` |
+| 3 | #7 | Normalise the frontend's mixed tab/space indentation so `npm run format` is safe | `enhancement` |
+| 4 | #8 | `ruff format` fails on `alembic/`, a directory CI never checks | `enhancement` |
+| 5 | commit `19be56e` | Add issue templates so work has somewhere to be tracked | — |
 
-Convert leading tabs to 2 spaces each. `expand -t 2` would also convert interior
-tabs, so prefer a leading-only substitution — e.g. `sed -i 's/^\t/  /'` applied
-repeatedly, or a small Python snippet that expands only the leading run.
+Issue 5 was done as committed work rather than an issue, because it is the
+enabling step: the templates carry the type information that the type field
+cannot, and a reporter picks the template that matches their work. The three
+templates are `bug_report.yml` (`bug`), `feature_request.yml` (`enhancement`) and
+`task.yml` (`enhancement`), plus `config.yml` with
+`blank_issues_enabled: false`.
 
-Do **not** touch `calculators.test.ts` and `museum.test.ts`: their modules are
-tab-indented, so they are already correct.
+Each issue body should follow the repo's commit convention — say **what** is
+broken and **why it matters**, then the acceptance criteria. Include the verified
+file:line references so a reader can check the claim without hunting.
 
-Verify the result: each of the four test files has the same indentation style as
-the module it tests, and the file content is otherwise byte-identical apart from
-the leading whitespace.
+**Do not assign the Copilot Coding Agent** for issues #1 and #6 without a decision
+first: both need the fix's *shape* agreed (for #1, whether the ore database
+becomes an input to `calculateMuseumOptimizer` or the data is flattened in the
+page; for #6, whether the EV form takes a drop-chance column or reads the
+snapshot's `chances[]` directly). Issues #7 and #8 are mechanical and can be
+assigned freely.
 
-### Task 2 — Add the indentation note to `AGENTS.md`
+## Validation
 
-Add to the **Frontend** section (alongside the existing `--legacy-peer-deps` and
-`/PICK/` base notes):
-
-> **The frontend has mixed indentation.** `src/lib/calculators.ts` and
-> `src/lib/museum.ts` use tabs; everything else under `src/` uses two spaces.
-> `.prettierrc` says `tabWidth: 2`, but CI never runs `prettier --check`, so the
-> drift never fails a build. **Match the file you are editing** — do not run
-> `npm run format` across `src/`, because it rewrites those two files wholesale
-> and buries a real change in whitespace. Each `*.test.ts` matches the module it
-> tests.
-
-### Task 3 — Add the API route surface to `AGENTS.md`
-
-Add a short subsection under "What this is" or a new "The API" heading, listing the
-routes in the table above, and stating the two non-obvious facts:
-
-- The health paths carry a **doubled** `health` segment
-  (`/api/v1/health/health`, `.../ready`, `.../live`) because the router's own
-  `/health` prefix is added to the `/api/v1/health` mount point. Do not "fix" the
-  duplication without checking `openapi.json` and the generated client — the paths
-  are published in both.
-- `/metrics` is served by `metrics_endpoint` in `app/main.py`. The `router` object
-  in `app/monitoring.py` is not mounted, so its `@router.get("")` metrics handler
-  is dead code.
-
-### Task 4 — Add `app/monitoring.py` and `app/logging_config.py` to the layout table
-
-Two rows in the existing layout table:
-
-- `app/monitoring.py` | Prometheus metrics, the health router, and the request-metrics middleware
-- `app/logging_config.py` | `setup_logging`; JSON logs unless `settings.debug`
-
-### Task 5 — Verify the result
-
-The file is documentation, so verification is a read-through plus the gates that
-could be affected by Task 1.
+After filing, confirm:
 
 ```bash
-cd /home/nola/Desktop/PICK/frontend
-npm run typecheck
-npm run test
-npm run lint
+gh issue list --repo NolaNexus/PICK --state all --limit 10
+gh issue view <n> --repo NolaNexus/PICK
 ```
 
-Task 1 changes whitespace in two test files, so the frontend gates must still pass
-and the test count must still be **126 passed / 4 files**.
-
-Confirm the indentation invariant holds:
-
-```bash
-cd /home/nola/Desktop/PICK
-grep -rlP '^\t' frontend/src --include=*.ts --include=*.tsx
-```
-
-Expected output after Task 1 — exactly four files, all matching tab-indented
-modules:
-
-```
-frontend/src/lib/calculators.ts
-frontend/src/lib/museum.ts
-frontend/src/lib/calculators.test.ts
-frontend/src/lib/museum.test.ts
-```
-
-Then confirm the backend and generated files are untouched by this work:
-
-```bash
-cd /home/nola/Desktop/PICK
-git diff --stat app/ scrapers/ scripts/ tests/ alembic/   # expect empty
-```
+Expected: five open issues with the titles above, each with its type and labels,
+and each body containing the file:line references that were verified above.
 
 ## Risks
 
 | Risk | Mitigation |
 | --- | --- |
-| The tab→space conversion damages a string literal | Both files were verified to contain tabs only as leading indentation, with no `\t` escapes and no template literals. Re-read the diff after converting. |
-| The re-indent changes behaviour | It cannot: only leading whitespace changes. The test count must stay at 126 — that is the check. |
-| Documenting the doubled `health` path freezes a wart | State it as a fact to verify against `openapi.json`, not as a recommendation. If someone later fixes the prefix, `openapi.json` and `pick.ts` change and the `generated-files` CI job catches the drift. |
-| `AGENTS.md` grows past usefulness | The additions are four short items. The file is 345 lines now and stays under ~370. Do not pad it with anything not listed here. |
+| Filing a duplicate of an existing issue | The repo has zero issues today, verified four ways. Re-check with `gh issue list --state all` immediately before creating, in case one was filed between planning and execution. |
+| Issue 1's body being read as a single small bug | The body must lead with "the tab always shows empty results" and then list the three independent causes, since fixing one alone still leaves it broken. |
+| The `chore` label not existing | Verified label list has no `chore`. Use `enhancement` for issues 4 and 5, or `documentation` for issue 5. |
+| Bodies getting stale as the code moves | Include the file:line references and the commit they were verified against (`3439db5`), so a future reader knows what was true when. |
 
 ## Out of scope
 
-- Re-indenting `calculators.ts` and `museum.ts` to 2 spaces. The user chose to
-  document the split instead. If that is ever done, it needs its own commit and a
-  note that `npm run format` will then be safe.
-- Removing the dead `router` in `app/monitoring.py` or the duplicated health
-  prefix. Both are behaviour-affecting and belong in a separate change.
-- Making CI run `prettier --check`. Worth considering separately: it would make
-  the indentation drift fail the build, but it would fail today, so it needs the
-  re-indent first.
-- Any further `AGENTS.md` rewrite. The file is accurate; this plan only closes
-  gaps.
+- Fixing any of the issues. This plan only files them.
+- Choosing the fix shape for issues 1 and 2 — that is a design decision for
+  whoever picks them up, and it is why they are not pre-assigned.
+- The `alembic/` re-format itself, and the frontend re-indent itself.
+- `APP.md`/`AGENTS.md` updates. `AGENTS.md` already documents the mixed
+  indentation and the `alembic/` drift, so it needs no change until the issues
+  are fixed.

@@ -191,6 +191,7 @@ never calls the API. `frontend/src/lib/calculators.ts` uses `decimal.js` for pre
 That drift is pre-existing and outside CI's scope (`ruff format --check app scrapers
 scripts tests`, which passes with 110 files already formatted). Do not "fix" it as
 part of an unrelated change, and do not let it block you — match CI's scopes.
+Tracked as issue #8.
 
 **`PARSER_VERSION` (`scrapers/registry.py`) controls re-parsing.** A page is only re-parsed
 when its wikitext or this version changes. Bump it when a parser or the shared renderer
@@ -353,7 +354,7 @@ use tabs; everything else under `src/` uses two spaces. `.prettierrc` says
 `tabWidth: 2`, but CI never runs `prettier --check`, so the drift never fails a
 build. **Match the file you are editing** — do not run `npm run format` across
 `src/`, because it rewrites those two files wholesale and buries a real change in
-whitespace. Each `*.test.ts` matches the module it tests.
+whitespace. Each `*.test.ts` matches the module it tests. Tracked as issue #7.
 
 The site works with no API at all: it fetches the committed `snapshot.json`. Setting
 `VITE_API_BASE_URL` points it at a live API instead.
@@ -367,14 +368,27 @@ record the failure mode they prevent.
 `master` is the deploy branch; pushing to it triggers the CI workflow and the GitHub
 Pages deploy.
 
+## Issues
+
+`.github/ISSUE_TEMPLATE/` holds three forms — `bug_report.yml`, `feature_request.yml`
+and `task.yml` — and each sets its own label. Use one of them rather than a blank
+issue; `config.yml` sets `blank_issues_enabled: false`.
+
+**Issue types do not work on this repository.** GitHub's issue types are an
+organisation feature, and `NolaNexus/PICK` is user-owned, so
+`GET /repos/NolaNexus/PICK/issue-types` lists the three defaults but assigning one
+is a silent no-op — the REST and GraphQL calls return `200` and leave `issueType`
+null, with no event on the issue's timeline. Use the **labels** instead: `bug`,
+`enhancement`, `documentation`. The templates already do this.
+
 ## Docs
 
 `README.md` is the overview, `SETUP.md` the operational guide (including the systemd
 install and the deploy-key setup), `.kilo/plans/` holds dated working plans. Plans are
 committed history, not current documentation: they describe intent at a point in time, and
-several describe code that was later removed or rewritten. Only one carries a
-`**Status:**` line. Re-verify any plan's claims against the current code before acting
-on it.
+several describe code that was later removed or rewritten. Some carry a `**Status:**`
+line saying whether they were implemented. Re-verify any plan's claims against the
+current code before acting on it.
 
 `.kilo/command/` holds slash commands for this repo: `/check`, `/check-offline`,
 `/refresh`, `/generate-api`, `/verify-guards`. They carry the exact working invocations

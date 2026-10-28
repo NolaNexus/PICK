@@ -28,11 +28,14 @@ so it is not shell syntax.
 
 ### Python dependencies
 
-`requirements.txt` is all you need for the standard setup:
+`requirements.txt` holds the runtime dependencies and `requirements-dev.txt` holds the
+test and lint tools. For development you want both:
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt -r requirements-dev.txt
 ```
+
+If you only want to run the app, `requirements.txt` on its own is enough.
 
 ### A note on the old R bridge
 
@@ -101,16 +104,22 @@ The scrape runs on the machine that holds this checkout, which can reach the wik
 
 `scripts/refresh_site.sh` performs the whole cycle: start Postgres, migrate, scrape,
 seed formulas, export `frontend/public/snapshot.json`, and commit and push it when it
-changed. It is **fail-closed** — a scrape that reaches no page, or an export that
-would erase the catalogue, aborts before anything is committed.
+changed. It is **fail-closed** — a scrape that reaches no page, an export that would
+erase the catalogue, or a checkout with uncommitted changes, aborts before anything is
+committed.
+
+The checkout has to be clean when it runs, because it publishes from that checkout.
+A stray edit would otherwise fail the update step with a message about the network,
+or be left behind by the commit. Commit or stash before the timer fires.
 
 ### Install the schedule (once)
 
 1. **Deploy key.** Create an SSH key with no passphrase, add the public half to
    *Settings → Deploy keys* with write access, and confirm that `git push` works from
    this machine without prompting.
-2. **Environment.** The script sources the repository `.env`. Add `NTFY_TOPIC` there
-   (see `.env.example`) to receive a push when a run fails or the data goes stale.
+2. **Environment.** The script reads the repository `.env` — it parses it rather than
+   sourcing it, because `USER_AGENT` holds spaces and parentheses. Add `NTFY_TOPIC`
+   there (see `.env.example`) to receive a push when a run fails or the data goes stale.
 3. **Install the units.**
    ```bash
    mkdir -p ~/.config/systemd/user
@@ -176,6 +185,7 @@ DATABASE_URL=postgresql+asyncpg://pick:pick@localhost:5432/pick
 - `npm run lint`: ESLint
 - `npm run typecheck`: TypeScript type checking
 - `npm run generate:api`: Generate API client from OpenAPI spec
+- `npm run generate:snapshot-types`: Generate the frontend's types from `snapshot.schema.json`
 
 ## Development Workflow
 
@@ -185,8 +195,12 @@ DATABASE_URL=postgresql+asyncpg://pick:pick@localhost:5432/pick
 - Update parsers in `scrapers/`
 
 ### 2. Test
-- Backend: `ruff check app/` + `mypy app/` + `pytest tests/`
-- Frontend: `npm run lint` + `npm run typecheck`
+- Backend: `ruff check app scrapers scripts tests` + `ruff format --check app scrapers scripts tests` + `mypy app/ scrapers/ scripts/` + `pytest`
+- Frontend: `npm run lint` + `npm run typecheck` + `npm run build`
+
+The backend commands need a test database, and the scopes above are the ones CI
+uses. `.kilo/command/check.md` has the whole sequence with the environment
+variables spelled out.
 
 ### 3. Run End-to-End Tests
 
@@ -227,7 +241,8 @@ npm run build
 │   ├── src/             # Source code
 │   ├── public/          # Static files
 │   └── dist/            # Build output (gitignored)
-├── requirements.txt       # Python dependencies
+├── requirements.txt       # Python runtime dependencies
+├── requirements-dev.txt   # Python test and lint tools
 ├── pyproject.toml         # Python project config
 ├── README.md              # Project overview
 ├── ROADMAP.md             # Implementation phases

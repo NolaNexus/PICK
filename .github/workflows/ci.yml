@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements.txt -r requirements-dev.txt
       - name: Run ruff lint
         run: ruff check app scrapers scripts tests
       - name: Run ruff format check
@@ -44,9 +44,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Install mypy
-        run: pip install mypy
+          pip install -r requirements.txt -r requirements-dev.txt
       - name: Run mypy type checking
         run: mypy app/ scrapers/ scripts/
 
@@ -76,7 +74,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements.txt -r requirements-dev.txt
       - name: Create test database
         env:
           PGPASSWORD: postgres
@@ -91,6 +89,48 @@ jobs:
         with:
           flags: unittests
           name: codecov-umbrella
+
+  generated-files:
+    # The OpenAPI spec and the frontend's types are generated and committed.
+    # Nothing else keeps them honest, so a change to a route or to the snapshot
+    # shape can leave the committed client describing something that no longer
+    # exists. This job regenerates all three and fails if any of them differs.
+    needs: [lint, typecheck]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install frontend dependencies
+        run: npm ci --legacy-peer-deps
+        working-directory: frontend
+      - name: Regenerate the OpenAPI spec
+        run: |
+          python -c "import json; from app.main import app; json.dump(app.openapi(), open('openapi.json','w'), indent=2)"
+      - name: Regenerate the API client and the snapshot types
+        run: |
+          npm run generate:api
+          npm run generate:snapshot-types
+        working-directory: frontend
+      - name: Check that the generated files are unchanged
+        run: |
+          git diff --exit-code \
+            openapi.json \
+            frontend/src/api/pick.ts \
+            frontend/src/api/pick.schemas.ts \
+            frontend/src/lib/snapshot.types.ts
 
   build-frontend:
     needs: lint

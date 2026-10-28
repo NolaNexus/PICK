@@ -1,0 +1,11 @@
+# The tools the tests and the gates need, on top of the runtime requirements.
+#
+#     pip install -r requirements.txt -r requirements-dev.txt
+#
+-r requirements.txt
+
+pytest==9.1.1
+pytest-asyncio==1.4.0
+pytest-cov==7.1.0
+ruff==0.17.2
+mypy==2.4.0

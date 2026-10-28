@@ -116,6 +116,19 @@ Regenerating with unchanged input produces no diff — check that before committ
 **Never hand-edit `frontend/src/api/pick.ts` or `pick.schemas.ts`.** They are orval
 output and are overwritten.
 
+**CI checks that the generated files are current.** The `generated-files` job in
+`.github/workflows/ci.yml` regenerates the OpenAPI spec, the orval client and the
+snapshot types, and fails if any of them differs from what is committed. So a
+generated file left behind by a change is a failed build, not a surprise later.
+`frontend/src/api/client.ts` is hand-written, not generated, and is not part of that
+check.
+
+**The refresh job refuses to publish from a dirty tree.** `scripts/refresh_site.sh`
+checks `git status --porcelain` before it pulls, and refuses to commit anything but
+the snapshot. It publishes from this checkout, so the checkout has to be clean — a
+stray edit would otherwise fail the pull with a message that reads like a network
+problem, or be left behind by the commit.
+
 **The calculator API has six working endpoints; the rest were removed.** `/ev`, `/ttg`,
 `/modifier-odds`, `/best-pan`, `/museum` and `/stats/modifier-distribution`. The nine
 that could only ever answer with an empty result were deleted rather than left
@@ -208,8 +221,12 @@ script in `.venv/bin`** — this has already happened once in this repo. If path
 wrong, delete `.venv` and recreate it:
 
 ```bash
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt -r requirements-dev.txt
 ```
+
+`requirements.txt` holds the runtime dependencies and `requirements-dev.txt` the test and
+lint tools. `pyproject.toml` reads its dependency list from `requirements.txt`, so there is
+one list rather than two that can disagree.
 
 Invoke through `.venv/bin/python -m ...` rather than `.venv/bin/<tool>`, whose shebangs
 are the part that breaks. `deploy/systemd/*.service` also hard-code the checkout path and

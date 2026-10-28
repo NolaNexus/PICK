@@ -12,17 +12,3 @@ jsonschema==4.25.1
 mwparserfromhell==0.7.2
 prometheus_client==0.26.0
 python-dotenv==1.2.4
-pytest==9.1.1
-pytest-asyncio==1.4.0
-pytest-cov==7.1.0
-ruff==0.17.2
-
-# rpy2 is intentionally not listed here. It has no binary wheel and has to be
-# compiled against a local R installation, so it cannot be installed in an
-# environment without R.
-#
-# app/services/r_stats.py degrades to the pure-Python approximation when
-# rpy2 is missing, so the base install works everywhere. Install the R
-# bridge separately with:
-#
-#     pip install -r requirements-r.txt

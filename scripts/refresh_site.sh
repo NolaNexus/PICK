@@ -100,6 +100,14 @@ if [ -n "$AGE" ] && [ "$AGE" -ge "$STALE_DAYS" ]; then
   notify "PICK data is stale" "The published snapshot is ${AGE} days old."
 fi
 
+echo "==> Checking the checkout"
+# The job publishes the snapshot from this checkout, so the checkout has to be
+# clean. A stray edit would otherwise fail the pull below with a message that
+# reads like a network problem, or be left behind by the commit at the end.
+if [ -n "$(git status --porcelain)" ]; then
+  fail "the checkout has uncommitted changes; commit or stash them first"
+fi
+
 echo "==> Updating the checkout"
 git pull --ff-only --quiet || fail "the checkout could not be updated; resolve it by hand"
 
@@ -166,6 +174,15 @@ fi
 
 echo "==> Publishing"
 git add "$SNAPSHOT"
+# Only the snapshot may be committed. Anything else that got staged would be
+# published as part of a scrape commit, which is not what the job is for. Git
+# prints paths relative to the repository root, so the snapshot is compared
+# that way too.
+STAGED="$(git diff --cached --name-only)"
+SNAPSHOT_RELATIVE="frontend/public/snapshot.json"
+if [ "$STAGED" != "$SNAPSHOT_RELATIVE" ]; then
+  fail "something other than the snapshot is staged; refusing to publish"
+fi
 git commit -m "chore: refresh the wiki snapshot" >/dev/null
 git push origin HEAD:master || fail "the snapshot commit could not be pushed"
 

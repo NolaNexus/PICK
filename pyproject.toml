@@ -10,33 +10,16 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [{ name = "PICK Contributors" }]
-dependencies = [
-    "fastapi",
-    "uvicorn[standard]",
-    "sqlalchemy[asyncio]",
-    "asyncpg",
-    "aiosqlite",
-    "alembic",
-    "pydantic",
-    "pydantic-settings",
-    "httpx",
-    "mwparserfromhell",
-    "python-dotenv",
-]
-
-[project.optional-dependencies]
-dev = [
-    "pytest",
-    "pytest-asyncio",
-    "pytest-cov",
-    "ruff",
-    "pre-commit",
-    "mypy",
-]
+# The runtime dependencies are read from requirements.txt, which is the file
+# everything installs from. Two lists of the same packages is two lists that
+# can disagree, and nothing would notice.
+dynamic = ["dependencies"]
 
 [project.scripts]
-pick-scraper = "scripts.scraper:main"
-pick-news = "scripts.news_scraper:main"
+pick-scraper = "scripts.scraper:run"
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
 
 [tool.setuptools.packages.find]
 where = ["."]

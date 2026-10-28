@@ -40,6 +40,16 @@ async def main(full: bool = False) -> int:
     return 0
 
 
+def run() -> int:
+    """The console script entry point.
+
+    ``main`` is a coroutine, so a console script cannot call it directly: it
+    would get a coroutine back and never run it. This runs it and turns the
+    result into an exit code.
+    """
+    return asyncio.run(main(full="--full" in sys.argv[1:]))
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run the PICK wiki scraper")
     parser.add_argument(

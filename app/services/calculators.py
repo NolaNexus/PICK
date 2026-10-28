@@ -3,7 +3,7 @@
 import math
 from typing import Any
 
-from app.services.r_stats import fit_modifier_distribution
+from app.services.stats import fit_modifier_distribution
 
 # Shake speed conversion (buggy - from Stat Systems Guide)
 SHAKE_SPEED_STEPS = [

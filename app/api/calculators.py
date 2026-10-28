@@ -50,7 +50,7 @@ from app.services.calculators import (
     effective_modifier_boost,
     modifier_distribution,
 )
-from app.services.r_stats import (
+from app.services.stats import (
     ev_pareto_frontier_r,
     fit_modifier_distribution,
     fit_modifier_fraction_r,

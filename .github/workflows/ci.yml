@@ -74,7 +74,9 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install R
-        run: sudo apt-get update && sudo apt-get install -y r-base
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y r-base r-cran-mass r-cran-survival
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip

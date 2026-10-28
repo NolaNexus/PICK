@@ -7,7 +7,12 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
     RPY2_CFFI_MODE=ABI
 
-RUN apt-get update && apt-get install -y --no-install-recommends curl r-base && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        curl \
+        r-base \
+        r-cran-mass \
+        r-cran-survival \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt requirements-r.txt ./
 RUN pip install --upgrade pip \

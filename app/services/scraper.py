@@ -115,12 +115,27 @@ async def _run_scrape(
 
     try:
         if incremental:
-            changes = await client.get_recent_changes(days=1)
-            titles_to_scrape = [
-                change.get("title", "")
-                for change in changes
-                if change.get("title", "") in TRACKED_PAGES
-            ]
+            try:
+                changes = await client.get_recent_changes(days=1)
+                titles_to_scrape = [
+                    change.get("title", "")
+                    for change in changes
+                    if change.get("title", "") in TRACKED_PAGES
+                ]
+            except Exception as e:
+                # The list of recent changes is an optimisation. When the wiki
+                # cannot be asked for it, every page is scraped instead of
+                # losing the run.
+                logger.warning("Could not list recent changes (%s); scraping every page", e)
+                error_log.append(f"recent changes: {e}")
+                titles_to_scrape = list(TRACKED_PAGES)
+            else:
+                if not titles_to_scrape:
+                    # Nothing was reported as changed. That is possible when
+                    # the wiki is busy, and it would leave the site stale, so
+                    # every page is scraped instead.
+                    logger.warning("The wiki reported no recent changes; scraping every page")
+                    titles_to_scrape = list(TRACKED_PAGES)
         else:
             # Full scrape: iterate all tracked pages
             titles_to_scrape = TRACKED_PAGES

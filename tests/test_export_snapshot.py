@@ -3,13 +3,22 @@
 The export runs on a schedule, so it must only rewrite the file when the
 rendered content actually changed. Scrape timestamps change on every run and
 must not count as a change.
+
+The comparison is an exclusion list: the whole snapshot is compared apart from
+the parts that are allowed to differ. That way a field added to the snapshot
+later is picked up without anyone remembering to add it here, and a mistake
+fails loud (an unnecessary commit) rather than quiet (a stale site).
 """
 
-from scripts.export_snapshot import _comparable, _comparable_item_data
+from scripts.export_snapshot import _comparable
 
 
 def _snapshot(**overrides) -> dict:
     base = {
+        "schema_version": 5,
+        "taxonomy": [
+            {"type": "mineral", "area": "minerals", "group": None, "label": "Mineral"},
+        ],
         "generated_at": "2026-10-27T08:36:31.586710+00:00",
         "counts": {"items": 1, "formulas": 0, "wiki_pages": 0},
         "items": [
@@ -40,6 +49,21 @@ def _snapshot(**overrides) -> dict:
     }
     base.update(overrides)
     return base
+
+
+def _relic(index: int = 2) -> dict:
+    return {
+        "id": index,
+        "type": "relic",
+        "wiki_id": 11,
+        "name": "Cosmic Resonator",
+        "slug": "relic-cosmic-resonator",
+        "data": {"rarity": "cosmic"},
+        "image_url": None,
+        "description": "A relic.",
+        "created_at": "2026-10-27T08:35:44.004304+00:00",
+        "updated_at": "2026-10-27T08:35:44.004350+00:00",
+    }
 
 
 def test_timestamps_alone_are_not_a_change():
@@ -87,42 +111,15 @@ def test_item_order_is_not_a_change():
     first = _snapshot()
     second = _snapshot()
     second["items"] = list(reversed(second["items"]))
-    second["items"].append(
-        {
-            "id": 2,
-            "type": "relic",
-            "wiki_id": 11,
-            "name": "Cosmic Resonator",
-            "slug": "relic-cosmic-resonator",
-            "data": {"rarity": "cosmic"},
-            "image_url": None,
-            "description": "A relic.",
-            "created_at": "2026-10-27T08:35:44.004304+00:00",
-            "updated_at": "2026-10-27T08:35:44.004350+00:00",
-        }
-    )
 
-    assert _comparable(first) != _comparable(second)
+    assert _comparable(first) == _comparable(second)
 
 
 def test_adding_an_item_is_a_change():
     """A new item in the catalogue is real news."""
     first = _snapshot()
     second = _snapshot()
-    second["items"].append(
-        {
-            "id": 2,
-            "type": "relic",
-            "wiki_id": 11,
-            "name": "Cosmic Resonator",
-            "slug": "relic-cosmic-resonator",
-            "data": {"rarity": "cosmic"},
-            "image_url": None,
-            "description": "A relic.",
-            "created_at": "2026-10-27T08:35:44.004304+00:00",
-            "updated_at": "2026-10-27T08:35:44.004350+00:00",
-        }
-    )
+    second["items"].append(_relic())
 
     assert _comparable(first) != _comparable(second)
 
@@ -156,11 +153,85 @@ def test_merchant_stock_change_is_detected():
     assert _comparable(first) != _comparable(second)
 
 
-def test_comparable_item_data_leaves_other_data_untouched():
-    """Item data without a merchant block is returned unchanged."""
-    data = {"rarity": "common"}
-    assert _comparable_item_data(data) == data
-    assert _comparable_item_data(None) is None
+def test_a_taxonomy_change_is_a_change():
+    """The taxonomy travels with the snapshot, so a change to it must publish.
+
+    This was the hole the exclusion list closed: the taxonomy used to be
+    missing from the comparison altogether, so relabelling a type changed the
+    file but was never published.
+    """
+    first = _snapshot()
+    second = _snapshot()
+    second["taxonomy"] = [
+        {"type": "mineral", "area": "minerals", "group": None, "label": "Mineral (Rock)"},
+    ]
+
+    assert _comparable(first) != _comparable(second)
+
+
+def test_a_new_top_level_key_is_a_change():
+    """A field nobody thought to list is compared by default.
+
+    This is the property that makes the exclusion list safe: a new part of
+    the payload is picked up without anyone remembering to add it here.
+    """
+    first = _snapshot()
+    second = _snapshot()
+    second["game_version"]["patch"] = "1.2.3"
+
+    assert _comparable(first) != _comparable(second)
+
+
+def test_a_new_item_field_is_a_change():
+    """A new field on an item is compared too, for the same reason."""
+    first = _snapshot()
+    second = _snapshot()
+    second["items"][0]["rarity_tier"] = "uncommon"
+
+    assert _comparable(first) != _comparable(second)
+
+
+def test_a_wiki_page_change_is_a_change():
+    """The tracked wiki pages are part of the published data."""
+    first = _snapshot()
+    second = _snapshot()
+    second["wiki_pages"] = [
+        {
+            "id": 1,
+            "title": "Minerals",
+            "page_id": 7,
+            "last_revision_id": 100,
+            "last_scraped": "2026-10-27T08:00:00+00:00",
+            "content_hash": "abc",
+            "namespace": 0,
+        }
+    ]
+    second["counts"] = {"items": 1, "formulas": 0, "wiki_pages": 1}
+
+    assert _comparable(first) != _comparable(second)
+
+
+def test_a_formula_change_is_a_change():
+    """The formulas the site lists are part of the published data."""
+    first = _snapshot()
+    second = _snapshot()
+    second["formulas"] = [
+        {
+            "id": 1,
+            "formula_id": "f-1",
+            "name": "Golden Rule",
+            "description": None,
+            "formula": "x * 2",
+            "params": None,
+            "confidence": 1.0,
+            "source_url": None,
+            "patch_version": None,
+            "created_at": "2026-10-27T08:00:00+00:00",
+        }
+    ]
+    second["counts"] = {"items": 1, "formulas": 1, "wiki_pages": 0}
+
+    assert _comparable(first) != _comparable(second)
 
 
 def test_a_schema_version_change_is_a_change():
@@ -169,3 +240,15 @@ def test_a_schema_version_change_is_a_change():
     second = _snapshot(schema_version=3)
 
     assert _comparable(first) != _comparable(second)
+
+
+def test_the_comparison_does_not_mutate_the_snapshot():
+    """The snapshot that gets written must be the one the database built."""
+    snapshot = _snapshot()
+    snapshot["items"][0]["data"] = {"merchant": {"stock": 1, "last_seen": "2026-10-27T08:00:00"}}
+
+    _comparable(snapshot)
+
+    assert snapshot["items"][0]["data"]["merchant"]["last_seen"] == "2026-10-27T08:00:00"
+    assert snapshot["generated_at"] == "2026-10-27T08:36:31.586710+00:00"
+    assert snapshot["last_scrape"]["pages_scraped"] == 26

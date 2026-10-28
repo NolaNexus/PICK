@@ -6,6 +6,7 @@ so repeated runs with identical data produce no git diff.
 
 import argparse
 import asyncio
+import copy
 import json
 import os
 
@@ -13,11 +14,6 @@ import app.database as app_database
 from app.services.snapshot import build_snapshot
 
 OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "frontend", "public", "snapshot.json")
-
-# Scrape timestamps change on every run even when the wiki content is
-# identical. They are ignored when deciding whether the file needs rewriting,
-# so an unchanged wiki does not trigger a commit and a site redeploy.
-VOLATILE_ITEM_FIELDS = ("created_at", "updated_at")
 
 # A snapshot that loses this much of the catalogue is treated as broken rather
 # than as news. The scramble this prevents: a scrape whose requests were all
@@ -48,84 +44,73 @@ def _refusal_reason(existing: dict, snapshot: dict) -> str | None:
     return None
 
 
-def _comparable_item_data(data):
-    """Return item data without the merchant's last-seen timestamp."""
-    if not isinstance(data, dict):
-        return data
-    merchant = data.get("merchant")
-    if not isinstance(merchant, dict) or "last_seen" not in merchant:
-        return data
-    return {**data, "merchant": {k: v for k, v in merchant.items() if k != "last_seen"}}
+def _strip_volatile(snapshot: dict) -> dict:
+    """Return a copy of the snapshot without the parts that always differ.
+
+    Everything else is compared. The list below is the whole of what is
+    allowed to differ between two runs: scrape timestamps, the per-run
+    telemetry, and the merchant's last-seen stamp, because the merchant's
+    stock rotates daily.
+
+    The list is an exclusion list rather than a list of the fields to keep,
+    so a field that is added to the snapshot later is compared by default.
+    Getting it wrong here fails loud — an unnecessary commit — rather than
+    quiet, which would leave the site serving stale data.
+    """
+    cleaned = copy.deepcopy(snapshot)
+
+    # The time the snapshot was built and the telemetry of the run that built
+    # it. Both differ every run even when the wiki did not change.
+    cleaned.pop("generated_at", None)
+    cleaned.pop("last_scrape", None)
+
+    game_version = cleaned.get("game_version")
+    if isinstance(game_version, dict):
+        game_version.pop("detected_at", None)
+
+    for item in cleaned.get("items") or []:
+        if not isinstance(item, dict):
+            continue
+        item.pop("created_at", None)
+        item.pop("updated_at", None)
+        data = item.get("data")
+        if isinstance(data, dict):
+            merchant = data.get("merchant")
+            if isinstance(merchant, dict):
+                merchant.pop("last_seen", None)
+
+    for formula in cleaned.get("formulas") or []:
+        if isinstance(formula, dict):
+            formula.pop("created_at", None)
+
+    for page in cleaned.get("wiki_pages") or []:
+        if isinstance(page, dict):
+            page.pop("last_scraped", None)
+
+    return cleaned
+
+
+def _sorted_rows(rows: list, key: str) -> list:
+    """Return the rows ordered by a key, so the order the database used is irrelevant."""
+    return sorted(rows or [], key=lambda row: str(row.get(key)) if isinstance(row, dict) else "")
 
 
 def _comparable(snapshot: dict) -> str:
     """Build a stable string representation used for change detection.
 
-    Only the content that the site renders is compared. Scrape timestamps and
-    per-run telemetry (pages scraped/changed/errors) are dropped because they
-    differ on every run; keeping them would make every run look like a change
-    and commit the file once a day even when the wiki is quiet.
-
-    The rows are sorted before they are compared. The order the database
-    returns them in is not guaranteed, so comparing positionally would report
-    a change whenever the rows came back in a different order, even though
-    nothing about the data had changed.
+    The whole snapshot is compared, apart from the volatile parts, so a
+    change anywhere in the published data is a change. The rows are sorted
+    first because the order the database returns them in is not guaranteed,
+    and comparing positionally would report a change whenever the rows came
+    back in a different order even though nothing about the data had changed.
     """
-    items = sorted(
-        (
-            {
-                "type": item.get("type"),
-                "wiki_id": item.get("wiki_id"),
-                "name": item.get("name"),
-                "slug": item.get("slug"),
-                "data": _comparable_item_data(item.get("data")),
-                "image_url": item.get("image_url"),
-                "description": item.get("description"),
-            }
-            for item in snapshot.get("items", [])
-        ),
-        key=lambda item: (str(item["slug"]), str(item["type"])),
-    )
-    formulas = sorted(
-        (
-            {
-                "formula_id": formula.get("formula_id"),
-                "name": formula.get("name"),
-                "description": formula.get("description"),
-                "formula": formula.get("formula"),
-                "params": formula.get("params"),
-                "confidence": formula.get("confidence"),
-                "source_url": formula.get("source_url"),
-                "patch_version": formula.get("patch_version"),
-            }
-            for formula in snapshot.get("formulas", [])
-        ),
-        key=lambda formula: str(formula["formula_id"]),
-    )
-    wiki_pages = sorted(
-        (
-            {
-                "title": page.get("title"),
-                "page_id": page.get("page_id"),
-                "last_revision_id": page.get("last_revision_id"),
-                "content_hash": page.get("content_hash"),
-                "namespace": page.get("namespace"),
-            }
-            for page in snapshot.get("wiki_pages", [])
-        ),
-        key=lambda page: str(page["title"]),
-    )
-    game_version = snapshot.get("game_version") or {}
+    cleaned = _strip_volatile(snapshot)
 
-    comparable = {
-        "schema_version": snapshot.get("schema_version"),
-        "counts": snapshot.get("counts"),
-        "items": items,
-        "formulas": formulas,
-        "wiki_pages": wiki_pages,
-        "game_version": game_version.get("version"),
-    }
-    return json.dumps(comparable, sort_keys=True, default=str)
+    cleaned["items"] = _sorted_rows(cleaned.get("items"), "slug")
+    cleaned["formulas"] = _sorted_rows(cleaned.get("formulas"), "formula_id")
+    cleaned["wiki_pages"] = _sorted_rows(cleaned.get("wiki_pages"), "title")
+
+    return json.dumps(cleaned, sort_keys=True, default=str)
 
 
 async def export_snapshot(

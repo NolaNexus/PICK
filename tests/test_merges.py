@@ -16,10 +16,13 @@ from app.services.reconcile import (
 
 
 def _item(item_type, name, **data):
+    # The slug is the type prefix with hyphens, then the name, the same way
+    # type_prefixed_slug() builds it.
+    prefix = item_type.replace("_", "-")
     return Item(
         type=item_type,
         name=name,
-        slug=f"{item_type}-{name.lower().replace(' ', '-')}",
+        slug=f"{prefix}-{name.lower().replace(' ', '-')}",
         data=data,
         is_active=True,
     )
@@ -238,3 +241,93 @@ async def test_the_merges_leave_one_row_per_thing(db_session):
     )
     assert len(equipment_rows) == 1
     assert equipment_rows[0].data["blueprint"]["quest_giver"] == "Guardian"
+
+
+@pytest.mark.asyncio
+async def test_a_fragment_with_no_item_is_kept(db_session):
+    """A fragment whose item is missing stays, so its data is not lost.
+
+    The wiki can list a catalyst for equipment that has no page of its own.
+    Folding it would throw the information away, so the row stays active. It
+    is not browsable: the taxonomy knows it is a fragment.
+    """
+    from app.services.reconcile import reconcile_items
+
+    catalyst = _item(
+        "mutation_catalyst",
+        "Frosthorn Pendant",
+        equipment="Frosthorn Pendant",
+        mineral="Cryonic Artifact",
+    )
+    db_session.add(catalyst)
+    await db_session.commit()
+
+    await reconcile_items(db_session)
+    await db_session.commit()
+
+    rows = (
+        (await db_session.execute(select(Item).where(Item.type == "mutation_catalyst")))
+        .scalars()
+        .all()
+    )
+    assert len(rows) == 1
+    assert rows[0].is_active is True
+
+
+@pytest.mark.asyncio
+async def test_reconciling_twice_changes_nothing(db_session):
+    """Reconciliation is idempotent: a second run leaves the data as it was.
+
+    The folds append to lists, so a fold that ran twice would double the
+    drops of an excavation site. This is the check that it does not.
+    """
+    from app.services.reconcile import reconcile_items
+
+    site = _item(
+        "excavation_site",
+        "Volcanic Ruins (A-Site)",
+        site_name="Volcanic Ruins (A-Site)",
+    )
+    drop = _item(
+        "excavation_reward",
+        "Solar Token",
+        site="Volcanic Ruins",
+        chance="0.5%",
+    )
+    db_session.add_all([site, drop])
+    await db_session.commit()
+
+    await reconcile_items(db_session)
+    await db_session.commit()
+
+    first = (
+        (
+            await db_session.execute(
+                select(Item).where(
+                    Item.type == "excavation_site", Item.name == "Volcanic Ruins (A-Site)"
+                )
+            )
+        )
+        .scalars()
+        .one()
+    )
+    drops_after_first = list((first.data or {}).get("drops") or [])
+
+    await reconcile_items(db_session)
+    await db_session.commit()
+
+    second = (
+        (
+            await db_session.execute(
+                select(Item).where(
+                    Item.type == "excavation_site", Item.name == "Volcanic Ruins (A-Site)"
+                )
+            )
+        )
+        .scalars()
+        .one()
+    )
+    drops_after_second = list((second.data or {}).get("drops") or [])
+
+    assert len(drops_after_first) == 1
+    assert drops_after_second == drops_after_first

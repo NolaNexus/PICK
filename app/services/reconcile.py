@@ -10,16 +10,21 @@ This module runs after all pages are scraped and:
 
 * merges Traveling Merchant listings into the canonical item (relic, enchant
   book, potion, ...) instead of keeping a second row;
-* merges the records that describe another item into it: the museum row of a
+* folds the fragments that describe another item into it: the museum row of a
   mineral, the blueprint of a piece of equipment, the drop table of an
   excavation site, the catalyst of an equipment, the museum's own displays;
 * links quests to the NPC that gives them.
+
+The folds are described by one table, ``FOLDS``, so that adding a new one is
+a matter of writing down where it comes from and what it becomes.
 
 It is idempotent: running it again produces the same rows and data.
 """
 
 import logging
 import re
+from collections.abc import Callable
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING, Any
 
@@ -163,44 +168,222 @@ def _find_by_name(items: list["Item"], name: str, item_type: str) -> "Item | Non
     return None
 
 
+@dataclass(frozen=True)
+class FoldContext:
+    """The lookups a fold needs to find the item a fragment belongs to."""
+
+    items: list["Item"]
+    by_name: dict[str, list["Item"]]
+    sites: dict[str, "Item"]
+
+
+@dataclass(frozen=True)
+class Fold:
+    """How one kind of fragment is folded into the item it describes.
+
+    A fragment is a row that holds part of another item: the museum row of a
+    mineral, the blueprint of a piece of equipment. The fold says which type
+    it is, how to find the item it belongs to, and what is written on it.
+    """
+
+    fragment: str
+    key: str
+    project: Callable[["Item"], dict[str, Any]]
+    match: Callable[["Item", FoldContext], "Item | None"]
+    append: bool = False
+
+
+def _fold_context(items: list["Item"], by_name: dict[str, list["Item"]]) -> FoldContext:
+    """Build the lookups the folds share."""
+    sites = {
+        _site_key(_data_of(item).get("site_name") or item.name): item
+        for item in items
+        if item.type == "excavation_site" and item.is_active
+    }
+    return FoldContext(items=items, by_name=by_name, sites=sites)
+
+
+def _first_of_type(by_name: dict[str, list["Item"]], name: str, item_type: str) -> "Item | None":
+    """Return the first active item of a type with a given name."""
+    for candidate in by_name.get(_name_key(name), []):
+        if candidate.type == item_type and candidate.is_active:
+            return candidate
+    return None
+
+
+def _match_by_name(item_type: str) -> Callable[["Item", FoldContext], "Item | None"]:
+    """Build a matcher that finds the item of a type with the same name."""
+
+    def match(fragment: "Item", context: FoldContext) -> "Item | None":
+        return _first_of_type(context.by_name, fragment.name or "", item_type)
+
+    return match
+
+
+def _match_mineral_for_museum(fragment: "Item", context: FoldContext) -> "Item | None":
+    """A museum row names the mineral it belongs to."""
+    name = _data_of(fragment).get("mineral") or fragment.name
+    return _first_of_type(context.by_name, name or "", "mineral")
+
+
+def _match_equipment_named(fragment: "Item", context: FoldContext) -> "Item | None":
+    """A catalyst names the equipment it is spent on."""
+    name = _data_of(fragment).get("equipment")
+    if not name:
+        return None
+    return _first_of_type(context.by_name, name, "equipment")
+
+
+def _match_site_for_drop(fragment: "Item", context: FoldContext) -> "Item | None":
+    """A drop names the excavation site it falls at."""
+    return context.sites.get(_site_key(_data_of(fragment).get("site")))
+
+
+def _project_museum(fragment: "Item") -> dict[str, Any]:
+    """The weight and the bonus a mineral gives in a museum display."""
+    data = _data_of(fragment)
+    return {
+        "min_weight_kg": data.get("min_kg"),
+        "max_boost": data.get("max_boost"),
+        "bonus_stat": data.get("bonus_stat"),
+        "rarity": data.get("rarity"),
+    }
+
+
+def _project_blueprint(fragment: "Item") -> dict[str, Any]:
+    """How a piece of equipment is crafted."""
+    data = _data_of(fragment)
+    return {
+        "quest_giver": data.get("quest_giver"),
+        "quest_name": data.get("quest_name"),
+        "quest_steps": data.get("quest_steps") or [],
+        "event_shop": data.get("event_shop"),
+        "purchase_info": data.get("purchase_info"),
+    }
+
+
+def _project_catalyst(fragment: "Item") -> dict[str, Any]:
+    """The catalyst that rerolls a piece of equipment."""
+    data = _data_of(fragment)
+    return {
+        "name": fragment.name,
+        "mineral": data.get("mineral"),
+        "rarity": data.get("rarity"),
+    }
+
+
+def _project_drop(fragment: "Item") -> dict[str, Any]:
+    """One row of an excavation site's drop table."""
+    data = _data_of(fragment)
+    return {
+        "item_slug": data.get("item_slug"),
+        "name": fragment.name,
+        "chance": data.get("chance"),
+        "activation": data.get("activation"),
+        "description": data.get("description"),
+    }
+
+
+def _project_display(fragment: "Item") -> dict[str, Any]:
+    """One display tier of the museum."""
+    data = _data_of(fragment)
+    return {
+        "name": fragment.name,
+        "rarity": data.get("rarity"),
+        "free_displays": data.get("free_displays"),
+        "locked_displays": data.get("locked_displays"),
+        "total_displays": data.get("total_displays"),
+        "money_price": data.get("money_price"),
+        "shards_price": data.get("shards_price"),
+    }
+
+
+def _project_museum_info(fragment: "Item") -> dict[str, Any]:
+    """The museum's description and the people and places in it."""
+    data = _data_of(fragment)
+    return {
+        "description": data.get("description"),
+        "location": data.get("location"),
+        "staff": data.get("staff") or [],
+        "extras": data.get("extras") or [],
+    }
+
+
+#: The folds, by the type of the fragment they fold.
+FOLDS: dict[str, Fold] = {
+    "museum_ore": Fold(
+        fragment="museum_ore",
+        key="museum",
+        project=_project_museum,
+        match=_match_mineral_for_museum,
+    ),
+    "blueprint": Fold(
+        fragment="blueprint",
+        key="blueprint",
+        project=_project_blueprint,
+        match=_match_by_name("equipment"),
+    ),
+    "mutation_catalyst": Fold(
+        fragment="mutation_catalyst",
+        key="catalyst",
+        project=_project_catalyst,
+        match=_match_equipment_named,
+    ),
+    "excavation_reward": Fold(
+        fragment="excavation_reward",
+        key="drops",
+        project=_project_drop,
+        match=_match_site_for_drop,
+        append=True,
+    ),
+}
+
+
+def _apply_folds(
+    items: list["Item"],
+    by_name: dict[str, list["Item"]],
+    fragment_type: str,
+) -> int:
+    """Fold one kind of fragment into the item it describes.
+
+    A fragment whose item is not in the wiki is left alone: the information
+    it holds would otherwise be lost, and it is not browsable on its own.
+    """
+    fold = FOLDS[fragment_type]
+    context = _fold_context(items, by_name)
+    merged = 0
+
+    for item in items:
+        if item.type != fold.fragment or not item.is_active:
+            continue
+
+        target = fold.match(item, context)
+        if target is None:
+            logger.warning("%s %s has nothing to fold into", fold.fragment, item.name)
+            continue
+
+        value = fold.project(item)
+        if fold.append:
+            existing = list(_data_of(target).get(fold.key) or [])
+            existing.append(value)
+            target.data = {**(target.data or {}), fold.key: existing}
+        else:
+            target.data = {**(target.data or {}), fold.key: value}
+
+        target.updated_at = datetime.now(UTC)
+        item.is_active = False
+        merged += 1
+
+    return merged
+
+
 def _merge_museum_ores(items: list["Item"], by_name: dict[str, list["Item"]]) -> int:
     """Merge the museum row of a mineral into the mineral itself.
 
     The museum row holds the weight and the bonus a mineral gives in a display.
     That is a property of the mineral, not a separate item.
     """
-    merged = 0
-
-    for item in items:
-        if item.type != "museum_ore" or not item.is_active:
-            continue
-
-        data = item.data or {}
-        name = data.get("mineral") or item.name
-        candidates = [
-            candidate
-            for candidate in by_name.get(_name_key(name), [])
-            if candidate.type == "mineral" and candidate.is_active
-        ]
-        if not candidates:
-            logger.warning("Museum row %s has no mineral to merge into", item.name)
-            continue
-
-        mineral = candidates[0]
-        mineral.data = {
-            **(mineral.data or {}),
-            "museum": {
-                "min_weight_kg": data.get("min_kg"),
-                "max_boost": data.get("max_boost"),
-                "bonus_stat": data.get("bonus_stat"),
-                "rarity": data.get("rarity"),
-            },
-        }
-        mineral.updated_at = datetime.now(UTC)
-        item.is_active = False
-        merged += 1
-
-    return merged
+    return _apply_folds(items, by_name, "museum_ore")
 
 
 def _merge_blueprints(items: list["Item"], by_name: dict[str, list["Item"]]) -> int:
@@ -209,38 +392,7 @@ def _merge_blueprints(items: list["Item"], by_name: dict[str, list["Item"]]) -> 
     A blueprint never exists without the equipment it unlocks, so the two are
     one thing: the equipment, and how to get it.
     """
-    merged = 0
-
-    for item in items:
-        if item.type != "blueprint" or not item.is_active:
-            continue
-
-        candidates = [
-            candidate
-            for candidate in by_name.get(_name_key(item.name), [])
-            if candidate.type == "equipment" and candidate.is_active
-        ]
-        if not candidates:
-            logger.warning("Blueprint %s has no equipment to merge into", item.name)
-            continue
-
-        data = item.data or {}
-        equipment = candidates[0]
-        equipment.data = {
-            **(equipment.data or {}),
-            "blueprint": {
-                "quest_giver": data.get("quest_giver"),
-                "quest_name": data.get("quest_name"),
-                "quest_steps": data.get("quest_steps") or [],
-                "event_shop": data.get("event_shop"),
-                "purchase_info": data.get("purchase_info"),
-            },
-        }
-        equipment.updated_at = datetime.now(UTC)
-        item.is_active = False
-        merged += 1
-
-    return merged
+    return _apply_folds(items, by_name, "blueprint")
 
 
 def _merge_catalysts(items: list["Item"], by_name: dict[str, list["Item"]]) -> int:
@@ -249,41 +401,7 @@ def _merge_catalysts(items: list["Item"], by_name: dict[str, list["Item"]]) -> i
     A catalyst names the equipment it is spent on, so it is part of that
     equipment rather than an item of its own.
     """
-    merged = 0
-
-    for item in items:
-        if item.type != "mutation_catalyst" or not item.is_active:
-            continue
-
-        data = item.data or {}
-        equipment_name = data.get("equipment")
-        if not equipment_name:
-            logger.warning("Catalyst %s names no equipment", item.name)
-            continue
-
-        candidates = [
-            candidate
-            for candidate in by_name.get(_name_key(equipment_name), [])
-            if candidate.type == "equipment" and candidate.is_active
-        ]
-        if not candidates:
-            logger.warning("Catalyst %s has no equipment to merge into", item.name)
-            continue
-
-        equipment = candidates[0]
-        equipment.data = {
-            **(equipment.data or {}),
-            "catalyst": {
-                "name": item.name,
-                "mineral": data.get("mineral"),
-                "rarity": data.get("rarity"),
-            },
-        }
-        equipment.updated_at = datetime.now(UTC)
-        item.is_active = False
-        merged += 1
-
-    return merged
+    return _apply_folds(items, by_name, "mutation_catalyst")
 
 
 def _site_key(name: str) -> str:
@@ -300,42 +418,7 @@ def _merge_excavation_drops(items: list["Item"]) -> int:
     The site is the record a player browses, so its drops are part of it. The
     items that drop stay their own items.
     """
-    merged = 0
-
-    sites = {
-        _site_key(_data_of(item).get("site_name") or item.name): item
-        for item in items
-        if item.type == "excavation_site" and item.is_active
-    }
-    if not sites:
-        return 0
-
-    for item in items:
-        if item.type != "excavation_reward" or not item.is_active:
-            continue
-
-        data = item.data or {}
-        site = sites.get(_site_key(data.get("site")))
-        if site is None:
-            logger.warning("Drop %s names no known site", item.name)
-            continue
-
-        drops = list(_data_of(site).get("drops") or [])
-        drops.append(
-            {
-                "item_slug": data.get("item_slug"),
-                "name": item.name,
-                "chance": data.get("chance"),
-                "activation": data.get("activation"),
-                "description": data.get("description"),
-            }
-        )
-        site.data = {**(site.data or {}), "drops": drops}
-        site.updated_at = datetime.now(UTC)
-        item.is_active = False
-        merged += 1
-
-    return merged
+    return _apply_folds(items, {}, "excavation_reward")
 
 
 def _merge_museum_displays(items: list["Item"]) -> int:
@@ -343,6 +426,9 @@ def _merge_museum_displays(items: list["Item"]) -> int:
 
     The museum is a place in Caldera Park, so its displays and its description
     belong to it rather than being items of their own.
+
+    These two write into a sub-location of the location record rather than a
+    key of their own, so they are folded here rather than through ``FOLDS``.
     """
     merged = 0
 
@@ -369,29 +455,12 @@ def _merge_museum_displays(items: list["Item"]) -> int:
 
     for item in items:
         if item.type == "museum_display" and item.is_active:
-            item_data = _data_of(item)
-            displays.append(
-                {
-                    "name": item.name,
-                    "rarity": item_data.get("rarity"),
-                    "free_displays": item_data.get("free_displays"),
-                    "locked_displays": item_data.get("locked_displays"),
-                    "total_displays": item_data.get("total_displays"),
-                    "money_price": item_data.get("money_price"),
-                    "shards_price": item_data.get("shards_price"),
-                }
-            )
+            displays.append(_project_display(item))
             item.is_active = False
             merged += 1
 
         elif item.type == "museum_info" and item.is_active:
-            item_data = _data_of(item)
-            info = {
-                "description": item_data.get("description"),
-                "location": item_data.get("location"),
-                "staff": item_data.get("staff") or [],
-                "extras": item_data.get("extras") or [],
-            }
+            info = _project_museum_info(item)
             item.is_active = False
             merged += 1
 

@@ -31,24 +31,12 @@ WEBHOOK_SECRET=your_webhook_secret_here
 pip install -r requirements.txt
 ```
 
-### Optional: R statistical bridge
+### A note on the old R bridge
 
-The R statistical bridge (`app/services/r_stats.py`, via `rpy2`) is **not installed
-by default** — neither the Docker image nor CI build it. `rpy2` has no binary wheel
-and must be compiled against a local R installation, and the R path is being rebuilt
-together with the calculators. Until then the API uses the pure-Python
-approximations and the `tests/test_r_stats.py` R-backed tests skip automatically.
-
-To enable it locally, install R first and then the extra requirements:
-
-```bash
-# Debian/Ubuntu
-sudo apt-get install -y r-base
-pip install -r requirements-r.txt
-```
-
-With R + `rpy2` present, `R_AVAILABLE` becomes `True` and the R-backed tests and
-calculator paths run instead of skipping.
+There is no R dependency any more. `app/services/r_stats.py`, the `R/` scripts and
+`requirements-r.txt` were removed; the calculators' Python implementations live in
+`app/services/stats.py` and always run. Endpoints still report `r_used: false`, which
+is the value they returned whenever R happened to be missing.
 
 ### Start Backend + Database
 
@@ -87,19 +75,55 @@ GitHub Actions are already configured:
 ### Deployment
 - **Frontend**: Deploys to GitHub Pages on push to `master` via `static.yml`, using the
   official Pages Actions flow (`configure-pages` → `upload-pages-artifact` → `deploy-pages`)
-- **Backend**: Deploys to Render (requires Render API key and app ID)
-- **Scrapers**: Daily/Weekly scheduled runs via GitHub Actions
+- **Data**: refreshed by the local job described in [Refreshing the data](#refreshing-the-data)
+- **Backend**: runs locally through Docker Compose; the published site does not use it
 
 #### Required repository settings
 
 1. **Settings → Pages → Build and deployment → Source → GitHub Actions**
    The `static.yml` workflow publishes through the Pages API and will not work while
    Pages is set to serve a branch.
-2. **Settings → Actions → General → Workflow permissions → Read and write**
-   The scrape workflows commit the refreshed `snapshot.json` back to `master`, which
-   is what redeploys the site after a data refresh.
-3. Optional secret `VITE_API_BASE_URL` — leave unset for a fully static site. When set,
+2. Optional secret `VITE_API_BASE_URL` — leave unset for a fully static site. When set,
    the app prefers the live API and falls back to the committed `snapshot.json`.
+
+## Refreshing the data
+
+GitHub-hosted runners cannot scrape the wiki: Miraheze answers every request from
+them with `403 Forbidden`, which is why the scheduled scrape workflows were removed.
+The scrape runs on the machine that holds this checkout, which can reach the wiki.
+
+`scripts/refresh_site.sh` performs the whole cycle: start Postgres, migrate, scrape,
+seed formulas, export `frontend/public/snapshot.json`, and commit and push it when it
+changed. It is **fail-closed** — a scrape that reaches no page, or an export that
+would erase the catalogue, aborts before anything is committed.
+
+### Install the schedule (once)
+
+1. **Deploy key.** Create an SSH key with no passphrase, add the public half to
+   *Settings → Deploy keys* with write access, and confirm that `git push` works from
+   this machine without prompting.
+2. **Environment.** The script sources the repository `.env`. Add `NTFY_TOPIC` there
+   (see `.env.example`) to receive a push when a run fails or the data goes stale.
+3. **Install the units.**
+   ```bash
+   mkdir -p ~/.config/systemd/user
+   cp deploy/systemd/pick-refresh.service ~/.config/systemd/user/
+   cp deploy/systemd/pick-refresh-full.service ~/.config/systemd/user/
+   cp deploy/systemd/pick-refresh.timer ~/.config/systemd/user/
+   cp deploy/systemd/pick-refresh-full.timer ~/.config/systemd/user/
+   systemctl --user daemon-reload
+   systemctl --user enable --now pick-refresh.timer pick-refresh-full.timer
+   loginctl enable-linger "$USER"
+   ```
+   `enable-linger` is what lets the timer fire while you are not logged in.
+4. **Check it.**
+   ```bash
+   systemctl --user list-timers
+   journalctl --user -u pick-refresh -f
+   ```
+
+Run it by hand at any time with `bash scripts/refresh_site.sh`, adding `--full` for a
+complete rebuild. The units use `%h/Desktop/PICK`; if the checkout moves, update them.
 
 ## Development Scripts
 
@@ -113,7 +137,8 @@ GitHub Actions are already configured:
 
 - `scripts.export_snapshot`: Export data for frontend
   - Creates `frontend/public/snapshot.json`
-  - Called by CI/CD during deployment
+  - Refuses to write a snapshot that would erase the catalogue (`--force` overrides)
+  - Called by `scripts/refresh_site.sh`
 
 - `scripts.seed_formulas`: Seed formula data
 
@@ -177,8 +202,7 @@ cd frontend
 npm run build
 # Push to master (triggers GitHub Pages deploy via static.yml)
 
-# Deploy backend to Render (if Render API key configured)
-# GitHub Actions `deploy-api.yml` handles this
+# The backend runs locally through Docker Compose; it is not deployed.
 ```
 
 ```bash
@@ -200,7 +224,6 @@ npm run build
 │   ├── public/          # Static files
 │   └── dist/            # Build output (gitignored)
 ├── requirements.txt       # Python dependencies
-├── requirements-r.txt     # Optional R statistical bridge (rpy2, numpy) — not built by default
 ├── pyproject.toml         # Python project config
 ├── README.md              # Project overview
 ├── ROADMAP.md             # Implementation phases

@@ -2,7 +2,7 @@
 
 **A community-built companion for Prospecting!** — items, minerals, pans, shovels, relics, runes, formulas, and calculators in one fast, searchable place.
 
-🔗 **[Live Site →](https://nolanexus.github.io/PICK/)** · [Report an Issue](https://github.com/NolaNexus/PICK/issues) · [Render Setup →](RENDER_SETUP.md)
+🔗 **[Live Site →](https://nolanexus.github.io/PICK/)** · [Report an Issue](https://github.com/NolaNexus/PICK/issues)
 
 ---
 
@@ -35,7 +35,7 @@ Think of PICK as a companion layer on top of the wiki: structured data, calculat
 
 - Python 3.11+, FastAPI, PostgreSQL (async SQLAlchemy)
 - React + TypeScript + Vite frontend
-- Optional R + rpy2 statistical bridge for the calculators (not built by default; the API falls back to pure-Python approximations — see SETUP.md)
+- Pure-Python statistics for the calculators (`app/services/stats.py`); no R or rpy2
 - Docker Compose for local development
 - GitHub Actions for CI/CD and frontend deployment
 
@@ -67,6 +67,13 @@ Run the wiki scraper:
 docker compose exec api python -m scripts.scraper
 ```
 
+For a host-side virtualenv, create `.venv` **after** the checkout is in its final
+location: a virtualenv hard-codes its own path, so moving or renaming the
+directory breaks every script in `.venv/bin`. If that happens, delete `.venv` and
+recreate it (`python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`).
+The systemd units for the refresh job also hard-code the path; update them if the
+checkout moves.
+
 ## Frontend development
 
 The frontend is a Vite + React app in `frontend/`. It runs standalone against the
@@ -97,17 +104,21 @@ The site is deployed as a static GitHub Pages site from `frontend/dist`:
   official GitHub Pages Actions flow.
 - The repository must have **Settings → Pages → Build and deployment → Source**
   set to **GitHub Actions**.
-- The published site reads `frontend/public/snapshot.json`, which the
-  `daily-scrape` and `weekly-full-scrape` workflows refresh on a schedule and
-  commit back to `master`, which redeploys the site.
-- Set a `VITE_API_BASE_URL` repository secret to point the app at a live API
-  instead; without it the site stays fully static.
+- The published site reads `frontend/public/snapshot.json`.
+
+The snapshot is refreshed by a job on the maintainer's machine, which is the
+only place that can reach the wiki: Miraheze answers GitHub-hosted runners with
+`403 Forbidden`, so scraping from Actions never worked. The job runs on a
+systemd timer, scrapes into the local database, exports the snapshot, and
+commits it, which redeploys the site. See
+[SETUP.md](SETUP.md#refreshing-the-data) for the install steps.
 
 Deep links work through `frontend/public/404.html`, which stashes the requested
 route and hands it back to the app after redirecting to the entry point.
 
-The optional backend (FastAPI + Postgres) is deployed separately; see
-[RENDER_SETUP.md](RENDER_SETUP.md).
+The optional backend (FastAPI + Postgres) runs locally through Docker Compose
+for development. The published site does not need it, but setting a
+`VITE_API_BASE_URL` repository secret points the app at a live API instead.
 
 ## License
 

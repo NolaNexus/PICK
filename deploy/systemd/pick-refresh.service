@@ -1,0 +1,11 @@
+[Unit]
+Description=PICK: scrape the wiki and publish the snapshot
+Documentation=file://%h/Desktop/PICK/SETUP.md
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Desktop/PICK
+ExecStart=/usr/bin/env bash %h/Desktop/PICK/scripts/refresh_site.sh
+TimeoutStartSec=1h

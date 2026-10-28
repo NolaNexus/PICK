@@ -1,0 +1,23 @@
+[[File:Solar Token.png|thumb|The '''Solar Token''']]
+
+The '''Solar Token''' is a consumable item obtained from the [[Traveling Merchant]].  
+It can be used to trigger the '''Solar Flare''' [[Events|event]].
+
+== Obtainment ==
+* Available from the [[Traveling Merchant]].  
+* Costs {{$|500,000,000}} or {{Meteor Shards|300}}.  
+* Stock: '''2'''.
+
+== Usage ==
+* Using the token prompts a confirmation: ''Would you like to use Solar Token? Use again to activate.''  
+* Prevents accidental consumption.  
+* Triggers the Solar Flare event.
+
+== Trivia ==
+* Older servers showed a shared stock of 3.  
+* Confirmation was added after the Traveling Merchant update to prevent misclicks.  
+* Modern servers handle the stock client-side, so every player can purchase their own.
+
+[[Category:Items]]  
+[[Category:Consumables]]  
+[[Category:Traveling Merchant Items]]

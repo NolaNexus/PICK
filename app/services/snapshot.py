@@ -13,7 +13,7 @@ from app.models import Formula, GameVersion, Item, News, ScraperRun, WikiPage
 #: of the data changes, this version is bumped so a client discards the
 #: snapshot it has and fetches the new one, instead of rendering old data
 #: with the new code.
-SNAPSHOT_SCHEMA_VERSION = 2
+SNAPSHOT_SCHEMA_VERSION = 3
 
 
 def _iso(value):

@@ -1,0 +1,26 @@
+<templatestyles src="Template:Stat/styles.css" />
+{{ShovelInfobox
+| Color     = #c1c1c1
+| Image     = IronShovel.png
+| Obtained  = Near the [[Rubble_Creek|Rubble Creek Sands]] [[Shopkeepers|Shopkeeper]].
+| Price     = 3,000
+| Strength  = 2
+| Speed     = 0.8
+| Toughness = 1
+| Location  = [[Rubble_Creek|Rubble Creek Sands]]
+}}
+
+The '''Iron Shovel''' is the first [[Shovels|shovel]] players can purchase in the game.
+
+== Overview ==
+A tough iron shovel.
+
+The '''Iron Shovel''' is the first shovel you can purchase in the game. It has similar stats to the previous shovel with low {{Stat|Dig Strength}}, slow {{Stat|Dig Speed}}, and minimal {{Stat|Toughness}}, an introduction to quests in the game.
+
+== Stats ==
+* {{Stat|Dig Strength}}: '''2'''
+* {{Stat|Dig Speed}}: '''0.8'''
+* {{Stat|Toughness}}: '''1'''
+
+== Obtainment ==
+* The shovel is located next to the [[Shopkeepers|Shopkeeper]] in [[Rubble_Creek|Rubble Creek Sands]].

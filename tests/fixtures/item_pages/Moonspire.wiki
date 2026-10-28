@@ -1,0 +1,26 @@
+{{Mineral
+| name        = Moonspire
+| image       = Moonspire.png
+| description = A spire of crystallised moonlight that only forms beneath Haunted Creek.
+| rarity      = Exotic
+| value       = 45,000,000
+| locations = <div style="margin:0;">{{Haunted Creek}}</div>
+| chances     =
+* '''{{Haunted Creek}}''' - 0.00000002161% (~1 in 4,626,836,341)
+| recipes     = 
+=== [[Halloween_Forge#Dullahan's_Curse|Dullahan's Curse]] ({{Exotic}}, limited) ===
+* 4 [[Pumpkin Soul]]
+* 10 [[Lost Soul]]
+* 1 '''Moonspire'''
+}}
+
+== Museum Usage ==
+[[File:Moonspire_museum.png|150px|left|A Moonspire in the [[Museum]].]]
+* Minimum weight for maximum boost: 40kg
+* Boosts: all the speed - {{Stat|Dig Speed}}, {{Stat|Shake Speed}}, {{Stat|WalkSpeed}}
+* Maximum Boost: 0.32× each
+
+<div style="clear:both;"></div>
+== Trivia ==
+* Moonspire gives exactly the same boost types in the [[Museum]] as the [[Modifiers#Lunar|Lunar modifier]].
+* This is the only '''ore''' that gives Walk Speed - everything else that can affect that [[Stats|stat]] is an [[Equipment|equipment]], [[Relics#tabber-XP_Cookie|consumable]], or an ore modifier.

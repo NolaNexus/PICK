@@ -94,6 +94,8 @@ export function ToolDetail({ item }: { item: ItemResponse }) {
     <ItemDetailShell item={item}>
       <dl className="space-y-2">
         {str(data, "location") ? <Field label="Location">{str(data, "location")}</Field> : null}
+        {str(data, "obtained") ? <Field label="Obtained">{str(data, "obtained")}</Field> : null}
+        {str(data, "price") ? <Field label="Price">{str(data, "price")}</Field> : null}
         {str(data, "perk") ? <Field label="Perk">{str(data, "perk")}</Field> : null}
         {str(data, "value") ? <Field label="Value">{str(data, "value")}</Field> : null}
         {str(data, "rarity") ? <Field label="Rarity">{str(data, "rarity")}</Field> : null}
@@ -101,6 +103,21 @@ export function ToolDetail({ item }: { item: ItemResponse }) {
       {statModifiers ? (
         <Section title="Stats">
           <StatList modifiers={statModifiers} />
+        </Section>
+      ) : null}
+      {str(data, "overview") ? (
+        <Section title="Overview">
+          <TextBlock>{str(data, "overview")}</TextBlock>
+        </Section>
+      ) : null}
+      {str(data, "obtainment") ? (
+        <Section title="Obtainment">
+          <TextBlock>{str(data, "obtainment")}</TextBlock>
+        </Section>
+      ) : null}
+      {str(data, "trivia") ? (
+        <Section title="Trivia">
+          <TextBlock>{str(data, "trivia")}</TextBlock>
         </Section>
       ) : null}
     </ItemDetailShell>
@@ -161,6 +178,8 @@ export function EquipmentDetail({ item }: { item: ItemResponse }) {
  */
 export function MineralDetail({ item }: { item: ItemResponse }) {
   const data = (item.data ?? {}) as ItemData
+  const chances = records(data, "chances")
+  const recipes = records(data, "recipes")
 
   return (
     <ItemDetailShell item={item}>
@@ -174,6 +193,70 @@ export function MineralDetail({ item }: { item: ItemResponse }) {
       {list(data, "locations") ? (
         <Section title="Found at">
           <BulletList items={list(data, "locations")} />
+        </Section>
+      ) : null}
+      {chances?.length ? (
+        <Section title="Drop chances">
+          <ul className="space-y-1 text-sm">
+            {chances.map((chance, index) => {
+              const location = str(chance, "location")
+              const percent = num(chance, "chance_percent")
+              const oneIn = num(chance, "one_in")
+              return (
+                <li key={index} className="flex items-baseline justify-between gap-3">
+                  <span className="text-muted-foreground">{location}</span>
+                  <span className="font-medium tabular-nums">
+                    {percent != null ? `${percent}%` : null}
+                    {oneIn != null ? (
+                      <span className="ml-2 text-xs font-normal text-muted-foreground">
+                        1 in {oneIn.toLocaleString("en-US")}
+                      </span>
+                    ) : null}
+                  </span>
+                </li>
+              )
+            })}
+          </ul>
+        </Section>
+      ) : null}
+      {recipes?.length ? (
+        <Section title="Recipes">
+          <ul className="space-y-2 text-sm">
+            {recipes.map((recipe, index) => {
+              const station = str(recipe, "station")
+              const rarity = str(recipe, "rarity")
+              const ingredients = list(recipe, "ingredients")
+              return (
+                <li key={index}>
+                  <div className="font-medium">
+                    {station}
+                    {rarity ? (
+                      <span className="ml-2 text-xs font-normal text-muted-foreground">
+                        {rarity}
+                      </span>
+                    ) : null}
+                  </div>
+                  {ingredients ? (
+                    <ul className="mt-1 list-disc pl-5 text-muted-foreground">
+                      {ingredients.map((ingredient, ingredientIndex) => (
+                        <li key={ingredientIndex}>{ingredient}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </li>
+              )
+            })}
+          </ul>
+        </Section>
+      ) : null}
+      {str(data, "museum_usage") ? (
+        <Section title="Museum usage">
+          <TextBlock>{str(data, "museum_usage")}</TextBlock>
+        </Section>
+      ) : null}
+      {str(data, "trivia") ? (
+        <Section title="Trivia">
+          <TextBlock>{str(data, "trivia")}</TextBlock>
         </Section>
       ) : null}
     </ItemDetailShell>
@@ -271,6 +354,79 @@ export function PotionDetail({ item }: { item: ItemResponse }) {
 }
 
 /**
+ * A consumable: an item that is used up, like a flare or a token.
+ */
+export function ConsumableDetail({ item }: { item: ItemResponse }) {
+  const data = (item.data ?? {}) as ItemData
+  const statModifiers = modifiers(data)
+  const merchant = data["merchant"] as Record<string, unknown> | undefined
+
+  return (
+    <ItemDetailShell item={item}>
+      <dl className="space-y-2">
+        {num(data, "cost_cash") != null ? (
+          <Field label="Price">{formatCurrency(num(data, "cost_cash"))}</Field>
+        ) : null}
+        {num(data, "cost_shards") != null ? (
+          <Field label="Shards">{formatNumber(num(data, "cost_shards"))}</Field>
+        ) : null}
+        {str(data, "sold_by") ? <Field label="Sold by">{str(data, "sold_by")}</Field> : null}
+        {str(data, "duration_min") ? (
+          <Field label="Duration">{str(data, "duration_min")}</Field>
+        ) : null}
+      </dl>
+      {str(data, "obtained") ? (
+        <Section title="Obtained">
+          <TextBlock>{str(data, "obtained")}</TextBlock>
+        </Section>
+      ) : null}
+      {str(data, "obtainment") ? (
+        <Section title="Obtainment">
+          <TextBlock>{str(data, "obtainment")}</TextBlock>
+        </Section>
+      ) : null}
+      {str(data, "usage") ? (
+        <Section title="Usage">
+          <TextBlock>{str(data, "usage")}</TextBlock>
+        </Section>
+      ) : null}
+      {statModifiers ? (
+        <Section title="Grants">
+          <StatList modifiers={statModifiers} />
+        </Section>
+      ) : null}
+      {merchant ? (
+        <Section title="Currently sold">
+          <dl className="space-y-2">
+            {num(merchant, "stock") != null ? (
+              <Field label="Stock">{formatNumber(merchant["stock"] as number)}</Field>
+            ) : null}
+            {num(merchant, "chance_percent") != null ? (
+              <Field label="Chance">
+                {formatNumber(merchant["chance_percent"] as number)}%
+              </Field>
+            ) : null}
+            {str(merchant, "last_seen") ? (
+              <Field label="Last seen">{formatTimestamp(str(merchant, "last_seen"))}</Field>
+            ) : null}
+          </dl>
+        </Section>
+      ) : null}
+      {str(data, "notes") ? (
+        <Section title="Notes">
+          <TextBlock>{str(data, "notes")}</TextBlock>
+        </Section>
+      ) : null}
+      {str(data, "trivia") ? (
+        <Section title="Trivia">
+          <TextBlock>{str(data, "trivia")}</TextBlock>
+        </Section>
+      ) : null}
+    </ItemDetailShell>
+  )
+}
+
+/**
  * A relic: what it does, where to get it and how to use it.
  */
 export function RelicDetail({ item }: { item: ItemResponse }) {
@@ -286,6 +442,16 @@ export function RelicDetail({ item }: { item: ItemResponse }) {
       {str(data, "usage") ? (
         <Section title="Usage">
           <TextBlock>{str(data, "usage")}</TextBlock>
+        </Section>
+      ) : null}
+      {str(data, "notes") ? (
+        <Section title="Notes">
+          <TextBlock>{str(data, "notes")}</TextBlock>
+        </Section>
+      ) : null}
+      {str(data, "trivia") ? (
+        <Section title="Trivia">
+          <TextBlock>{str(data, "trivia")}</TextBlock>
         </Section>
       ) : null}
     </ItemDetailShell>
@@ -789,6 +955,7 @@ const DETAILS: Record<string, (props: { item: ItemResponse }) => React.ReactElem
   mineral: MineralDetail,
   museum_ore: MuseumOreDetail,
   potion: PotionDetail,
+  consumable: ConsumableDetail,
   relic: RelicDetail,
   quest: QuestDetail,
   mastery: MasteryDetail,

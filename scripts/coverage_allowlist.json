@@ -1,0 +1,22 @@
+{
+  "_comment": "Pages that are not item data. The coverage report skips them so it does not repeat the same false positives. Add a page here when the report flags it and it turns out to be a guide, a shop or another page that holds no items.",
+  "pages": [
+    "Alchemist",
+    "Prospector's Shop",
+    "Shard Merchant",
+    "Blueprint",
+    "Geodes",
+    "Treasure Map",
+    "Changelog",
+    "Codes",
+    "Guides",
+    "Mutations",
+    "Soundtrack",
+    "Titles",
+    "Permanent Buffs",
+    "Ways to Obtain",
+    "Candy",
+    "Headless Merchant",
+    "Magma Forge"
+  ]
+}

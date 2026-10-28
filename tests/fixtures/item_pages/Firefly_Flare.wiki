@@ -1,0 +1,18 @@
+[[File:Firefly Flare.png|250px|thumb|The '''Firefly Flare''']]
+
+A bright flare that pushes back the darkness of the abyssal depths. Firefly flares fuse with nearby flares to increase their timer.
+
+The '''Firefly Flare''' is a consumable item used to keep the player alive within the {{Abyssal Depth}}. Each flare lasts for 10 minutes.
+
+== Obtainment ==
+[[File:Crafting Table.png|250px|thumb|''The Crafting Table'']]
+* Use a [[Minerals#Legendary|Firefly Stone]] on the crafting table near the entrance to the Abyss. 
+* 1 Firefly Stone will yield 1 Firefly Flare.
+
+== Usage ==
+* Using the Firefly Flare will cause the player to throw it in the direction they are facing. 
+* Each flare will last for 10 minutes.
+* Flares will fuse with other nearby flares to increase their remaining timer.
+
+[[Category:Items]]  
+[[Category:Consumables]]

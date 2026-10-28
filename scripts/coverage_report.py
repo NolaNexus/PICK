@@ -1,15 +1,12 @@
-"""Report how much of each wiki page the scraper actually captures.
+"""Report what the site is missing from the wiki.
 
 The scraper only stores the items a parser recognises. When a page lists more
-rows than the parser returns, some items are missing from the site without
-anything failing.
+rows than the parser returns, or an item has a page of its own that no index
+page mentions, items are missing from the site without anything failing.
 
-This script compares the rows in each tracked page's tables with the number of
-items the parser produced, and looks for pages that look like item lists but
-are not tracked at all.
-
-It is a report: gaps never fail the run, because counting rows in a wiki
-table is a heuristic and the wiki itself can be unavailable.
+The report uses the wiki's page list, its categories and the rows of the
+tracked pages to find them. It is a report: gaps never fail the run, because
+classifying a page is a heuristic and the wiki itself can be unavailable.
 """
 
 import argparse
@@ -22,62 +19,54 @@ from typing import Any
 
 from app.utils.mw_api import MediaWikiClient
 from scrapers import PARSERS, TRACKED_PAGES  # type: ignore
+from scrapers.pages import (
+    categories_of,
+    is_index_page,
+    is_item_page,
+    item_type_hint,
+    split_tables,
+)
+from scrapers.wikitext import title_key
+
+ALLOWLIST_PATH = os.path.join(os.path.dirname(__file__), "coverage_allowlist.json")
 
 # A wikitable row separator.
 _ROW_SEPARATOR = re.compile(r"^\s*\|\-", re.MULTILINE)
 
-# A table that holds the header row of a list.
-_TABLE_START = re.compile(r"\{\|", re.MULTILINE)
 
-# A column header that names the thing in the row.
-_ITEM_HEADER = re.compile(r"!\s*(?:style=\"[^\"]*\"\s*\|\s*)?item\b", re.IGNORECASE)
+def load_allowlist(path: str = ALLOWLIST_PATH) -> set[str]:
+    """Read the pages that are known not to hold item data."""
+    try:
+        with open(path, encoding="utf-8") as handle:
+            payload = json.load(handle)
+    except (OSError, ValueError):
+        return set()
+
+    return {title_key(page) for page in payload.get("pages", [])}
 
 
 def count_table_rows(wikitext: str) -> int:
     """Count the data rows of the tables in a page."""
     rows = 0
-    for table in _split_tables(wikitext):
+    for table in split_tables(wikitext):
         # The header row is separated with '!', so only '|-' rows count.
         rows += len(_ROW_SEPARATOR.findall(table))
     return rows
-
-
-def _split_tables(wikitext: str) -> list[str]:
-    """Split a page into its wikitables."""
-    tables: list[str] = []
-    start = None
-    depth = 0
-
-    for index, char in enumerate(wikitext):
-        if char == "{" and wikitext[index : index + 2] == "{|":
-            if depth == 0:
-                start = index
-            depth += 1
-        elif char == "}" and depth > 0:
-            depth -= 1
-            if depth == 0 and start is not None:
-                tables.append(wikitext[start : index + 1])
-                start = None
-
-    return tables
-
-
-def looks_like_item_list(wikitext: str) -> bool:
-    """Return True when a page holds a table that lists items."""
-    for table in _split_tables(wikitext):
-        if _ITEM_HEADER.search(table):
-            return True
-    return False
 
 
 async def build_report(
     client: MediaWikiClient,
     tracked: list[str],
     check_untracked: bool,
+    allowlist: set[str],
 ) -> dict[str, Any]:
     """Build the coverage report."""
     pages: list[dict[str, Any]] = []
     errors: list[str] = []
+    missing_items: list[dict[str, Any]] = []
+
+    # The names we already have, so a page can be matched to its item.
+    known_names = await _scraped_names(client)
 
     for title in tracked:
         parser = PARSERS.get(title)
@@ -89,7 +78,7 @@ async def build_report(
 
         wikitext = info.get("wikitext", "")
         rows = count_table_rows(wikitext)
-        tables = len(_split_tables(wikitext))
+        tables = len(split_tables(wikitext))
 
         if parser is None:
             pages.append(
@@ -131,22 +120,60 @@ async def build_report(
             errors.append(f"could not list the wiki pages: {exc}")
             all_pages = []
 
-        known = {title.lower() for title in tracked}
-        for title in all_pages:
-            if title.lower() in known:
-                continue
-            try:
-                info = await client.get_page_info(title)
-            except Exception:
+        tracked_keys = {title_key(title) for title in tracked}
+        candidates = [
+            title
+            for title in all_pages
+            if title_key(title) not in tracked_keys and title_key(title) not in allowlist
+        ]
+
+        # The content is fetched in batches, so a few hundred pages cost a
+        # handful of requests.
+        contents = await client.get_pages_with_content(candidates)
+
+        for title, wikitext in contents.items():
+            if is_index_page(wikitext) and not is_item_page(wikitext):
+                untracked.append({"page": title, "table_rows": count_table_rows(wikitext)})
                 continue
 
-            wikitext = info.get("wikitext", "")
-            if not looks_like_item_list(wikitext):
-                continue
+            if is_item_page(wikitext):
+                item_type = item_type_hint(wikitext, title)
+                if item_type and title_key(title) not in known_names:
+                    missing_items.append(
+                        {
+                            "page": title,
+                            "type": item_type,
+                            "categories": sorted(categories_of(wikitext)),
+                        }
+                    )
 
-            untracked.append({"page": title, "table_rows": count_table_rows(wikitext)})
+    return {
+        "pages": pages,
+        "untracked": untracked,
+        "missing_items": missing_items,
+        "errors": errors,
+    }
 
-    return {"pages": pages, "untracked": untracked, "errors": errors}
+
+async def _scraped_names(client: MediaWikiClient) -> set[str]:
+    """Return the names of the items the site already has.
+
+    The names are read from the database when it is reachable. Without it the
+    report can still say which pages hold items, but not which are missing.
+    """
+    try:
+        from sqlalchemy import select
+
+        import app.database as app_database
+        from app.models import Item
+
+        await app_database.get_engine()
+        async with app_database.async_session_factory() as session:
+            result = await session.execute(select(Item.name).where(Item.is_active.is_(True)))
+            names = {title_key(name) for name in result.scalars().all() if name}
+        return names
+    except Exception:
+        return set()
 
 
 def render_markdown(report: dict[str, Any]) -> str:
@@ -171,6 +198,16 @@ def render_markdown(report: dict[str, Any]) -> str:
                 f"| {page['page']} | {page['table_rows']} | {page['items']} | {page['missing']} |"
             )
 
+    if report.get("missing_items"):
+        lines.append("")
+        lines.append("### Items that have a page but are not on the site")
+        lines.append("")
+        lines.append("| Page | Type | Categories |")
+        lines.append("| --- | --- | --- |")
+        for item in sorted(report["missing_items"], key=lambda i: (i["type"], i["page"])):
+            categories = ", ".join(item.get("categories", []))
+            lines.append(f"| {item['page']} | {item['type']} | {categories} |")
+
     if report["untracked"]:
         lines.append("")
         lines.append("### Pages that look like item lists but are not tracked")
@@ -188,6 +225,15 @@ def render_markdown(report: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def has_gaps(report: dict[str, Any]) -> bool:
+    """Return True when the report found something missing."""
+    if report.get("missing_items"):
+        return True
+    if report.get("untracked"):
+        return True
+    return any(page["missing"] > 0 for page in report.get("pages", []))
+
+
 async def main() -> int:
     parser = argparse.ArgumentParser(description="Report the scraper's page coverage")
     parser.add_argument(
@@ -200,11 +246,21 @@ async def main() -> int:
         action="store_true",
         help="Print the report as JSON instead of Markdown",
     )
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Exit with a failure when a gap is found",
+    )
     args = parser.parse_args()
 
     client = MediaWikiClient()
     try:
-        report = await build_report(client, TRACKED_PAGES, not args.no_untracked)
+        report = await build_report(
+            client,
+            TRACKED_PAGES,
+            not args.no_untracked,
+            load_allowlist(),
+        )
     finally:
         await client.close()
 
@@ -220,6 +276,8 @@ async def main() -> int:
             summary.write(render_markdown(report))
             summary.write("\n")
 
+    if args.strict and has_gaps(report):
+        return 1
     return 0
 
 

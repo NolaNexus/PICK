@@ -43,6 +43,7 @@ MERCHANT_TYPES = {"merchant_item"}
 # Types that we prefer to treat as the canonical row for a name.
 CANONICAL_PREFERENCE = (
     "relic",
+    "consumable",
     "enchant_book",
     "potion",
     "pan",
@@ -54,6 +55,20 @@ CANONICAL_PREFERENCE = (
 # Merchant listings carry a volatile snapshot: stock, price and currency rotate
 # every daily spawn and can be rerolled, so they are stored as "last seen".
 MERCHANT_FIELDS = ("price_cash", "price_shards", "stock", "chance_percent")
+
+
+def type_prefixed_slug(item_type: str, slug: str) -> str:
+    """Namespace an item slug with its item type.
+
+    ``items.slug`` is globally unique, but the same name can exist under
+    different types (a "Dredge Master" NPC and a "Dredge Master" quest). Using
+    the type as a prefix makes every slug deterministic and independent of the
+    order pages happen to be scraped in.
+    """
+    prefix = item_type.strip().lower().replace("_", "-")
+    if not prefix:
+        return slug
+    return f"{prefix}-{slug}"
 
 
 def _name_key(name: str | None) -> str:

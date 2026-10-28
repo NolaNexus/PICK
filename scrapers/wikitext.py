@@ -23,6 +23,7 @@ __all__ = [
     "render_item_data",
     "render_text",
     "slugify",
+    "title_key",
 ]
 
 # Templates whose first argument is an amount of the named unit.
@@ -98,15 +99,30 @@ def _render_template(node: Template) -> str:
     key = _template_key(raw_name)
     args = [arg for arg in _positional_args(node) if arg]
 
+    # A named parameter can hold the value, e.g. {{Stat|Luck|value=30}}.
+    named = {
+        _template_key(str(param.name)): str(param.value).strip()
+        for param in node.params
+        if param.showkey and str(param.name).strip()
+    }
+
     if key == _CASH_TEMPLATE:
-        return f"${args[0]}" if args else ""
+        value = args[0] if args else named.get("value", "")
+        return f"${value}" if value else ""
 
     if key in _VALUE_UNITS:
-        if not args:
+        if not args and not named.get("value"):
             return _display_name(raw_name)
-        return f"{args[0]} {_display_name(raw_name)}"
+        value = args[0] if args else named.get("value", "")
+        return f"{value} {_display_name(raw_name)}"
 
     if key in _STAT_TEMPLATES:
+        # {{Stat|Luck}} shows the stat, {{Stat|Luck|value=30}} shows the
+        # amount as well, which is how the wiki writes a stat with its value.
+        if named.get("value"):
+            if args:
+                return f"{args[0]} ({named['value']})"
+            return named["value"]
         return args[0] if args else ""
 
     if key in _RARITY_TEMPLATES:
@@ -120,8 +136,13 @@ def _render_template(node: Template) -> str:
 
 def _render_wikilink(node: Wikilink) -> str:
     """Render a wikilink to its display text."""
-    text = str(node.text).strip() if node.text is not None else ""
     target = str(node.title).strip()
+
+    # A link to a file is a picture, which has no place in the text.
+    if target.lower().startswith("file:"):
+        return ""
+
+    text = str(node.text).strip() if node.text is not None else ""
     if text and text != target:
         return text
     return _display_name(target)
@@ -166,7 +187,7 @@ def _render_superscript(text: str) -> str:
     return re.sub(r"<sup>\s*([^<]*?)\s*</sup>", replace, text, flags=re.IGNORECASE)
 
 
-def render_text(value: str) -> str:
+def _render_text(value: str) -> str:
     """Convert a wikitext fragment into plain display text.
 
     Templates are expanded, links are resolved to their display text, HTML is
@@ -183,6 +204,8 @@ def render_text(value: str) -> str:
     # Bold and italic markers are handled here because mwparserfromhell leaves
     # stray apostrophes behind when it strips them.
     text = text.replace("'''", "").replace("''", "")
+    # The categories a page is in are not part of what it says.
+    text = re.sub(r"\[\[\s*Category\s*:[^\]]+\]\]", "", text, flags=re.IGNORECASE)
 
     try:
         tree = mwparserfromhell.parse(text)
@@ -193,13 +216,14 @@ def render_text(value: str) -> str:
         try:
             tree.replace(node, _render_template(node))
         except ValueError:
-            node.remove()
+            # The node was already replaced as part of its parent.
+            continue
 
     for node in list(tree.filter_wikilinks(recursive=True)):
         try:
             tree.replace(node, _render_wikilink(node))
         except ValueError:
-            node.remove()
+            continue
 
     text = tree.strip_code()
 
@@ -209,6 +233,15 @@ def render_text(value: str) -> str:
     # parameter.
     text = re.sub(r'="\s*$', "", text)
     return _normalize_whitespace(text)
+
+
+def render_text(value: str) -> str:
+    """Convert a wikitext fragment into plain display text.
+
+    Templates are expanded, links are resolved to their display text, HTML is
+    removed and residual table markup is cleaned up.
+    """
+    return _render_text(value)
 
 
 def render_image(value: str) -> str:
@@ -268,3 +301,25 @@ def slugify(name: str) -> str:
         .replace(")", "")
         .replace("’", "")
     )
+
+
+def title_key(name: str) -> str:
+    """Normalize a page title or item name so the two can be compared.
+
+    The wiki and the scraper spell the same thing differently: underscores
+    stand for spaces in a page title, and a name may use a curly apostrophe
+    where the page uses a straight one. Everything is folded to a bare key so
+    a page and the item it describes match.
+    """
+    if not name:
+        return ""
+
+    text = str(name).strip().lower()
+    text = urllib.parse.unquote(text)
+    text = text.replace("_", " ")
+    # Every kind of apostrophe becomes the same character.
+    text = text.replace("’", "'").replace("‘", "'").replace("`", "'")
+    text = text.replace("–", "-").replace("—", "-")
+    # Punctuation and spacing carry no meaning for the comparison.
+    text = re.sub(r"[^a-z0-9]+", "", text)
+    return text

@@ -1,0 +1,26 @@
+<templatestyles src="Template:Stat/styles.css" />
+{{SluiceInfobox
+| Color      = #7d6b5d
+| Image      = FossilizedSluice.png
+| Obtained   = Finding the secret door behind the bookshelf inside of the maze underneath Caldera Island
+| Price      = $800,000,000
+| Luck       = 30000
+| Capacity   = 200
+| Efficiency = 1
+| Toughness  = 6
+| Location   = Caldera Island
+}}
+
+The '''Fossilized Sluice''' is an ancient [[Sluices|Sluice]] preserved through the ages. Though incredibly slow due to its {{Stat|Efficiency|value=1}}, it compensates with extraordinary {{Stat|Luck|value=30000}} and a massive {{Stat|Capacity (Sluices)|value=200}}. Its hardened structure also grants it exceptional {{Stat|Toughness|value=6}}.
+
+== Overview ==
+The Fossilized Sluice trades speed for sheer power, making it one of the most potent sluices available. Despite its inefficiency, once filled it provides some of the best yields possible. This sluice is intended for endgame players who prioritize maximum rewards and durability over processing speed.
+
+== Stats ==
+* {{Stat|Luck|value=30000}}
+* {{Stat|Capacity (Sluices)|value=200}}
+* {{Stat|Efficiency|value=1}}
+* {{Stat|Toughness|value=6}}
+
+== Obtainment ==
+* It can be obtained by purchasing it at the [[Ancient Ruins]] shop for $800,000,000.

@@ -14,6 +14,20 @@ WIKIPEDIA_API_URL = settings.mediawiki_api_url
 # How many file names are looked up in one request.
 IMAGE_BATCH_SIZE = 50
 
+# How many pages are fetched in one request.
+PAGE_BATCH_SIZE = 50
+
+
+def _revision_text(page: dict[str, Any]) -> str:
+    """Read the wikitext of a page from a query result."""
+    revisions = page.get("revisions") or []
+    if not revisions:
+        return ""
+
+    slots = revisions[0].get("slots") or {}
+    main = slots.get("main") or {}
+    return str(main.get("content") or "")
+
 
 class MediaWikiClient:
     """Async client for the MediaWiki API with rate-limit and maxlag handling."""
@@ -137,6 +151,89 @@ class MediaWikiClient:
         logger.info("Listed %d wiki pages", len(titles))
         return titles
 
+    async def get_category_members(self, category: str, limit: int = 500) -> list[str]:
+        """List the pages in a category."""
+        client = await self._get_client()
+        titles: list[str] = []
+        continuation: str | None = None
+
+        while True:
+            params: dict[str, Any] = {
+                "action": "query",
+                "list": "categorymembers",
+                "cmtitle": category,
+                "cmlimit": str(limit),
+                "cmnamespace": "0",
+                "format": "json",
+                "formatversion": "2",
+            }
+            if continuation:
+                params["cmcontinue"] = continuation
+
+            resp = await client.get("/", params=params)
+            resp.raise_for_status()
+            data = resp.json()
+
+            for page in data.get("query", {}).get("categorymembers", []):
+                title = page.get("title")
+                if title:
+                    titles.append(title)
+
+            continuation = data.get("continue", {}).get("cmcontinue")
+            if not continuation:
+                break
+
+        logger.info("Listed %d pages in %s", len(titles), category)
+        return titles
+
+    async def get_pages_with_content(self, titles: list[str]) -> dict[str, str]:
+        """Fetch the wikitext of many pages at once.
+
+        The titles are looked up in batches, so a few hundred pages cost a
+        handful of requests. Titles that do not exist are left out.
+        """
+        if not titles:
+            return {}
+
+        client = await self._get_client()
+        wanted = [title for title in dict.fromkeys(titles) if title]
+        contents: dict[str, str] = {}
+
+        for start in range(0, len(wanted), PAGE_BATCH_SIZE):
+            batch = wanted[start : start + PAGE_BATCH_SIZE]
+            params = {
+                "action": "query",
+                "titles": "|".join(batch),
+                "prop": "revisions",
+                "rvprop": "content|ids",
+                "rvslots": "main",
+                "redirects": "1",
+                "format": "json",
+                "formatversion": "2",
+            }
+            resp = await client.get("/", params=params)
+            resp.raise_for_status()
+            data = resp.json()
+
+            query = data.get("query", {})
+            # A redirect is reported separately from the page it points at.
+            redirects = {r["from"]: r["to"] for r in query.get("redirects", [])}
+            for page in query.get("pages", []):
+                if page.get("missing"):
+                    continue
+                title = page.get("title", "")
+                wikitext = _revision_text(page)
+                if not wikitext:
+                    continue
+                contents[title] = wikitext
+                # The page a redirect points at answers for the old title too.
+                for source, target in redirects.items():
+                    if target == title:
+                        contents[source] = wikitext
+
+        logger.info("Fetched the content of %d of %d pages", len(contents), len(wanted))
+        return contents
+
     async def get_image_urls(self, file_names: list[str]) -> dict[str, str]:
         """Resolve wiki file names to their URLs.
 
@@ -174,6 +271,9 @@ class MediaWikiClient:
                 url = info[0].get("url")
                 if url:
                     resolved[title[5:]] = url
+                    # The wiki answers with the name it stores, which turns
+                    # the underscores in a file name into spaces.
+                    resolved.setdefault(title[5:].replace(" ", "_"), url)
 
         logger.info("Resolved %d of %d image names", len(resolved), len(wanted))
         return resolved

@@ -1,0 +1,30 @@
+<templatestyles src="Template:Stat/styles.css" />
+{{PanInfobox
+| Color    = #f8cea8
+| Obtained = Starter
+| Price    = 0
+| Luck     = 1
+| Capacity = 5
+| Strength = 0.2
+| Speed    = 0.8
+| Location = Given to the player upon joining.
+}}
+
+The '''Rusty Pan''' is a starter [[Pans|Pan]] obtained for free when joining ''Prospecting!''
+
+== Overview ==
+A rusty pan for gold panning. Not great, but it gets you started.
+
+The Rusty Pan is the most basic panning tool and serves as an introduction for new players. It features low {{Stat|Luck}}, modest {{Stat|Capacity (Pans)}}, and minimal {{Stat|Strength}} with a slower {{Stat|Speed}} compared to later pans. It’s reliable enough to begin collecting minerals until you can afford upgrades.
+
+== Stats ==
+* {{Stat|Luck}}: '''1'''
+* {{Stat|Capacity (Pans)}}: '''5'''
+* {{Stat|Shake Strength}}: '''0.2'''
+* {{Stat|Shake Speed}}: '''0.8'''
+
+== Obtainment ==
+* Given to the player upon joining the game.
+
+== Trivia ==
+* Functions as the entry-level pan, analogous to other starter tools.

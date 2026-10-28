@@ -137,7 +137,7 @@ const EMPTY_VERSION: GameVersionResponse = {
  * a snapshot of a different shape, the cached one is discarded so the new
  * data is fetched instead of the old data being rendered by new code.
  */
-export const SNAPSHOT_SCHEMA_VERSION = 2;
+export const SNAPSHOT_SCHEMA_VERSION = 3;
 
 /** Shape of a snapshot payload before it is normalized. */
 interface RawSnapshot {

@@ -8,7 +8,8 @@ from typing import TYPE_CHECKING, Any
 
 from sqlalchemy import select
 
-from app.services.reconcile import reconcile_items
+from app.services.enrichment import enrich_items_from_pages
+from app.services.reconcile import reconcile_items, type_prefixed_slug
 from app.utils.mw_api import MediaWikiClient
 from scrapers import PARSER_VERSION, PARSERS, TRACKED_PAGES  # type: ignore
 from scrapers.wikitext import render_item_data
@@ -17,20 +18,6 @@ if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
-
-
-def _type_prefixed_slug(item_type: str, slug: str) -> str:
-    """Namespace an item slug with its item type.
-
-    ``items.slug`` is globally unique, but the same name can exist under
-    different types (a "Dredge Master" NPC and a "Dredge Master" quest). Using
-    the type as a prefix makes every slug deterministic and independent of the
-    order pages happen to be scraped in.
-    """
-    prefix = item_type.strip().lower().replace("_", "-")
-    if not prefix:
-        return slug
-    return f"{prefix}-{slug}"
 
 
 async def check_for_game_update(db: "AsyncSession", client: MediaWikiClient) -> bool:
@@ -124,6 +111,7 @@ async def _run_scrape(
     pages_changed = 0
     pages_errors = 0
     error_log = []
+    enriched: dict = {}
 
     try:
         if incremental:
@@ -150,6 +138,18 @@ async def _run_scrape(
                 error_log.append(f"{title}: {e}")
                 logger.error("Failed to scrape %s: %s", title, e)
 
+        # The items that have a page of their own fill in the fields the index
+        # pages left empty. This runs after the index pages so it can fill
+        # them, and before reconciliation so a new item is merged like any
+        # other.
+        try:
+            enriched = await enrich_items_from_pages(db, client)
+        except Exception as e:
+            pages_errors += 1
+            error_log.append(f"enrichment: {e}")
+            logger.exception("Item enrichment failed")
+            enriched = {}
+
     finally:
         await client.close()
 
@@ -174,6 +174,7 @@ async def _run_scrape(
         "pages_scraped": pages_scraped,
         "pages_changed": pages_changed,
         "pages_errors": pages_errors,
+        "enriched": enriched,
         "reconciled": reconciled,
     }
 
@@ -273,7 +274,7 @@ async def scrape_page(
             or item_data.get("id")
             or item_data["name"].lower().replace(" ", "-")
         )
-        slug = _type_prefixed_slug(item_data["type"], base_slug)
+        slug = type_prefixed_slug(item_data["type"], base_slug)
         if slug in seen_slugs:
             logger.warning("Duplicate slug %r on %s; keeping first occurrence", slug, title)
             continue

@@ -12,7 +12,7 @@ dashboard choose **New → Blueprint** and point it at this repository.
 ## Services
 
 ### web (FastAPI)
-- Build: Docker (`Dockerfile` — installs `requirements.txt` and `requirements-r.txt`)
+- Build: Docker (`Dockerfile` — installs `requirements.txt`; the optional R bridge is not built)
 - Start: `python -m app.main`
 - Environment variables from `.env` (or Render secrets)
 - Health checks at `/api/v1/health/health/ready`

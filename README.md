@@ -35,8 +35,8 @@ Think of PICK as a companion layer on top of the wiki: structured data, calculat
 ## Tech stack
 
 - Python 3.11+, FastAPI, PostgreSQL (async SQLAlchemy)
-- R for statistical analysis (rpy2 bridge)
 - React + TypeScript + Vite frontend
+- Optional R + rpy2 statistical bridge for the calculators (not built by default; the API falls back to pure-Python approximations — see SETUP.md)
 - Docker Compose for local development
 - GitHub Actions for CI/CD and frontend deployment
 

@@ -60,22 +60,30 @@ To enable Reddit news fetching, you need to create a Reddit "Script App":
 
 ### Python dependencies
 
-`requirements.txt` installs everywhere. The R statistical bridge lives in
-`requirements-r.txt` because `rpy2` has no binary wheel and must be compiled
-against a local R installation:
+`requirements.txt` is all you need for the standard setup:
 
 ```bash
-# Base install (no R needed)
 pip install -r requirements.txt
+```
 
-# Optional R bridge; requires R first
-# Debian/Ubuntu: sudo apt-get install -y r-base
+### Optional: R statistical bridge
+
+The R statistical bridge (`app/services/r_stats.py`, via `rpy2`) is **not installed
+by default** — neither the Docker image nor CI build it. `rpy2` has no binary wheel
+and must be compiled against a local R installation, and the R path is being rebuilt
+together with the calculators. Until then the API uses the pure-Python
+approximations and the `tests/test_r_stats.py` R-backed tests skip automatically.
+
+To enable it locally, install R first and then the extra requirements:
+
+```bash
+# Debian/Ubuntu
+sudo apt-get install -y r-base
 pip install -r requirements-r.txt
 ```
 
-Without `rpy2` the API still runs: `app/services/r_stats.py` falls back to the
-pure-Python approximation and the R-backed tests are skipped. The Docker image
-installs both, so `docker compose up` has the full R path available.
+With R + `rpy2` present, `R_AVAILABLE` becomes `True` and the R-backed tests and
+calculator paths run instead of skipping.
 
 ### Start Backend + Database
 
@@ -241,7 +249,7 @@ npm run build
 │   ├── public/          # Static files
 │   └── dist/            # Build output (gitignored)
 ├── requirements.txt       # Python dependencies
-├── requirements-r.txt     # Optional R statistical bridge (rpy2, numpy)
+├── requirements-r.txt     # Optional R statistical bridge (rpy2, numpy) — not built by default
 ├── pyproject.toml         # Python project config
 ├── README.md              # Project overview
 ├── ROADMAP.md             # Implementation phases

@@ -57,6 +57,9 @@ poetry.lock
 # pdm
 .pdm.toml
 
+# uv
+uv.lock
+
 # Environments
 .env
 .venv

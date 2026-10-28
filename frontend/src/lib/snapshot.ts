@@ -1,9 +1,9 @@
-import type { ItemResponse } from "@/api/pick.schemas";
 import request from "@/api/client";
 import { dbGet, dbPut, dbClear } from "./idb";
 import type {
   Formula,
   GameVersion,
+  Item,
   ItemType,
   LastScrape,
   PICKSnapshot,
@@ -22,6 +22,7 @@ const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, ""
 export type {
   Formula,
   GameVersion,
+  Item,
   ItemType,
   LastScrape,
   PICKSnapshot,
@@ -32,7 +33,6 @@ export type {
 export type SnapshotCounts = PICKSnapshot["counts"];
 export type SnapshotFormula = Formula;
 export type SnapshotWikiPage = WikiPage;
-export type SnapshotItem = PICKSnapshot["items"][number];
 
 export interface GameVersionResponse {
   version: string | null;
@@ -67,7 +67,7 @@ export interface SnapshotData {
   taxonomy: TaxonomyEntry[];
   generated_at: string;
   counts: SnapshotCounts;
-  items: ItemResponse[];
+  items: Item[];
   formulas: SnapshotFormula[];
   wiki_pages: SnapshotWikiPage[];
   meta: SnapshotMeta;
@@ -234,16 +234,16 @@ export class SnapshotCache {
     return data;
   }
 
-  getItems(data: SnapshotData): ItemResponse[] {
+  getItems(data: SnapshotData): Item[] {
     return data.items;
   }
 
-  getItem(data: SnapshotData, slug: string): ItemResponse | undefined {
+  getItem(data: SnapshotData, slug: string): Item | undefined {
     return data.items.find((i) => i.slug === slug);
   }
 
-  getTypes(data: SnapshotData): string[] {
-    return Array.from(new Set(data.items.map((i) => i.type))).filter((t): t is string => t != null).sort();
+  getTypes(data: SnapshotData): ItemType[] {
+    return Array.from(new Set(data.items.map((i) => i.type))).sort();
   }
 
   searchItems(
@@ -251,7 +251,7 @@ export class SnapshotCache {
     query: string,
     type?: string | null,
     location?: string | null
-  ): ItemResponse[] {
+  ): Item[] {
     let list = data.items;
     if (type) list = list.filter((i) => i.type === type);
     if (query) {
@@ -264,7 +264,7 @@ export class SnapshotCache {
     if (location) {
       const loc = location.toLowerCase();
       list = list.filter((i) => {
-        const dataStr = JSON.stringify(i.data ?? {}).toLowerCase();
+        const dataStr = JSON.stringify(i.data).toLowerCase();
         return dataStr.includes(loc);
       });
     }

@@ -7,23 +7,18 @@ import {
   calculateTTG,
   calculateModifierOdds,
   calculateBestPan,
+  type EVOutput,
+  type TTGOutput,
+  type ModifierOddsOutput,
+  type BestPanOutput,
 } from '@/lib/calculators'
 import {
   calculateMuseumOptimizer,
+  type MuseumOptimizerOutput,
 } from '@/lib/museum'
 import { snapshotCache } from '@/lib/snapshot'
 import type { SnapshotData } from '@/lib/snapshot'
 import { FormulasTab, MasteryTab, MutationsTab } from '@/components/calculators/reference'
-import type {
-  EVResponse,
-  TTGResponse,
-  ModifierOddsResponse,
-  BestPanResponse,
-  MuseumCalculatorResponse,
-  PanRecommendation,
-  PanRecommendationPan,
-  SlotRecommendation,
-} from '@/api/pick.schemas'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
@@ -103,21 +98,21 @@ export default function CalculatorsPage() {
   const [evDropTable, setEvDropTable] = useState<EvRow[]>([
     { name: '', base_price: 0, base_weight: 1, rarity: 'common' },
   ])
-  const [evResult, setEvResult] = useState<EVResponse | null>(null)
+  const [evResult, setEvResult] = useState<EVOutput | null>(null)
   const [evSubmitting, setEvSubmitting] = useState(false)
 
   const ttgForm = useForm<z.infer<typeof ttgSchema>>({
     resolver: zodResolver(ttgSchema),
     defaultValues: { goal_value: 1000000, location_ev_per_pan: 0, capacity: 100, dig_strength: 50, dig_speed: 100, shake_strength: 50, shake_speed: 500 },
   })
-  const [ttgResult, setTtgResult] = useState<TTGResponse | null>(null)
+  const [ttgResult, setTtgResult] = useState<TTGOutput | null>(null)
   const [ttgSubmitting, setTtgSubmitting] = useState(false)
 
   const morForm = useForm<z.infer<typeof morSchema>>({
     resolver: zodResolver(morSchema),
     defaultValues: { panel_modifier_boost: 0, solar_magnifier: false, modifier_surge: false },
   })
-  const [morResult, setMorResult] = useState<ModifierOddsResponse | null>(null)
+  const [morResult, setMorResult] = useState<ModifierOddsOutput | null>(null)
   const [morSubmitting, setMorSubmitting] = useState(false)
 
   const bpgForm = useForm<z.infer<typeof bpgSchema>>({
@@ -127,7 +122,7 @@ export default function CalculatorsPage() {
   const [bpgPans, setBpgPans] = useState<BpgPan[]>([
     { name: '', capacity: 50, dig_strength: 10, shake_strength: 10, shake_speed: 100, luck: 0, size_boost: 0, modifier_boost: 0 },
   ])
-  const [bpgResult, setBpgResult] = useState<BestPanResponse | null>(null)
+  const [bpgResult, setBpgResult] = useState<BestPanOutput | null>(null)
   const [bpgSubmitting, setBpgSubmitting] = useState(false)
 
   const museumForm = useForm<z.infer<typeof museumSchema>>({
@@ -137,7 +132,7 @@ export default function CalculatorsPage() {
   const [museumOres, setMuseumOres] = useState<MuseumOre[]>([
     { name: '', rarity: 'common', kg: 0, modifier: null },
   ])
-  const [museumResult, setMuseumResult] = useState<MuseumCalculatorResponse | null>(null)
+  const [museumResult, setMuseumResult] = useState<MuseumOptimizerOutput | null>(null)
   const [museumSubmitting, setMuseumSubmitting] = useState(false)
 
   const [snapshot, setSnapshot] = useState<SnapshotData | null>(null)
@@ -162,14 +157,7 @@ export default function CalculatorsPage() {
         modifierSurge: values.modifier_surge,
         capacity: values.capacity,
       })
-      setEvResult({
-        ev_per_pan: result.evPerPan,
-        items_per_pan: result.itemsPerPan,
-        quality_multiplier: result.qualityMultiplier,
-        effective_modifier_boost: result.effectiveModifierBoost,
-        modifier_distribution: result.modifierDistribution,
-        pct_modified: result.pctModified,
-      })
+      setEvResult(result)
     } finally {
       setEvSubmitting(false)
     }
@@ -187,15 +175,7 @@ export default function CalculatorsPage() {
         shakeStrength: values.shake_strength,
         shakeSpeed: values.shake_speed,
       })
-      setTtgResult({
-        hours_to_goal: result.hoursToGoal,
-        pans_per_hour: result.pansPerHour,
-        ev_per_hour: result.evPerHour,
-        ev_per_pan: result.evPerPan,
-        digs_per_pan: result.digsPerPan,
-        dig_time_per_dig: result.digTimePerDig,
-        shake_time: result.shakeTime,
-      })
+      setTtgResult(result)
     } finally {
       setTtgSubmitting(false)
     }
@@ -209,13 +189,7 @@ export default function CalculatorsPage() {
         solarMagnifier: values.solar_magnifier,
         modifierSurge: values.modifier_surge,
       })
-      setMorResult({
-        effective_modifier_boost_job1: result.effectiveModifierBoostJob1,
-        effective_modifier_boost_job2: result.effectiveModifierBoostJob2,
-        pct_ores_modified: result.pctOresModified,
-        modifier_distribution: result.modifierDistribution,
-        note: result.note,
-      })
+      setMorResult(result)
     } finally {
       setMorSubmitting(false)
     }
@@ -258,19 +232,7 @@ export default function CalculatorsPage() {
         minSizeBoost: values.min_size_boost || undefined,
         minModifierBoost: values.min_modifier_boost || undefined,
       })
-      setBpgResult({
-        criteria: result.criteria,
-        recommendations: result.recommendations.map((rec) => ({
-          pan: rec.pan as unknown as PanRecommendationPan,
-          score: rec.score,
-          capacity: rec.capacity,
-          digs_per_pan: rec.digsPerPan,
-          pans_per_hour: rec.pansPerHour,
-          luck: rec.luck,
-          size_boost: rec.sizeBoost,
-          modifier_boost: rec.modifierBoost,
-        })),
-      })
+      setBpgResult(result)
     } finally {
       setBpgSubmitting(false)
     }
@@ -309,36 +271,7 @@ export default function CalculatorsPage() {
         sizeBoost: values.size_boost,
       })
 
-      setMuseumResult({
-        slot_recommendations: result.slot_recommendations.map((rec) => ({
-          slot_id: rec.slot_id,
-          rarity: rec.rarity,
-          slot_index: rec.slot_index,
-          current_ore: rec.current_ore,
-          current_kg: rec.current_kg,
-          current_modifier: rec.current_modifier,
-          current_boost: rec.current_boost,
-          effective_boost: rec.current_boost,
-          ore_kg: rec.current_kg,
-          score: 0,
-          modifier: rec.current_modifier,
-          best_available_ore: rec.best_available_ore,
-          recommended_ore: rec.best_available_ore ?? rec.current_ore ?? '',
-          best_available_kg: rec.best_available_kg,
-          best_available_modifier: rec.best_available_modifier,
-          best_boost: rec.best_boost,
-          stat_deltas: rec.stat_deltas,
-          recommendation: rec.recommendation,
-        })),
-        total_stats: result.total_stats,
-        by_rarity: result.by_rarity,
-        unlock_costs: {
-          next_unlock: null,
-          total_remaining_money: result.unlock_costs.money_cost,
-          total_remaining_shards: result.unlock_costs.shards_cost,
-        },
-        weight_gate_info: result.weight_gate_info,
-      })
+      setMuseumResult(result)
     } finally {
       setMuseumSubmitting(false)
     }
@@ -477,11 +410,11 @@ export default function CalculatorsPage() {
               <Card>
                 <CardHeader><CardTitle>EV Result</CardTitle></CardHeader>
                 <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {statRow('EV / pan', evResult.ev_per_pan ?? '—')}
-                  {statRow('Items / pan', evResult.items_per_pan ?? '—')}
-                  {statRow('Quality mult.', evResult.quality_multiplier ?? '—')}
-                  {statRow('Effective modifier boost', evResult.effective_modifier_boost ?? '—')}
-                  {statRow('% modified', evResult.pct_modified ?? '—')}
+                  {statRow('EV / pan', evResult.evPerPan ?? '—')}
+                  {statRow('Items / pan', evResult.itemsPerPan ?? '—')}
+                  {statRow('Quality mult.', evResult.qualityMultiplier ?? '—')}
+                  {statRow('Effective modifier boost', evResult.effectiveModifierBoost ?? '—')}
+                  {statRow('% modified', evResult.pctModified ?? '—')}
                 </CardContent>
               </Card>
             )}
@@ -506,13 +439,13 @@ export default function CalculatorsPage() {
               <Card>
                 <CardHeader><CardTitle>TTG Result</CardTitle></CardHeader>
                 <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {statRow('Hours to goal', ttgResult.hours_to_goal ?? '—')}
-                  {statRow('Pans / hour', ttgResult.pans_per_hour ?? '—')}
-                  {statRow('EV / hour', ttgResult.ev_per_hour ?? '—')}
-                  {statRow('EV / pan', ttgResult.ev_per_pan ?? '—')}
-                  {statRow('Digs / pan', ttgResult.digs_per_pan ?? '—')}
-                  {statRow('Dig time / dig', ttgResult.dig_time_per_dig ?? '—')}
-                  {statRow('Shake time', ttgResult.shake_time ?? '—')}
+                  {statRow('Hours to goal', ttgResult.hoursToGoal ?? '—')}
+                  {statRow('Pans / hour', ttgResult.pansPerHour ?? '—')}
+                  {statRow('EV / hour', ttgResult.evPerHour ?? '—')}
+                  {statRow('EV / pan', ttgResult.evPerPan ?? '—')}
+                  {statRow('Digs / pan', ttgResult.digsPerPan ?? '—')}
+                  {statRow('Dig time / dig', ttgResult.digTimePerDig ?? '—')}
+                  {statRow('Shake time', ttgResult.shakeTime ?? '—')}
                 </CardContent>
               </Card>
             )}
@@ -539,14 +472,14 @@ export default function CalculatorsPage() {
               <Card>
                 <CardHeader><CardTitle>Modifier Odds</CardTitle></CardHeader>
                 <CardContent className="space-y-3">
-                  {statRow('Effective boost (job 1)', morResult.effective_modifier_boost_job1 ?? '—')}
-                  {statRow('Effective boost (job 2)', morResult.effective_modifier_boost_job2 ?? '—')}
-                  {statRow('% ores modified', morResult.pct_ores_modified ?? '—')}
+                  {statRow('Effective boost (job 1)', morResult.effectiveModifierBoostJob1 ?? '—')}
+                  {statRow('Effective boost (job 2)', morResult.effectiveModifierBoostJob2 ?? '—')}
+                  {statRow('% ores modified', morResult.pctOresModified ?? '—')}
                   {morResult.note && <p className="text-sm text-muted-foreground">{morResult.note}</p>}
                   <div>
                     <h3 className="text-sm font-semibold mb-2">Modifier distribution</h3>
                     <div className="grid grid-cols-3 gap-2 text-sm">
-                      {Object.entries(morResult.modifier_distribution ?? {}).map(([mod, pct]) => (
+                      {Object.entries(morResult.modifierDistribution ?? {}).map(([mod, pct]) => (
                         <div key={mod} className="flex justify-between">
                           <span className="text-muted-foreground">{mod}</span>
                           <span>{Number(pct).toFixed(1)}%</span>
@@ -627,15 +560,15 @@ export default function CalculatorsPage() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {bpgResult.recommendations.map((rec: PanRecommendation, i: number) => (
+                        {bpgResult.recommendations.map((rec, i: number) => (
                           <TableRow key={i}>
                             <TableCell className="font-medium">{String(rec.pan?.name) ?? '—'}</TableCell>
                             <TableCell className="text-right">{rec.score?.toFixed(1) ?? '—'}</TableCell>
                             <TableCell className="text-right">{rec.capacity ?? '—'}</TableCell>
-                            <TableCell className="text-right">{rec.pans_per_hour?.toFixed(1) ?? '—'}</TableCell>
+                            <TableCell className="text-right">{rec.pansPerHour?.toFixed(1) ?? '—'}</TableCell>
                             <TableCell className="text-right">{rec.luck ?? '—'}</TableCell>
-                            <TableCell className="text-right">{rec.size_boost ?? '—'}</TableCell>
-                            <TableCell className="text-right">{rec.modifier_boost ?? '—'}</TableCell>
+                            <TableCell className="text-right">{rec.sizeBoost ?? '—'}</TableCell>
+                            <TableCell className="text-right">{rec.modifierBoost ?? '—'}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -699,10 +632,10 @@ export default function CalculatorsPage() {
                     <div>
                       <h3 className="text-sm font-semibold mb-2">Slot recommendations</h3>
                       <div className="grid grid-cols-3 gap-2 text-sm">
-                        {museumResult.slot_recommendations.map((rec: SlotRecommendation, i: number) => (
+                        {museumResult.slot_recommendations.map((rec, i: number) => (
                           <div key={i} className="flex justify-between">
                             <span className="text-muted-foreground">{rec.slot_id ?? `Slot ${i + 1}`}</span>
-                            <span>{rec.recommended_ore ?? '—'}</span>
+                            <span>{rec.best_available_ore ?? rec.current_ore ?? '—'}</span>
                           </div>
                         ))}
                       </div>

@@ -1,4 +1,4 @@
-import type { ItemResponse } from "@/api/pick.schemas"
+import type { Item } from "@/lib/snapshot.types"
 import {
   BulletList,
   Field,
@@ -63,7 +63,7 @@ export function ItemDetailShell({
   item,
   children,
 }: {
-  item: ItemResponse
+  item: Item
   children: React.ReactNode
 }) {
   const data = (item.data ?? {}) as ItemData
@@ -86,7 +86,7 @@ export function ItemDetailShell({
 /**
  * The tools of the game: pans, shovels and sluices share their shape.
  */
-export function ToolDetail({ item }: { item: ItemResponse }) {
+export function ToolDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
   const statModifiers = modifiers(data)
   const enchantments = records(data, "enchantments")
@@ -166,7 +166,7 @@ function Recipe({ text }: { text: string }) {
 /**
  * Equipment: a slot, a recipe and the stats it rolls.
  */
-export function EquipmentDetail({ item }: { item: ItemResponse }) {
+export function EquipmentDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
   const statModifiers = modifiers(data)
   const blueprint = data["blueprint"] as Record<string, unknown> | undefined
@@ -261,7 +261,7 @@ export function EquipmentDetail({ item }: { item: ItemResponse }) {
 /**
  * A mineral and the places it can be dug up.
  */
-export function MineralDetail({ item }: { item: ItemResponse }) {
+export function MineralDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
   const chances = records(data, "chances")
   const recipes = records(data, "recipes")
@@ -373,7 +373,7 @@ export function MineralDetail({ item }: { item: ItemResponse }) {
 /**
  * An ore that can be placed in a museum display.
  */
-export function MuseumOreDetail({ item }: { item: ItemResponse }) {
+export function MuseumOreDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
   const statModifiers = modifiers(data)
 
@@ -403,7 +403,7 @@ export function MuseumOreDetail({ item }: { item: ItemResponse }) {
 /**
  * A potion: what it costs, what it grants and where to buy it.
  */
-export function PotionDetail({ item }: { item: ItemResponse }) {
+export function PotionDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
   const statModifiers = modifiers(data)
   const merchant = data["merchant"] as Record<string, unknown> | undefined
@@ -463,7 +463,7 @@ export function PotionDetail({ item }: { item: ItemResponse }) {
 /**
  * A consumable: an item that is used up, like a flare or a token.
  */
-export function ConsumableDetail({ item }: { item: ItemResponse }) {
+export function ConsumableDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
   const statModifiers = modifiers(data)
   const merchant = data["merchant"] as Record<string, unknown> | undefined
@@ -536,7 +536,7 @@ export function ConsumableDetail({ item }: { item: ItemResponse }) {
 /**
  * A relic: what it does, where to get it and how to use it.
  */
-export function RelicDetail({ item }: { item: ItemResponse }) {
+export function RelicDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
 
   return (
@@ -568,7 +568,7 @@ export function RelicDetail({ item }: { item: ItemResponse }) {
 /**
  * A quest: who gives it, what it needs and what it pays.
  */
-export function QuestDetail({ item }: { item: ItemResponse }) {
+export function QuestDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
   const statModifiers = modifiers(data)
 
@@ -600,7 +600,7 @@ export function QuestDetail({ item }: { item: ItemResponse }) {
 /**
  * A mastery: the quest that raises it and what it grants.
  */
-export function MasteryDetail({ item }: { item: ItemResponse }) {
+export function MasteryDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
   const statModifiers = modifiers(data)
 
@@ -634,7 +634,7 @@ export function MasteryDetail({ item }: { item: ItemResponse }) {
 /**
  * A blueprint: what it makes and how to get it.
  */
-export function BlueprintDetail({ item }: { item: ItemResponse }) {
+export function BlueprintDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
   const steps = records(data, "quest_steps")
 
@@ -694,7 +694,7 @@ export function BlueprintDetail({ item }: { item: ItemResponse }) {
 /**
  * A rune: what it does and where to find it.
  */
-export function RuneDetail({ item }: { item: ItemResponse }) {
+export function RuneDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
   const statModifiers = modifiers(data)
 
@@ -715,7 +715,7 @@ export function RuneDetail({ item }: { item: ItemResponse }) {
 /**
  * An enchantment and the book it is read from.
  */
-export function EnchantmentDetail({ item }: { item: ItemResponse }) {
+export function EnchantmentDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
   const statModifiers = modifiers(data)
 
@@ -741,7 +741,7 @@ export function EnchantmentDetail({ item }: { item: ItemResponse }) {
 /**
  * A formula from the stat systems guide.
  */
-export function FormulaDetail({ item }: { item: ItemResponse }) {
+export function FormulaDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
 
   return (
@@ -768,7 +768,7 @@ export function FormulaDetail({ item }: { item: ItemResponse }) {
 /**
  * An NPC and the places it turns up.
  */
-export function NpcDetail({ item }: { item: ItemResponse }) {
+export function NpcDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
 
   return (
@@ -789,7 +789,7 @@ export function NpcDetail({ item }: { item: ItemResponse }) {
 /**
  * A location, an event or any other place in the world.
  */
-export function LocationDetail({ item }: { item: ItemResponse }) {
+export function LocationDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
 
   return (
@@ -814,7 +814,7 @@ export function LocationDetail({ item }: { item: ItemResponse }) {
 /**
  * Treasure chests and treasure maps.
  */
-export function TreasureDetail({ item }: { item: ItemResponse }) {
+export function TreasureDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
   const loot = records(data, "loot")
 
@@ -851,7 +851,7 @@ export function TreasureDetail({ item }: { item: ItemResponse }) {
 /**
  * A museum, its displays and how it works.
  */
-export function MuseumDetail({ item }: { item: ItemResponse }) {
+export function MuseumDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
 
   return (
@@ -891,7 +891,7 @@ export function MuseumDetail({ item }: { item: ItemResponse }) {
 /**
  * An excavation: its sites, its levels and what it drops.
  */
-export function ExcavationDetail({ item }: { item: ItemResponse }) {
+export function ExcavationDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
 
   return (
@@ -919,7 +919,7 @@ export function ExcavationDetail({ item }: { item: ItemResponse }) {
 /**
  * A geode and where it is dug up.
  */
-export function GeodeDetail({ item }: { item: ItemResponse }) {
+export function GeodeDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
 
   return (
@@ -937,7 +937,7 @@ export function GeodeDetail({ item }: { item: ItemResponse }) {
 /**
  * A modifier: what it changes and how it is bought.
  */
-export function ModifierDetail({ item }: { item: ItemResponse }) {
+export function ModifierDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
   const statModifiers = modifiers(data)
 
@@ -976,7 +976,7 @@ export function ModifierDetail({ item }: { item: ItemResponse }) {
 /**
  * A trinket and where it is bought.
  */
-export function TrinketDetail({ item }: { item: ItemResponse }) {
+export function TrinketDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
 
   return (
@@ -995,7 +995,7 @@ export function TrinketDetail({ item }: { item: ItemResponse }) {
 /**
  * A merchant listing that has no item of its own, e.g. a backpack.
  */
-export function MerchantItemDetail({ item }: { item: ItemResponse }) {
+export function MerchantItemDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
 
   return (
@@ -1021,7 +1021,7 @@ export function MerchantItemDetail({ item }: { item: ItemResponse }) {
 /**
  * The fallback for a type without its own view: list what is known.
  */
-export function FallbackDetail({ item }: { item: ItemResponse }) {
+export function FallbackDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
 
   const entries = Object.entries(data).filter(([, value]) => {
@@ -1054,7 +1054,7 @@ export function FallbackDetail({ item }: { item: ItemResponse }) {
 /**
  * An excavation site: what it costs, how long it takes and what it drops.
  */
-export function ExcavationSiteDetail({ item }: { item: ItemResponse }) {
+export function ExcavationSiteDetail({ item }: { item: Item }) {
   const data = (item.data ?? {}) as ItemData
   const drops = records(data, "drops")
 
@@ -1096,7 +1096,7 @@ export function ExcavationSiteDetail({ item }: { item: ItemResponse }) {
 /**
  * The detail view to use for an item, by its type.
  */
-const DETAILS: Record<string, (props: { item: ItemResponse }) => React.ReactElement> = {
+const DETAILS: Record<string, (props: { item: Item }) => React.ReactElement> = {
   pan: ToolDetail,
   shovel: ToolDetail,
   sluice: ToolDetail,
@@ -1131,7 +1131,7 @@ const DETAILS: Record<string, (props: { item: ItemResponse }) => React.ReactElem
 /**
  * Render the details of an item.
  */
-export function ItemDetail({ item }: { item: ItemResponse }) {
+export function ItemDetail({ item }: { item: Item }) {
   const Detail = DETAILS[item.type] ?? FallbackDetail
   return <Detail item={item} />
 }

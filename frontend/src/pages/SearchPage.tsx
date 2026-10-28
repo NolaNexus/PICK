@@ -17,7 +17,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/modal'
-import type { ItemResponse } from '@/api/pick.schemas'
+import type { Item } from '@/lib/snapshot.types'
 
 export default function SearchPage() {
   const [query, setQuery] = useState('')
@@ -30,7 +30,7 @@ export default function SearchPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [syncError, setSyncError] = useState<Error | null>(null)
   const [isSyncing, setIsSyncing] = useState(false)
-  const [selectedItem, setSelectedItem] = useState<ItemResponse | null>(null)
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null)
   const debounced = useDebounce(query, 300)
   const loadedRef = useRef(false)
 

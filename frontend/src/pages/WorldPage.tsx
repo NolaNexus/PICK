@@ -3,9 +3,9 @@ import { useSnapshot } from "@/lib/hooks"
 import { ItemList } from "@/components/item-list"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import type { ItemResponse } from "@/api/pick.schemas"
+import type { ItemType } from "@/lib/snapshot.types"
 
-const SECTIONS = [
+const SECTIONS: { type: ItemType; label: string }[] = [
   { type: "npc", label: "NPCs" },
   { type: "quest", label: "Quests" },
   { type: "location", label: "Locations" },
@@ -15,7 +15,7 @@ const SECTIONS = [
 
 export default function WorldPage() {
   const { snapshot, taxonomy, loading } = useSnapshot()
-  const [section, setSection] = useState("npc")
+  const [section, setSection] = useState<ItemType>("npc")
 
   const items = useMemo(() => {
     if (!snapshot) return []
@@ -109,7 +109,7 @@ export default function WorldPage() {
         </div>
       ) : (
         <ItemList
-          items={items as ItemResponse[]}
+          items={items}
           taxonomy={taxonomy}
           emptyText="Nothing here yet."
         />

@@ -24,6 +24,30 @@ Covers `snapshot.schema.json`, `app/services/snapshot.py`, `scripts/export_snaps
 - Any new query in `build_snapshot()` needs an `ORDER BY`.
 - `_comparable()` also sorts rows before comparing them.
 
+## Known data-quality gaps
+
+These are in the published data, not in the contract. The contract is satisfied; the
+content is not always clean. Check the committed file before assuming a field is good.
+
+- **Raw wiki markup leaks into `data`.** 106 of 853 items carry unrendered markup.
+  104 minerals have `</div>` and `chances =` inside `data.chances[].location`, because
+  the item-page enrichment appends the drop table to the location text instead of
+  replacing it. 2 equipment items have a stray `}}</span>` in a quest reward.
+  `render_item_data()` in `scrapers/wikitext.py` handles the common cases but not these.
+- **Most items have no picture.** 455 of 853 items have `image_url: null`. Entire types
+  have none (enchantments, events, formulas, geodes, mastery, quests, treasure chests);
+  minerals are 90% covered. `image_url` is nullable in the schema, so this passes the
+  contract. `ItemImage` in the frontend renders a null source for every one of them.
+- **Seven types in the taxonomy have no items.** `blueprint`, `consumable`,
+  `merchant_item`, `museum_ore`, `excavation_reward`, `museum_display` and `museum_info`
+  are fragment types whose rows are folded into other items and then retired. They are in
+  the taxonomy so the client can name them, and they are not browsable.
+- **Eight minerals have no area.** `mineral-ashvein`, `mineral-aurorite`,
+  `mineral-borealite`, `mineral-emerald`, `mineral-forgotten-totem`, `mineral-iridium`,
+  `mineral-meteoric-gold` and `mineral-nautilus-shell` have no `data.areas`, so the
+  Minerals page cannot filter them. Seven of them have an empty `data.locations`; the
+  eighth names "Seashell Beach", which no location holds. The rest (106 of 114) resolve.
+
 ## Change detection
 
 - `_comparable()` in `scripts/export_snapshot.py` serialises the whole snapshot and strips

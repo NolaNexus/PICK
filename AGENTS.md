@@ -29,6 +29,26 @@ cd frontend && npm run typecheck && npm run test && npm run lint && npm run buil
   runners. Add no scrape workflows to CI, and no test may depend on the wiki.
 - **Target Python 3.11.** Local `.venv` is 3.14; CI runs 3.11 and 3.12. No 3.12+ syntax.
 
+## Known issues
+
+Do not re-derive these; they are already tracked. Check `ROADMAP.md` for the full list.
+
+- `ruff format` fails on `alembic/` (4 files). Outside CI's scope. Issue #8.
+- `src/lib/calculators.ts` and `src/lib/museum.ts` use tabs; everything else uses two
+  spaces. Match the file you are editing. Issue #7.
+- `calculateEV` uses `base_price` as the drop chance. Issue #6.
+- The museum calculator returns empty results. Issue #1.
+- mypy is **not** in strict mode. The seven type-error codes are on and the gate is
+  green, but `mypy --strict` reports 42 errors. Do not claim the typecheck is strict.
+  Issue #13.
+- 106 items in the committed snapshot carry raw wiki markup in `data`, and 455 of 853
+  have no `image_url`. Both pass the schema contract. Issue #9, issue #10. See
+  [snapshot-and-publishing.md](docs/agent-instructions/snapshot-and-publishing.md).
+- `app/logging_config.py`, `SlotComparison` in `frontend/src/lib/museum.ts` and
+  `frontend/.oxlintrc.json` are all dead. Issue #12.
+- `Codes`, `Changelog` and `Guides` are tracked with no parser, so they are never
+  fetched. Issue #11.
+
 ## Detailed guidance
 
 Read the linked file before changing its area. These are not loaded automatically.

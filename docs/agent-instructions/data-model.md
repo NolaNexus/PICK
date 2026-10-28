@@ -98,9 +98,17 @@ and `ck_items_slug_prefix`.
 
 ## Typecheck
 
-- mypy is strict. All seven error codes are enabled: `arg-type`, `assignment`,
-  `attr-defined`, `call-arg`, `index`, `misc`, `var-annotated`. Do not disable any of them.
+- mypy is not in strict mode: `pyproject.toml` sets no `strict = true`, and
+  `mypy --strict app/ scrapers/ scripts/` currently reports 42 errors across 16 files
+  (mostly `type-arg`, `no-untyped-def` and `no-any-return`). Treat those as the backlog,
+  not as a broken gate.
+- The seven error codes `arg-type`, `assignment`, `attr-defined`, `call-arg`, `index`,
+  `misc` and `var-annotated` are all **on**. They are on by default in mypy 2.4; the
+  project's `pyproject.toml` used to list them under `disable_error_code` and that list
+  was removed in `85b4553`. Do not re-add them, and do not disable them.
 - To see what a code would catch: `mypy app/ scrapers/ scripts/ --enable-error-code=<code>`.
+  Passing the flag on a code that is already on changes nothing; it is a way to inspect
+  a single code, not to turn one on.
 
 ## Known lint drift
 

@@ -34,7 +34,8 @@ Notes:
 - `pytest` needs `TEST_DATABASE_URL` to name a database ending in `_test`, or
   67 tests error with `UnsafeTestDatabaseError`. Create it once with
   `docker exec pick-db psql -U pick -d pick -c "CREATE DATABASE pick_test;"`.
-- `npm ci` / `npm install` need `--legacy-peer-deps` (React 19 peer ranges).
+- `npm ci` / `npm install` work without `--legacy-peer-deps`. The lockfile resolves
+  cleanly; the flag is not needed.
 - The Python dependencies are in `requirements.txt` and the test and lint tools
   are in `requirements-dev.txt`. Install both to work on the project.
 - There is no API client to regenerate. The only generated file is

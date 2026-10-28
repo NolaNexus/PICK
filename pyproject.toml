@@ -37,8 +37,17 @@ warn_unused_ignores = false
 # dict[str, Any]. Both are fixed, so the typecheck catches a wrong type, a
 # wrong attribute and a wrong call again.
 #
-# To see what a code would catch, run:
+# These seven codes (arg-type, assignment, attr-defined, call-arg, index,
+# misc, var-annotated) are on by default in mypy 2.4; the disable_error_code
+# list that used to switch them off was removed. Do not re-add it.
+#
+# This is not strict mode. `mypy --strict app/ scrapers/ scripts/` reports
+# 42 errors, mostly type-arg and no-untyped-def. That is the backlog.
+#
+# To see what a single code would catch, run:
 #     mypy app/ scrapers/ scripts/ --enable-error-code=<code>
+# For a code that is already on the flag changes nothing; it inspects rather
+# than enables.
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

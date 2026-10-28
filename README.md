@@ -107,7 +107,7 @@ committed snapshot, so no backend is needed for UI work.
 
 ```bash
 cd frontend
-npm install --legacy-peer-deps
+npm install
 npm run dev
 ```
 

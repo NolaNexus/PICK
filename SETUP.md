@@ -180,6 +180,10 @@ DATABASE_URL=postgresql+asyncpg://pick:pick@localhost:5432/pick
 
 # CORS allowed origins (comma-separated; use "*" for dev, list domains for prod)
 # CORS_ORIGINS=https://pick.example.com,https://www.pick.example.com
+```
+
+There is no HTTP server, so `CORS_ORIGINS` is not read by anything. It is a leftover
+from the API and can be deleted.
 
 ### Frontend Scripts
 
@@ -227,29 +231,34 @@ npm run build
 # The backend runs locally through Docker Compose; it is not deployed.
 ```
 
-```bash
-# Project Structure
+### Project Structure
 
-```
+```text
 ├── app/                    # Scraper and exporter
 │   ├── services/         # Business logic
 │   ├── models/           # SQLAlchemy models
 │   ├── utils/            # MediaWiki client
+│   ├── taxonomy.py       # Type taxonomy loader
 │   └── database.py       # Database setup
+├── alembic/               # Migrations (001-007)
+│   └── versions/
 ├── scrapers/              # Wiki page parsers
 ├── scripts/               # CLI tools
 ├── tests/                 # Test suite
+├── deploy/systemd/        # Refresh-job units
+├── docs/agent-instructions/  # Detailed guidance for agents
 ├── .github/              # GitHub Actions workflows
 ├── frontend/             # React + Vite frontend
 │   ├── src/             # Source code
-│   ├── public/          # Static files
+│   ├── public/          # Static files, including the committed snapshot.json
 │   └── dist/            # Build output (gitignored)
 ├── requirements.txt       # Python runtime dependencies
 ├── requirements-dev.txt   # Python test and lint tools
 ├── pyproject.toml         # Python project config
+├── snapshot.schema.json   # The published file's contract
 ├── README.md              # Project overview
-├── ROADMAP.md             # Implementation phases
-└── .kilo/                # Kilo planning system
+├── ROADMAP.md             # What shipped and what is open
+└── .kilo/                # Kilo planning system and slash commands
 ```
 
 ## Troubleshooting
@@ -270,7 +279,7 @@ docker ps | grep postgres
 # Clear cache and rebuild
 cd frontend
 rm -rf node_modules dist
-npm install --legacy-peer-deps
+npm install
 npm run build
 ```
 

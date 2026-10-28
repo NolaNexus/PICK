@@ -36,6 +36,8 @@ const SECTIONS = [
   },
 ]
 
+const STALE_AFTER_DAYS = 3
+
 export default function HomePage() {
   const { snapshot, taxonomy, loading } = useSnapshot()
 
@@ -59,6 +61,14 @@ export default function HomePage() {
       })
     : null
 
+  // The snapshot is refreshed by a job on the maintainer's machine. If it stops
+  // running the site keeps serving the last good data, so say so rather than
+  // letting the data quietly age.
+  const daysOld = snapshot?.generated_at
+    ? Math.floor((Date.now() - new Date(snapshot.generated_at).getTime()) / 86_400_000)
+    : null
+  const stale = daysOld !== null && daysOld >= STALE_AFTER_DAYS
+
   return (
     <div className="space-y-8">
       <section className="space-y-3">
@@ -70,6 +80,13 @@ export default function HomePage() {
           find them and what they do.
         </p>
       </section>
+
+      {stale && (
+        <p className="rounded-md border border-destructive/50 bg-destructive/5 px-3 py-2 text-sm text-destructive">
+          This data is {daysOld} days old. The refresh job may not be running, so treat it as a
+          last known good copy.
+        </p>
+      )}
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {SECTIONS.map((section) => {

@@ -64,10 +64,20 @@ def _wiki_page_row(page: WikiPage) -> dict:
 
 
 async def build_snapshot(db: AsyncSession) -> dict:
-    """Build the full public dataset snapshot dict from the database."""
-    items = (await db.execute(select(Item).where(Item.is_active.is_(True)))).scalars().all()
-    formulas = (await db.execute(select(Formula))).scalars().all()
-    wiki_pages = (await db.execute(select(WikiPage))).scalars().all()
+    """Build the full public dataset snapshot dict from the database.
+
+    The rows are ordered explicitly. Without an ORDER BY, PostgreSQL returns
+    rows in whatever order the plan happens to produce, and that order is not
+    stable between runs: the same data would then produce a different file
+    every time, and the export would commit it daily for no reason.
+    """
+    items = (
+        (await db.execute(select(Item).where(Item.is_active.is_(True)).order_by(Item.slug)))
+        .scalars()
+        .all()
+    )
+    formulas = (await db.execute(select(Formula).order_by(Formula.formula_id))).scalars().all()
+    wiki_pages = (await db.execute(select(WikiPage).order_by(WikiPage.title))).scalars().all()
     game_version = (
         await db.execute(select(GameVersion).order_by(GameVersion.detected_at.desc()).limit(1))
     ).scalar_one_or_none()

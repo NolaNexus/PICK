@@ -61,47 +61,61 @@ def _comparable_item_data(data):
 def _comparable(snapshot: dict) -> str:
     """Build a stable string representation used for change detection.
 
-    Only the content that the site renders is compared: scrape timestamps are
-    dropped because they change on every run.
+    Only the content that the site renders is compared. Scrape timestamps and
+    per-run telemetry (pages scraped/changed/errors) are dropped because they
+    differ on every run; keeping them would make every run look like a change
+    and commit the file once a day even when the wiki is quiet.
+
+    The rows are sorted before they are compared. The order the database
+    returns them in is not guaranteed, so comparing positionally would report
+    a change whenever the rows came back in a different order, even though
+    nothing about the data had changed.
     """
-    items = [
-        {
-            "id": item.get("id"),
-            "type": item.get("type"),
-            "wiki_id": item.get("wiki_id"),
-            "name": item.get("name"),
-            "slug": item.get("slug"),
-            "data": _comparable_item_data(item.get("data")),
-            "image_url": item.get("image_url"),
-            "description": item.get("description"),
-        }
-        for item in snapshot.get("items", [])
-    ]
-    formulas = [
-        {
-            "formula_id": formula.get("formula_id"),
-            "name": formula.get("name"),
-            "description": formula.get("description"),
-            "formula": formula.get("formula"),
-            "params": formula.get("params"),
-            "confidence": formula.get("confidence"),
-            "source_url": formula.get("source_url"),
-            "patch_version": formula.get("patch_version"),
-        }
-        for formula in snapshot.get("formulas", [])
-    ]
-    wiki_pages = [
-        {
-            "title": page.get("title"),
-            "page_id": page.get("page_id"),
-            "last_revision_id": page.get("last_revision_id"),
-            "content_hash": page.get("content_hash"),
-            "namespace": page.get("namespace"),
-        }
-        for page in snapshot.get("wiki_pages", [])
-    ]
+    items = sorted(
+        (
+            {
+                "type": item.get("type"),
+                "wiki_id": item.get("wiki_id"),
+                "name": item.get("name"),
+                "slug": item.get("slug"),
+                "data": _comparable_item_data(item.get("data")),
+                "image_url": item.get("image_url"),
+                "description": item.get("description"),
+            }
+            for item in snapshot.get("items", [])
+        ),
+        key=lambda item: (str(item["slug"]), str(item["type"])),
+    )
+    formulas = sorted(
+        (
+            {
+                "formula_id": formula.get("formula_id"),
+                "name": formula.get("name"),
+                "description": formula.get("description"),
+                "formula": formula.get("formula"),
+                "params": formula.get("params"),
+                "confidence": formula.get("confidence"),
+                "source_url": formula.get("source_url"),
+                "patch_version": formula.get("patch_version"),
+            }
+            for formula in snapshot.get("formulas", [])
+        ),
+        key=lambda formula: str(formula["formula_id"]),
+    )
+    wiki_pages = sorted(
+        (
+            {
+                "title": page.get("title"),
+                "page_id": page.get("page_id"),
+                "last_revision_id": page.get("last_revision_id"),
+                "content_hash": page.get("content_hash"),
+                "namespace": page.get("namespace"),
+            }
+            for page in snapshot.get("wiki_pages", [])
+        ),
+        key=lambda page: str(page["title"]),
+    )
     game_version = snapshot.get("game_version") or {}
-    last_scrape = snapshot.get("last_scrape") or {}
 
     comparable = {
         "schema_version": snapshot.get("schema_version"),
@@ -110,21 +124,20 @@ def _comparable(snapshot: dict) -> str:
         "formulas": formulas,
         "wiki_pages": wiki_pages,
         "game_version": game_version.get("version"),
-        "last_scrape": {
-            "status": last_scrape.get("status"),
-            "pages_scraped": last_scrape.get("pages_scraped"),
-            "pages_changed": last_scrape.get("pages_changed"),
-            "pages_errors": last_scrape.get("pages_errors"),
-        },
     }
     return json.dumps(comparable, sort_keys=True, default=str)
 
 
-async def export_snapshot(output_path: str = OUTPUT_PATH, force: bool = False) -> dict:
+async def export_snapshot(
+    output_path: str = OUTPUT_PATH,
+    force: bool = False,
+    check: bool = False,
+) -> dict:
     """Build the snapshot and write it to disk only if it changed.
 
     Refuses to write a snapshot that would erase the catalogue. Pass
     ``force`` when the drop is real (a game update that removed items).
+    ``check`` reports what would happen without touching the file.
     """
     snapshot = await _build_snapshot_async()
 
@@ -147,7 +160,7 @@ async def export_snapshot(output_path: str = OUTPUT_PATH, force: bool = False) -
         if _comparable(existing) == _comparable(snapshot):
             changed = False
 
-    if changed:
+    if changed and not check:
         os.makedirs(os.path.dirname(abs_path), exist_ok=True)
         with open(abs_path, "w", encoding="utf-8") as f:
             json.dump(snapshot, f, indent=2)
@@ -155,6 +168,7 @@ async def export_snapshot(output_path: str = OUTPUT_PATH, force: bool = False) -
     return {
         "status": "ok",
         "changed": changed,
+        "written": changed and not check,
         "output": abs_path,
         "counts": snapshot["counts"],
     }
@@ -178,8 +192,13 @@ async def main() -> int:
         action="store_true",
         help="Write even when the item count drops sharply",
     )
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Report whether the snapshot would change without writing it",
+    )
     args = parser.parse_args()
-    result = await export_snapshot(args.output, force=args.force)
+    result = await export_snapshot(args.output, force=args.force, check=args.check)
     print(json.dumps(result, indent=2))
     return 0 if result["status"] == "ok" else 1
 

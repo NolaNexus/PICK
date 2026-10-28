@@ -83,8 +83,8 @@ export default function HomePage() {
 
       {stale && (
         <p className="rounded-md border border-destructive/50 bg-destructive/5 px-3 py-2 text-sm text-destructive">
-          This data is {daysOld} days old. The refresh job may not be running, so treat it as a
-          last known good copy.
+          This data was last updated {daysOld} days ago. The wiki may not have changed since
+          then, or the refresh job may have stopped.
         </p>
       )}
 

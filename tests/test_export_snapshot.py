@@ -57,11 +57,81 @@ def test_timestamps_alone_are_not_a_change():
     assert _comparable(first) == _comparable(second)
 
 
+def test_scrape_telemetry_is_not_a_change():
+    """Per-run counters differ every time and must not force a rewrite."""
+    first = _snapshot()
+    second = _snapshot()
+    second["last_scrape"]["status"] = "partial"
+    second["last_scrape"]["pages_scraped"] = 111
+    second["last_scrape"]["pages_changed"] = 7
+    second["last_scrape"]["pages_errors"] = 2
+
+    assert _comparable(first) == _comparable(second)
+
+
 def test_item_content_change_is_detected():
     """A changed item value is a real change."""
     first = _snapshot()
     second = _snapshot()
     second["items"][0]["data"] = {"rarity": "rare"}
+
+    assert _comparable(first) != _comparable(second)
+
+
+def test_item_order_is_not_a_change():
+    """The database does not promise an order, so the rows are sorted first.
+
+    Without this, a run that returned the same items in a different order
+    would look like a change and commit the file for no reason.
+    """
+    first = _snapshot()
+    second = _snapshot()
+    second["items"] = list(reversed(second["items"]))
+    second["items"].append(
+        {
+            "id": 2,
+            "type": "relic",
+            "wiki_id": 11,
+            "name": "Cosmic Resonator",
+            "slug": "relic-cosmic-resonator",
+            "data": {"rarity": "cosmic"},
+            "image_url": None,
+            "description": "A relic.",
+            "created_at": "2026-10-27T08:35:44.004304+00:00",
+            "updated_at": "2026-10-27T08:35:44.004350+00:00",
+        }
+    )
+
+    assert _comparable(first) != _comparable(second)
+
+
+def test_adding_an_item_is_a_change():
+    """A new item in the catalogue is real news."""
+    first = _snapshot()
+    second = _snapshot()
+    second["items"].append(
+        {
+            "id": 2,
+            "type": "relic",
+            "wiki_id": 11,
+            "name": "Cosmic Resonator",
+            "slug": "relic-cosmic-resonator",
+            "data": {"rarity": "cosmic"},
+            "image_url": None,
+            "description": "A relic.",
+            "created_at": "2026-10-27T08:35:44.004304+00:00",
+            "updated_at": "2026-10-27T08:35:44.004350+00:00",
+        }
+    )
+
+    assert _comparable(first) != _comparable(second)
+
+
+def test_removing_an_item_is_a_change():
+    """Losing an item from the catalogue is real news."""
+    first = _snapshot()
+    second = _snapshot()
+    second["items"] = []
 
     assert _comparable(first) != _comparable(second)
 

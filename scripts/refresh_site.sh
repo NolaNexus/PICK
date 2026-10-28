@@ -136,7 +136,11 @@ echo "==> Seeding formulas"
 "$PY" -m scripts.seed_formulas || fail "seeding formulas failed"
 
 echo "==> Exporting the snapshot"
-if ! RESULT="$("$PY" -m scripts.export_snapshot --output "$SNAPSHOT")"; then
+EXPORT_ARGS=(--output "$SNAPSHOT")
+if [ "$DRY_RUN" -eq 1 ]; then
+  EXPORT_ARGS+=(--check)
+fi
+if ! RESULT="$("$PY" -m scripts.export_snapshot "${EXPORT_ARGS[@]}")"; then
   echo "$RESULT"
   fail "the snapshot export was refused; nothing was published"
 fi
@@ -145,13 +149,18 @@ echo "$RESULT"
 echo "==> Reporting coverage"
 "$PY" -m scripts.coverage_report 2>&1 | sed -n '1,40p' || true
 
-if [ -z "$(git status --porcelain -- "$SNAPSHOT")" ]; then
+case "$RESULT" in
+  *'"changed": true'*) CHANGED=1 ;;
+  *) CHANGED=0 ;;
+esac
+
+if [ "$CHANGED" -eq 0 ]; then
   echo "==> Snapshot unchanged; nothing to publish"
   exit 0
 fi
 
 if [ "$DRY_RUN" -eq 1 ]; then
-  echo "==> Dry run: the snapshot would be published, but nothing was committed"
+  echo "==> Dry run: the snapshot would be published, but nothing was written"
   exit 0
 fi
 

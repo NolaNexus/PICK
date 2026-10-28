@@ -1,6 +1,55 @@
 # PICK — Commit the work, then close the gaps
 
-**Status:** ready to implement
+**Status:** implemented (not pushed)
+
+## Outcome
+
+Four commits. The gates are green: 462 passed, ruff check/format and mypy clean, frontend
+typecheck/lint/build clean, and the offline suite passes with the wiki unreachable (458
+passed, 4 skipped).
+
+| Commit | What it did |
+| --- | --- |
+| `4df28d8` | removed the 9 calculator endpoints that could only answer with nothing |
+| `627f997` | inverted the change detection; one declarative fold table |
+| `f58d8a8` | the database enforces its invariants; the file has a contract |
+| `01fe3dd` | CI checks the generated files; the refresh job refuses a dirty tree |
+
+## What the gaps turned out to be
+
+**Both declared console scripts were broken**, which the audit had not found.
+`pick-news` pointed at a module deleted in `7706207`, and `pick-scraper` pointed at
+`main`, which is a coroutine — a console script calling it got a coroutine back and never
+ran it. There is a synchronous `run()` now, and the entry point names that. The stale
+`pick-news` script was still in `.venv/bin/`, and running it raised `ModuleNotFoundError`.
+
+**`pyproject.toml` had three lists of dependencies**, not two: the `dependencies` block,
+the `dev` extra, and `requirements.txt`. The `dev` extra listed `pre-commit`, which
+nothing in the repository referenced. The list in `pyproject.toml` is now read from
+`requirements.txt`, the test and lint tools live in `requirements-dev.txt`, and the extra
+is gone. `mypy` moved into the dev requirements, so CI installs one file rather than
+adding a separate `pip install mypy` step.
+
+**The staged-files check needed a second pass.** The first version compared
+`git diff --cached --name-only` against `$SNAPSHOT`, which is an absolute path, while git
+prints paths relative to the repository root — so it compared unequal always, and would
+have refused to publish a good snapshot. It now compares against the relative path.
+
+## Deviations from the plan
+
+**The plan expected two commits; there are four.** The first three were the two pieces of
+work, split further: the calculator cleanup is self-contained (it touches four files and
+1,489 deleted lines that nothing else in the diff touches), so it went on its own. The
+`openapi.json` and `pick.ts` changes went with the database commit rather than the
+calculator one, because they carry both the endpoint removal and the `wiki_id` removal
+and are generated artefacts that must match the code at every commit.
+
+The plan also said to reconstruct an intermediate `app/taxonomy.py` for the first commit.
+That turned out to need a version of the file that never existed and would not survive
+the next change anyway — `app/taxonomy.py` was rewritten twice, once for the fragment
+split and once for the move into the database. Reconstructing it was more fragile than
+the split was worth, so the fragment split went with the database commit, where it
+belongs: the fragment types are rows in the taxonomy table now.
 
 ## Why this is next
 
@@ -225,3 +274,17 @@ Place this after `git add "$SNAPSHOT"` and before `git commit`.
   frontend together.
 - Custom domain, dark mode, the News page, and deploying the API. All previously
   deferred.
+
+## Verification notes
+
+- The generated-files check was proven both ways: it passes on an unmodified checkout,
+  and it fails with a visible diff when a stale endpoint is added to the spec.
+- The dirty-tree check was proven both ways: it stops the job with its own message when
+  the tree has changes, and the job gets past it and completes when the tree is clean.
+- The staged-files check was proven both ways: it fires when something else is staged,
+  and passes when only the snapshot is.
+- The new `run()` entry point was executed the way a console script calls it, and it
+  scraped and returned exit code 0.
+- The migration was rehearsed on a copy of the live database: upgrade → downgrade →
+  upgrade, with all 1,146 rows and the 33 taxonomy rows intact at each step.
+- Every new test was proven to fail against the code it replaces.

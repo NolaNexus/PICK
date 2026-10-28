@@ -1,6 +1,8 @@
 # PICK — Type the models, delete the unreachable calculators, close the duplication
 
-**Status:** implemented (not pushed)
+**Status:** implemented and pushed. (The status line previously said "not pushed";
+that was stale. Verified at `5f9ca0d`: all four commits below are ancestors of both
+`HEAD` and `origin/master`.)
 
 ## Outcome
 

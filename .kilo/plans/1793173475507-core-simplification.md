@@ -1,6 +1,12 @@
 # PICK — Core Simplification and Pipeline Hardening
 
-**Status:** implemented (not committed)
+**Status:** implemented and committed. (The status line previously said "not
+committed"; that was stale. Verified at `5f9ca0d`: the work is in history and
+pushed — `SNAPSHOT_SCHEMA_VERSION` is 6 in both `app/services/snapshot.py:17` and
+`frontend/src/lib/snapshot.ts:104`, change detection is the exclusion-list form
+(`scripts/export_snapshot.py:47` `_strip_volatile`), and the reconcile/taxonomy
+fold is the single declarative `FOLDS` table at
+`app/services/reconcile.py:313`.)
 
 ## Outcome
 

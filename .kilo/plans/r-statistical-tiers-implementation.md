@@ -1,6 +1,16 @@
 # R Statistical Tiers — Implementation Plan
 
-**Status:** R integration (f42c5ed) committed. All 5 R scripts, `r_stats.py` bridge, 6 `/calculators/stats/*` endpoints, and schemas exist but R/rpy2 is NOT yet installed, so every path currently falls back to Python.
+**Status:** OBSOLETE — do not implement. The entire R integration was deleted along
+with the backend calculator API in commit `5af31c5`. Verified at `5f9ca0d`: there is
+no `R/` directory, no `app/services/r_stats.py`, no `app/schemas/calculator.py`, no
+`rpy2` in `requirements*.txt`, and no `/calculators/stats/*` route in `app/api/`.
+Every file and endpoint this plan names is gone, and the plan's premise — "R stays
+server-side doing statistical inference the browser cannot" — no longer has a
+server side to live on. The calculator maths is client-side only, in
+`frontend/src/lib/calculators.ts` and `frontend/src/lib/museum.ts`.
+
+If statistical work is wanted again, it starts from nothing and should be written
+as a new plan against the current tree, not revived from this one.
 
 **Guiding principle:** R stays server-side doing statistical inference/simulation/optimization that the browser cannot. Do NOT port R math to the frontend (calculator port is already done client-side). R is optional with Python graceful degradation preserved.
 

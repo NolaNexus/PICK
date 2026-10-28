@@ -112,7 +112,27 @@ All functions use `Decimal` internally:
 - [x] Run `tsc -b`, `eslint`, `ruff check app/` — all pass
 - [x] `vite build` succeeds with Decimal.js bundle
 - [ ] Compare frontend local calc output vs backend API for identical inputs (manual spot check)
-- [ ] Confirm all 6 pages work offline from `snapshot.json`
+- [x] Confirm all 6 pages work offline from `snapshot.json`
+
+**Note on the two remaining boxes** (checked 2026-10-28, at `5f9ca0d`):
+
+- *Offline pages — now verified.* `snapshot.ts:215` guards the API call with
+  `if (!API_BASE_URL)` and falls through to `fetch(\`${BASE_URL}snapshot.json\`)`, so
+  with no API configured the site reads the committed file and never touches the
+  network. Every page sources its data from `useSnapshot()` or `snapshotCache`:
+  `HomePage`, `ItemsPage`, `MineralsPage` and `WorldPage` via `useSnapshot()`;
+  `CalculatorsPage`, `MetaPage` and `SearchPage` via `snapshotCache`. There are
+  seven pages, not six — `MineralsPage` was added after this plan was written.
+- *Backend parity — now impossible, not merely pending.* The backend calculators
+  were deleted with the API in commit `5af31c5`: `app/services/calculators.py` does
+  not exist, and no `shakes_per_second`, `calculate_ev` or `digs_per_pan` remains
+  anywhere in `app/` or `scripts/`. There is nothing to compare against. The
+  frontend maths is now the only implementation, which is why
+  `frontend/src/lib/calculators.test.ts` exists to pin it.
+- *The repo secrets.* `VITE_API_BASE_URL` / `VITE_BASE_URL` are still read by
+  `frontend/src/api/client.ts:1` and `frontend/src/lib/snapshot.ts:20`, so removing
+  them changes behaviour only if the API is meant to stay unused. The site works
+  with no API at all, which is the shipped design.
 
 ## Validation Checklist
 
@@ -132,9 +152,18 @@ All functions use `Decimal` internally:
 
 - **Floating point parity**: All internal math uses `Decimal.js` (50 significant digits), eliminating float drift for tiny probabilities like 1.549e-11. Only display boundary converts to `number`.
 - **Museum ore database**: `snapshot.json` item `data` must contain `min_kg`, `bonus_stat`, `max_boost`. Verify scraper populates these.
+  **This risk came true — see issue #1.** The scraper does not populate them under
+  those names: the museum fields are nested at `data.museum` and the weight field is
+  called `min_weight_kg`, so the museum maths reads `undefined` for every field and
+  the tab shows empty results. The page's ore database is also discarded by
+  `calculateMuseumOptimizer`. Tracked as issue #1.
 - **Calculator forms use `any` types**: Existing code uses `any` liberally; keep consistent to avoid churn.
 - **`VITE_BASE_URL` subpath**: If previously set to `/PICK/`, removing it means site deploys at root only. Confirm desired deployment path.
 - **EV calculation is a stub**: Backend `calculate_ev` returns 0 for `ev_per_pan`; frontend matches. Drop chance field mapping from item `data` needs scraper schema alignment.
+  **Partly resolved, partly not.** The backend is gone, so there is nothing to
+  match. The frontend still uses `base_price` as a drop-chance proxy, but the real
+  drop chances *are* in the data — `data.chances[].chance_percent` and `one_in` —
+  so the TODO claiming they are missing is wrong. Tracked as issue #6.
 
 ## Out of Scope (Future)
 - PWA / offline-first (already works offline once snapshot cached)

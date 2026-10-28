@@ -1,5 +1,28 @@
 # Remaining Work Plan — PICK Project Completion
 
+**Status:** LARGELY SUPERSEDED — check each item against the current tree before
+acting. Verified at `5f9ca0d`:
+
+- **Reddit News (Priority 1, Phase 4)** — the scraper was **deleted**, not merely
+  awaiting credentials. There is no `app/services/news_scraper.py`, no
+  `scripts/news_scraper.py`, and no `REDDIT_*` variable in `.env.example`. This is
+  greenfield work now, not a credentials task.
+- **CI enhancements (T2.1)** — done. `ci.yml` has the Python 3.11/3.12 matrix and
+  `mypy app/ scrapers/ scripts/`.
+- **Backend calculators (T4.1)** — the backend was deleted in `5af31c5`; there are no
+  Python calculator functions left to test. The frontend maths is the only
+  implementation, and it is covered by `frontend/src/lib/calculators.test.ts`.
+- **`render.yaml` (T2.2) and the deploy-api workflow (T2.3)** — still absent, and
+  still a decision rather than a task: the API is local-only by design and the site
+  works without it.
+- **Phase 2 polish (Priority 3)** — the soft-delete behaviour, the single-source
+  `TRACKED_PAGES`, the taxonomy fold and the `SNAPSHOT_SCHEMA_VERSION` bump are all
+  done; see `.kilo/plans/1793173475507-core-simplification.md`.
+- **OpenAPI docs (Priority 5)** — the spec is generated and CI-checked
+  (`generated-files` job); the remaining items are cosmetic.
+- **Calculator test coverage (T4.1)** — the frontend now has 126 tests across 4
+  files.
+
 ## Current State Summary
 
 | Phase | Status | Notes |

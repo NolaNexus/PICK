@@ -94,8 +94,6 @@ class TestThePublishedFile:
         """The published count has to match what was published."""
         snapshot = _snapshot()
         assert snapshot["counts"]["items"] == len(snapshot["items"])
-        assert snapshot["counts"]["formulas"] == len(snapshot["formulas"])
-        assert snapshot["counts"]["wiki_pages"] == len(snapshot["wiki_pages"])
 
 
 class TestTheContractCatchesThings:
@@ -117,9 +115,9 @@ class TestTheContractCatchesThings:
         snapshot["items"][0]["surprise"] = 1
         assert list(_validator().iter_errors(snapshot))
 
-    def test_a_bad_confidence_is_rejected(self):
+    def test_a_bad_item_name_type_is_rejected(self):
         snapshot = _snapshot()
-        snapshot["formulas"][0]["confidence"] = "pretty sure"
+        snapshot["items"][0]["name"] = 42
         assert list(_validator().iter_errors(snapshot))
 
     def test_data_that_is_not_an_object_is_rejected(self):

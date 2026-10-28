@@ -361,8 +361,13 @@ def _merge_into(item: Item, parsed: dict[str, Any]) -> tuple[int, list[dict[str,
             data["modifiers"] = merged
             filled += 1
 
-    if filled:
-        item.data = normalize_item_data(data, item.type)
+    description = data.pop("description", None)
+    if isinstance(description, str) and not item.description:
+        item.description = description
+
+    normalized = normalize_item_data(data, item.type)
+    if normalized != (item.data or {}):
+        item.data = normalized
         item.updated_at = datetime.now(UTC)
 
     return filled, conflicts

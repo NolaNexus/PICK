@@ -61,7 +61,7 @@ class TestMerging:
         assert filled >= 1
         assert conflicts == []
         assert item.data["locations"] == ["Haunted Creek"]
-        assert item.data["description"].startswith("A spire of crystallised moonlight")
+        assert item.description.startswith("A spire of crystallised moonlight")
 
     def test_a_stored_value_is_kept(self):
         from scrapers.item_page import parse_item_page
@@ -71,7 +71,7 @@ class TestMerging:
 
         filled, conflicts = _merge_into(item, parsed)
 
-        assert item.data["description"] == "The value the index gave."
+        assert item.description == "The value the index gave."
         # The difference is reported, but the stored value stands.
         assert any(conflict["field"] == "description" for conflict in conflicts)
 

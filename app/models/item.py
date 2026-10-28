@@ -1,11 +1,11 @@
 from datetime import UTC, datetime
+from typing import Any
 
 from sqlalchemy import (
     JSON,
     BigInteger,
     Boolean,
     CheckConstraint,
-    Column,
     DateTime,
     Enum,
     ForeignKey,
@@ -17,7 +17,7 @@ from sqlalchemy import (
     text,
 )
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
 
@@ -93,22 +93,32 @@ class Item(Base):
 
     __tablename__ = "items"
 
-    id = Column(BigInteger, primary_key=True)
-    type = Column(ItemType, nullable=False)
-    source_page_id = Column(BigInteger, ForeignKey("wiki_pages.id"), index=True)
-    name = Column(String(255), nullable=False)
-    slug = Column(String(255), unique=True, nullable=False, index=True)
-    data = Column(ItemData, nullable=False)
-    image_url = Column(Text)
-    description = Column(Text)
-    is_active = Column(Boolean, nullable=False, default=True, server_default="true")
-    created_at = Column(
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    # The type is a database enum, but Python sees the string it stores: the
+    # reconciler compares item.type to "relic" and assigns item.type = "relic".
+    type: Mapped[str] = mapped_column(ItemType, nullable=False)
+    # An item is a fact about the game, not about the page it was first seen
+    # on. Deleting the page row leaves the item alone and nulls the reference.
+    source_page_id: Mapped[int | None] = mapped_column(
+        BigInteger,
+        ForeignKey("wiki_pages.id", ondelete="SET NULL"),
+        index=True,
+    )
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    slug: Mapped[str] = mapped_column(String(255), unique=True, nullable=False, index=True)
+    data: Mapped[dict[str, Any]] = mapped_column(ItemData, nullable=False)
+    image_url: Mapped[str | None] = mapped_column(Text)
+    description: Mapped[str | None] = mapped_column(Text)
+    is_active: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, default=True, server_default="true"
+    )
+    created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         default=datetime.now(UTC),
         server_default=func.now(),
         nullable=False,
     )
-    updated_at = Column(
+    updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         default=datetime.now(UTC),
         server_default=func.now(),

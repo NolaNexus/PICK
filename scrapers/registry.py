@@ -1,6 +1,6 @@
 """Scraper registry - maps page titles to parser functions."""
 
-from typing import Any
+from collections.abc import Callable
 
 # All page parsers are imported from their respective modules
 # and registered here for the scraper to use
@@ -33,6 +33,7 @@ from scrapers import (
 from scrapers import (
     formulas as formula_parser,
 )
+from scrapers.types import ParsedItem
 
 # Master list of all tracked wiki pages (for reference and documentation)
 TRACKED_PAGES: list[str] = [
@@ -66,7 +67,7 @@ TRACKED_PAGES: list[str] = [
     "Guides",
 ]
 
-PARSERS: dict[str, Any] = {
+PARSERS: dict[str, Callable[[str], list[ParsedItem]] | None] = {
     "Pans": pans.parse_pans,
     "Shovels": shovels.parse_shovels,
     "Minerals": minerals.parse_minerals,

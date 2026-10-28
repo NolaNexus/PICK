@@ -4,11 +4,12 @@ import re
 from typing import Any
 
 from scrapers.stats import parse_modifier_list
+from scrapers.types import ParsedItem
 
 
-def parse_enchanting(wikitext: str) -> list[dict[str, Any]]:
+def parse_enchanting(wikitext: str) -> list[ParsedItem]:
     """Parse enchantment data from tabber sections (Pans + Shovels)."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Find tabber sections
     tabber_pattern = r"<tabber>(.*?)</tabber>"
@@ -45,9 +46,9 @@ def parse_enchanting(wikitext: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_enchantment_table(table_content: str, applies_to: str) -> list[dict[str, Any]]:
+def _parse_enchantment_table(table_content: str, applies_to: str) -> list[ParsedItem]:
     """Parse a single enchantment wikitable."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Find the wikitable - handle "wikitable sortable" and other variations
     table_match = re.search(r"\{\| class=\"wikitable[^\"]*\"(.*?)\|\}", table_content, re.DOTALL)
@@ -71,7 +72,7 @@ def _parse_enchantment_table(table_content: str, applies_to: str) -> list[dict[s
     return items
 
 
-def _parse_enchantment_row(row: str, applies_to: str) -> dict[str, Any] | None:
+def _parse_enchantment_row(row: str, applies_to: str) -> ParsedItem | None:
     """Parse a single enchantment row from the table.
 
     Each row has cells on separate lines, each starting with |.
@@ -79,7 +80,7 @@ def _parse_enchantment_row(row: str, applies_to: str) -> dict[str, Any] | None:
     """
     # Split by lines and collect cells that start with |
     lines = row.split("\n")
-    cells = []
+    cells: list[str] = []
 
     for line in lines:
         stripped = line.strip()

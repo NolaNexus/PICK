@@ -31,18 +31,14 @@ explicit_package_bases = true
 mypy_path = "."
 ignore_missing_imports = true
 warn_unused_ignores = false
-# Legacy SQLAlchemy 1.x-style Column declarations and parser dicts are not
-# fully typed yet. Keep mypy useful for imports/name errors while the codebase
-# migrates incrementally.
-disable_error_code = [
-    "arg-type",
-    "assignment",
-    "attr-defined",
-    "call-arg",
-    "index",
-    "misc",
-    "var-annotated",
-]
+# The error codes that used to be disabled here are all enabled now. They were
+# off because the models used the legacy SQLAlchemy 1.x Column() form, which
+# left every query result untyped, and because the parsers returned
+# dict[str, Any]. Both are fixed, so the typecheck catches a wrong type, a
+# wrong attribute and a wrong call again.
+#
+# To see what a code would catch, run:
+#     mypy app/ scrapers/ scripts/ --enable-error-code=<code>
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

@@ -4,11 +4,13 @@ from typing import Any
 
 import mwparserfromhell
 
+from scrapers.types import ParsedItem
 
-def parse_shovels(wikitext: str) -> list[dict[str, Any]]:
+
+def parse_shovels(wikitext: str) -> list[ParsedItem]:
     """Parse shovel data from wikitext containing {{Shovel row ...}} templates."""
     tree = mwparserfromhell.parse(wikitext)
-    shovels = []
+    shovels: list[ParsedItem] = []
 
     for template in tree.filter_templates():
         template_name = str(template.name).strip()

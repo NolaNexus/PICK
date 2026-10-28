@@ -11,6 +11,8 @@ Park, so it is moved there.
 import re
 from typing import Any
 
+from scrapers.types import ParsedItem
+
 __all__ = ["parse_locations"]
 
 # The heading that tells the two kinds of area apart.
@@ -38,7 +40,7 @@ def _slugify(name: str) -> str:
     return name.lower().replace(" ", "-").replace("'", "").replace("(", "").replace(")", "")
 
 
-def parse_locations(wikitext: str) -> list[dict[str, Any]]:
+def parse_locations(wikitext: str) -> list[ParsedItem]:
     """Parse the areas and their sub-locations from the Locations page."""
     if not wikitext:
         return []
@@ -49,7 +51,7 @@ def parse_locations(wikitext: str) -> list[dict[str, Any]]:
 
     _apply_parents(areas)
 
-    locations: list[dict[str, Any]] = []
+    locations: list[ParsedItem] = []
     for area in areas:
         locations.append(
             {

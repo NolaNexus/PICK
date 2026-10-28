@@ -4,11 +4,12 @@ import re
 from typing import Any
 
 from scrapers.stats import parse_multiplier
+from scrapers.types import ParsedItem
 
 
-def parse_museum(wikitext: str) -> list[dict[str, Any]]:
+def parse_museum(wikitext: str) -> list[ParsedItem]:
     """Parse museum data from displays table and ore bonus tables."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Parse the displays table
     displays = _parse_displays_table(wikitext)
@@ -48,9 +49,9 @@ def parse_museum(wikitext: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_displays_table(wikitext: str) -> list[dict[str, Any]]:
+def _parse_displays_table(wikitext: str) -> list[ParsedItem]:
     """Parse the museum displays table."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Find the displays table
     table_match = re.search(
@@ -117,9 +118,9 @@ def _parse_displays_table(wikitext: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_ore_bonuses(wikitext: str) -> list[dict[str, Any]]:
+def _parse_ore_bonuses(wikitext: str) -> list[ParsedItem]:
     """Parse ore bonuses by rarity sections."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Find all ore bonus tables - match sections like "=== Common Ores ===" followed by wikitable
     # The headers are wrapped in span tags with style attributes

@@ -22,7 +22,8 @@ async def main(full: bool = False) -> int:
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-    async with app_database.async_session_factory() as session:
+    factory = await app_database.get_session_factory()
+    async with factory() as session:
         if full:
             result = await run_full_scrape(session)
         else:

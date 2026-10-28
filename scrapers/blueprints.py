@@ -3,10 +3,12 @@
 import re
 from typing import Any
 
+from scrapers.types import ParsedItem
 
-def parse_blueprints(wikitext: str) -> list[dict[str, Any]]:
+
+def parse_blueprints(wikitext: str) -> list[ParsedItem]:
     """Parse blueprint data from tabber sections."""
-    blueprints = []
+    blueprints: list[ParsedItem] = []
 
     # Find all tabber tags
     tabber_pattern = r"<tabber>(.*?)</tabber>"
@@ -33,7 +35,7 @@ def parse_blueprints(wikitext: str) -> list[dict[str, Any]]:
     return blueprints
 
 
-def _parse_blueprint_tab(tab_content: str) -> dict[str, Any] | None:
+def _parse_blueprint_tab(tab_content: str) -> ParsedItem | None:
     """Parse a single blueprint tab content."""
     # Strip leading whitespace (from split)
     tab_content = tab_content.lstrip()
@@ -53,7 +55,7 @@ def _parse_blueprint_tab(tab_content: str) -> dict[str, Any] | None:
     return _parse_blueprint_content(tab_name, content)
 
 
-def _parse_blueprint_content(name: str, content: str) -> dict[str, Any] | None:
+def _parse_blueprint_content(name: str, content: str) -> ParsedItem | None:
     """Parse a single blueprint's content."""
     # Clean up the name (remove " Blueprint" suffix if present, and wiki markup)
     clean_name = name.replace(" Blueprint", "").strip()

@@ -4,11 +4,12 @@ import re
 from typing import Any
 
 from scrapers.stats import parse_modifier_list
+from scrapers.types import ParsedItem
 
 
-def parse_quests(wikitext: str) -> list[dict[str, Any]]:
+def parse_quests(wikitext: str) -> list[ParsedItem]:
     """Parse quest data from tabber sections with locations and NPCs."""
-    quests = []
+    quests: list[ParsedItem] = []
 
     # Find all tabber tags
     tabber_pattern = r"<tabber>(.*?)</tabber>"
@@ -34,7 +35,7 @@ def parse_quests(wikitext: str) -> list[dict[str, Any]]:
     return quests
 
 
-def _parse_location_tab(tab_content: str) -> list[dict[str, Any]]:
+def _parse_location_tab(tab_content: str) -> list[ParsedItem]:
     """Parse a single location tab containing NPCs and quests."""
     # Strip leading whitespace
     tab_content = tab_content.lstrip()
@@ -50,7 +51,7 @@ def _parse_location_tab(tab_content: str) -> list[dict[str, Any]]:
     if not location_name:
         return []
 
-    location_quests = []
+    location_quests: list[ParsedItem] = []
     current_npc = ""
 
     # Split by lines and process
@@ -99,7 +100,7 @@ def _extract_template(lines: list[str], start_idx: int, template_name: str) -> s
 
     # Count braces to find the closing }}
     brace_count = 0
-    result = []
+    result: list[str] = []
 
     for i in range(start_idx, len(lines)):
         current_line = lines[i]
@@ -118,7 +119,7 @@ def _extract_template(lines: list[str], start_idx: int, template_name: str) -> s
     return "\n".join(result) if result else None
 
 
-def _parse_quest_template(location: str, npc: str, template_text: str) -> dict[str, Any] | None:
+def _parse_quest_template(location: str, npc: str, template_text: str) -> ParsedItem | None:
     """Parse a {{Quest}} template into a quest object."""
     # First, extract the Quest name field specifically - only first line after |Quest =
     quest_name_match = re.search(r"\|\s*Quest\s*=\s*([^\n]+)", template_text)
@@ -180,7 +181,7 @@ def _parse_quest_template(location: str, npc: str, template_text: str) -> dict[s
     modifiers = parse_modifier_list(buffs)
 
     # Extract quest steps
-    steps = []
+    steps: list[str] = []
     for key in sorted(fields.keys()):
         if key.startswith("QuestStep"):
             step_num = key.replace("QuestStep", "").replace("Sub", "")

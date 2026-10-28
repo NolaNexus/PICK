@@ -169,7 +169,8 @@ async def _unmatched_places() -> list[str]:
         from app.models import Item
 
         await app_database.get_engine()
-        async with app_database.async_session_factory() as session:
+        factory = await app_database.get_session_factory()
+        async with factory() as session:
             result = await session.execute(
                 select(Item.name, Item.data).where(
                     Item.is_active.is_(True),
@@ -208,7 +209,8 @@ async def _scraped_names(client: MediaWikiClient) -> set[str]:
         from app.models import Item
 
         await app_database.get_engine()
-        async with app_database.async_session_factory() as session:
+        factory = await app_database.get_session_factory()
+        async with factory() as session:
             result = await session.execute(select(Item.name).where(Item.is_active.is_(True)))
             names = {title_key(name) for name in result.scalars().all() if name}
         return names

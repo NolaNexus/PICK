@@ -106,9 +106,9 @@ def _comparable(snapshot: dict) -> str:
     """
     cleaned = _strip_volatile(snapshot)
 
-    cleaned["items"] = _sorted_rows(cleaned.get("items"), "slug")
-    cleaned["formulas"] = _sorted_rows(cleaned.get("formulas"), "formula_id")
-    cleaned["wiki_pages"] = _sorted_rows(cleaned.get("wiki_pages"), "title")
+    cleaned["items"] = _sorted_rows(cleaned.get("items") or [], "slug")
+    cleaned["formulas"] = _sorted_rows(cleaned.get("formulas") or [], "formula_id")
+    cleaned["wiki_pages"] = _sorted_rows(cleaned.get("wiki_pages") or [], "title")
 
     return json.dumps(cleaned, sort_keys=True, default=str)
 
@@ -161,7 +161,8 @@ async def export_snapshot(
 
 async def _build_snapshot_async() -> dict:
     await app_database.get_engine()
-    async with app_database.async_session_factory() as session:
+    factory = await app_database.get_session_factory()
+    async with factory() as session:
         return await build_snapshot(session)
 
 

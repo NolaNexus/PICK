@@ -1,12 +1,13 @@
 """Formulas (Stat Systems Guide) scraper - parse <tabber> sections from the Stat_Systems_Guide wiki page."""
 
 import re
-from typing import Any
+
+from scrapers.types import ParsedItem
 
 
-def parse_formulas(wikitext: str) -> list[dict[str, Any]]:
+def parse_formulas(wikitext: str) -> list[ParsedItem]:
     """Parse formula data from tabber sections (Mechanics, Luck, Capacity, etc.)."""
-    items = []
+    items: list[ParsedItem] = []
     seen_slugs = set()
 
     # Find the main tabber
@@ -47,9 +48,9 @@ def parse_formulas(wikitext: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_tab_content(tab_name: str, content: str) -> list[dict[str, Any]]:
+def _parse_tab_content(tab_name: str, content: str) -> list[ParsedItem]:
     """Parse a single tab's content for formulas and key data."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Extract the Golden Rule formula from Mechanics tab
     if "mechanic" in tab_name.lower():
@@ -111,7 +112,7 @@ def _categorize_tab(tab_name: str) -> str:
     return "other"
 
 
-def _extract_golden_rule(content: str) -> dict[str, Any] | None:
+def _extract_golden_rule(content: str) -> ParsedItem | None:
     """Extract the Golden Rule formula from the Mechanics tab."""
     if "golden rule" not in content.lower():
         return None
@@ -160,9 +161,9 @@ def _clean_cell(text: str) -> str:
     return text
 
 
-def _extract_boost_catalogue(content: str) -> list[dict[str, Any]]:
+def _extract_boost_catalogue(content: str) -> list[ParsedItem]:
     """Extract the boost catalogue table from the Mechanics tab."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Find the boost catalogue wikitable - it comes after "boosts that have been directly tested"
     boost_section_match = re.search(
@@ -217,9 +218,9 @@ def _extract_boost_catalogue(content: str) -> list[dict[str, Any]]:
     return items
 
 
-def _extract_stat_formulas(tab_name: str, content: str) -> list[dict[str, Any]]:
+def _extract_stat_formulas(tab_name: str, content: str) -> list[ParsedItem]:
     """Extract formulas from stat-specific tabs."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Specific known formulas per tab
     formulas = _get_known_formulas(tab_name)
@@ -246,8 +247,13 @@ def _extract_stat_formulas(tab_name: str, content: str) -> list[dict[str, Any]]:
     return items
 
 
-def _get_known_formulas(tab_name: str) -> list[dict[str, Any]]:
-    """Return known formulas for each tab."""
+def _get_known_formulas(tab_name: str) -> list[dict[str, str]]:
+    """Return known formulas for each tab.
+
+    These are the formula definitions, not the items the parser produces: a
+    definition has a name, a formula and a description, and the caller turns
+    it into an item.
+    """
     formulas = []
 
     if "luck" in tab_name.lower():
@@ -369,7 +375,7 @@ def _get_known_formulas(tab_name: str) -> list[dict[str, Any]]:
     return formulas
 
 
-def _extract_modifier_price_table(content: str) -> dict[str, Any] | None:
+def _extract_modifier_price_table(content: str) -> ParsedItem | None:
     """Extract the modifier price multiplier table."""
     # Find the modifier price wikitable
     table_match = re.search(
@@ -450,9 +456,9 @@ def _extract_modifier_price_table(content: str) -> dict[str, Any] | None:
     }
 
 
-def _extract_museum_info(content: str) -> list[dict[str, Any]]:
+def _extract_museum_info(content: str) -> list[ParsedItem]:
     """Extract museum display and rider information."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Look for the museum display formula
     if "display" in content.lower() and "museum" in content.lower():

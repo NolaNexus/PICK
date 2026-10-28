@@ -3,11 +3,12 @@
 import re
 from typing import Any
 
+from scrapers.types import NpcEntry, ParsedItem
 
-def parse_npcs(wikitext: str) -> list[dict[str, Any]]:
+
+def parse_npcs(wikitext: str) -> list[ParsedItem]:
     """Parse NPC data from tabber gallery sections."""
-    entries: list[dict[str, Any]] = []
-
+    entries: list[NpcEntry] = []
     # Find the main tabber
     tabber_pattern = r"<tabber>(.*?)</tabber>"
     tabber_match = re.search(tabber_pattern, wikitext, re.DOTALL)
@@ -24,7 +25,7 @@ def parse_npcs(wikitext: str) -> list[dict[str, Any]]:
     lines = tabber_content.split("\n")
 
     current_tab = None
-    current_content = []
+    current_content: list[str] = []
 
     for _i, line in enumerate(lines):
         stripped = line.strip()
@@ -75,16 +76,16 @@ def parse_npcs(wikitext: str) -> list[dict[str, Any]]:
     return _group_npcs(entries)
 
 
-def _parse_tab(tab_name: str, content: str) -> list[dict[str, Any]]:
+def _parse_tab(tab_name: str, content: str) -> list[NpcEntry]:
     """Parse a single tab content."""
     if not tab_name:
         return []
     return _parse_gallery(tab_name, content)
 
 
-def _parse_gallery(region: str, content: str) -> list[dict[str, Any]]:
+def _parse_gallery(region: str, content: str) -> list[NpcEntry]:
     """Parse raw NPC entries from a gallery section."""
-    entries: list[dict[str, Any]] = []
+    entries: list[NpcEntry] = []
 
     # Gallery format:
     # <gallery ...>
@@ -143,7 +144,7 @@ def _parse_gallery(region: str, content: str) -> list[dict[str, Any]]:
     return entries
 
 
-def _group_npcs(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def _group_npcs(entries: list[NpcEntry]) -> list[ParsedItem]:
     """Group the same NPC across locations into one entry.
 
     A name that appears in more than one location is one character that shows
@@ -151,11 +152,11 @@ def _group_npcs(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
     location. Names that appear twice in the same location (two tourists) stay
     separate individuals.
     """
-    groups: dict[str, list[dict[str, Any]]] = {}
+    groups: dict[str, list[NpcEntry]] = {}
     for entry in entries:
         groups.setdefault(entry["name"], []).append(entry)
 
-    npcs: list[dict[str, Any]] = []
+    npcs: list[ParsedItem] = []
     seen_slugs: set[str] = set()
 
     for name, rows in groups.items():
@@ -192,7 +193,7 @@ def _group_npcs(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return npcs
 
 
-def _grouped_npc(name: str, rows: list[dict[str, Any]], slug: str) -> dict[str, Any]:
+def _grouped_npc(name: str, rows: list[NpcEntry], slug: str) -> ParsedItem:
     """Build one NPC entry spanning several locations."""
     locations = sorted({row["region"] for row in rows})
     data: dict[str, Any] = {
@@ -215,7 +216,7 @@ def _grouped_npc(name: str, rows: list[dict[str, Any]], slug: str) -> dict[str, 
     }
 
 
-def _separate_npc(name: str, row: dict[str, Any], slug: str) -> dict[str, Any]:
+def _separate_npc(name: str, row: NpcEntry, slug: str) -> ParsedItem:
     """Build a location-specific NPC entry (town service or same-name pair)."""
     return {
         "id": slug,

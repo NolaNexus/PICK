@@ -1,18 +1,19 @@
 """Minerals scraper - parse {{Mineral row slim ...}} templates from the Minerals wiki page."""
 
 import re
-from typing import Any
 
 import mwparserfromhell
 
+from scrapers.types import ParsedItem
 
-def parse_minerals(wikitext: str) -> list[dict[str, Any]]:
+
+def parse_minerals(wikitext: str) -> list[ParsedItem]:
     """Parse mineral data from wikitext containing Mineral tables with tabber tiers."""
     tree = mwparserfromhell.parse(wikitext)
-    minerals = []
+    minerals: list[ParsedItem] = []
 
     # Find all tabber sections (tiers like Common, Uncommon, etc.)
-    tabbers = tree.filter_tags("tabber")
+    tabbers = tree.filter_tags(matches="tabber")
     for tabber in tabbers:
         # Get the tabber content
         tabber_text = str(tabber).strip()
@@ -34,7 +35,7 @@ def parse_minerals(wikitext: str) -> list[dict[str, Any]]:
     # The tabber pass and the global template pass can both yield the same
     # mineral. Keep the first occurrence (which carries the tabber tier) and
     # drop duplicates so slugs remain unique for the database upsert.
-    unique_minerals: list[dict[str, Any]] = []
+    unique_minerals: list[ParsedItem] = []
     seen_slugs: set[str] = set()
     for mineral in minerals:
         slug = mineral["slug"]
@@ -46,7 +47,7 @@ def parse_minerals(wikitext: str) -> list[dict[str, Any]]:
     return unique_minerals
 
 
-def _parse_mineral_table(table_text: str, tier: str, minerals: list[dict[str, Any]]) -> None:
+def _parse_mineral_table(table_text: str, tier: str, minerals: list[ParsedItem]) -> None:
     """Parse mineral rows from a table within a tabber section."""
     # Match {{Mineral row slim ...}} templates
     template_pattern = r"\{\{Mineral row slim[^}]*\}\}"
@@ -90,7 +91,7 @@ def _parse_mineral_table(table_text: str, tier: str, minerals: list[dict[str, An
 
 def _parse_mineral_locations(locations_str: str) -> list[str]:
     """Parse location names from the locations parameter string."""
-    locations = []
+    locations: list[str] = []
     # Find wikilink names: [[Name]] or [[Name|Display]]
     for match in re.finditer(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", locations_str):
         name = match.group(1).strip()
@@ -116,7 +117,7 @@ def _extract_mineral_params(template_text: str) -> dict[str, str]:
     return params
 
 
-def _parse_all_mineral_templates(wikitext: str, minerals: list[dict[str, Any]]) -> None:
+def _parse_all_mineral_templates(wikitext: str, minerals: list[ParsedItem]) -> None:
     """Parse any {{Mineral row slim ...}} templates found anywhere in the wikitext."""
     template_pattern = r"\{\{Mineral row slim[^}]*\}\}"
 

@@ -5,11 +5,13 @@ from typing import Any
 
 import mwparserfromhell
 
+from scrapers.types import ParsedItem
 
-def parse_traveling_merchant(wikitext: str) -> list[dict[str, Any]]:
+
+def parse_traveling_merchant(wikitext: str) -> list[ParsedItem]:
     """Parse traveling merchant items from wikitext containing the items sold table."""
     tree = mwparserfromhell.parse(wikitext)
-    items = []
+    items: list[ParsedItem] = []
 
     # Find all tables
     for table in tree.filter_tags():
@@ -93,8 +95,8 @@ def _extract_cell_value(cell: str) -> str:
 
 def _parse_table_rows(table_text: str) -> list[list[str]]:
     """Parse wikitable rows where each cell is on its own line."""
-    rows = []
-    current_row = []
+    rows: list[list[str]] = []
+    current_row: list[str] = []
 
     # Split by lines
     lines = table_text.split("\n")

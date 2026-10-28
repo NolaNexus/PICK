@@ -3,15 +3,17 @@
 import hashlib
 import logging
 import re
+from collections.abc import Callable
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING, Any
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 
 from app.services.enrichment import enrich_items_from_pages
 from app.services.reconcile import reconcile_items, type_prefixed_slug
 from app.utils.mw_api import MediaWikiClient
-from scrapers import PARSER_VERSION, PARSERS, TRACKED_PAGES  # type: ignore
+from scrapers import PARSER_VERSION, PARSERS, TRACKED_PAGES
+from scrapers.types import ParsedItem
 from scrapers.wikitext import render_item_data
 
 if TYPE_CHECKING:
@@ -202,7 +204,7 @@ async def _run_scrape(
 
 async def _resolve_image_urls(
     client: MediaWikiClient,
-    parsed_items: list[tuple[dict[str, Any], str]],
+    parsed_items: list[tuple[ParsedItem, str]],
 ) -> dict[str, str]:
     """Resolve the image file names of a page to their URLs.
 
@@ -239,7 +241,7 @@ async def scrape_page(
     db: "AsyncSession",
     client: MediaWikiClient,
     title: str,
-    parser=None,
+    parser: Callable[[str], list[ParsedItem]] | None = None,
 ) -> bool:
     """Scrape a single page, upsert items if content changed."""
     from app.models import Item, WikiPage
@@ -263,8 +265,8 @@ async def scrape_page(
     revision_id = page_info.get("revision_id") or 0  # Default to 0 if None
 
     # Query by title (unique column), not by primary key
-    result = await db.execute(select(WikiPage).where(WikiPage.title == title))
-    wiki_page = result.scalar_one_or_none()
+    page_result = await db.execute(select(WikiPage).where(WikiPage.title == title))
+    wiki_page = page_result.scalar_one_or_none()
     if wiki_page and wiki_page.content_hash == content_hash:
         logger.debug("No change for %s", title)
         return False
@@ -287,7 +289,7 @@ async def scrape_page(
     # location and as an event), and `items.slug` is globally unique. Deriving
     # the slug from type + parser slug keeps it deterministic and idempotent:
     # every scrape resolves to the same rows regardless of page order.
-    parsed_items: list[tuple[dict, str]] = []
+    parsed_items: list[tuple[ParsedItem, str]] = []
     seen_slugs: set[str] = set()
     for item_data in items:
         base_slug = (
@@ -305,8 +307,8 @@ async def scrape_page(
     slugs = [slug for _, slug in parsed_items]
     existing_items: dict[str, Item] = {}
     if slugs:
-        result = await db.execute(select(Item).where(Item.slug.in_(slugs)))
-        existing_items = {item.slug: item for item in result.scalars().all()}
+        items_result = await db.execute(select(Item).where(Item.slug.in_(slugs)))
+        existing_items = {item.slug: item for item in items_result.scalars().all()}
 
     # The wiki only stores the name of an image file, so the names are
     # resolved to their URLs in one batch for the whole page.
@@ -352,7 +354,7 @@ async def scrape_page(
     # Do not wipe a page when a parser unexpectedly yields no items.
     if slugs:
         await db.execute(
-            Item.__table__.update()
+            update(Item)
             .where(
                 Item.source_page_id == wiki_page.id,
                 Item.slug.notin_(slugs),

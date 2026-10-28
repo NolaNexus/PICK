@@ -222,9 +222,9 @@ def _render_text(value: str) -> str:
             # The node was already replaced as part of its parent.
             continue
 
-    for node in list(tree.filter_wikilinks(recursive=True)):
+    for wikilink in list(tree.filter_wikilinks(recursive=True)):
         try:
-            tree.replace(node, _render_wikilink(node))
+            tree.replace(wikilink, _render_wikilink(wikilink))
         except ValueError:
             continue
 

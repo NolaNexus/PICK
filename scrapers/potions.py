@@ -9,6 +9,7 @@ import re
 from typing import Any
 
 from scrapers.stats import parse_modifier, parse_modifier_list
+from scrapers.types import ParsedItem
 
 # A level-2 heading that names a merchant, e.g. "== Fortune River Town Alchemist ==".
 _SECTION_PATTERN = re.compile(r"^==\s*([^=]+?)\s*==\s*$", re.MULTILINE)
@@ -29,9 +30,9 @@ _STAT_PATTERN = re.compile(r"\{\{Stat\|([^}|]+)\}\}", re.IGNORECASE)
 _ROW_SEPARATOR = "\n|-"
 
 
-def parse_potions(wikitext: str) -> list[dict[str, Any]]:
+def parse_potions(wikitext: str) -> list[ParsedItem]:
     """Parse the potions listed on the Potions wiki page."""
-    potions: list[dict[str, Any]] = []
+    potions: list[ParsedItem] = []
 
     for merchant, table in _merchant_tables(wikitext):
         for row in _table_rows(table):
@@ -94,7 +95,7 @@ def _cells(row: str) -> list[str]:
     return [cell for cell in cells if cell != ""]
 
 
-def _parse_row(row: str, merchant: str) -> dict[str, Any] | None:
+def _parse_row(row: str, merchant: str) -> ParsedItem | None:
     """Parse a single potion row."""
     cells = _cells(row)
     if len(cells) < 4:

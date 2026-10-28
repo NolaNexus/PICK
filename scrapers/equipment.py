@@ -6,18 +6,19 @@ from typing import Any
 import mwparserfromhell
 
 from scrapers.stats import parse_equipment_stats
+from scrapers.types import ParsedItem
 
 
-def parse_equipment(wikitext: str) -> list[dict[str, Any]]:
+def parse_equipment(wikitext: str) -> list[ParsedItem]:
     """Parse equipment data from wikitext with tabbed rarity sections.
 
     Returns list of equipment dicts with name, slot, recipe, stats, price,
     description, image, and rarity tier extracted from <tabber> tab labels.
     """
     tree = mwparserfromhell.parse(wikitext)
-    items = []
+    items: list[ParsedItem] = []
 
-    tabbers = tree.filter_tags("tabber")
+    tabbers = tree.filter_tags(matches="tabber")
     for tabber in tabbers:
         if not hasattr(tabber, "tag") or str(tabber.tag).strip() != "tabber":
             continue
@@ -50,7 +51,7 @@ def parse_equipment(wikitext: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_equipment_row(template: Any, tier: str) -> dict[str, Any] | None:
+def _parse_equipment_row(template: Any, tier: str) -> ParsedItem | None:
     """Parse a single {{Equipment row ...}} template into an item dict."""
     params: dict[str, str] = {}
     for param in template.params:

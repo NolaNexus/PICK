@@ -4,11 +4,12 @@ import re
 from typing import Any
 
 from scrapers.stats import parse_modifier_list
+from scrapers.types import ParsedItem
 
 
-def parse_modifiers(wikitext: str) -> list[dict[str, Any]]:
+def parse_modifiers(wikitext: str) -> list[ParsedItem]:
     """Parse modifier data from wiki sections headings == Modifier Name ==."""
-    modifiers = []
+    modifiers: list[ParsedItem] = []
 
     # Pattern to match == Modifier Name == sections
     # Each section starts with == Name == and ends before the next == or end of text
@@ -28,12 +29,12 @@ def parse_modifiers(wikitext: str) -> list[dict[str, Any]]:
     return modifiers
 
 
-def _parse_modifier_section(name: str, content: str) -> dict[str, Any] | None:
+def _parse_modifier_section(name: str, content: str) -> ParsedItem | None:
     """Parse a single modifier section."""
     # Extract bullet points
     bullet_pattern = r"\*\s*'''([^:]+):'''\s*(.*?)(?=\n\*|\n\*|\Z)"
 
-    data = {
+    data: dict[str, Any] = {
         "sell_price_multiplier": None,
         "color": None,
         "description": None,

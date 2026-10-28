@@ -23,7 +23,7 @@ It is idempotent: running it again produces the same rows and data.
 
 import logging
 import re
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING, Any
@@ -124,7 +124,7 @@ def _npc_locations(npc: "Item") -> set[str]:
     return {_name_key(region)} if region else set()
 
 
-def _find_geode(items: list["Item"], location: str) -> "Item | None":
+def _find_geode(items: Sequence["Item"], location: str) -> "Item | None":
     """Return the geode variant for a location, e.g. 'Volcanic Sands'."""
     key = _normalize_location(location)
     for item in items:
@@ -159,7 +159,7 @@ def _data_of(item: "Item") -> dict[str, Any]:
     return data if isinstance(data, dict) else {}
 
 
-def _find_by_name(items: list["Item"], name: str, item_type: str) -> "Item | None":
+def _find_by_name(items: Sequence["Item"], name: str, item_type: str) -> "Item | None":
     """Return the active item of a type with a given name."""
     key = _name_key(name)
     for item in items:
@@ -172,7 +172,7 @@ def _find_by_name(items: list["Item"], name: str, item_type: str) -> "Item | Non
 class FoldContext:
     """The lookups a fold needs to find the item a fragment belongs to."""
 
-    items: list["Item"]
+    items: Sequence["Item"]
     by_name: dict[str, list["Item"]]
     sites: dict[str, "Item"]
 
@@ -193,7 +193,7 @@ class Fold:
     append: bool = False
 
 
-def _fold_context(items: list["Item"], by_name: dict[str, list["Item"]]) -> FoldContext:
+def _fold_context(items: Sequence["Item"], by_name: dict[str, list["Item"]]) -> FoldContext:
     """Build the lookups the folds share."""
     sites = {
         _site_key(_data_of(item).get("site_name") or item.name): item
@@ -340,7 +340,7 @@ FOLDS: dict[str, Fold] = {
 
 
 def _apply_folds(
-    items: list["Item"],
+    items: Sequence["Item"],
     by_name: dict[str, list["Item"]],
     fragment_type: str,
 ) -> int:
@@ -377,7 +377,7 @@ def _apply_folds(
     return merged
 
 
-def _merge_museum_ores(items: list["Item"], by_name: dict[str, list["Item"]]) -> int:
+def _merge_museum_ores(items: Sequence["Item"], by_name: dict[str, list["Item"]]) -> int:
     """Merge the museum row of a mineral into the mineral itself.
 
     The museum row holds the weight and the bonus a mineral gives in a display.
@@ -386,7 +386,7 @@ def _merge_museum_ores(items: list["Item"], by_name: dict[str, list["Item"]]) ->
     return _apply_folds(items, by_name, "museum_ore")
 
 
-def _merge_blueprints(items: list["Item"], by_name: dict[str, list["Item"]]) -> int:
+def _merge_blueprints(items: Sequence["Item"], by_name: dict[str, list["Item"]]) -> int:
     """Merge the blueprint of a craftable into the equipment it makes.
 
     A blueprint never exists without the equipment it unlocks, so the two are
@@ -395,7 +395,7 @@ def _merge_blueprints(items: list["Item"], by_name: dict[str, list["Item"]]) -> 
     return _apply_folds(items, by_name, "blueprint")
 
 
-def _merge_catalysts(items: list["Item"], by_name: dict[str, list["Item"]]) -> int:
+def _merge_catalysts(items: Sequence["Item"], by_name: dict[str, list["Item"]]) -> int:
     """Merge a mutation catalyst into the equipment it rerolls.
 
     A catalyst names the equipment it is spent on, so it is part of that
@@ -404,7 +404,7 @@ def _merge_catalysts(items: list["Item"], by_name: dict[str, list["Item"]]) -> i
     return _apply_folds(items, by_name, "mutation_catalyst")
 
 
-def _site_key(name: str) -> str:
+def _site_key(name: str | None) -> str:
     """Return the comparison key of an excavation site name."""
     if not name:
         return ""
@@ -412,7 +412,7 @@ def _site_key(name: str) -> str:
     return _name_key(SITE_NAME_ALIASES.get(cleaned.lower(), cleaned))
 
 
-def _merge_excavation_drops(items: list["Item"]) -> int:
+def _merge_excavation_drops(items: Sequence["Item"]) -> int:
     """Fold the drop tables into the excavation sites they belong to.
 
     The site is the record a player browses, so its drops are part of it. The
@@ -421,7 +421,7 @@ def _merge_excavation_drops(items: list["Item"]) -> int:
     return _apply_folds(items, {}, "excavation_reward")
 
 
-def _merge_museum_displays(items: list["Item"]) -> int:
+def _merge_museum_displays(items: Sequence["Item"]) -> int:
     """Fold the museum's display tiers and info into the Museum sub-location.
 
     The museum is a place in Caldera Park, so its displays and its description
@@ -476,7 +476,7 @@ def _merge_museum_displays(items: list["Item"]) -> int:
     return merged
 
 
-def _find_museum_sublocation(items: list["Item"]) -> "Item | None":
+def _find_museum_sublocation(items: Sequence["Item"]) -> "Item | None":
     """Return the location record that holds the Museum sub-location."""
     for item in items:
         if item.type != "location" or not item.is_active:
@@ -487,7 +487,7 @@ def _find_museum_sublocation(items: list["Item"]) -> "Item | None":
     return None
 
 
-def _resolve_mineral_areas(items: list["Item"]) -> tuple[int, list[str]]:
+def _resolve_mineral_areas(items: Sequence["Item"]) -> tuple[int, list[str]]:
     """Work out which area each mineral is found in.
 
     A mineral names the places it drops at, and those places sit inside an

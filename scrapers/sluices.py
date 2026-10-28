@@ -4,11 +4,13 @@ from typing import Any
 
 import mwparserfromhell
 
+from scrapers.types import ParsedItem
 
-def parse_sluices(wikitext: str) -> list[dict[str, Any]]:
+
+def parse_sluices(wikitext: str) -> list[ParsedItem]:
     """Parse sluice data from wikitext containing {{Sluice row ...}} templates."""
     tree = mwparserfromhell.parse(wikitext)
-    sluices = []
+    sluices: list[ParsedItem] = []
 
     for template in tree.filter_templates():
         template_name = str(template.name).strip()

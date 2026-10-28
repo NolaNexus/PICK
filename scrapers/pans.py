@@ -4,11 +4,13 @@ from typing import Any
 
 import mwparserfromhell
 
+from scrapers.types import ParsedItem
 
-def parse_pans(wikitext: str) -> list[dict[str, Any]]:
+
+def parse_pans(wikitext: str) -> list[ParsedItem]:
     """Parse pan data from wikitext containing {{Pan row ...}} templates."""
     tree = mwparserfromhell.parse(wikitext)
-    pans = []
+    pans: list[ParsedItem] = []
 
     for template in tree.filter_templates():
         template_name = str(template.name).strip()

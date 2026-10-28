@@ -1,12 +1,13 @@
 """Geodes scraper - parse geode variants list from the Geodes wiki page."""
 
 import re
-from typing import Any
+
+from scrapers.types import ParsedItem
 
 
-def parse_geodes(wikitext: str) -> list[dict[str, Any]]:
+def parse_geodes(wikitext: str) -> list[ParsedItem]:
     """Parse geode data from wikitext containing the geode variants list."""
-    geodes = []
+    geodes: list[ParsedItem] = []
     seen = {}  # slug -> index in geodes list
 
     # The geode variants are listed as bullet points like:
@@ -50,10 +51,12 @@ def parse_geodes(wikitext: str) -> list[dict[str, Any]]:
             geothermal_section = True
             continue
         if geothermal_section and stripped.startswith("*"):
-            match = re.match(r"\*\s*'''([^']+)'''\s*[-–]\s*found in\s+\{\{([^}]+)\}\}", stripped)
-            if match:
-                name = match.group(1).strip()
-                location = match.group(2).strip()
+            geothermal_match = re.match(
+                r"\*\s*'''([^']+)'''\s*[-–]\s*found in\s+\{\{([^}]+)\}\}", stripped
+            )
+            if geothermal_match:
+                name = geothermal_match.group(1).strip()
+                location = geothermal_match.group(2).strip()
 
                 slug = _slugify(name)
 
@@ -86,7 +89,7 @@ def parse_geodes(wikitext: str) -> list[dict[str, Any]]:
 
     # There is exactly one geode type per location. If the wiki ever lists two
     # variants for the same place, keep the first so the invariant holds.
-    unique: list[dict[str, Any]] = []
+    unique: list[ParsedItem] = []
     seen_locations: set[str] = set()
     for geode in geodes:
         data = geode.get("data")

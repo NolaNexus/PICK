@@ -1,12 +1,13 @@
 """Mutations scraper - parse mutation chances and effects from the Mutations wiki page."""
 
 import re
-from typing import Any
+
+from scrapers.types import ParsedItem
 
 
-def parse_mutations(wikitext: str) -> list[dict[str, Any]]:
+def parse_mutations(wikitext: str) -> list[ParsedItem]:
     """Parse mutation data from tabber sections and tables."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Parse mutation chances from tabber
     chance_items = _parse_chances(wikitext)
@@ -23,9 +24,9 @@ def parse_mutations(wikitext: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_chances(wikitext: str) -> list[dict[str, Any]]:
+def _parse_chances(wikitext: str) -> list[ParsedItem]:
     """Parse mutation chance tables from the Chances tabber."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Find the Chances tabber
     tabber_pattern = r"<tabber>(.*?)</tabber>"
@@ -62,9 +63,9 @@ def _parse_chances(wikitext: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_chance_table(event_name: str, content: str) -> list[dict[str, Any]]:
+def _parse_chance_table(event_name: str, content: str) -> list[ParsedItem]:
     """Parse a single chance wikitable."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Find the wikitable
     table_match = re.search(r'\{\| class="wikitable".*?\n(.*?)\n\|\}', content, re.DOTALL)
@@ -75,7 +76,7 @@ def _parse_chance_table(event_name: str, content: str) -> list[dict[str, Any]]:
 
     # Extract header to get catalyst counts
     header_match = re.search(r"!.*?# Catalysts:.*?\n(.*?)\n", content, re.DOTALL)
-    catalyst_counts = []
+    catalyst_counts: list[int] = []
     if header_match:
         header_row = header_match.group(1)
         cells = [c.strip() for c in header_row.split("!!")]
@@ -152,9 +153,9 @@ def _parse_chance_table(event_name: str, content: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_effects(wikitext: str) -> list[dict[str, Any]]:
+def _parse_effects(wikitext: str) -> list[ParsedItem]:
     """Parse mutation effects from the Effects section."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Find the Effects section
     effects_match = re.search(r"== Effects ==\n(.*?)(?:\n==|$)", wikitext, re.DOTALL)
@@ -198,9 +199,9 @@ def _parse_effects(wikitext: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_catalysts(wikitext: str) -> list[dict[str, Any]]:
+def _parse_catalysts(wikitext: str) -> list[ParsedItem]:
     """Parse equipment catalysts from the List of Equipment Catalysts tabber."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Find the second tabber (catalysts)
     tabber_matches = list(re.finditer(r"<tabber>(.*?)</tabber>", wikitext, re.DOTALL))
@@ -231,13 +232,11 @@ def _parse_catalysts(wikitext: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_catalyst_table(rarity: str, content: str) -> list[dict[str, Any]]:
+def _parse_catalyst_table(rarity: str, content: str) -> list[ParsedItem]:
     """Parse a single catalyst wikitable."""
-    items = []
-
     # The tab content IS the table - extract mutations rows directly from content
     mutations_rows = re.findall(r"\{\{Mutations Row\s*\n(.*?)(?:\n\}\}|\}\})", content, re.DOTALL)
-    items = []
+    items: list[ParsedItem] = []
     for mr_content in mutations_rows:
         catalyst = _parse_mutations_row(rarity, mr_content)
         if catalyst:
@@ -246,7 +245,7 @@ def _parse_catalyst_table(rarity: str, content: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_mutations_row(rarity: str, content: str) -> dict[str, Any] | None:
+def _parse_mutations_row(rarity: str, content: str) -> ParsedItem | None:
     """Parse a single {{Mutations Row}} template."""
     fields = {}
 

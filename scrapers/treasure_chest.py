@@ -3,18 +3,20 @@
 import re
 from typing import Any
 
+from scrapers.types import ParsedItem
+
 TAB_PATTERN = re.compile(r"\|\-\|\s*([^=\n]+?)\s*=(.*?)(?=\|\-\||$)", re.DOTALL)
 TEMPLATE_PATTERN = re.compile(r"\{\{([^{}|]+)(?:\|[^}]*)?\}\}")
 LINK_PATTERN = re.compile(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]")
 
 
-def parse_treasure_chests(wikitext: str) -> list[dict[str, Any]]:
+def parse_treasure_chests(wikitext: str) -> list[ParsedItem]:
     """Parse the per-location Treasure Chest loot pools.
 
     A Treasure Chest is its own item. The loot depends on the location where
     the chest was found, so there is one row per location.
     """
-    chests: list[dict[str, Any]] = []
+    chests: list[ParsedItem] = []
     for location, content in _tabs(wikitext):
         loot = _parse_loot(content, location)
         if not loot:

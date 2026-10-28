@@ -3,10 +3,12 @@
 import re
 from typing import Any
 
+from scrapers.types import ParsedItem
 
-def parse_excavations(wikitext: str) -> list[dict[str, Any]]:
+
+def parse_excavations(wikitext: str) -> list[ParsedItem]:
     """Parse excavation data from tabber sections and tables."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Parse Excavation Sites (first tabber)
     sites = _parse_sites(wikitext)
@@ -23,9 +25,9 @@ def parse_excavations(wikitext: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_sites(wikitext: str) -> list[dict[str, Any]]:
+def _parse_sites(wikitext: str) -> list[ParsedItem]:
     """Parse excavation sites from the Sites tabber."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Find the first tabber (sites)
     tabber_match = re.search(r"<tabber>(.*?)</tabber>", wikitext, re.DOTALL)
@@ -61,9 +63,9 @@ def _parse_sites(wikitext: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_region_sites(region: str, content: str) -> list[dict[str, Any]]:
+def _parse_region_sites(region: str, content: str) -> list[ParsedItem]:
     """Parse individual sites within a region."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Split by === Site Name === to get individual sites
     # Pattern: === Site Name (X-Site) ===
@@ -80,7 +82,7 @@ def _parse_region_sites(region: str, content: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_site(region: str, site_name: str, content: str) -> dict[str, Any] | None:
+def _parse_site(region: str, site_name: str, content: str) -> ParsedItem | None:
     """Parse a single excavation site."""
     # Clean site name
     site_name = site_name.strip()
@@ -127,9 +129,9 @@ def _parse_site(region: str, site_name: str, content: str) -> dict[str, Any] | N
     }
 
 
-def _parse_levels(wikitext: str) -> list[dict[str, Any]]:
+def _parse_levels(wikitext: str) -> list[ParsedItem]:
     """Parse the Excavation Levels wikitable."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Find the levels table - it has "Level" header
     table_match = re.search(r'\{\| class="wikitable".*?Level.*?\n(.*?)\n\|\}', wikitext, re.DOTALL)
@@ -173,7 +175,7 @@ def _parse_levels(wikitext: str) -> list[dict[str, Any]]:
         # Index 8: Multiplier (e.g., "1×")
         # Index 9-14: Durations for sites A-F
 
-        data = {
+        data: dict[str, Any] = {
             "level": level,
         }
 
@@ -199,9 +201,9 @@ def _parse_levels(wikitext: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_rewards(wikitext: str) -> list[dict[str, Any]]:
+def _parse_rewards(wikitext: str) -> list[ParsedItem]:
     """Parse Excavation Rewards from the second tabber."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Find ALL tabbers
     tabber_matches = list(re.finditer(r"<tabber>(.*?)</tabber>", wikitext, re.DOTALL))
@@ -233,9 +235,9 @@ def _parse_rewards(wikitext: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_reward_table(site_name: str, content: str) -> list[dict[str, Any]]:
+def _parse_reward_table(site_name: str, content: str) -> list[ParsedItem]:
     """Parse a single reward wikitable."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Find the wikitable - try multiple patterns
     table_match = re.search(r'\{\| class="wikitable[^}]*".*?\n(.*?)\n\|\}', content, re.DOTALL)

@@ -1,12 +1,13 @@
 """Events scraper - parse <tabber> sections from the Events wiki page."""
 
 import re
-from typing import Any
+
+from scrapers.types import ParsedItem
 
 
-def parse_events(wikitext: str) -> list[dict[str, Any]]:
+def parse_events(wikitext: str) -> list[ParsedItem]:
     """Parse event data from tabber sections (Regular, Limited-Time, Admin-Exclusive)."""
-    events = []
+    events: list[ParsedItem] = []
 
     # Find all tabber tags
     tabber_pattern = r"<tabber>(.*?)</tabber>"
@@ -38,9 +39,9 @@ def parse_events(wikitext: str) -> list[dict[str, Any]]:
     return _parse_all_tabbers(wikitext)
 
 
-def _parse_all_tabbers(wikitext: str) -> list[dict[str, Any]]:
+def _parse_all_tabbers(wikitext: str) -> list[ParsedItem]:
     """Parse all tabber sections with their categories."""
-    events = []
+    events: list[ParsedItem] = []
 
     # Find all tabber tags with their preceding headers
     # The pattern: header (== ... ==) followed by <tabber>
@@ -83,7 +84,7 @@ def _categorize(category: str) -> str:
     return "regular"
 
 
-def _parse_event_tab(tab_content: str, category: str) -> dict[str, Any] | None:
+def _parse_event_tab(tab_content: str, category: str) -> ParsedItem | None:
     """Parse a single event tab content."""
     # Strip leading whitespace
     tab_content = tab_content.lstrip()

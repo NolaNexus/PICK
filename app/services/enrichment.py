@@ -74,7 +74,7 @@ PAGE_FIELDS = (
 LIST_FIELDS = {"locations"}
 
 # A value that counts as missing.
-_EMPTY = (None, "", [], {}, ())
+_EMPTY: tuple[object, ...] = (None, "", [], {}, ())
 
 
 def _as_list(value: str) -> list[str]:
@@ -145,11 +145,11 @@ async def enrich_items_from_pages(
             continue
 
         key = title_key(parsed["name"])
-        item = by_name.get(key)
-        if item is None:
+        matched = by_name.get(key)
+        if matched is None:
             continue
 
-        filled, conflicts = _merge_into(item, parsed)
+        filled, conflicts = _merge_into(matched, parsed)
         if filled:
             summary["enriched"] += 1
             summary["fields_filled"] += filled

@@ -1,14 +1,15 @@
 """Treasure Map scraper - parse per-location map types from the wiki page."""
 
 import re
-from typing import Any
+
+from scrapers.types import ParsedItem
 
 DEFAULT_DROP_CHANCE = 0.2
 DEFAULT_MAX_INVENTORY = 5
 DEFAULT_MAX_WITH_ENCHANT = 10
 
 
-def parse_treasure_maps(wikitext: str) -> list[dict[str, Any]]:
+def parse_treasure_maps(wikitext: str) -> list[ParsedItem]:
     """Parse the per-location Treasure Map variants.
 
     A Treasure Map is a special item that points at a buried Treasure Chest.

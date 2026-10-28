@@ -1,12 +1,13 @@
 """Relics scraper - parse relics from the Relics wiki page with tabber sections."""
 
 import re
-from typing import Any
+
+from scrapers.types import ParsedItem
 
 
-def parse_relics(wikitext: str) -> list[dict[str, Any]]:
+def parse_relics(wikitext: str) -> list[ParsedItem]:
     """Parse relic data from tabber sections."""
-    relics = []
+    relics: list[ParsedItem] = []
 
     # Find all tabber tags
     tabber_pattern = r"<tabber>(.*?)</tabber>"
@@ -31,7 +32,7 @@ def parse_relics(wikitext: str) -> list[dict[str, Any]]:
     return relics
 
 
-def _parse_relic_content(name: str, content: str) -> dict[str, Any] | None:
+def _parse_relic_content(name: str, content: str) -> ParsedItem | None:
     """Parse a single relic's content."""
     # Extract description (first paragraph after image). The heading markers
     # are left out of the captured text.

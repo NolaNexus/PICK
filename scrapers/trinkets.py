@@ -1,12 +1,13 @@
 """Trinkets scraper - parse wikitable from the Trinkets wiki page."""
 
 import re
-from typing import Any
+
+from scrapers.types import ParsedItem
 
 
-def parse_trinkets(wikitext: str) -> list[dict[str, Any]]:
+def parse_trinkets(wikitext: str) -> list[ParsedItem]:
     """Parse trinket data from wikitable rows."""
-    trinkets = []
+    trinkets: list[ParsedItem] = []
 
     # Find the wikitable
     table_match = re.search(r"\{\| class=\"wikitable\"(.*?)\|\}", wikitext, re.DOTALL)
@@ -30,7 +31,7 @@ def parse_trinkets(wikitext: str) -> list[dict[str, Any]]:
     return trinkets
 
 
-def _parse_trinket_row(row: str) -> dict[str, Any] | None:
+def _parse_trinket_row(row: str) -> ParsedItem | None:
     """Parse a single trinket row from the table.
 
     Row format (cells on separate lines starting with |):

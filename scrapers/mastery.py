@@ -3,10 +3,12 @@
 import re
 from typing import Any
 
+from scrapers.types import ParsedItem
 
-def parse_mastery(wikitext: str) -> list[dict[str, Any]]:
+
+def parse_mastery(wikitext: str) -> list[ParsedItem]:
     """Parse mastery data from tabber sections with locations and quests."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Find all tabber tags
     tabber_pattern = r"<tabber>(.*?)</tabber>"
@@ -43,9 +45,9 @@ def parse_mastery(wikitext: str) -> list[dict[str, Any]]:
     return items
 
 
-def _parse_location_mastery(location: str, content: str) -> list[dict[str, Any]]:
+def _parse_location_mastery(location: str, content: str) -> list[ParsedItem]:
     """Parse all quests for a single location mastery."""
-    items = []
+    items: list[ParsedItem] = []
 
     # Extract the boost type from the first line (e.g., "'''Boost:''' Rubble Creek Luck.")
     boost_match = re.search(r"'''Boost:'''\s*([^\n]+)", content)
@@ -64,7 +66,7 @@ def _parse_location_mastery(location: str, content: str) -> list[dict[str, Any]]
     return items
 
 
-def _parse_quest(location: str, boost_type: str, template_text: str) -> dict[str, Any] | None:
+def _parse_quest(location: str, boost_type: str, template_text: str) -> ParsedItem | None:
     """Parse a single {{Quest}} template into a mastery item."""
     # First, extract the Quest name field specifically
     quest_name_match = re.search(r"\|\s*Quest\s*=\s*([^\n]+)", template_text)
@@ -125,7 +127,7 @@ def _parse_quest(location: str, boost_type: str, template_text: str) -> dict[str
         )
 
     # Extract quest steps
-    steps = []
+    steps: list[str] = []
     for key in sorted(fields.keys()):
         if key.startswith("QuestStep"):
             step_num = key.replace("QuestStep", "").replace("Sub", "")

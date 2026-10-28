@@ -4,11 +4,12 @@ import re
 from typing import Any
 
 from scrapers.stats import parse_modifier_list
+from scrapers.types import ParsedItem
 
 
-def parse_runes(wikitext: str) -> list[dict[str, Any]]:
+def parse_runes(wikitext: str) -> list[ParsedItem]:
     """Parse rune data from wikitable."""
-    runes = []
+    runes: list[ParsedItem] = []
 
     # Find the wikitable with runes
     # The table has columns: Runes !! Icon !! Description !! Location
@@ -36,7 +37,7 @@ def parse_runes(wikitext: str) -> list[dict[str, Any]]:
     return runes
 
 
-def _parse_rune_row(row: str) -> dict[str, Any] | None:
+def _parse_rune_row(row: str) -> ParsedItem | None:
     """Parse a single rune row from the table."""
     # Row format:
     # | [[Runes|<span style="color:#...">Name</span>]]

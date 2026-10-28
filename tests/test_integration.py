@@ -214,8 +214,13 @@ async def test_scrape_page_deduplicates_parser_slugs(db_session):
 
 
 @pytest.mark.asyncio
-async def test_scrape_page_does_not_store_parser_id_as_wiki_id(db_session):
-    """Synthetic parser IDs can exceed the wiki_id column length and must not be stored."""
+async def test_scrape_page_does_not_store_the_parser_id(db_session):
+    """A parser's synthetic ID must not end up on the item.
+
+    Parsers number their rows so a page can refer to them, and those numbers
+    are not the wiki's own identifiers. The column they used to be written to
+    has been removed, so there is nowhere for them to go.
+    """
     from unittest.mock import AsyncMock, MagicMock
 
     from app.models import Item
@@ -233,7 +238,8 @@ async def test_scrape_page_does_not_store_parser_id_as_wiki_id(db_session):
     item = (
         await db_session.execute(select(Item).where(Item.slug == f"quest-{long_id}"))
     ).scalar_one()
-    assert item.wiki_id is None
+    assert not hasattr(item, "wiki_id")
+    assert long_id not in (item.data or {})
 
 
 def _fake_client(page_id: int, wikitext: str):

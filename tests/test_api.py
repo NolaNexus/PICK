@@ -5,37 +5,11 @@ from typing import Any
 import httpx
 import pytest
 import pytest_asyncio
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database import Base, get_session
+from app.database import get_session
 from app.main import app
 from app.models import Formula, Item, WikiPage
-from tests.conftest import get_test_database_url
-
-
-@pytest_asyncio.fixture
-async def test_engine():
-    """Create a test database engine."""
-    database_url = get_test_database_url()
-    engine = create_async_engine(database_url, echo=False)
-
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-
-    yield engine
-
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
-    await engine.dispose()
-
-
-@pytest_asyncio.fixture
-async def db_session(test_engine):
-    """Create a database session for testing."""
-    async_session = sessionmaker(test_engine, class_=AsyncSession, expire_on_commit=False)
-    async with async_session() as session:
-        yield session
 
 
 @pytest_asyncio.fixture
@@ -60,10 +34,15 @@ async def _add_wiki_page_and_item(
     page_id: int,
     item_type: str,
     item_name: str,
-    item_slug: str,
     item_data: dict[str, Any] | None = None,
+    item_slug: str | None = None,
 ) -> Item:
-    """Helper to insert a wiki page and item."""
+    """Helper to insert a wiki page and item.
+
+    The slug defaults to the type prefix plus the name, the way
+    ``type_prefixed_slug`` builds it. The database enforces that rule, so a
+    fixture that invents its own slug has to get it right.
+    """
     wiki_page = WikiPage(
         title=title,
         page_id=page_id,
@@ -72,6 +51,10 @@ async def _add_wiki_page_and_item(
     )
     db_session.add(wiki_page)
     await db_session.flush()
+
+    if item_slug is None:
+        prefix = item_type.replace("_", "-")
+        item_slug = f"{prefix}-{item_name.lower().replace(' ', '-')}"
 
     item = Item(
         type=item_type,
@@ -96,7 +79,6 @@ async def test_api_meta_endpoint(client, db_session):
         100,
         "pan",
         "Rusty Pan",
-        "rusty-pan",
         {"luck": 1, "capacity": 5},
     )
 
@@ -118,7 +100,6 @@ async def test_api_list_items(client, db_session):
             100 + i,
             "pan",
             f"Pan {i}",
-            f"pan-{i}",
             {"luck": float(i), "capacity": float(i * 5)},
         )
 
@@ -141,7 +122,6 @@ async def test_api_list_items_filter_by_type(client, db_session):
         200,
         "pan",
         "Rusty Pan",
-        "rusty-pan",
         {"luck": 1},
     )
     await _add_wiki_page_and_item(
@@ -150,7 +130,6 @@ async def test_api_list_items_filter_by_type(client, db_session):
         201,
         "shovel",
         "Rusty Shovel",
-        "rusty-shovel",
         {"strength": 1},
     )
 
@@ -170,7 +149,6 @@ async def test_api_list_items_search(client, db_session):
         300,
         "pan",
         "Golden Pan",
-        "golden-pan",
         {"luck": 10},
     )
 
@@ -190,14 +168,13 @@ async def test_api_get_item_by_slug(client, db_session):
         400,
         "pan",
         "Rusty Pan",
-        "rusty-pan",
         {"luck": 1},
     )
 
-    response = await client.get("/api/v1/items/rusty-pan")
+    response = await client.get("/api/v1/items/pan-rusty-pan")
     assert response.status_code == 200
     data = response.json()
-    assert data["slug"] == "rusty-pan"
+    assert data["slug"] == "pan-rusty-pan"
     assert data["name"] == "Rusty Pan"
     assert data["type"] == "pan"
 
@@ -218,7 +195,6 @@ async def test_api_list_item_types(client, db_session):
         500,
         "pan",
         "Rusty Pan",
-        "rusty-pan",
         {},
     )
     await _add_wiki_page_and_item(
@@ -227,7 +203,6 @@ async def test_api_list_item_types(client, db_session):
         501,
         "shovel",
         "Rusty Shovel",
-        "rusty-shovel",
         {},
     )
 
@@ -247,7 +222,6 @@ async def test_api_search_endpoint(client, db_session):
         600,
         "pan",
         "Silver Pan",
-        "silver-pan",
         {"location": "Rubble Creek"},
     )
 
@@ -296,21 +270,19 @@ async def test_api_formulas_list_and_get(client, db_session):
 @pytest.mark.asyncio
 async def test_api_excludes_inactive_items(client, db_session):
     """Soft-deleted items are hidden from list, lookup, types, and search."""
-    await _add_wiki_page_and_item(
-        db_session, "Pans Active", 700, "pan", "Active Pan", "active-pan", {"luck": 1}
-    )
+    await _add_wiki_page_and_item(db_session, "Pans Active", 700, "pan", "Active Pan", {"luck": 1})
     inactive = await _add_wiki_page_and_item(
-        db_session, "Pans Retired", 701, "pan", "Retired Pan", "retired-pan", {"luck": 1}
+        db_session, "Pans Retired", 701, "pan", "Retired Pan", {"luck": 1}
     )
     inactive.is_active = False
     await db_session.commit()
 
     response = await client.get("/api/v1/items")
     assert response.status_code == 200
-    assert [item["slug"] for item in response.json()["items"]] == ["active-pan"]
+    assert [item["slug"] for item in response.json()["items"]] == ["pan-active-pan"]
 
-    assert (await client.get("/api/v1/items/retired-pan")).status_code == 404
-    assert (await client.get("/api/v1/items/active-pan")).status_code == 200
+    assert (await client.get("/api/v1/items/pan-retired-pan")).status_code == 404
+    assert (await client.get("/api/v1/items/pan-active-pan")).status_code == 200
 
     response = await client.get("/api/v1/search?q=Pan")
-    assert {item["slug"] for item in response.json()["items"]} == {"active-pan"}
+    assert {item["slug"] for item in response.json()["items"]} == {"pan-active-pan"}

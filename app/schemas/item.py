@@ -7,7 +7,6 @@ from pydantic import BaseModel, Field
 class ItemResponse(BaseModel):
     id: int = Field(description="Unique item identifier")
     type: str = Field(description="Item type (e.g., pan, shovel, mineral)")
-    wiki_id: str | None = Field(default=None, description="Original wiki ID")
     name: str = Field(description="Item display name")
     slug: str = Field(description="URL-safe slug")
     data: dict | None = Field(default=None, description="Item data JSON")
@@ -22,7 +21,6 @@ class ItemResponse(BaseModel):
             "example": {
                 "id": 1,
                 "type": "pan",
-                "wiki_id": None,
                 "name": "Rusty Pan",
                 "slug": "rusty-pan",
                 "data": {"luck": 1, "capacity": 5, "strength": 0.2, "speed": 0.8},

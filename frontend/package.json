@@ -6,6 +6,7 @@
     "typecheck": "tsc -b",
     "preview": "vite preview",
     "generate:api": "orval",
+    "generate:snapshot-types": "json2ts -i ../snapshot.schema.json -o src/lib/snapshot.types.ts --unreachableDefinitions --additionalProperties false",
     "format": "prettier --write src/**/*.{ts,tsx}"
   },
   "private": true,
@@ -42,6 +43,7 @@
     "eslint": "^8.50.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "json-schema-to-typescript": "^16.0.0",
     "lucide-react": "^0.468.0",
     "orval": "^6.0.0",
     "postcss": "^8.4.0",

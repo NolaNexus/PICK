@@ -22,8 +22,9 @@ The API is local-only. See `README.md` and `SETUP.md` for narrative docs.
 | `app/` | FastAPI app: `api/` routers, `services/` domain logic, `models/` SQLAlchemy models, `schemas/` Pydantic, `taxonomy.py`, `config.py` |
 | `scrapers/` | One module per wiki page; each exposes a `parse_*` function. `registry.py` maps page titles → parsers and holds `TRACKED_PAGES` |
 | `scripts/` | CLI entry points: `scraper.py`, `export_snapshot.py`, `seed_formulas.py`, `coverage_report.py`, `refresh_site.sh` |
-| `frontend/` | Vite app. `src/api/` is **generated** by orval; `src/lib/snapshot.ts` loads the static snapshot |
+| `frontend/` | Vite app. `src/api/` is **generated** by orval; `src/lib/snapshot.types.ts` is **generated** by json-schema-to-typescript; `src/lib/snapshot.ts` loads the static snapshot |
 | `alembic/versions/` | Migrations, numbered sequentially |
+| `snapshot.schema.json` | The contract for the published file. The exporter writes it, the client reads it, CI checks it |
 | `tests/` | pytest. `tests/fixtures/*.wiki` holds captured page wikitext |
 
 ## Commands
@@ -58,6 +59,11 @@ TEST_DATABASE_URL="postgresql+asyncpg://pick:pick@localhost:5432/pick_test" \
 DATABASE_URL="postgresql+asyncpg://pick:pick@localhost:5432/pick" \
   .venv/bin/python -m pytest -q
 ```
+
+**Never run two pytest sessions against the same test database at once.** The
+`test_engine` fixture drops every table on teardown, so two runs in parallel tear
+each other's tables down mid-run and fail in ways that look like real bugs. Run
+them one after another, or give each its own `_test` database.
 
 Pure-logic tests (e.g. `tests/test_export_snapshot.py`, `tests/test_export_guard.py`) need
 no database and run standalone. Run one test with
@@ -110,6 +116,15 @@ Regenerating with unchanged input produces no diff — check that before committ
 **Never hand-edit `frontend/src/api/pick.ts` or `pick.schemas.ts`.** They are orval
 output and are overwritten.
 
+**The calculator API has six working endpoints; the rest were removed.** `/ev`, `/ttg`,
+`/modifier-odds`, `/best-pan`, `/museum` and `/stats/modifier-distribution`. The nine
+that could only ever answer with an empty result were deleted rather than left
+returning nothing, and the always-`False` `r_used` field went with them. Do not
+reintroduce an endpoint that returns a placeholder — `tests/test_calculator_stats.py`
+asserts the removed paths now answer 404. Note that the published site never calls this
+API: `frontend/src/lib/calculators.ts` is a port of `app/services/calculators.py`, and
+the site is static.
+
 **`ruff format --check` fails on `alembic/` today.** That drift is pre-existing and
 outside CI's scope (`ruff format --check app scrapers scripts tests`). Do not "fix" it as
 part of an unrelated change, and do not let it block you — match CI's scopes.
@@ -127,11 +142,39 @@ adding a page, add the parser too.
 `items.slug` is globally unique; the same game object on several wiki pages is stored
 once. Items removed from a page are soft-deleted (`is_active = false`), never deleted.
 
-**`data.merchant.last_seen` is volatile.** Merchant stock rotates daily, so
-`_comparable` in `scripts/export_snapshot.py` explicitly strips it before comparing. The
-same function ignores scrape timestamps and the per-run `last_scrape` telemetry
-(`pages_scraped`/`pages_changed`/`pages_errors`) entirely — they differ on every run, so
-including them would make each run look like a change and commit the file daily.
+**The taxonomy lives in the database, not in Python.** The `taxonomy` table holds every
+type with its area, group, label, kind, display order and whether it is a fragment.
+`app/taxonomy.py` reads it through `load_taxonomy(db)` — an async loader, because the
+rows are in the database. The taxonomy is read that way in the API and the exporter;
+both already have a session. A type that is not in the table cannot be written to
+`items.type`, because that column is a PostgreSQL enum over the same 33 values.
+
+**Fragment types are not items.** Eight types are marked `is_fragment` in the taxonomy
+table: `museum_ore`, `blueprint`, `mutation_catalyst`, `excavation_reward`,
+`museum_display`, `museum_info`, `merchant_item`, `consumable`. A parser emits them so
+reconciliation can fold them into another row. They are not browsable, but the client
+still needs a label for one of them: `mutation_catalyst` for "Frosthorn Pendant" has no
+equipment to fold into, so it stays active. The folds are described by the `FOLDS` table
+in `app/services/reconcile.py`; add one there rather than writing a new bespoke merge.
+
+**The database enforces the rules the code assumes.** `items` has three check
+constraints — `ck_items_name_not_empty`, `ck_items_data_object` and
+`ck_items_slug_prefix` — and the slug one is the important one: a slug must be the type
+prefix (with hyphens, so `enchant_book` gives `enchant-book-…`) plus the name. That is
+what keeps `items.slug` unique and deterministic whatever order the pages were scraped
+in. `tests/test_schema_constraints.py` asserts the database rejects rows that break
+each of them, so a rule that is only in Python fails the build. The `items.data` column
+is `JSONB` with `jsonb_typeof(data) = 'object'`; the check is added by hand in
+`app/models/item.py` because the function that reads a JSON value's type is named
+differently in PostgreSQL and SQLite.
+
+**Change detection is an exclusion list, not an inclusion list.** `_comparable()` in
+`scripts/export_snapshot.py` serialises the *whole* snapshot and strips an explicit list
+of volatile keys (scrape timestamps, `data.merchant.last_seen`, the `last_scrape`
+counters). Anything else is compared, including the taxonomy. The old inclusion list
+silently missed the taxonomy, so a taxonomy change never published; the new one fails
+loud instead (an unnecessary commit, not a stale site). If you add a field that changes
+every run, add it to the volatile list — do not stop comparing it.
 
 **Snapshot rows must be ordered.** `build_snapshot()` in `app/services/snapshot.py` has an
 explicit `ORDER BY` on every query, and `_comparable` sorts the rows before comparing
@@ -139,6 +182,20 @@ them. Without both, PostgreSQL returns rows in plan order, which is not stable b
 runs: the same 853 items come back in a different order, the file differs every time, and
 the refresh job commits it daily for no reason. If you add a query to `build_snapshot`,
 give it an `ORDER BY`.
+
+**`SNAPSHOT_SCHEMA_VERSION` is declared twice** — `app/services/snapshot.py` and
+`frontend/src/lib/snapshot.ts`. `tests/test_snapshot_contract.py` fails if they drift.
+Bump both when the payload shape changes.
+
+**The published file has a contract.** `snapshot.schema.json` describes
+`snapshot.json`: every key, every type, `additionalProperties: false` so an
+undeclared field is a failure rather than a surprise. `tests/test_snapshot_contract.py`
+validates the committed file against it, and checks that a deliberately broken
+snapshot is rejected. The schema's `itemType` list and the database's `item_type` enum
+must hold the same values; the test asserts it. The frontend's types are **generated**
+from the schema by `npm run generate:snapshot-types` into
+`frontend/src/lib/snapshot.types.ts` — never hand-edit that file. When the shape
+changes, change the schema first, regenerate, then regenerate the API spec.
 
 **`.env` is dotenv, not shell.** `scripts/refresh_site.sh` parses it line by line rather
 than sourcing it, because `USER_AGENT=PICK/1.0 (Prospecting Information & Community Kit)`

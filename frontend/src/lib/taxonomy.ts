@@ -5,17 +5,21 @@
  * item types without an API of its own to ask. A type the server does not
  * know about still renders: it is treated as an item in the items area and
  * its name is humanised.
+ *
+ * The shape comes from `snapshot.schema.json`, the contract the published
+ * file is checked against.
  */
 
-export type TaxonomyKind = "item" | "record" | "reference"
+import type { TaxonomyEntry } from "./snapshot.types";
 
-export interface TaxonomyEntry {
-  type: string
-  area: string
-  group: string | null
-  label: string
-  kind: TaxonomyKind
-  listed: boolean
+export type TaxonomyKind = "item" | "record" | "reference";
+
+export type { TaxonomyEntry };
+
+export interface Taxonomy {
+  entries: Map<string, TaxonomyEntry>;
+  areas: string[];
+  groups: Map<string, string[]>;
 }
 
 export interface Taxonomy {
@@ -34,14 +38,17 @@ function humanise(type: string): string {
  * Read the taxonomy out of a snapshot.
  */
 export function readTaxonomy(raw: unknown): Taxonomy {
-  const entries = new Map<string, TaxonomyEntry>()
-  const areas: string[] = []
-  const groups = new Map<string, string[]>()
+  const entries = new Map<string, TaxonomyEntry>();
+  const areas: string[] = [];
+  const groups = new Map<string, string[]>();
 
-  const list = Array.isArray(raw) ? (raw as TaxonomyEntry[]) : []
+  const list = Array.isArray(raw) ? (raw as TaxonomyEntry[]) : [];
 
+  // The parsing is defensive on purpose. The types say what the file holds,
+  // but the file can come from a newer server than this build knows about, and
+  // an entry it does not recognise still has to render.
   for (const entry of list) {
-    if (!entry || typeof entry.type !== "string") continue
+    if (!entry || typeof entry.type !== "string") continue;
     entries.set(entry.type, {
       type: entry.type,
       area: entry.area ?? FALLBACK_AREA,
@@ -49,7 +56,7 @@ export function readTaxonomy(raw: unknown): Taxonomy {
       label: entry.label || humanise(entry.type),
       kind: entry.kind ?? "item",
       listed: entry.listed !== false,
-    })
+    });
   }
 
   for (const entry of entries.values()) {

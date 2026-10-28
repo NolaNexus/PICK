@@ -1,0 +1,276 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/nolas-1/PICK/snapshot.schema.json",
+  "title": "PICK snapshot",
+  "description": "The published dataset. The site reads this file and nothing else, so its shape is a contract: the exporter writes it and the client reads it, and nothing else is allowed to change underneath either of them.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "taxonomy",
+    "generated_at",
+    "counts",
+    "items",
+    "formulas",
+    "wiki_pages",
+    "game_version",
+    "last_scrape"
+  ],
+  "properties": {
+    "schema_version": {
+      "description": "The version of this shape. The client refuses a snapshot older than the version it knows.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "taxonomy": {
+      "description": "What the client needs to know about each item type: where it belongs, what to call it, and whether it can be browsed on its own.",
+      "type": "array",
+      "items": { "$ref": "#/definitions/taxonomyEntry" }
+    },
+    "generated_at": {
+      "description": "When the snapshot was built.",
+      "type": "string"
+    },
+    "counts": {
+      "description": "How much of everything there is.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["items", "formulas", "wiki_pages"],
+      "properties": {
+        "items": { "type": "integer", "minimum": 0 },
+        "formulas": { "type": "integer", "minimum": 0 },
+        "wiki_pages": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "items": {
+      "description": "Everything the site can show a page about.",
+      "type": "array",
+      "items": { "$ref": "#/definitions/item" }
+    },
+    "formulas": {
+      "description": "The formulas the calculators use.",
+      "type": "array",
+      "items": { "$ref": "#/definitions/formula" }
+    },
+    "wiki_pages": {
+      "description": "The wiki pages that were read.",
+      "type": "array",
+      "items": { "$ref": "#/definitions/wikiPage" }
+    },
+    "game_version": {
+      "description": "The game version the data was read from.",
+      "oneOf": [{ "$ref": "#/definitions/gameVersion" }, { "type": "null" }]
+    },
+    "last_scrape": {
+      "description": "How the last scrape went.",
+      "oneOf": [{ "$ref": "#/definitions/lastScrape" }, { "type": "null" }]
+    }
+  },
+  "definitions": {
+    "itemType": {
+      "description": "The types an item can have. The same list the database holds in its item_type enum, so the file and the database cannot disagree about what a type is.",
+      "type": "string",
+      "enum": [
+        "blueprint",
+        "consumable",
+        "enchant_book",
+        "enchantment",
+        "equipment",
+        "event",
+        "excavation_level",
+        "excavation_reward",
+        "excavation_site",
+        "formula",
+        "geode",
+        "location",
+        "mastery",
+        "merchant_item",
+        "mineral",
+        "modifier",
+        "museum_display",
+        "museum_info",
+        "museum_ore",
+        "mutation_catalyst",
+        "mutation_chance",
+        "mutation_effect",
+        "npc",
+        "pan",
+        "potion",
+        "quest",
+        "relic",
+        "rune",
+        "shovel",
+        "sluice",
+        "treasure_chest",
+        "treasure_map",
+        "trinket"
+      ]
+    },
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "name",
+        "slug",
+        "data",
+        "image_url",
+        "description",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "id": {
+          "description": "The row's identifier. Stable for as long as the row lives.",
+          "type": "integer"
+        },
+        "type": { "$ref": "#/definitions/itemType" },
+        "name": {
+          "description": "The name to show a user.",
+          "type": "string",
+          "minLength": 1
+        },
+        "slug": {
+          "description": "The URL-safe name. The type prefix, then the name.",
+          "type": "string",
+          "minLength": 1
+        },
+        "data": {
+          "description": "Everything else the wiki says about the item. The fields depend on the type, so the shape is deliberately not described here.",
+          "type": "object"
+        },
+        "image_url": {
+          "description": "The picture, when there is one.",
+          "type": ["string", "null"]
+        },
+        "description": {
+          "description": "The description, when there is one.",
+          "type": ["string", "null"]
+        },
+        "created_at": { "type": "string" },
+        "updated_at": { "type": "string" }
+      }
+    },
+    "formula": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "formula_id",
+        "name",
+        "description",
+        "formula",
+        "params",
+        "confidence",
+        "source_url",
+        "patch_version",
+        "created_at"
+      ],
+      "properties": {
+        "id": { "type": "integer" },
+        "formula_id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "description": { "type": ["string", "null"] },
+        "formula": {
+          "description": "The formula, as the wiki writes it.",
+          "type": "string"
+        },
+        "params": {
+          "description": "What the formula takes, and what each thing is.",
+          "type": ["object", "null"]
+        },
+        "confidence": {
+          "description": "How sure the formula is. A formula read off the wiki is confirmed; one worked out is approximate.",
+          "type": "string",
+          "enum": ["approximate", "confirmed"]
+        },
+        "source_url": { "type": ["string", "null"] },
+        "patch_version": { "type": ["string", "null"] },
+        "created_at": { "type": "string" }
+      }
+    },
+    "wikiPage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "page_id",
+        "last_revision_id",
+        "last_scraped",
+        "content_hash",
+        "namespace"
+      ],
+      "properties": {
+        "id": { "type": "integer" },
+        "title": { "type": "string", "minLength": 1 },
+        "page_id": { "type": "integer" },
+        "last_revision_id": { "type": "integer" },
+        "last_scraped": { "type": ["string", "null"] },
+        "content_hash": { "type": "string" },
+        "namespace": { "type": "integer" }
+      }
+    },
+    "taxonomyEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "area", "group", "label", "kind", "listed"],
+      "properties": {
+        "type": { "$ref": "#/definitions/itemType" },
+        "area": {
+          "description": "Where the type is browsed.",
+          "type": "string",
+          "enum": ["items", "minerals", "world", "calculators"]
+        },
+        "group": {
+          "description": "The group inside the area, when there is one.",
+          "type": ["string", "null"]
+        },
+        "label": {
+          "description": "The name to show a user for the type.",
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "description": "What the type is. An item is browsable on its own; a reference is attached to something else.",
+          "type": "string",
+          "enum": ["item", "record", "reference"]
+        },
+        "listed": {
+          "description": "Whether the type is browsable on its own.",
+          "type": "boolean"
+        }
+      }
+    },
+    "gameVersion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "detected_at"],
+      "properties": {
+        "version": { "type": ["string", "null"] },
+        "detected_at": { "type": ["string", "null"] }
+      }
+    },
+    "lastScrape": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "started_at",
+        "finished_at",
+        "pages_scraped",
+        "pages_changed",
+        "pages_errors"
+      ],
+      "properties": {
+        "status": { "type": ["string", "null"] },
+        "started_at": { "type": ["string", "null"] },
+        "finished_at": { "type": ["string", "null"] },
+        "pages_scraped": { "type": "integer" },
+        "pages_changed": { "type": "integer" },
+        "pages_errors": { "type": "integer" }
+      }
+    }
+  }
+}

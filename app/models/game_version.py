@@ -2,7 +2,7 @@
 
 from datetime import UTC, datetime
 
-from sqlalchemy import BigInteger, Column, DateTime, String, Text
+from sqlalchemy import BigInteger, Boolean, Column, DateTime, String, Text
 
 from app.database import Base
 
@@ -20,7 +20,7 @@ class GameVersion(Base):
         default=datetime.now(UTC),
         nullable=False,
     )
-    triggered_full_scrape = Column(BigInteger, default=0)
+    triggered_full_scrape = Column(Boolean, default=False, server_default="false")
 
     def __repr__(self):
         return f"<GameVersion(version={self.version})>"

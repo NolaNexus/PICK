@@ -329,7 +329,6 @@ async def scrape_page(
         if item is None:
             item = Item(
                 type=item_data["type"],
-                wiki_id=item_data.get("wiki_id"),
                 name=item_data["name"],
                 slug=slug,
                 data=item_data.get("data", {}),
@@ -341,7 +340,6 @@ async def scrape_page(
             db.add(item)
         else:
             item.type = item_data["type"]
-            item.wiki_id = item_data.get("wiki_id")
             item.name = item_data["name"]
             item.data = item_data.get("data", {})
             item.image_url = item_data.get("image_url")

@@ -39,13 +39,41 @@ Think of PICK as a companion layer on top of the wiki: structured data, calculat
 - Docker Compose for local development
 - GitHub Actions for CI/CD and frontend deployment
 
+## How the data is kept honest
+
+The published site reads one file, `frontend/public/snapshot.json`, and nothing else.
+Everything around it is arranged so that a mistake is caught by a build rather than
+by a player.
+
+**The database enforces its own rules.** `items.type` is a PostgreSQL enum, so a row
+with a type nobody declared cannot be written. Three check constraints hold the rest
+in place: a name is never empty, the payload is always a JSON object, and a slug is
+always the type prefix plus the name — which is what keeps slugs unique and
+deterministic whatever order the pages were scraped in.
+
+**The taxonomy lives in the database.** The `taxonomy` table holds every type with
+its area, group, label and display order, so the list of types and the column that
+holds one cannot drift apart. The site reads the taxonomy out of the snapshot, and
+the client can name every type, including the ones that describe part of an item.
+
+**The published file has a contract.** `snapshot.schema.json` describes the snapshot:
+every key, every type, and no undeclared fields. The committed file is validated
+against it in CI, a deliberately broken snapshot is checked to be rejected, and the
+frontend's TypeScript types are generated from the schema rather than written by
+hand.
+
+**Only the data that changed is published.** The export compares the whole snapshot
+against the file, ignoring a short list of things that always differ — scrape
+timestamps, the merchant's rotating stock. Everything else counts, including the
+taxonomy, so a change to it is published rather than silently dropped.
+
 ## Item identity
 
 The same game object can appear on several wiki pages. PICK stores it once:
 
-- Slugs are namespaced by type (`relic-cosmic-resonator`, `npc-rubble-creek-john`), so an NPC and a quest that share a name stay distinct.
+- Slugs are namespaced by type (`relic-cosmic-resonator`, `npc-rubble-creek-john`), so an NPC and a quest that share a name stay distinct. The database enforces this: a slug that does not follow its type is rejected.
 - Traveling Merchant stock merges into the item as `data.merchant`. Stock, price, and currency rotate every daily spawn, so these are last-seen values (`data.merchant.last_seen`).
-- Excavation drops keep their own per-site rows (`excavation_reward`) with drop chance and a `data.item_slug` pointing at the item.
+- A row that only describes part of an item — the museum row of a mineral, the blueprint of a piece of equipment, the drop table of an excavation site — is folded into that item and retired. These are the *fragment types*: `museum_ore`, `blueprint`, `mutation_catalyst`, `excavation_reward`, `museum_display`, `museum_info`, `merchant_item`, `consumable`. A fragment whose item is missing from the wiki stays active, so its data is not lost.
 - Quests link to the NPC that gives them via `data.npc_slug`.
 - Items removed from a page are soft-deleted (`is_active = false`), never hard-deleted.
 

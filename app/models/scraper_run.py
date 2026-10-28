@@ -1,6 +1,6 @@
 from datetime import UTC, datetime
 
-from sqlalchemy import BigInteger, Column, DateTime, Integer, String, Text
+from sqlalchemy import BigInteger, Column, DateTime, String, Text
 
 from app.database import Base
 
@@ -8,7 +8,7 @@ from app.database import Base
 class ScraperRun(Base):
     __tablename__ = "scraper_runs"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
     started_at = Column(
         DateTime(timezone=True),
         default=datetime.now(UTC),

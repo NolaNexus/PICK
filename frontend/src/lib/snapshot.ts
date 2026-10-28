@@ -1,6 +1,15 @@
 import type { ItemResponse } from "@/api/pick.schemas";
 import request from "@/api/client";
 import { dbGet, dbPut, dbClear } from "./idb";
+import type {
+  Formula,
+  GameVersion,
+  ItemType,
+  LastScrape,
+  PICKSnapshot,
+  TaxonomyEntry,
+  WikiPage,
+} from "./snapshot.types";
 
 const STORE = "snapshot";
 const KEY = "main";
@@ -10,15 +19,20 @@ const STALE_MS = 1000 * 60 * 60 * 24; // 24 hours
 // the snapshot.json committed alongside the build.
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
 
-export interface WikiPageResponse {
-  id: number;
-  title: string;
-  page_id: number;
-  last_revision_id: number;
-  last_scraped: string | null;
-  content_hash: string;
-  namespace: number;
-}
+export type {
+  Formula,
+  GameVersion,
+  ItemType,
+  LastScrape,
+  PICKSnapshot,
+  TaxonomyEntry,
+  WikiPage,
+};
+
+export type SnapshotCounts = PICKSnapshot["counts"];
+export type SnapshotFormula = Formula;
+export type SnapshotWikiPage = WikiPage;
+export type SnapshotItem = PICKSnapshot["items"][number];
 
 export interface GameVersionResponse {
   version: string | null;
@@ -35,43 +49,22 @@ export interface LastScrapeResponse {
   pages_errors: number;
 }
 
-export interface SnapshotCounts {
-  items: number;
-  formulas: number;
-  wiki_pages: number;
-}
-
 export interface SnapshotMeta {
   game_version: GameVersionResponse | null;
   last_scrape: LastScrapeResponse | null;
 }
 
-export interface SnapshotWikiPage {
-  id: number;
-  title: string;
-  page_id: number;
-  last_revision_id: number;
-  last_scraped: string | null;
-  content_hash: string;
-  namespace: number;
-}
-
-export interface SnapshotFormula {
-  id: number;
-  formula_id: string;
-  name: string;
-  description: string | null;
-  formula: string;
-  params: unknown;
-  confidence: string;
-  source_url: string | null;
-  patch_version: string | null;
-  created_at: string | null;
-}
-
+/**
+ * The shape the pages read.
+ *
+ * The snapshot itself is described by `snapshot.schema.json` at the root of
+ * the repository, and the types are generated from it. This adds the `meta`
+ * wrapper, which holds the two blocks the API can omit, so a page never has
+ * to check whether they are there.
+ */
 export interface SnapshotData {
   schema_version: number;
-  taxonomy?: unknown;
+  taxonomy: TaxonomyEntry[];
   generated_at: string;
   counts: SnapshotCounts;
   items: ItemResponse[];
@@ -108,12 +101,12 @@ const EMPTY_VERSION: GameVersionResponse = {
  * a snapshot of a different shape, the cached one is discarded so the new
  * data is fetched instead of the old data being rendered by new code.
  */
-export const SNAPSHOT_SCHEMA_VERSION = 5;
+export const SNAPSHOT_SCHEMA_VERSION = 6;
 
 /** Shape of a snapshot payload before it is normalized. */
 interface RawSnapshot {
   schema_version?: number;
-  taxonomy?: unknown;
+  taxonomy?: TaxonomyEntry[];
   generated_at?: string;
   counts?: SnapshotData["counts"];
   items?: SnapshotData["items"];
@@ -141,7 +134,7 @@ export function normalizeSnapshot(raw: RawSnapshot | null | undefined): Snapshot
 
   return {
     schema_version: raw?.schema_version ?? SNAPSHOT_SCHEMA_VERSION,
-    taxonomy: raw?.taxonomy,
+    taxonomy: raw?.taxonomy ?? [],
     generated_at: raw?.generated_at ?? new Date().toISOString(),
     counts: raw?.counts ?? {
       items: raw?.items?.length ?? 0,

@@ -12,14 +12,17 @@ git clone https://github.com/NolaNexus/PICK.git
 cd PICK
 ```
 
-## Step 2: Configure the Webhook Secret (optional)
+## Step 2: Configure the Environment
 
-The wiki can notify PICK when a page changes so only that page is re-scraped.
-Without a secret the endpoint is open; with one, requests must carry it.
+Copy `.env.example` to `.env` and fill in the values you need:
 
 ```bash
-WEBHOOK_SECRET=your_webhook_secret_here
+cp .env.example .env
 ```
+
+The file is read by `python-dotenv` and by `scripts/refresh_site.sh`, which parses it
+line by line rather than sourcing it: `USER_AGENT` contains spaces and parentheses,
+so it is not shell syntax.
 
 ## Step 3: Local Development
 
@@ -35,8 +38,12 @@ pip install -r requirements.txt
 
 There is no R dependency any more. `app/services/r_stats.py`, the `R/` scripts and
 `requirements-r.txt` were removed; the calculators' Python implementations live in
-`app/services/stats.py` and always run. Endpoints still report `r_used: false`, which
-is the value they returned whenever R happened to be missing.
+`app/services/stats.py` and always run.
+
+The endpoints that could only ever return an empty result were removed along with it,
+rather than left answering with nothing. The six calculators that do work are
+`/calculators/ev`, `/ttg`, `/modifier-odds`, `/best-pan`, `/museum` and
+`/calculators/stats/modifier-distribution`.
 
 ### Start Backend + Database
 
@@ -159,9 +166,6 @@ DATABASE_URL=postgresql+asyncpg://pick:pick@localhost:5432/pick
 
 # CORS allowed origins (comma-separated; use "*" for dev, list domains for prod)
 # CORS_ORIGINS=https://pick.example.com,https://www.pick.example.com
-
-# Webhook secret for security (optional)
-# WEBHOOK_SECRET=your_webhook_secret_here
 
 ### Frontend Scripts
 

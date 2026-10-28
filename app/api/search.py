@@ -42,8 +42,10 @@ async def search(
         count_query = count_query.where(Item.type == type)
 
     if location:
-        query = query.where(Item.data["location"].astext.ilike(f"%{location}%"))
-        count_query = count_query.where(Item.data["location"].astext.ilike(f"%{location}%"))
+        # as_string() is the portable form: it works for both json and jsonb.
+        location_term = Item.data["location"].as_string().ilike(f"%{location}%")
+        query = query.where(location_term)
+        count_query = count_query.where(location_term)
 
     total_result = await db.execute(count_query)
     total = total_result.scalar() or 0

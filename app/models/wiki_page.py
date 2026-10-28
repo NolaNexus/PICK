@@ -19,9 +19,12 @@ class WikiPage(Base):
         nullable=False,
     )
     content_hash = Column(String(64), nullable=False)
-    namespace = Column(BigInteger, default=0)
+    namespace = Column(BigInteger, default=0, server_default="0", nullable=False)
 
-    items = relationship("Item", back_populates="wiki_page", cascade="all, delete-orphan")
+    # An item is a fact about the game, not about the page it was first seen
+    # on. Deleting the page row leaves the item alone; the database nulls the
+    # reference rather than cascading the delete, so the two agree.
+    items = relationship("Item", back_populates="wiki_page")
 
     def __repr__(self):
         return f"<WikiPage(title={self.title}, page_id={self.page_id})>"

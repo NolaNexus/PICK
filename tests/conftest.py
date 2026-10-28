@@ -1,6 +1,7 @@
 """Shared pytest fixtures and safety guards for the test suite."""
 
 import os
+from pathlib import Path
 from urllib.parse import urlparse
 
 import pytest
@@ -76,13 +77,91 @@ async def test_engine():
     engine = create_async_engine(database_url, echo=False)
 
     async with engine.begin() as conn:
+        # The item type enum is created by a migration, not by the metadata,
+        # so it has to be made here before the tables that use it.
+        await conn.run_sync(_create_item_type_enum)
         await conn.run_sync(Base.metadata.create_all)
+        await conn.run_sync(_seed_taxonomy)
 
     yield engine
 
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
+        # The enum is not a table, so dropping the tables leaves it behind.
+        await conn.run_sync(_drop_item_type_enum)
     await engine.dispose()
+
+
+def _create_item_type_enum(connection) -> None:
+    """Create the item type enum, the way the migration does."""
+    from sqlalchemy import text
+
+    from app.models.item import ITEM_TYPE_VALUES
+
+    # A run that was killed part way through leaves the enum behind, and the
+    # enum is not a table, so dropping the tables does not remove it.
+    connection.execute(text("DROP TYPE IF EXISTS item_type CASCADE"))
+    connection.execute(
+        text(
+            "CREATE TYPE item_type AS ENUM ({})".format(
+                ", ".join(f"'{value}'" for value in ITEM_TYPE_VALUES)
+            )
+        )
+    )
+
+
+def _drop_item_type_enum(connection) -> None:
+    """Drop the item type enum."""
+    from sqlalchemy import text
+
+    connection.execute(text("DROP TYPE IF EXISTS item_type"))
+
+
+def _seed_taxonomy(connection) -> None:
+    """Fill the taxonomy table, the way the migration does."""
+    from pathlib import Path
+
+    from sqlalchemy import text
+
+    # The taxonomy rows live in the migration, because that is where the
+    # taxonomy is defined.
+    versions = Path(__file__).resolve().parents[1] / "alembic" / "versions"
+    module = _load_taxonomy_migration(versions)
+
+    connection.execute(
+        text(
+            "INSERT INTO taxonomy "
+            "(type, area, group_name, label, kind, listed, is_fragment, display_order) "
+            "VALUES (:type, :area, :group_name, :label, :kind, :listed, :is_fragment, "
+            ":display_order)"
+        ),
+        [
+            {
+                "type": row_type,
+                "area": area,
+                "group_name": group_name,
+                "label": label,
+                "kind": kind,
+                "listed": kind == "item",
+                "is_fragment": is_fragment,
+                "display_order": display_order,
+            }
+            for row_type, area, group_name, label, kind, is_fragment, display_order in (
+                module.TAXONOMY_ROWS
+            )
+        ],
+    )
+
+
+def _load_taxonomy_migration(versions: Path):
+    """Load the migration that defines the taxonomy rows."""
+    import importlib.util
+
+    path = versions / "006_enforce_schema_invariants.py"
+    spec = importlib.util.spec_from_file_location("migration_006", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 @pytest_asyncio.fixture

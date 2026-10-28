@@ -28,3 +28,26 @@ whether a route was added without being registered in `app/api/__init__.py`.
 
 Never hand-edit `frontend/src/api/pick.ts` or `pick.schemas.ts`. They are
 orval output and are overwritten on the next run.
+
+## The snapshot contract
+
+The published file has a contract of its own, in `snapshot.schema.json` at the
+root of the repository. The frontend's types are generated from it:
+
+```bash
+cd /home/nola/Desktop/PICK/frontend && npm run generate:snapshot-types
+```
+
+This writes `frontend/src/lib/snapshot.types.ts`. Never hand-edit that file
+either.
+
+When you change what the snapshot holds, change the schema **first**, then
+regenerate the types, then regenerate the API spec. The order matters: the
+schema is the contract, and everything else follows it.
+
+Regenerating with unchanged input must produce no diff:
+
+```bash
+cd /home/nola/Desktop/PICK
+git status --short snapshot.schema.json frontend/src/lib/snapshot.types.ts
+```

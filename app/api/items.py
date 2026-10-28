@@ -5,15 +5,16 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_session
 from app.models import Item
 from app.schemas import ItemResponse, PaginatedResponse
-from app.taxonomy import TAXONOMY, taxonomy_payload
+from app.taxonomy import load_taxonomy
 
 router = APIRouter()
 
 
 @router.get("/taxonomy", tags=["items"])
-async def list_taxonomy():
+async def list_taxonomy(db: AsyncSession = Depends(get_session)):  # noqa: B008
     """List the item types, with the area, group and label each one has."""
-    return taxonomy_payload()
+    taxonomy = await load_taxonomy(db)
+    return taxonomy.payload()
 
 
 @router.get("", response_model=PaginatedResponse, tags=["items"])
@@ -35,7 +36,8 @@ async def list_items(
         count_query = count_query.where(Item.type == type)
 
     if area or group:
-        types = [item_type for item_type in TAXONOMY if _matches_area(item_type, area, group)]
+        taxonomy = await load_taxonomy(db)
+        types = [entry.type for entry in taxonomy.entries if _matches_area(entry, area, group)]
         if not types:
             return PaginatedResponse(items=[], total=0, page=page, size=size, pages=0)
         query = query.where(Item.type.in_(types))
@@ -65,7 +67,6 @@ async def list_items(
         ItemResponse(
             id=item.id,
             type=item.type,
-            wiki_id=item.wiki_id,
             name=item.name,
             slug=item.slug,
             data=item.data,
@@ -86,14 +87,11 @@ async def list_items(
     )
 
 
-def _matches_area(item_type: str, area: str | None, group: str | None) -> bool:
+def _matches_area(entry, area: str | None, group: str | None) -> bool:
     """Return True when a type is in the requested area and group."""
-    entry = TAXONOMY.get(item_type)
-    if not entry:
+    if area and entry.area != area:
         return False
-    if area and entry[0] != area:
-        return False
-    if group and entry[1] != group:
+    if group and entry.group != group:
         return False
     return True
 
@@ -134,7 +132,6 @@ async def list_items_by_type(
         ItemResponse(
             id=item.id,
             type=item.type,
-            wiki_id=item.wiki_id,
             name=item.name,
             slug=item.slug,
             data=item.data,
@@ -170,7 +167,6 @@ async def get_item(
     return ItemResponse(
         id=item.id,
         type=item.type,
-        wiki_id=item.wiki_id,
         name=item.name,
         slug=item.slug,
         data=item.data,

@@ -41,7 +41,14 @@ def run_migrations_online():
 
     def do_run_migrations(connection: Connection) -> None:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection,
+            target_metadata=target_metadata,
+            # One transaction per revision. Alembic's default is a single
+            # transaction for the whole run, which breaks a revision that adds
+            # a value to an enum and then uses that value: PostgreSQL refuses
+            # to use a value in the transaction that added it. See
+            # docs/agent-instructions/data-model.md.
+            transaction_per_migration=True,
         )
         with context.begin_transaction():
             context.run_migrations()

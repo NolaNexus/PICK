@@ -29,7 +29,6 @@ app = FastAPI(
         {"name": "meta", "description": "Application and dataset metadata."},
         {"name": "search", "description": "Full-text search across items."},
         {"name": "export", "description": "Public dataset snapshot export."},
-        {"name": "webhooks", "description": "Wiki edit webhooks for targeted rescrapes."},
         {"name": "health", "description": "Liveness and readiness checks."},
         {"name": "metrics", "description": "Prometheus metrics."},
     ],

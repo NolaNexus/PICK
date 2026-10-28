@@ -6,7 +6,6 @@ from typing import Any
 from fastapi import APIRouter, Depends, Request
 from prometheus_client import (
     Counter,
-    Gauge,
     Histogram,
     generate_latest,
 )
@@ -28,41 +27,6 @@ REQUEST_LATENCY = Histogram(
     "http_request_duration_seconds",
     "HTTP request latency in seconds",
     ["method", "endpoint"],
-)
-
-SCRAPER_RUNS = Counter(
-    "scraper_runs_total",
-    "Total scraper runs",
-    ["status"],
-)
-
-SCRAPER_PAGES = Counter(
-    "scraper_pages_total",
-    "Total pages scraped",
-    ["page", "status"],
-)
-
-DB_QUERY_LATENCY = Histogram(
-    "db_query_duration_seconds",
-    "Database query latency in seconds",
-    ["query"],
-)
-
-ITEMS_IN_DB = Gauge(
-    "items_in_database_total",
-    "Total items in database",
-    ["type"],
-)
-
-LAST_SCRAPE_TIMESTAMP = Gauge(
-    "last_scrape_timestamp_seconds",
-    "Unix timestamp of last successful scrape",
-)
-
-CURRENT_GAME_VERSION = Gauge(
-    "current_game_version",
-    "Current detected game version",
-    ["version"],
 )
 
 

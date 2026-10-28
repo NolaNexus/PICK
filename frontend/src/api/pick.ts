@@ -45,7 +45,6 @@ import fitModifierFractionEndpointApiV1CalculatorsStatsModifierFractionPostMutat
 import questSurvivalEndpointApiV1CalculatorsStatsQuestSurvivalPostMutator from './client';
 import evParetoFrontierEndpointApiV1CalculatorsStatsEvParetoFrontierPostMutator from './client';
 import metaApiV1MetaGetMutator from './client';
-import wikiEditWebhookApiV1WebhooksWikiEditPostMutator from './client';
 import searchApiV1SearchGetMutator from './client';
 import exportSnapshotApiV1ExportSnapshotGetMutator from './client';
 export type SearchApiV1SearchGetParams = {
@@ -3785,98 +3784,6 @@ export const useMetaApiV1MetaGet = <
   query.queryKey = queryOptions.queryKey;
 
   return query;
-};
-
-/**
- * Handle MediaWiki edit webhook.
-
-Expected payload format (from MediaWiki WebHooks extension):
-{
-    "wiki": "prospecting",
-    "title": "Pans",
-    "user": "Username",
-    "comment": "Updated stats",
-    "timestamp": "2024-01-15T12:34:56Z",
-    "url": "https://prospecting.miraheze.org/wiki/Pans?diff=12345"
-}
- * @summary Wiki Edit Webhook
- */
-const wikiEditWebhookApiV1WebhooksWikiEditPost = (
-  options?: SecondParameter<
-    typeof wikiEditWebhookApiV1WebhooksWikiEditPostMutator
-  >
-) => {
-  return wikiEditWebhookApiV1WebhooksWikiEditPostMutator<unknown>(
-    { url: `/api/v1/webhooks/wiki-edit`, method: 'POST' },
-    options
-  );
-};
-
-export const getWikiEditWebhookApiV1WebhooksWikiEditPostMutationOptions = <
-  TError = HTTPValidationError,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof wikiEditWebhookApiV1WebhooksWikiEditPost>>,
-    TError,
-    void,
-    TContext
-  >;
-  request?: SecondParameter<
-    typeof wikiEditWebhookApiV1WebhooksWikiEditPostMutator
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof wikiEditWebhookApiV1WebhooksWikiEditPost>>,
-  TError,
-  void,
-  TContext
-> => {
-  const { mutation: mutationOptions, request: requestOptions } = options ?? {};
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof wikiEditWebhookApiV1WebhooksWikiEditPost>>,
-    void
-  > = () => {
-    return wikiEditWebhookApiV1WebhooksWikiEditPost(requestOptions);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type WikiEditWebhookApiV1WebhooksWikiEditPostMutationResult =
-  NonNullable<
-    Awaited<ReturnType<typeof wikiEditWebhookApiV1WebhooksWikiEditPost>>
-  >;
-
-export type WikiEditWebhookApiV1WebhooksWikiEditPostMutationError =
-  HTTPValidationError;
-
-/**
- * @summary Wiki Edit Webhook
- */
-export const useWikiEditWebhookApiV1WebhooksWikiEditPost = <
-  TError = HTTPValidationError,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof wikiEditWebhookApiV1WebhooksWikiEditPost>>,
-    TError,
-    void,
-    TContext
-  >;
-  request?: SecondParameter<
-    typeof wikiEditWebhookApiV1WebhooksWikiEditPostMutator
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof wikiEditWebhookApiV1WebhooksWikiEditPost>>,
-  TError,
-  void,
-  TContext
-> => {
-  const mutationOptions =
-    getWikiEditWebhookApiV1WebhooksWikiEditPostMutationOptions(options);
-
-  return useMutation(mutationOptions);
 };
 
 /**

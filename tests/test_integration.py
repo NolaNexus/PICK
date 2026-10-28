@@ -90,43 +90,6 @@ class TestScraperIntegration:
 
 
 @pytest.mark.integration
-@requires_wiki
-class TestWebhookIntegration:
-    """Integration tests for webhook endpoint."""
-
-    @pytest.mark.asyncio
-    async def test_webhook_triggers_targeted_scrape(self, db_session, monkeypatch):
-        """Test that webhook endpoint triggers targeted scrape."""
-        from unittest.mock import AsyncMock, MagicMock
-
-        from fastapi import Request
-
-        from app.api.webhooks import wiki_edit_webhook
-        from app.config import settings
-
-        # Create mock request
-        mock_request = MagicMock(spec=Request)
-        mock_request.json = AsyncMock(
-            return_value={
-                "title": "Pans",
-                "user": "TestUser",
-                "comment": "Updated stats",
-            }
-        )
-        mock_request.body = AsyncMock(return_value=b'{"title": "Pans", "user": "TestUser"}')
-
-        # Mock settings to skip signature verification
-        monkeypatch.setattr(settings, "webhook_secret", None)
-
-        # Call webhook handler
-        response = await wiki_edit_webhook(mock_request, db_session)
-
-        assert response["status"] == "ok"
-        assert response["page"] == "Pans"
-        assert response["changed"] is True  # Should have changed since DB is empty
-
-
-@pytest.mark.integration
 class TestScraperUnit:
     """Unit tests for scraper functions (with mocked wiki)."""
 

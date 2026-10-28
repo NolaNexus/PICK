@@ -23,9 +23,6 @@ def register_api_routes(app: FastAPI) -> None:
     from app.api import (
         search as search_router,
     )
-    from app.api import (
-        webhooks as webhooks_router,
-    )
 
     api_prefix = "/api/v1"
     app.include_router(items_router.router, prefix=f"{api_prefix}/items", tags=["items"])
@@ -34,6 +31,5 @@ def register_api_routes(app: FastAPI) -> None:
         calculators_router.router, prefix=f"{api_prefix}/calculators", tags=["calculators"]
     )
     app.include_router(meta_router.router, prefix=f"{api_prefix}/meta", tags=["meta"])
-    app.include_router(webhooks_router.router, prefix=f"{api_prefix}/webhooks", tags=["webhooks"])
     app.include_router(search_router.router, prefix=f"{api_prefix}/search", tags=["search"])
     app.include_router(export_router.router, prefix=f"{api_prefix}/export", tags=["export"])

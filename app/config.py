@@ -20,9 +20,6 @@ class Settings(BaseSettings):
     # CORS
     cors_origins: list[str] = ["*"]
 
-    # Webhooks
-    webhook_secret: str | None = None
-
     # App
     app_name: str = "PICK"
     app_version: str = "0.1.0"

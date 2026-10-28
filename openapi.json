@@ -1144,55 +1144,6 @@
         }
       }
     },
-    "/api/v1/webhooks/wiki-edit": {
-      "post": {
-        "tags": [
-          "webhooks",
-          "webhooks"
-        ],
-        "summary": "Wiki Edit Webhook",
-        "description": "Handle MediaWiki edit webhook.\n\nExpected payload format (from MediaWiki WebHooks extension):\n{\n    \"wiki\": \"prospecting\",\n    \"title\": \"Pans\",\n    \"user\": \"Username\",\n    \"comment\": \"Updated stats\",\n    \"timestamp\": \"2024-01-15T12:34:56Z\",\n    \"url\": \"https://prospecting.miraheze.org/wiki/Pans?diff=12345\"\n}",
-        "operationId": "wiki_edit_webhook_api_v1_webhooks_wiki_edit_post",
-        "parameters": [
-          {
-            "name": "X-MediaWiki-Signature",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Mediawiki-Signature"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/search": {
       "get": {
         "tags": [
@@ -3934,10 +3885,6 @@
     {
       "name": "export",
       "description": "Public dataset snapshot export."
-    },
-    {
-      "name": "webhooks",
-      "description": "Wiki edit webhooks for targeted rescrapes."
     },
     {
       "name": "health",

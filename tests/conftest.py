@@ -55,7 +55,7 @@ def wiki_is_reachable() -> bool:
             settings.mediawiki_api_url,
             params={"action": "query", "meta": "siteinfo", "format": "json"},
             timeout=15.0,
-            headers={"User-Agent": settings.reddit_user_agent},
+            headers={"User-Agent": settings.user_agent},
         )
         return response.status_code == 200
     except Exception:

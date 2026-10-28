@@ -3,7 +3,7 @@ import { useMemo } from "react"
 import { useSnapshot } from "@/lib/hooks"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Gem, Shovel, MapPin, Calculator } from "lucide-react"
+import { Gem, Shovel, MapPin } from "lucide-react"
 
 const SECTIONS = [
   {
@@ -26,13 +26,6 @@ const SECTIONS = [
     description: "NPCs, quests, locations and events",
     icon: MapPin,
     area: "world",
-  },
-  {
-    to: "/calculators",
-    title: "Calculators",
-    description: "Formulas, mastery and mutations",
-    icon: Calculator,
-    area: "calculators",
   },
 ]
 
@@ -88,7 +81,7 @@ export default function HomePage() {
         </p>
       )}
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {SECTIONS.map((section) => {
           const Icon = section.icon
           return (

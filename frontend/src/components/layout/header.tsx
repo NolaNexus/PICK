@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
-import { Menu, Shovel, LayoutList, Calculator, Activity, Search, X } from "lucide-react"
+import { Menu, Shovel, LayoutList, Activity, Search, X } from "lucide-react"
 import { ProspectingIcons } from "@/assets/icons/prospecting"
 import { cn } from "@/lib/utils"
 
@@ -11,7 +11,6 @@ const navItems = [
   { href: "/items", label: "Items", icon: LayoutList },
   { href: "/minerals", label: "Minerals", icon: Shovel },
   { href: "/world", label: "World", icon: LayoutList },
-  { href: "/calculators", label: "Calculators", icon: Calculator },
   { href: "/search", label: "Search", icon: Search },
   { href: "/meta", label: "Status", icon: Activity },
 ]

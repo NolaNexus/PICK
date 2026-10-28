@@ -36,14 +36,7 @@ backend.
 
 ## Calculators
 
-- `frontend/src/lib/calculators.ts` and `frontend/src/lib/museum.ts` are the only
-  implementation. They run in the browser. `calculators.ts` uses `decimal.js` for precision.
-- There is no oracle. The Python implementation they came from is gone, so the tests pin
-  current behaviour, not a known-good result.
-- `calculateEV` is a documented placeholder. It uses `base_price` as a proxy for the drop
-  chance and ignores `luck` and `quality`. Its test is marked `TODO`. Tracked as issue #6.
-  The snapshot holds real drop chances at `data.chances[]` (`chance_percent`, `one_in`).
-- Museum calculator bugs are tracked as issue #1.
+Removed for now; focus is on DB/data formatting. Re-add when calculator feature returns.
 
 ## Indentation
 

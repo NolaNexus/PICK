@@ -7,9 +7,9 @@ Run every check that CI runs, in the order CI runs them. Stop at the first failu
 ```bash
 cd /home/nola/Desktop/PICK
 
-.venv/bin/ruff check app scrapers scripts tests
-.venv/bin/ruff format --check app scrapers scripts tests
-.venv/bin/mypy app/ scrapers/ scripts/
+.venv/bin/python -m ruff check app scrapers scripts tests
+.venv/bin/python -m ruff format --check app scrapers scripts tests
+.venv/bin/python -m mypy app/ scrapers/ scripts/
 
 TEST_DATABASE_URL="postgresql+asyncpg://pick:pick@localhost:5432/pick_test" \
 DATABASE_URL="postgresql+asyncpg://pick:pick@localhost:5432/pick" \

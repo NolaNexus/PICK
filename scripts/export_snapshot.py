@@ -19,6 +19,34 @@ OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "frontend", "public"
 # so an unchanged wiki does not trigger a commit and a site redeploy.
 VOLATILE_ITEM_FIELDS = ("created_at", "updated_at")
 
+# A snapshot that loses this much of the catalogue is treated as broken rather
+# than as news. The scramble this prevents: a scrape whose requests were all
+# refused still completes, and publishing it would erase the site.
+MAX_ITEM_DROP = 0.20
+
+
+def _item_count(snapshot: dict) -> int:
+    """The number of items in a snapshot."""
+    counts = snapshot.get("counts")
+    if isinstance(counts, dict):
+        return int(counts.get("items") or 0)
+    return len(snapshot.get("items") or [])
+
+
+def _refusal_reason(existing: dict, snapshot: dict) -> str | None:
+    """Why the new snapshot must not replace the existing one, if it must not."""
+    before = _item_count(existing)
+    after = _item_count(snapshot)
+
+    if before and after == 0:
+        return f"the new snapshot has no items and the existing one has {before}"
+
+    if before and after < before * (1 - MAX_ITEM_DROP):
+        lost = round((1 - after / before) * 100)
+        return f"the item count would fall from {before} to {after} ({lost}% lost)"
+
+    return None
+
 
 def _comparable_item_data(data):
     """Return item data without the merchant's last-seen timestamp."""
@@ -92,8 +120,12 @@ def _comparable(snapshot: dict) -> str:
     return json.dumps(comparable, sort_keys=True, default=str)
 
 
-async def export_snapshot(output_path: str = OUTPUT_PATH) -> dict:
-    """Build the snapshot and write it to disk only if it changed."""
+async def export_snapshot(output_path: str = OUTPUT_PATH, force: bool = False) -> dict:
+    """Build the snapshot and write it to disk only if it changed.
+
+    Refuses to write a snapshot that would erase the catalogue. Pass
+    ``force`` when the drop is real (a game update that removed items).
+    """
     snapshot = await _build_snapshot_async()
 
     abs_path = os.path.abspath(output_path)
@@ -101,6 +133,17 @@ async def export_snapshot(output_path: str = OUTPUT_PATH) -> dict:
     if os.path.exists(abs_path):
         with open(abs_path, encoding="utf-8") as f:
             existing = json.load(f)
+
+        if not force:
+            reason = _refusal_reason(existing, snapshot)
+            if reason is not None:
+                return {
+                    "status": "refused",
+                    "reason": reason,
+                    "output": abs_path,
+                    "counts": snapshot["counts"],
+                }
+
         if _comparable(existing) == _comparable(snapshot):
             changed = False
 
@@ -123,17 +166,25 @@ async def _build_snapshot_async() -> dict:
         return await build_snapshot(session)
 
 
-async def main():
+async def main() -> int:
     parser = argparse.ArgumentParser(description="Export PICK snapshot to JSON")
     parser.add_argument(
         "--output",
         default=OUTPUT_PATH,
         help="Output path for snapshot.json",
     )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Write even when the item count drops sharply",
+    )
     args = parser.parse_args()
-    result = await export_snapshot(args.output)
+    result = await export_snapshot(args.output, force=args.force)
     print(json.dumps(result, indent=2))
+    return 0 if result["status"] == "ok" else 1
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    import sys
+
+    sys.exit(asyncio.run(main()))

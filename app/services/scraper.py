@@ -108,6 +108,7 @@ async def _run_scrape(
 
     client = MediaWikiClient()
     pages_scraped = 0
+    pages_ok = 0
     pages_changed = 0
     pages_errors = 0
     error_log = []
@@ -145,6 +146,10 @@ async def _run_scrape(
         for title in titles_to_scrape:
             try:
                 changed = await scrape_page(db, client, title)
+                # Pages without a parser are never fetched, so they do not
+                # count as a page the run reached.
+                if PARSERS.get(title):
+                    pages_ok += 1
                 if changed:
                     pages_changed += 1
                 pages_scraped += 1
@@ -187,6 +192,7 @@ async def _run_scrape(
     return {
         "status": run.status,
         "pages_scraped": pages_scraped,
+        "pages_ok": pages_ok,
         "pages_changed": pages_changed,
         "pages_errors": pages_errors,
         "enriched": enriched,

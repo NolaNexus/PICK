@@ -2,13 +2,20 @@
 
 import argparse
 import asyncio
+import sys
 
 import app.database as app_database
 from app.services.scraper import run_daily_scrape, run_full_scrape
 
 
-async def main(full: bool = False):
-    """Run the daily scraper cycle."""
+async def main(full: bool = False) -> int:
+    """Run the scraper and report whether it produced anything.
+
+    A run that scrapes no pages is a failure, not a success. The wiki can
+    answer every request with an error (a blocked address, for instance) and
+    the scrape still completes, so without this check the pipeline would
+    publish the empty database over the real data.
+    """
     from app.models import Base
 
     engine = await app_database.get_engine()
@@ -22,6 +29,16 @@ async def main(full: bool = False):
             result = await run_daily_scrape(session)
         print(f"Scrape complete: {result}")
 
+    if result["pages_ok"] == 0:
+        print(
+            "Scrape reached no page; refusing to report success. "
+            "Nothing will be published from this run.",
+            file=sys.stderr,
+        )
+        return 1
+
+    return 0
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run the PICK wiki scraper")
@@ -31,4 +48,4 @@ if __name__ == "__main__":
         help="Run full scrape of all tracked pages (bypass recentchanges)",
     )
     args = parser.parse_args()
-    asyncio.run(main(full=args.full))
+    sys.exit(asyncio.run(main(full=args.full)))

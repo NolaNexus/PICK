@@ -92,3 +92,11 @@ def test_comparable_item_data_leaves_other_data_untouched():
     data = {"rarity": "common"}
     assert _comparable_item_data(data) == data
     assert _comparable_item_data(None) is None
+
+
+def test_a_schema_version_change_is_a_change():
+    """A new schema version means the file has to be rewritten."""
+    first = _snapshot(schema_version=2)
+    second = _snapshot(schema_version=3)
+
+    assert _comparable(first) != _comparable(second)

@@ -73,7 +73,11 @@ class TestHtmlAndEntities:
         assert render_text("first<br />second") == "first\nsecond"
 
     def test_superscript_keeps_its_content(self):
-        assert render_text("3&nbsp;[[Gold]]<sup>&nbsp;c</sup>") == "3 Gold c"
+        assert render_text("3&nbsp;[[Gold]]<sup>&nbsp;c</sup>") == "3 Gold (c)"
+
+    def test_superscript_in_a_recipe(self):
+        rendered = render_text("1&nbsp;[[Celestium]]<sup>&nbsp;c</sup><br />5&nbsp;[[Gold]]")
+        assert rendered == "1 Celestium (c)\n5 Gold"
 
     def test_percent_encoding_is_decoded(self):
         assert render_text("Blueprint_%26_Trinket_Vendor") == "Blueprint_&_Trinket_Vendor"

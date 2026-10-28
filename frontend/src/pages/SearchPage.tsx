@@ -8,6 +8,15 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { toast } from '@/components/ui/toast'
+import { ItemDetail } from '@/components/item-detail'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/modal'
+import type { ItemResponse } from '@/api/pick.schemas'
 
 export default function SearchPage() {
   const [query, setQuery] = useState('')
@@ -19,6 +28,7 @@ export default function SearchPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [syncError, setSyncError] = useState<Error | null>(null)
   const [isSyncing, setIsSyncing] = useState(false)
+  const [selectedItem, setSelectedItem] = useState<ItemResponse | null>(null)
   const debounced = useDebounce(query, 300)
   const loadedRef = useRef(false)
 
@@ -209,7 +219,13 @@ export default function SearchPage() {
                       </TableCell>
                       <TableCell className="text-muted-foreground text-sm">—</TableCell>
                       <TableCell className="text-right">
-                        <Button variant="ghost" size="sm">View</Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setSelectedItem(item)}
+                        >
+                          View
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -249,6 +265,18 @@ export default function SearchPage() {
           )}
         </CardContent>
       </Card>
+
+      <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
+        <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>{selectedItem?.name}</DialogTitle>
+            <DialogDescription className="capitalize">
+              {selectedItem?.type?.replace(/_/g, " ")}
+            </DialogDescription>
+          </DialogHeader>
+          {selectedItem ? <ItemDetail item={selectedItem} /> : null}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

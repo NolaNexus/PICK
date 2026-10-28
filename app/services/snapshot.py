@@ -7,6 +7,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import Formula, GameVersion, Item, News, ScraperRun, WikiPage
 
+#: Version of the shape of the snapshot payload.
+#:
+#: The frontend caches the snapshot in the browser for a day. When the shape
+#: of the data changes, this version is bumped so a client discards the
+#: snapshot it has and fetches the new one, instead of rendering old data
+#: with the new code.
+SNAPSHOT_SCHEMA_VERSION = 2
+
 
 def _iso(value):
     return value.isoformat() if value is not None else None
@@ -84,6 +92,7 @@ async def build_snapshot(db: AsyncSession) -> dict:
     ).scalar_one_or_none()
 
     return {
+        "schema_version": SNAPSHOT_SCHEMA_VERSION,
         "generated_at": datetime.now(UTC).isoformat(),
         "counts": {
             "items": len(items),

@@ -90,6 +90,7 @@ def _comparable(snapshot: dict) -> str:
     last_scrape = snapshot.get("last_scrape") or {}
 
     comparable = {
+        "schema_version": snapshot.get("schema_version"),
         "counts": snapshot.get("counts"),
         "items": items,
         "formulas": formulas,

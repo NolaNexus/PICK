@@ -107,6 +107,6 @@ for page in [
 #: The scraper only re-parses a page when its wikitext changes. Bumping this
 #: value makes every page look changed, so a change to a parser or to the
 #: shared wikitext renderer is applied to the data that is already stored.
-PARSER_VERSION = 3
+PARSER_VERSION = 5
 
 __all__ = ["PARSERS", "PARSER_VERSION", "TRACKED_PAGES"]

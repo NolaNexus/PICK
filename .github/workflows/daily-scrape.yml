@@ -74,6 +74,9 @@ jobs:
           CHANGED=$(python -c "import json; print(str(json.load(open('/tmp/export_result.json'))['changed']).lower())")
           echo "changed=$CHANGED" >> $GITHUB_OUTPUT
 
+      - name: Report item coverage
+        run: python -m scripts.coverage_report
+
       - name: Commit and push snapshot (only if data changed)
         if: steps.export.outputs.changed == 'true'
         run: |

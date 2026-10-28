@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { ItemDetail } from '@/components/item-detail'
 import {
   Table,
   TableBody,
@@ -123,8 +124,6 @@ export default function ItemBrowserPage() {
   }, [clampedPage, page])
 
   const types = useMemo(() => (snapshot ? snapshotCache.getTypes(snapshot) : []), [snapshot])
-
-  const itemDetail = snapshot && selectedItem ? snapshotCache.getItem(snapshot, selectedItem.slug) : undefined
 
   useEffect(() => {
     if (syncError) {
@@ -307,31 +306,20 @@ export default function ItemBrowserPage() {
         <DialogTrigger asChild>
           <button />
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>{selectedItem?.name}</DialogTitle>
-            <DialogDescription>{selectedItem?.description}</DialogDescription>
+            <DialogDescription className="capitalize">
+              {selectedItem?.type?.replace(/_/g, " ")}
+            </DialogDescription>
           </DialogHeader>
-          {selectedItem && itemDetail ? (
+          {selectedItem ? (
+            <ItemDetail item={selectedItem} />
+          ) : (
             <DialogFooter>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <div>
-                  <span className="text-muted-foreground">Type</span>{' '}
-                  <span className="font-medium">{selectedItem.type}</span>
-                </div>
-                <div>
-                  <span className="text-muted-foreground">Slug</span>{' '}
-                  <span className="font-medium">{selectedItem.slug}</span>
-                </div>
-                <div>
-                  <span className="text-muted-foreground">Data</span>{' '}
-                  <span className="font-mono text-xs">
-                    {JSON.stringify(selectedItem.data).slice(0, 120)}...
-                  </span>
-                </div>
-              </div>
+              <span className="text-sm text-muted-foreground">No details available.</span>
             </DialogFooter>
-          ) : null}
+          )}
         </DialogContent>
       </Dialog>
     </div>

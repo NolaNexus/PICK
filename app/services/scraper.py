@@ -4,7 +4,7 @@ import hashlib
 import logging
 import re
 from datetime import UTC, datetime
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from sqlalchemy import select
 
@@ -178,6 +178,41 @@ async def _run_scrape(
     }
 
 
+async def _resolve_image_urls(
+    client: MediaWikiClient,
+    parsed_items: list[tuple[dict[str, Any], str]],
+) -> dict[str, str]:
+    """Resolve the image file names of a page to their URLs.
+
+    A failure to reach the wiki for the images is not fatal: the items are
+    stored without a picture rather than not at all.
+    """
+    names = {
+        name for item_data, _ in parsed_items if (name := _image_name(item_data.get("data", {})))
+    }
+    if not names:
+        return {}
+
+    try:
+        return await client.get_image_urls(sorted(names))
+    except Exception as exc:  # pragma: no cover - depends on the wiki
+        logger.warning("Could not resolve image URLs: %s", exc)
+        return {}
+
+
+def _image_name(data: dict[str, Any]) -> str:
+    """Return the image file name of an item, if it has one."""
+    if not isinstance(data, dict):
+        return ""
+
+    for key in ("image", "icon"):
+        value = data.get(key)
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+
+    return ""
+
+
 async def scrape_page(
     db: "AsyncSession",
     client: MediaWikiClient,
@@ -251,6 +286,10 @@ async def scrape_page(
         result = await db.execute(select(Item).where(Item.slug.in_(slugs)))
         existing_items = {item.slug: item for item in result.scalars().all()}
 
+    # The wiki only stores the name of an image file, so the names are
+    # resolved to their URLs in one batch for the whole page.
+    image_urls = await _resolve_image_urls(client, parsed_items)
+
     for item_data, slug in parsed_items:
         item = existing_items.get(slug)
 
@@ -260,6 +299,10 @@ async def scrape_page(
             **item_data,
             "data": render_item_data(item_data.get("data", {}) or {}),
         }
+
+        image_url = image_urls.get(_image_name(item_data.get("data", {})))
+        if image_url:
+            item_data["image_url"] = image_url
 
         if item is None:
             item = Item(

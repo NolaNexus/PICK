@@ -11,6 +11,9 @@ logger = logging.getLogger(__name__)
 
 WIKIPEDIA_API_URL = settings.mediawiki_api_url
 
+# How many file names are looked up in one request.
+IMAGE_BATCH_SIZE = 50
+
 
 class MediaWikiClient:
     """Async client for the MediaWiki API with rate-limit and maxlag handling."""
@@ -99,3 +102,78 @@ class MediaWikiClient:
         changes = data.get("query", {}).get("recentchanges", [])
         logger.info("Fetched %d recent changes from wiki", len(changes))
         return changes
+
+    async def get_all_pages(self, limit: int = 500) -> list[str]:
+        """List the titles of every page in the wiki's main namespace."""
+        client = await self._get_client()
+        titles: list[str] = []
+        continuation: str | None = None
+
+        while True:
+            params: dict[str, Any] = {
+                "action": "query",
+                "list": "allpages",
+                "aplimit": str(limit),
+                "apnamespace": "0",
+                "format": "json",
+                "formatversion": "2",
+            }
+            if continuation:
+                params["apcontinue"] = continuation
+
+            resp = await client.get("/", params=params)
+            resp.raise_for_status()
+            data = resp.json()
+
+            for page in data.get("query", {}).get("allpages", []):
+                title = page.get("title")
+                if title:
+                    titles.append(title)
+
+            continuation = data.get("continue", {}).get("apcontinue")
+            if not continuation:
+                break
+
+        logger.info("Listed %d wiki pages", len(titles))
+        return titles
+
+    async def get_image_urls(self, file_names: list[str]) -> dict[str, str]:
+        """Resolve wiki file names to their URLs.
+
+        The names are looked up in batches, so a page with many items only
+        costs a couple of requests. Names that do not exist are left out.
+        """
+        if not file_names:
+            return {}
+
+        client = await self._get_client()
+        wanted = [name for name in dict.fromkeys(file_names) if name]
+        resolved: dict[str, str] = {}
+
+        for start in range(0, len(wanted), IMAGE_BATCH_SIZE):
+            batch = wanted[start : start + IMAGE_BATCH_SIZE]
+            params = {
+                "action": "query",
+                "titles": "|".join(f"File:{name}" for name in batch),
+                "prop": "imageinfo",
+                "iiprop": "url",
+                "format": "json",
+                "formatversion": "2",
+            }
+            resp = await client.get("/", params=params)
+            resp.raise_for_status()
+            data = resp.json()
+
+            for page in data.get("query", {}).get("pages", []):
+                title = page.get("title", "")
+                if not title.startswith("File:"):
+                    continue
+                info = page.get("imageinfo") or []
+                if not info:
+                    continue
+                url = info[0].get("url")
+                if url:
+                    resolved[title[5:]] = url
+
+        logger.info("Resolved %d of %d image names", len(resolved), len(wanted))
+        return resolved

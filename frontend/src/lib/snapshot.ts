@@ -99,6 +99,7 @@ export interface SnapshotFormula {
 }
 
 export interface SnapshotData {
+  schema_version: number;
   generated_at: string;
   counts: SnapshotCounts;
   items: ItemResponse[];
@@ -127,10 +128,20 @@ const EMPTY_VERSION: GameVersionResponse = {
   version: null,
   detected_at: null,
   triggered_full_scrape: 0,
-};
+}
+
+/**
+ * The shape of the snapshot this build understands.
+ *
+ * The snapshot is cached in the browser for a day. When the server publishes
+ * a snapshot of a different shape, the cached one is discarded so the new
+ * data is fetched instead of the old data being rendered by new code.
+ */
+export const SNAPSHOT_SCHEMA_VERSION = 2;
 
 /** Shape of a snapshot payload before it is normalized. */
 interface RawSnapshot {
+  schema_version?: number;
   generated_at?: string;
   counts?: SnapshotData["counts"];
   items?: SnapshotData["items"];
@@ -158,6 +169,7 @@ export function normalizeSnapshot(raw: RawSnapshot | null | undefined): Snapshot
   const lastScrape = raw?.last_scrape ?? raw?.meta?.last_scrape ?? null;
 
   return {
+    schema_version: raw?.schema_version ?? SNAPSHOT_SCHEMA_VERSION,
     generated_at: raw?.generated_at ?? new Date().toISOString(),
     counts: raw?.counts ?? {
       items: raw?.items?.length ?? 0,
@@ -198,10 +210,19 @@ export class SnapshotCache {
     if (this.cache) return this.cache.data;
     const raw = (await dbGet(STORE, KEY)) as CachedSnapshot | undefined;
     if (!raw?.data) return null;
-    // Normalize so snapshots cached by an older build still expose `meta`.
-    const data = normalizeSnapshot(raw.data);
-    this.cache = { ...raw, data };
-    return data;
+
+    // A snapshot written before this build's shape is discarded, so the new
+    // data is fetched instead of the old data being read by code that
+    // expects the new shape. A snapshot from a newer server is kept: this
+    // build is simply out of date, and refetching would not change that.
+    const cachedVersion = raw.data.schema_version;
+    if (typeof cachedVersion !== "number" || cachedVersion < SNAPSHOT_SCHEMA_VERSION) {
+      await this.clear();
+      return null;
+    }
+
+    this.cache = { ...raw, data: raw.data };
+    return raw.data;
   }
 
   async save(data: SnapshotData): Promise<void> {

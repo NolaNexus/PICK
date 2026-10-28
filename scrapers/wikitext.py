@@ -151,6 +151,21 @@ def _normalize_whitespace(text: str) -> str:
     return "\n".join(line for line in lines if line)
 
 
+def _render_superscript(text: str) -> str:
+    """Render a superscript as a bracketed suffix.
+
+    The wiki marks a recipe ingredient's quality with a superscript, e.g.
+    ``[[Gold]]<sup>&nbsp;c</sup>`` for common gold. The marker is kept, but
+    in a form that reads as part of the ingredient.
+    """
+
+    def replace(match: re.Match[str]) -> str:
+        content = match.group(1).replace("&nbsp;", " ").strip()
+        return f" ({content})" if content else ""
+
+    return re.sub(r"<sup>\s*([^<]*?)\s*</sup>", replace, text, flags=re.IGNORECASE)
+
+
 def render_text(value: str) -> str:
     """Convert a wikitext fragment into plain display text.
 
@@ -163,6 +178,8 @@ def render_text(value: str) -> str:
     text = value
     # Line breaks have to become newlines before the tags are stripped.
     text = re.sub(r"<br\s*/?>", "\n", text, flags=re.IGNORECASE)
+    # A superscript carries a quality marker, so it is kept.
+    text = _render_superscript(text)
     # Bold and italic markers are handled here because mwparserfromhell leaves
     # stray apostrophes behind when it strips them.
     text = text.replace("'''", "").replace("''", "")

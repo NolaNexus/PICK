@@ -1,79 +1,37 @@
-"""Formula implementations from the Stat Systems Guide (confirmed formulas)."""
+"""Seed the formulas table with the wiki-confirmed formulas.
 
-import math
-from typing import TypedDict
+The formulas themselves are read from the wiki by ``scrapers/formulas.py`` and
+stored in the ``formulas`` table. This module holds the seed data for the ones
+that the wiki states outright, so they are present even before a scrape has
+run.
 
+The calculator maths used to live here too. It was duplicated in
+``app/services/calculators.py`` and in the frontend's ``lib/calculators.ts``,
+and none of the three copies was the one users actually got. The frontend's is
+the only implementation now.
+"""
 
-class FormulaResult(TypedDict):
-    value: float
-    confidence: str
-    source: str
+from typing import Any, TypedDict
 
-
-def items_per_pan(capacity: float) -> float:
-    """Items per pan = sqrt(capacity) × 1.08 [confirmed: Capacity tab]"""
-    return math.sqrt(max(capacity, 0)) * 1.08
-
-
-def size_weight_multiplier(size_boost: float) -> float:
-    """Ore weight multiplier = 1 + SizeBoost/100 [confirmed: Size Boost tab]"""
-    return 1 + size_boost / 100
+from app.models.formula import Confidence
 
 
-def digs_per_pan(capacity: float, dig_strength: float) -> int:
-    """Digs per pan = ceil(capacity / (1.5 × dig_strength)) [confirmed: Dig Strength tab]"""
-    if dig_strength <= 0:
-        return 1
-    return math.ceil(capacity / (1.5 * dig_strength))
+class FormulaSeed(TypedDict):
+    """One row of the formulas table."""
+
+    formula_id: str
+    name: str
+    description: str | None
+    formula: str
+    params: dict[str, Any]
+    confidence: Confidence
+    source_url: str | None
+    patch_version: str | None
 
 
-def seconds_per_dig(dig_speed: float) -> float:
-    """Seconds per dig = 143.9 × speed^(-0.93) [confirmed: Dig Speed tab]"""
-    if dig_speed <= 0:
-        return 0.0
-    return 143.9 * (dig_speed**-0.93)
-
-
-def time_per_pan(capacity: float, dig_strength: float, dig_speed: float) -> float:
-    """Total time per pan = digs_per_pan × seconds_per_dig [confirmed]"""
-    digs = digs_per_pan(capacity, dig_strength)
-    sec_per_dig = seconds_per_dig(dig_speed)
-    return digs * sec_per_dig
-
-
-def modifier_luck(luck: float, modifier_boost: float) -> float:
-    """Effective modifier luck = min(50, luck/1000) + modifier_boost/10 [confirmed: Luck tab]"""
-    return min(50, luck / 1000) + modifier_boost / 10
-
-
-def modifier_fraction(effective_luck: float) -> float:
-    """
-    % of ores that get a modifier [confirmed curve, no closed form].
-    Rises steeply, caps ~99.4% near effective ~1,900.
-    """
-    # Approximate saturating function; marked as approximate in formulas table
-    cap = 0.994
-    scale = 1900.0
-    return cap * (1 - math.exp(-effective_luck / scale))
-
-
-def event_luck_multiplier(meteor: bool = False, weather_events: int = 0) -> float:
-    """Event luck multiplier: ×2 for meteor, ×1.5 per weather event [confirmed: Events tab]"""
-    mult = 1.0
-    if meteor:
-        mult *= 2.0
-    mult *= 1.5**weather_events
-    return mult
-
-
-def golden_rule(base: float, flats: float, boosts: float) -> float:
-    """Golden Rule: Total = (Base + Flats) × (1 + Boosts) [confirmed: Stat Systems Guide Mechanics]"""
-    return (base + flats) * (1 + boosts)
-
-
-def seed_formulas(db) -> list[dict]:
+def seed_formulas(db) -> list[FormulaSeed]:
     """Seed the formulas table with wiki-confirmed formulas."""
-    formulas = [
+    formulas: list[FormulaSeed] = [
         {
             "formula_id": "golden-rule",
             "name": "Stat Total (Golden Rule)",

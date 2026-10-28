@@ -6,7 +6,7 @@ from sqlalchemy import select
 
 import app.database as app_database
 from app.models import Base, Formula
-from app.services.formulas import seed_formulas
+from app.services.seed_formulas import seed_formulas
 
 
 async def main():
@@ -19,7 +19,8 @@ async def main():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-    async with app_database.async_session_factory() as session:
+    factory = await app_database.get_session_factory()
+    async with factory() as session:
         formulas = seed_formulas(session)
         created = 0
         updated = 0

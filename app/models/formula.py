@@ -2,10 +2,10 @@ from datetime import UTC, datetime
 from typing import Any, Literal
 
 from sqlalchemy import (
+    JSON,
     BigInteger,
     CheckConstraint,
     DateTime,
-    JSON,
     String,
     Text,
     event,

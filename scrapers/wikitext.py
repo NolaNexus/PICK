@@ -207,6 +207,8 @@ def _render_text(value: str) -> str:
     # Bold and italic markers are handled here because mwparserfromhell leaves
     # stray apostrophes behind when it strips them.
     text = text.replace("'''", "").replace("''", "")
+    # HTML tags carry presentation, not content.
+    text = re.sub(r"<[^>]+>", "", text)
     # The categories a page is in are not part of what it says.
     text = re.sub(r"\[\[\s*Category\s*:[^\]]+\]\]", "", text, flags=re.IGNORECASE)
 
@@ -229,6 +231,12 @@ def _render_text(value: str) -> str:
             continue
 
     text = tree.strip_code()
+
+    # Templates that mwparserfromhell could not parse (for example a template
+    # written across several lines) survive as literal text. They are not
+    # display text, so remove them rather than publishing them.
+    text = re.sub(r"\{\{.*?\}\}", "", text, flags=re.DOTALL)
+    text = text.replace("}}", "").replace("{{", "")
 
     text = urllib.parse.unquote(text)
     text = _strip_table_artifacts(text)

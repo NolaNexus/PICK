@@ -32,31 +32,6 @@ def _item_row(item: Item) -> dict:
     }
 
 
-def _formula_row(formula: Formula) -> dict:
-    return {
-        "id": formula.id,
-        "formula_id": formula.formula_id,
-        "name": formula.name,
-        "description": formula.description,
-        "formula": formula.formula,
-        "params": formula.params,
-        "confidence": formula.confidence,
-        "source_url": formula.source_url,
-        "patch_version": formula.patch_version,
-        "created_at": _iso(formula.created_at),
-    }
-
-
-def _wiki_page_row(page: WikiPage) -> dict:
-    return {
-        "id": page.id,
-        "title": page.title,
-        "page_id": page.page_id,
-        "last_revision_id": page.last_revision_id,
-        "last_scraped": _iso(page.last_scraped),
-        "content_hash": page.content_hash,
-        "namespace": page.namespace,
-    }
 
 
 async def build_snapshot(db: AsyncSession) -> dict:

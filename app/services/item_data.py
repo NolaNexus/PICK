@@ -27,13 +27,13 @@ def _drop_empty(value: Any) -> Any:
     if isinstance(value, str):
         return value if value.strip() else None
     if isinstance(value, list):
-        cleaned = [_drop_empty(item) for item in value]
-        cleaned = [item for item in cleaned if item is not None]
-        return cleaned if cleaned else None
+        cleaned_list = [_drop_empty(item) for item in value]
+        cleaned_list = [item for item in cleaned_list if item is not None]
+        return cleaned_list if cleaned_list else None
     if isinstance(value, dict):
-        cleaned = {key: _drop_empty(item) for key, item in value.items()}
-        cleaned = {key: item for key, item in cleaned.items() if item is not None}
-        return cleaned if cleaned else None
+        cleaned_dict = {key: _drop_empty(item) for key, item in value.items()}
+        cleaned_dict = {key: item for key, item in cleaned_dict.items() if item is not None}
+        return cleaned_dict if cleaned_dict else None
     return value
 
 

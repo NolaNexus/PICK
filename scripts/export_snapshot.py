@@ -9,7 +9,6 @@ import asyncio
 import copy
 import json
 import os
-
 import re
 
 import app.database as app_database

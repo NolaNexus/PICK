@@ -9,8 +9,8 @@ from typing import TYPE_CHECKING, Any
 
 from sqlalchemy import select, update
 
-from app.services.item_data import normalize_item_data
 from app.services.enrichment import enrich_items_from_pages
+from app.services.item_data import normalize_item_data
 from app.services.reconcile import reconcile_items, type_prefixed_slug
 from app.utils.mw_api import MediaWikiClient
 from scrapers import PARSER_VERSION, PARSERS, TRACKED_PAGES

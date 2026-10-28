@@ -130,6 +130,7 @@ def _parse_quest_template(location: str, npc: str, template_text: str) -> Parsed
     # Clean up quest name
     quest_name = re.sub(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", r"\1", quest_name)
     quest_name = re.sub(r"\{\{[^}]+\}\}", "", quest_name).strip()
+    quest_name = re.sub(r"<[^>]+>", "", quest_name).strip()
 
     if not quest_name:
         return None
@@ -154,6 +155,7 @@ def _parse_quest_template(location: str, npc: str, template_text: str) -> Parsed
     # Clean up quest name
     quest_name = re.sub(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", r"\1", quest_name)
     quest_name = re.sub(r"\{\{[^}]+\}\}", "", quest_name).strip()
+    quest_name = re.sub(r"<[^>]+>", "", quest_name).strip()
 
     if not quest_name:
         return None

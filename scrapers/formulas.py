@@ -3,6 +3,7 @@
 import re
 
 from scrapers.types import ParsedItem
+from scrapers.wikitext import render_text
 
 
 def parse_formulas(wikitext: str) -> list[ParsedItem]:
@@ -154,8 +155,8 @@ def _clean_cell(text: str) -> str:
     """Clean a wiki table cell."""
     text = re.sub(r"<[^>]+>", "", text)
     text = re.sub(r"'''([^']+)'''", r"\1", text)
+    text = render_text(text)
     text = text.strip()
-    # Remove leading | if present
     if text.startswith("|"):
         text = text[1:].strip()
     return text

@@ -2,7 +2,9 @@
 
 The wiki is not called. Every page comes from the fixtures in
 ``tests/fixtures``, so the test says the same thing whether the wiki is
-reachable, slow, rate-limited or gone.
+reachable, slow, rate-limited or gone. That matters: a GitHub runner is
+answered with ``403 Forbidden`` for every request, and a test that asks the
+real wiki fails there while passing at home.
 """
 
 from pathlib import Path
@@ -12,13 +14,26 @@ import pytest
 from app.services import scraper as scraper_service
 from app.services.scraper import run_daily_scrape
 from app.utils.mw_api import MediaWikiClient
-from scrapers import TRACKED_PAGES
+from scrapers import PARSERS, TRACKED_PAGES
 
 FIXTURE_DIR = Path(__file__).parent / "fixtures"
 
+# Every page needs its own page id, exactly like the wiki gives each page its
+# own. Two pages sharing an id violates ix_wiki_pages_page_id.
+PAGE_IDS = {title: index for index, title in enumerate(sorted(TRACKED_PAGES), start=1)}
 
-def _fixture_path(title: str) -> Path | None:
-    """The fixture file for a page, if there is one.
+# Pages without a parser are counted as scraped but never fetched. PARSERS
+# holds a None entry for those, so test the value, not the key.
+FETCHED_PAGES = {title for title in TRACKED_PAGES if PARSERS.get(title)}
+
+# The pages the client was asked to read, in order. run_daily_scrape creates
+# one client to check for a game update and another to scrape, so the record
+# has to live outside the instance.
+_requested: list[str] = []
+
+
+def _fixture_path(title: str) -> Path:
+    """The fixture file for a page.
 
     The fixtures are named after the files the wiki pages are saved under, so
     ``Treasure Chest`` is ``Treasure_Chest.wiki`` and ``Minerals`` is
@@ -32,33 +47,33 @@ def _fixture_path(title: str) -> Path | None:
         if candidate.exists():
             return candidate
 
-    # Fall back to a case-insensitive match.
     wanted = title.replace(" ", "_").lower()
     for path in FIXTURE_DIR.glob("*.wiki"):
         if path.stem.lower() == wanted:
             return path
-    return None
+
+    pytest.fail(f"no fixture for {title}; add tests/fixtures/{title}.wiki")
 
 
 def _fixture(title: str) -> str:
     """The wikitext of a page, read from the fixtures."""
-    path = _fixture_path(title)
-    if path is None:
-        pytest.skip(f"no fixture for {title}")
-    return path.read_text()
+    return _fixture_path(title).read_text()
 
 
-class _OfflineClient(MediaWikiClient):
-    """A client that answers from the fixtures and never touches the network.
-
-    ``recent_changes`` is what the test overrides. Everything else the scrape
-    needs is answered from a fixture, so the run is the same offline as it is
-    against the real wiki.
-    """
+class _FixtureClient(MediaWikiClient):
+    """A client that answers from the fixtures and never touches the network."""
 
     async def get_page_info(self, title: str) -> dict:
+        _requested.append(title)
+
+        # The Changelog is read to detect a new game version. Returning it
+        # empty keeps check_for_game_update from starting a full scrape, so
+        # the incremental path - the one under test - is the one that runs.
+        if title == "Changelog":
+            return {"page_id": PAGE_IDS.get(title, 1), "revision_id": 1, "wikitext": ""}
+
         return {
-            "page_id": abs(hash(title)) % 10000,
+            "page_id": PAGE_IDS[title],
             "revision_id": 1,
             "wikitext": _fixture(title),
         }
@@ -69,8 +84,8 @@ class _OfflineClient(MediaWikiClient):
     async def get_pages_with_content(self, titles: list[str]) -> dict[str, str]:
         contents = {}
         for title in titles:
-            path = _fixture_path(title)
-            if path is not None:
+            path = FIXTURE_DIR / "item_pages" / f"{title.replace(' ', '_')}.wiki"
+            if path.exists():
                 contents[title] = path.read_text()
         return contents
 
@@ -84,18 +99,25 @@ class _OfflineClient(MediaWikiClient):
         return None
 
 
-class _BrokenClient(_OfflineClient):
+class _BrokenClient(_FixtureClient):
     """A client whose recent-changes listing always fails."""
 
     async def get_recent_changes(self, days: int = 1, limit: int = 500, namespace: int = 0):
         raise RuntimeError("the wiki is not answering")
 
 
-class _EmptyClient(_OfflineClient):
+class _EmptyClient(_FixtureClient):
     """A client that reports no changes at all."""
 
     async def get_recent_changes(self, days: int = 1, limit: int = 500, namespace: int = 0):
         return []
+
+
+@pytest.fixture(autouse=True)
+def _clear_request_log():
+    _requested.clear()
+    yield
+    _requested.clear()
 
 
 @pytest.mark.asyncio
@@ -106,8 +128,9 @@ async def test_a_broken_change_listing_falls_back_to_every_page(db_session, monk
     result = await run_daily_scrape(db_session)
 
     assert result["status"] == "success"
-    # Every tracked page was scraped rather than none.
-    assert result["pages_scraped"] > 20
+    assert result["pages_scraped"] == len(TRACKED_PAGES)
+    # Every tracked page was read, not a subset.
+    assert set(_requested) == FETCHED_PAGES | {"Changelog"}
 
 
 @pytest.mark.asyncio
@@ -118,4 +141,5 @@ async def test_an_empty_change_listing_falls_back_to_every_page(db_session, monk
     result = await run_daily_scrape(db_session)
 
     assert result["status"] == "success"
-    assert result["pages_scraped"] > 20
+    assert result["pages_scraped"] == len(TRACKED_PAGES)
+    assert set(_requested) == FETCHED_PAGES | {"Changelog"}

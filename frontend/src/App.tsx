@@ -13,7 +13,6 @@ import ItemsPage from '@/pages/ItemsPage'
 import MineralsPage from '@/pages/MineralsPage'
 import WorldPage from '@/pages/WorldPage'
 import CalculatorsPage from '@/pages/CalculatorsPage'
-import NewsPage from '@/pages/NewsPage'
 import MetaPage from '@/pages/MetaPage'
 import SearchPage from '@/pages/SearchPage'
 
@@ -58,7 +57,6 @@ function App() {
                 <Route path="/minerals" element={<MineralsPage />} />
                 <Route path="/world" element={<WorldPage />} />
                 <Route path="/calculators" element={<CalculatorsPage />} />
-                <Route path="/news" element={<NewsPage />} />
                 <Route path="/meta" element={<MetaPage />} />
                 <Route path="/search" element={<SearchPage />} />
               </Routes>

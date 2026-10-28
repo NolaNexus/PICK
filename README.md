@@ -1,6 +1,6 @@
 # PICK — Prospecting Information & Community Kit
 
-**A community-built companion for Prospecting!** — items, minerals, pans, shovels, relics, runes, formulas, calculators, and community news in one fast, searchable place.
+**A community-built companion for Prospecting!** — items, minerals, pans, shovels, relics, runes, formulas, and calculators in one fast, searchable place.
 
 🔗 **[Live Site →](https://nolanexus.github.io/PICK/)** · [Report an Issue](https://github.com/NolaNexus/PICK/issues) · [Render Setup →](RENDER_SETUP.md)
 
@@ -27,9 +27,8 @@ Think of PICK as a companion layer on top of the wiki: structured data, calculat
 ## What it does
 
 - Scrapes the official Prospecting! wiki on a schedule and keeps a local copy of pages, items, and formulas
-- Exposes a REST API (FastAPI) for items, formulas, calculators, news, and metadata
+- Exposes a REST API (FastAPI) for items, formulas, calculators, and metadata
 - Powers calculators for modifier odds, expected value, best pan, museum optimization, and time-to-goal
-- Aggregates community news from Reddit
 - Serves a React + Vite frontend on GitHub Pages
 
 ## Tech stack

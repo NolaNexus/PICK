@@ -27,28 +27,6 @@ export type SearchApiV1SearchGetParams = {
   size?: number;
 };
 
-export type LatestNewsApiV1NewsLatestGetParams = {
-  /**
-   * Number of latest articles
-   */
-  limit?: number;
-};
-
-export type ListNewsApiV1NewsGetParams = {
-  /**
-   * Page number
-   */
-  page?: number;
-  /**
-   * Items per page
-   */
-  size?: number;
-  /**
-   * Filter by tag
-   */
-  tag?: string | null;
-};
-
 export type ListItemsByTypeApiV1ItemsTypeTypeGetParams = {
   /**
    * Page number

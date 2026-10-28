@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "PICK",
-    "description": "Community-built companion API for the Roblox game **Prospecting!**. It exposes wiki-sourced items, formulas, calculators, community news, search, and public dataset snapshots.\n\nData is scraped from the official Prospecting! wiki on a schedule. Calculator endpoints are grouped under `/api/v1/calculators`.",
+    "description": "Community-built companion API for the Roblox game **Prospecting!**. It exposes wiki-sourced items, formulas, calculators, search, and public dataset snapshots.\n\nData is scraped from the official Prospecting! wiki on a schedule. Calculator endpoints are grouped under `/api/v1/calculators`.",
     "version": "0.1.0"
   },
   "paths": {
@@ -110,6 +110,27 @@
         }
       }
     },
+    "/api/v1/items/taxonomy": {
+      "get": {
+        "tags": [
+          "items",
+          "items"
+        ],
+        "summary": "List Taxonomy",
+        "description": "List the item types, with the area, group and label each one has.",
+        "operationId": "list_taxonomy_api_v1_items_taxonomy_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/items": {
       "get": {
         "tags": [
@@ -137,6 +158,42 @@
               "title": "Type"
             },
             "description": "Filter by item type (e.g., pan, shovel, mineral)"
+          },
+          {
+            "name": "area",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by area (e.g., items, minerals, world)",
+              "title": "Area"
+            },
+            "description": "Filter by area (e.g., items, minerals, world)"
+          },
+          {
+            "name": "group",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by group inside an area (e.g., gear)",
+              "title": "Group"
+            },
+            "description": "Filter by group inside an area (e.g., gear)"
           },
           {
             "name": "search",
@@ -1059,158 +1116,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/news": {
-      "get": {
-        "tags": [
-          "news",
-          "news"
-        ],
-        "summary": "List News",
-        "description": "List news articles from Reddit.",
-        "operationId": "list_news_api_v1_news_get",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "description": "Page number",
-              "default": 1,
-              "title": "Page"
-            },
-            "description": "Page number"
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
-              "description": "Items per page",
-              "default": 20,
-              "title": "Size"
-            },
-            "description": "Items per page"
-          },
-          {
-            "name": "tag",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "description": "Filter by tag",
-              "title": "Tag"
-            },
-            "description": "Filter by tag"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/news/latest": {
-      "get": {
-        "tags": [
-          "news",
-          "news"
-        ],
-        "summary": "Latest News",
-        "description": "Get the latest news articles.",
-        "operationId": "latest_news_api_v1_news_latest_get",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "maximum": 50,
-              "minimum": 1,
-              "description": "Number of latest articles",
-              "default": 10,
-              "title": "Limit"
-            },
-            "description": "Number of latest articles"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/news/tags": {
-      "get": {
-        "tags": [
-          "news",
-          "news"
-        ],
-        "summary": "List News Tags",
-        "description": "List available news article tags.",
-        "operationId": "list_news_tags_api_v1_news_tags_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array",
-                  "title": "Response List News Tags Api V1 News Tags Get"
                 }
               }
             }
@@ -4017,10 +3922,6 @@
     {
       "name": "calculators",
       "description": "Stat, EV, museum, and hunting calculators."
-    },
-    {
-      "name": "news",
-      "description": "Community news aggregated from Reddit."
     },
     {
       "name": "meta",

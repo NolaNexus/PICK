@@ -15,7 +15,7 @@ app = FastAPI(
     version=settings.app_version,
     description=(
         "Community-built companion API for the Roblox game **Prospecting!**. "
-        "It exposes wiki-sourced items, formulas, calculators, community news, "
+        "It exposes wiki-sourced items, formulas, calculators, "
         "search, and public dataset snapshots.\n\n"
         "Data is scraped from the official Prospecting! wiki on a schedule. "
         "Calculator endpoints are grouped under `/api/v1/calculators`."
@@ -26,7 +26,6 @@ app = FastAPI(
         {"name": "items", "description": "Wiki items such as pans, shovels, minerals, and relics."},
         {"name": "formulas", "description": "Game formulas and their confidence levels."},
         {"name": "calculators", "description": "Stat, EV, museum, and hunting calculators."},
-        {"name": "news", "description": "Community news aggregated from Reddit."},
         {"name": "meta", "description": "Application and dataset metadata."},
         {"name": "search", "description": "Full-text search across items."},
         {"name": "export", "description": "Public dataset snapshot export."},

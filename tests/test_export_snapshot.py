@@ -11,7 +11,7 @@ from scripts.export_snapshot import _comparable, _comparable_item_data
 def _snapshot(**overrides) -> dict:
     base = {
         "generated_at": "2026-10-27T08:36:31.586710+00:00",
-        "counts": {"items": 1, "formulas": 0, "news": 0, "wiki_pages": 0},
+        "counts": {"items": 1, "formulas": 0, "wiki_pages": 0},
         "items": [
             {
                 "id": 1,
@@ -27,7 +27,6 @@ def _snapshot(**overrides) -> dict:
             }
         ],
         "formulas": [],
-        "news": [],
         "wiki_pages": [],
         "game_version": {"version": "October 2026", "detected_at": None},
         "last_scrape": {

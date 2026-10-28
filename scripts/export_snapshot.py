@@ -62,20 +62,6 @@ def _comparable(snapshot: dict) -> str:
         }
         for formula in snapshot.get("formulas", [])
     ]
-    news = [
-        {
-            "source": article.get("source"),
-            "external_id": article.get("external_id"),
-            "title": article.get("title"),
-            "url": article.get("url"),
-            "author": article.get("author"),
-            "score": article.get("score"),
-            "published_at": article.get("published_at"),
-            "content": article.get("content"),
-            "tags": article.get("tags"),
-        }
-        for article in snapshot.get("news", [])
-    ]
     wiki_pages = [
         {
             "title": page.get("title"),
@@ -94,7 +80,6 @@ def _comparable(snapshot: dict) -> str:
         "counts": snapshot.get("counts"),
         "items": items,
         "formulas": formulas,
-        "news": news,
         "wiki_pages": wiki_pages,
         "game_version": game_version.get("version"),
         "last_scrape": {

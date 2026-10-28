@@ -1,6 +1,5 @@
 """Integration tests for API endpoints using a test database."""
 
-from datetime import UTC, datetime
 from typing import Any
 
 import httpx
@@ -11,7 +10,7 @@ from sqlalchemy.orm import sessionmaker
 
 from app.database import Base, get_session
 from app.main import app
-from app.models import Formula, Item, News, WikiPage
+from app.models import Formula, Item, WikiPage
 from tests.conftest import get_test_database_url
 
 
@@ -292,34 +291,6 @@ async def test_api_formulas_list_and_get(client, db_session):
 
     response = await client.get("/api/v1/formulas/missing")
     assert response.status_code == 404
-
-
-@pytest.mark.asyncio
-async def test_api_news_list_and_latest(client, db_session):
-    """Test news endpoints expose the model's published_at field."""
-    article = News(
-        source="reddit",
-        external_id="abc123",
-        title="Prospecting update",
-        url="https://reddit.com/r/Prospecting/abc123",
-        author="miner",
-        score=42,
-        published_at=datetime(2026, 10, 26, 12, 0, tzinfo=UTC),
-        tags=["patch"],
-    )
-    db_session.add(article)
-    await db_session.commit()
-
-    response = await client.get("/api/v1/news")
-    assert response.status_code == 200
-    data = response.json()
-    assert data["total"] == 1
-    assert data["items"][0]["published_at"].startswith("2026-10-26T12:00:00")
-    assert "subreddit" not in data["items"][0]
-
-    response = await client.get("/api/v1/news/latest")
-    assert response.status_code == 200
-    assert response.json()[0]["title"] == "Prospecting update"
 
 
 @pytest.mark.asyncio

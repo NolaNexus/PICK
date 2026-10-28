@@ -3,7 +3,6 @@
 ## Prerequisites
 
 - GitHub account
-- Reddit developer account (for news scraper)
 - PostgreSQL (for local testing)
 
 ## Step 1: Clone Repository
@@ -13,48 +12,14 @@ git clone https://github.com/NolaNexus/PICK.git
 cd PICK
 ```
 
-## Step 2: Configure Reddit News Scraper
+## Step 2: Configure the Webhook Secret (optional)
 
-### Phase 4 - Reddit News Scraper
+The wiki can notify PICK when a page changes so only that page is re-scraped.
+Without a secret the endpoint is open; with one, requests must carry it.
 
-**Status:** Code implemented, needs credentials
-
-To enable Reddit news fetching, you need to create a Reddit "Script App":
-
-1. **Create Reddit App**
-   - Go to <https://developers.reddit.com/>
-   - Accept Developer Terms
-   - Click "Create App" → Choose "Script App"
-   - Fill in:
-     - Name: `PICK News Scraper`
-     - Description: `News aggregator for r/Prospecting`
-     - Redirect URI: `http://localhost:8080`
-
-2. **Get Credentials**
-   - Client ID: Copy from app dashboard
-   - Client Secret: Click "Edit" → reveal
-
-3. **Add to `.env`**
-   ```bash
-   REDDIT_CLIENT_ID=your_client_id_here
-   REDDIT_CLIENT_SECRET=your_client_secret_here
-   ```
-
-5. **Optional:** Webhook secret for security
-   ```bash
-   WEBHOOK_SECRET=your_webhook_secret_here
-   ```
-
-6. **Test locally**:
-   ```bash
-   # Start PostgreSQL locally
-   docker compose up -d
-
-   # Run news scraper
-   .venv/bin/python -m scripts.news_scraper
-   ```
-
-**Expected output**: Fetched X Reddit posts, inserted into database
+```bash
+WEBHOOK_SECRET=your_webhook_secret_here
+```
 
 ## Step 3: Local Development
 
@@ -97,9 +62,6 @@ docker compose up --build -d
 
 # Run wiki scraper (test)
 ./.venv/bin/python -m scripts.scraper
-
-# Run news scraper (if credentials configured)
-./.venv/bin/python -m scripts.news_scraper
 ```
 
 ### Start Frontend
@@ -149,11 +111,6 @@ GitHub Actions are already configured:
   - Arguments: `--full` for complete rebuild
   - Settings: Database URL, MediaWiki API URL, etc.
 
-- `scripts.news_scraper`: Reddit news scraper
-  - Requires Reddit OAuth2 credentials
-  - Fetches from `r/Prospecting` (configurable)
-  - Deduplicates by Reddit post ID
-
 - `scripts.export_snapshot`: Export data for frontend
   - Creates `frontend/public/snapshot.json`
   - Called by CI/CD during deployment
@@ -166,11 +123,8 @@ GitHub Actions are already configured:
 # MediaWiki API endpoint for Prospecting! Wiki
 MEDIAWIKI_API_URL=https://prospecting.miraheze.org/w/api.php
 
-# Reddit news scraping
-REDDIT_USER_AGENT=PICK/1.0 (Prospecting Information & Community Kit)
-REDDIT_SUBREDDIT=Prospecting
-REDDIT_CLIENT_ID=your_reddit_app_client_id
-REDDIT_CLIENT_SECRET=your_reddit_app_client_secret
+# User-Agent sent to the wiki API
+USER_AGENT=PICK/1.0 (Prospecting Information & Community Kit)
 
 # Application settings
 APP_NAME=PICK
@@ -210,9 +164,6 @@ DATABASE_URL=postgresql+asyncpg://pick:pick@localhost:5432/pick
 ```bash
 # Test wiki scraper
 ./.venv/bin/python -m scripts.scraper
-
-# Test news scraper (if credentials configured)
-./.venv/bin/python -m scripts.news_scraper
 
 # Check data
 curl http://localhost:8000/api/v1/items?limit=10
@@ -266,20 +217,6 @@ docker ps | grep postgres
 
 # Reinitialize database
 ./.venv/bin/python -m alembic upgrade head
-```
-
-### Reddit News Scraper Issues
-
-```bash
-# Check .env for Reddit credentials
-cat .env
-
-# Test OAuth2 flow manually
-./.venv/bin/python -c "
-from app.config import settings
-print('Client ID:', settings.reddit_client_id)
-print('Client Secret:', '✓ configured' if settings.reddit_client_secret else '❌ missing')
-"
 ```
 
 ### Frontend Issues

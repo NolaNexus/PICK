@@ -10,20 +10,6 @@ const STALE_MS = 1000 * 60 * 60 * 24; // 24 hours
 // the snapshot.json committed alongside the build.
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
 
-export interface NewsResponse {
-  id: number;
-  source: string;
-  external_id: string;
-  title: string;
-  url: string;
-  author: string | null;
-  score: number;
-  published_at: string;
-  fetched_at: string;
-  content: string;
-  tags: string[];
-}
-
 export interface WikiPageResponse {
   id: number;
   title: string;
@@ -52,27 +38,12 @@ export interface LastScrapeResponse {
 export interface SnapshotCounts {
   items: number;
   formulas: number;
-  news: number;
   wiki_pages: number;
 }
 
 export interface SnapshotMeta {
   game_version: GameVersionResponse | null;
   last_scrape: LastScrapeResponse | null;
-}
-
-export interface SnapshotNews {
-  id: number;
-  source: string;
-  external_id: string;
-  title: string;
-  url: string;
-  author: string | null;
-  score: number;
-  published_at: string | null;
-  fetched_at: string | null;
-  content: string | null;
-  tags: string[];
 }
 
 export interface SnapshotWikiPage {
@@ -105,7 +76,6 @@ export interface SnapshotData {
   counts: SnapshotCounts;
   items: ItemResponse[];
   formulas: SnapshotFormula[];
-  news: SnapshotNews[];
   wiki_pages: SnapshotWikiPage[];
   meta: SnapshotMeta;
 }
@@ -138,7 +108,7 @@ const EMPTY_VERSION: GameVersionResponse = {
  * a snapshot of a different shape, the cached one is discarded so the new
  * data is fetched instead of the old data being rendered by new code.
  */
-export const SNAPSHOT_SCHEMA_VERSION = 4;
+export const SNAPSHOT_SCHEMA_VERSION = 5;
 
 /** Shape of a snapshot payload before it is normalized. */
 interface RawSnapshot {
@@ -148,7 +118,6 @@ interface RawSnapshot {
   counts?: SnapshotData["counts"];
   items?: SnapshotData["items"];
   formulas?: SnapshotData["formulas"];
-  news?: SnapshotData["news"];
   wiki_pages?: SnapshotData["wiki_pages"];
   game_version?: Partial<GameVersionResponse> | null;
   last_scrape?: Partial<LastScrapeResponse> | null;
@@ -177,12 +146,10 @@ export function normalizeSnapshot(raw: RawSnapshot | null | undefined): Snapshot
     counts: raw?.counts ?? {
       items: raw?.items?.length ?? 0,
       formulas: raw?.formulas?.length ?? 0,
-      news: raw?.news?.length ?? 0,
       wiki_pages: raw?.wiki_pages?.length ?? 0,
     },
     items: raw?.items ?? [],
     formulas: raw?.formulas ?? [],
-    news: raw?.news ?? [],
     wiki_pages: raw?.wiki_pages ?? [],
     meta: {
       game_version: gameVersion
@@ -313,10 +280,6 @@ export class SnapshotCache {
 
   getFormulas(data: SnapshotData): SnapshotFormula[] {
     return data.formulas;
-  }
-
-  getNews(data: SnapshotData): SnapshotNews[] {
-    return data.news;
   }
 
   getOreData(data: SnapshotData, slug: string): Record<string, unknown> | undefined {

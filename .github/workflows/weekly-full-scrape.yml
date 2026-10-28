@@ -32,9 +32,7 @@ jobs:
     env:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost/pick
       MEDIAWIKI_API_URL: https://prospecting.miraheze.org/w/api.php
-      REDDIT_USER_AGENT: PICK/1.0 (Prospecting Information & Community Kit)
-      REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-      REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+      USER_AGENT: PICK/1.0 (Prospecting Information & Community Kit)
 
     steps:
       - uses: actions/checkout@v4
@@ -50,9 +48,6 @@ jobs:
         run: alembic upgrade head
       - name: Run full wiki scraper
         run: python -m scripts.scraper --full
-      - name: Run news scraper (if Reddit credentials configured)
-        if: env.REDDIT_CLIENT_ID != '' && env.REDDIT_CLIENT_SECRET != ''
-        run: python -m scripts.news_scraper
 
       - name: Seed formulas
         run: python -m scripts.seed_formulas

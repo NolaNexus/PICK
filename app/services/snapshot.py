@@ -5,7 +5,7 @@ from datetime import UTC, datetime
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models import Formula, GameVersion, Item, News, ScraperRun, WikiPage
+from app.models import Formula, GameVersion, Item, ScraperRun, WikiPage
 from app.taxonomy import taxonomy_payload
 
 #: Version of the shape of the snapshot payload.
@@ -14,7 +14,7 @@ from app.taxonomy import taxonomy_payload
 #: of the data changes, this version is bumped so a client discards the
 #: snapshot it has and fetches the new one, instead of rendering old data
 #: with the new code.
-SNAPSHOT_SCHEMA_VERSION = 4
+SNAPSHOT_SCHEMA_VERSION = 5
 
 
 def _iso(value):
@@ -51,22 +51,6 @@ def _formula_row(formula: Formula) -> dict:
     }
 
 
-def _news_row(article: News) -> dict:
-    return {
-        "id": article.id,
-        "source": article.source,
-        "external_id": article.external_id,
-        "title": article.title,
-        "url": article.url,
-        "author": article.author,
-        "score": article.score,
-        "published_at": _iso(article.published_at),
-        "fetched_at": _iso(article.fetched_at),
-        "content": article.content,
-        "tags": article.tags,
-    }
-
-
 def _wiki_page_row(page: WikiPage) -> dict:
     return {
         "id": page.id,
@@ -83,7 +67,6 @@ async def build_snapshot(db: AsyncSession) -> dict:
     """Build the full public dataset snapshot dict from the database."""
     items = (await db.execute(select(Item).where(Item.is_active.is_(True)))).scalars().all()
     formulas = (await db.execute(select(Formula))).scalars().all()
-    news = (await db.execute(select(News))).scalars().all()
     wiki_pages = (await db.execute(select(WikiPage))).scalars().all()
     game_version = (
         await db.execute(select(GameVersion).order_by(GameVersion.detected_at.desc()).limit(1))
@@ -99,12 +82,10 @@ async def build_snapshot(db: AsyncSession) -> dict:
         "counts": {
             "items": len(items),
             "formulas": len(formulas),
-            "news": len(news),
             "wiki_pages": len(wiki_pages),
         },
         "items": [_item_row(i) for i in items],
         "formulas": [_formula_row(f) for f in formulas],
-        "news": [_news_row(n) for n in news],
         "wiki_pages": [_wiki_page_row(p) for p in wiki_pages],
         "game_version": {
             "version": game_version.version if game_version else None,

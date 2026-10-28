@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
 from app.database import get_session
-from app.models import Formula, GameVersion, Item, News, ScraperRun
+from app.models import Formula, GameVersion, Item, ScraperRun
 
 router = APIRouter()
 
@@ -27,9 +27,6 @@ async def meta(db: AsyncSession = Depends(get_session)):  # noqa: B008
     total_formulas_result = await db.execute(select(func.count(Formula.id)))
     total_formulas = total_formulas_result.scalar() or 0
 
-    total_news_result = await db.execute(select(func.count(News.id)))
-    total_news = total_news_result.scalar() or 0
-
     # Get last scraper run
     last_run_result = await db.execute(
         select(ScraperRun).order_by(ScraperRun.started_at.desc()).limit(1)
@@ -49,7 +46,6 @@ async def meta(db: AsyncSession = Depends(get_session)):  # noqa: B008
         "database": {
             "total_items": total_items,
             "total_formulas": total_formulas,
-            "total_news": total_news,
             "items_by_type": item_counts,
         },
         "last_scrape": {

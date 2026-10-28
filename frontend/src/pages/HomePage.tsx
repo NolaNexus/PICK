@@ -3,7 +3,7 @@ import { useMemo } from "react"
 import { useSnapshot } from "@/lib/hooks"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Gem, Shovel, MapPin, Calculator, Newspaper } from "lucide-react"
+import { Gem, Shovel, MapPin, Calculator } from "lucide-react"
 
 const SECTIONS = [
   {
@@ -101,13 +101,8 @@ export default function HomePage() {
           <Input placeholder="Search items, ores, quests and places…" readOnly />
         </Link>
         <p className="text-xs text-muted-foreground">
-          <Link to="/news" className="underline underline-offset-2 hover:text-foreground">
-            <Newspaper className="mr-1 inline h-3 w-3" />
-            Community news
-          </Link>
           {updated && (
             <>
-              {" · "}
               Data updated {updated}
             </>
           )}

@@ -1,0 +1,481 @@
+__NOTOC__
+This page is a '''player's guide to the stat systems''' of ''Prospecting!'': what each stat does, the formula behind it, and how to work out every number on your own stat panel - with charts, formula cards and worked examples throughout. No math background is needed.
+
+Everything is organized in the tabs below: the '''Mechanics''' tab covers the rules every stat follows, then one tab per stat, the systems built on top of them (museum, quality, inventory), and a quick reference. Most testing was done at the Infernal Heart and the Timelocked Sanctuary.
+
+''by zexy_24, with the help of PPatel772 · in association with bosnia123123, PobiQ, emma, Autumn, UhKvri, the Prospecting Wiki and the testing community ([[#tabber-Quick_Reference|full credits]]).''
+
+== The stat systems ==
+
+<div><tabber>
+|-| Mechanics =
+=== How to read this guide ===
+
+Each section covers one stat or system: what it does, where it matters, the formula behind it, and a short example with real numbers. The only screen involved is Settings → Stats. Every line there shows two numbers, such as '<span style="color:#FFC1AE">Dig Strength</span>: 3,549 (884)' - the number in parentheses is the equipment baseline (gear only), and the big number is the live total after every bonus. Note that flat bonuses are NOT included in the parentheses: [[Potions|potion]] and [[Quests|quest]] points are inside the big number and are affected by multipliers, but the parentheses do not include these (they are gear + [[Pans|pan]] only).
+
+The formulas use a handful of symbols. All of them are ordinary arithmetic:
+
+{| class="wikitable" style="width:100%; text-align:center;"
+|- style="background:#33383F;"
+! <span style="color:#F0C419">symbol</span> !! <span style="color:#F0C419">plain meaning</span> !! <span style="color:#F0C419">example</span>
+|-
+| <span style="color:#8CE99A">+  ×  ÷</span> || add, multiply, divide || 1.5 × 3,549 = 5,324
+|-
+| Boosts (or Σ) || all your percentage bonuses added up, as a decimal || <span style="color:#8CE99A">+194% and +150% and +100% → 1.94 + 1.50 + 1.00 = 4.44</span>
+|-
+| ⌈ ⌉ || round UP to the next whole number || ⌈1.97⌉ = 2 · ⌈2.01⌉ = 3
+|-
+| √ (or sqrt) || square root || √10,000 = 100
+|-
+| min( ) || take the smaller value / keep a result inside a range || min(1.2, 1) = 1
+|-
+| roll( ), r( ) || a lookup: 'the drop table at this luck', 'shakes/sec at this speed' || read off the charts in [[#tabber-Luck|the Luck]] and [[#tabber-Shake|Shake]] tabs
+|-
+| average || the value over many pans; single pans vary around it || average ore size 1.56 means some are smaller, and some are bigger
+|}
+
+The numbers come from controlled in-game measurements: equip one item, note the panel, repeat, until the formulas reproduce real stat panels line for line. Scope matters: nearly all testing happened at Infernal Heart and the Timelocked Sanctuary. Event and location factors are written as separate multipliers so the general form of each formula (without those factors) carries to other areas, but other locations' drop tables, event mixes and a few stats (Toughness, Efficiency, [[Treasure Map|Treasure Map Chance]], Status Timer Speed) were not tested. Sections that carry uncertainty say so.<br>
+
+=== <span style="color:#F0C419;">'''The Golden Rule'''</span> - how every stat is calculated ===
+
+Every stat on the panel is produced by the same calculation (Note - Toughness, <span style="color:#D88565">Inventory</span> Size, Efficiency, Treasure Map Chance, Status Timer Speed, and Jump Power currently have no ‘boosts’ or multipliers):
+
+[[File:Stat guide 2-1 the golden rule.png|center|700px]]
+
+{| class="wikitable" style="width:100%; text-align:center;"
+|- style="background:#33383F;"
+! <span style="color:#F0C419">symbol</span> !! <span style="color:#F0C419">what it means</span> !! <span style="color:#F0C419">where the number comes from</span>
+|-
+| Total || The big number on the stat panel || Settings → Stats
+|-
+| Base || What your equipped gear provides || The parentheses on the same line
+|-
+| Flats || Bonuses added as raw points || Potion tooltips (e.g. Witches Brew '+500 <span style="color:#C4FFB4">Luck</span>'), quest rewards
+|-
+| Boosts || Every percentage bonus, added together as decimals || Totems, museum, runes, mastery, cookies, friends - [[#tabber-Mechanics|the boost catalogue]]
+|}
+
+The key property: boosts add together before the single multiplication - they never multiply each other. A 2× totem plus a 2× booster is not 4×; the game adds +1.0 and +1.0 into one pile and multiplies once. Ten +100% boosts make ×11, not ×1024. The one true multiplier in the game is the Events term, which applies to <span style="color:#C4FFB4">Luck</span> at the very end: ×2 during a [[Events|meteor shower]] and ×1.5 during Nimue’s Blessing, Blizzard, Swamp Fog, or Starfall, stacking with each other ([[#tabber-Mechanics|the boosters and events section]]).
+
+[[File:Stat guide 2-2 the golden rule.png|center|700px]]
+
+{| style="width:100%; background:#2F3A4A; border:1px solid #9BBCF2; border-left:6px solid #9BBCF2; border-radius:6px; margin:12px 0"
+| style="padding:7px 16px 2px 16px; text-align:left;" | <span style="color:#F0C419; font-size:95%">'''EXAMPLE'''</span>
+|-
+| style="padding:3px 16px 12px 16px; text-align:left;" | Panel line: <span style="color:#FFC1AE">Dig Strength</span> 3,549 (884).<br>Base = 884.  Flats = +130 (Volcanic Strength +5, Witches Brew +50, Cosmic Potion +75).<br>Boosts = Strength Totem +1.50, XP Cookie +1.00 → 2.50 total.<br>(884 + 130) × (1 + 2.50) = 1,014 × 3.5 = 3,549 - the exact panel value.
+|}
+
+=== Equipment, Prismatic, and enchants - where 'Base' comes from ===
+
+[[File:Stat guide 3-1 equipment prismatic and.png|center|700px]]
+
+[[Equipment|Equipment]] pages on the wiki list each item's 6★ stats. A fully upgraded Prismatic item provides exactly 1.6× those listed values. The [[Pans|pan]] and [[Shovels|shovel]] add their own lines - check the pan's full card: the [[Nebula Pan]] carries 800 <span style="color:#C4FFB4">Luck</span> / 500 <span style="color:#FFE9B4">Capacity</span> / 80 <span style="color:#FFC1AE">Shake Strength</span> / 125 <span style="color:#FFFFFF">Shake Speed</span> plus 25 [[Modifiers|Modifier]] Boost and 33 <span style="color:#FF4646">Size Boost</span> (some of these lines were not shown on older tooltips).
+
+==== Enchant math ====
+
+[[File:Stat guide 3-2 equipment prismatic and.png|center|700px]]
+
+{| style="width:100%; background:#2F3A4A; border:1px solid #9BBCF2; border-left:6px solid #9BBCF2; border-radius:6px; margin:12px 0"
+| style="padding:7px 16px 2px 16px; text-align:left;" | <span style="color:#F0C419; font-size:95%">'''EXAMPLE'''</span>
+|-
+| style="padding:3px 16px 12px 16px; text-align:left;" | [[Enchanting|Starstruck]] on a Nebula Pan (luck line): multiplier 1.3, flat +75.<br>New pan luck = 800 × 1.3 + 75 = 1,115 - the familiar '+315 luck'.<br>Starstruck also adds +50 <span style="color:#FFDD19">Sell Boost</span> and +20 <span style="color:#FF4646">Size Boost</span>. An enchant only ever changes the pan's own lines, never other gear.
+|}
+
+Shovel [[Enchanting|enchants]] change mechanics rather than stats: Mythical gives a 10% chance to duplicate Mythic and Exotic finds; Mastered brings autopan digging up to full quality ([[#tabber-Quality_and_Autopan|the Quality and Autopan tab]]). The [[Starcrusher]] shovel itself adds +300 <span style="color:#FFC1AE">Dig Strength</span> and +100 <span style="color:#ACDBFF">Dig Speed</span>, as well as a 10% luck multiplier.<br>
+
+=== The boost catalogue (Tested Only) ===
+
+''This catalogue is not comprehensive. It lists only the boosts that have been directly tested and measured so far - if a boost is not in the table, it has not been through a controlled test yet, even if it exists in game.''
+
+{| class="wikitable" style="width:100%;"
+|- style="background:#33383F;"
+! <span style="color:#F0C419">boost</span> !! <span style="color:#F0C419">adds</span> !! <span style="color:#F0C419">notes</span>
+|-
+| <span style="color:#C4FFB4">Luck</span> Totem || <span style="color:#8CE99A">+1.0x <span style="color:#C4FFB4">Luck</span> Multiplier</span> || Remember that 2x luck means +1x to your luck multiplier - so if you have no other luck bonuses, you get double the luck. If you already have something like purity rune (+1x luck), then you now get 3x luck instead of 2x luck.
+|-
+| Strength Totem || <span style="color:#8CE99A">+1.0x Dig Str Multiplier, +1.0x Shake Str Multiplier</span> || one totem, both stats
+|-
+| Luminant Totem || <span style="color:#8CE99A">+0.50x <span style="color:#FFE9B4">Capacity</span> Multiplier, +50% <span style="color:#FFFFFF">Shake Speed</span>, +50% <span style="color:#ACDBFF">Dig Speed</span></span> || It’s speed bonuses are a base +50 per speed type
+|-
+| Friendship Totem || <span style="color:#8CE99A">+0.2x <span style="color:#C4FFB4">Luck</span> Multiplier per additional player in range</span> || grows +0.2 shown per nearby player, starting at +0.2. With just yourself, it is +0.4x, with 2 people +0.6x, all the way up to +5.2x with 20 players.
+|-
+| Friends online || <span style="color:#8CE99A">+0.10x <span style="color:#C4FFB4">Luck</span> Multiplier, max +0.50x</span> ||  
+|-
+| Sunblessed / Abyssal rune || <span style="color:#8CE99A">+0.20x <span style="color:#C4FFB4">Luck</span> Multiplier</span> || Sunblessed requires sunlight to be hitting you, abyssal just requires the abyssal depth or night time.
+|-
+| Solitude rune || <span style="color:#8CE99A">+0.20x <span style="color:#C4FFB4">Luck</span> Multiplier</span> || only while truly alone;
+|-
+| Location mastery || <span style="color:#8CE99A">+0.15x to +0.25x <span style="color:#C4FFB4">Luck</span> Multiplier</span> || by region tier; volcano-tier areas give the full +0.25
+|-
+| [[Permanent Buffs|Quest permanents]] || Flat, not boosts || Lifetime quest rewards (e.g. +488 <span style="color:#C4FFB4">Luck</span> across quest lines)
+|-
+| XP Cookie || <span style="color:#8CE99A">+1.00 to most stats</span> || [[#tabber-Mechanics|the XP Cookie section]]. Does not affect Toughness, <span style="color:#D88565">Inventory</span> Size, Efficiency, Treasure Map Chance, Status Timer Speed, or Jump Power.
+|-
+| Meteor showers & weather events || ×2 / ×1.5 on final <span style="color:#C4FFB4">Luck</span> || true multipliers at the very end, after the pile - [[#tabber-Mechanics|the boosters and events section]]
+|-
+| Museum || Varies per stat || displays + modifier riders - [[#tabber-Museum|the Museum tab]]
+|}
+
+=== The XP Cookie ===
+
+The XP Cookie adds +1.00 to the boost pile of every stat. It is not a doubling: what it is worth on a given stat depends on how large that stat's pile already is.
+
+[[File:Stat guide 5-1 the xp cookie.png|center|700px]]
+
+The below graph below shows different points based off an example build (the build doesn’t matter - it just has +0.9x sell boost and +1.9x capacity as an example):
+
+[[File:Stat guide 5-2 the xp cookie.png|center|700px]]
+
+{| style="width:100%; background:#2F3A4A; border:1px solid #9BBCF2; border-left:6px solid #9BBCF2; border-radius:6px; margin:12px 0"
+| style="padding:7px 16px 2px 16px; text-align:left;" | <span style="color:#F0C419; font-size:95%">'''EXAMPLE'''</span>
+|-
+| style="padding:3px 16px 12px 16px; text-align:left;" | <span style="color:#F0C419">'''AN EXAMPLE:'''</span><br>Crew luck with totems and friendship (assume a luck mult of ≈ 10.8): gain = 12.8 ÷ 11.8 = ×1.09.<br><span style="color:#FFDD19">Sell Boost</span> with only museum bonuses (pile ≈ 0.9): gain = 2.9 ÷ 1.9 = ×1.54.<br><span style="color:#2BFF4B">Modifier Boost</span> with no boosts at all (pile = 0): gain = 2.0 ÷ 1.0 = ×2.00 - a true double.
+|}
+
+'''IMPORTANT NOTE:''' The XP Cookie Buff does not affect the following stat-page stats: Toughness, <span style="color:#D88565">Inventory</span> Size, Efficiency, Treasure Map Chance, Status Timer Speed, and Jump Power.
+
+=== '×2 Luck' boosters, meteor showers, and event boosts ===
+
+[[Events|Meteor showers]] are the exception to the everything-adds rule: a meteor multiplies your finished <span style="color:#C4FFB4">Luck</span> total by 2, applied after every boost has already been counted. Four weather events - Nimue’s Blessing, Blizzard, Swamp Fog, & Starfall - work the same way at ×1.5, and the multipliers stack with each other: meteor plus one weather event is ×3. Because this is a true doubling of final <span style="color:#C4FFB4">Luck</span>, a meteor window is worth far more on a stacked build than any single boost.
+
+[[File:Stat guide 6-1 2 luck boosters.png|center|700px]]
+
+{| style="width:100%; background:#2F3A4A; border:1px solid #9BBCF2; border-left:6px solid #9BBCF2; border-radius:6px; margin:12px 0"
+| style="padding:7px 16px 2px 16px; text-align:left;" | <span style="color:#F0C419; font-size:95%">'''EXAMPLE'''</span>
+|-
+| style="padding:3px 16px 12px 16px; text-align:left;" | A stacked panel read 88,234 <span style="color:#C4FFB4">Luck</span> during a meteor with the <span style="color:#C4FFB4">Luck</span> Totem down.<br>Working backwards: 88,234 ÷ 2 = 44,117, and 44,117 decomposes exactly as (Base + Flats) × (1 + Boosts) for that loadout.<br>The meteor is the ×2 at the end - remove it and the panel math closes with no leftover.
+|}
+
+[[Events|Modifier Surge]] belongs to a different family: it never appears on the stat panel. It doubles the EFFECTIVE <span style="color:#2BFF4B">Modifier Boost</span> inside the modifier system ([[#tabber-Modifier_Boost|the Modifier Boost tab]]). Solar Magnifier does the same ×2 on effective <span style="color:#2BFF4B">Modifier Boost</span> (14a only however - % of ores that receive a modifier) and additionally multiplies ore size ×1.5. [[Events|Volcanic Eruption]] multiplies ore size ×1.5 and ore count ×1.5.<br>
+
+==== Credits ====
+
+* '''zexy_24''' - designed and ran the whole research program: the equip-one-item panel measurement series, derivation and verification of the Golden Rule and every constant in this tab (totems, cookie, boosters, runes, permanents), plus all charts and writing.
+* '''PPatel772''' - foundational rules and formulas this guide builds on; verified the constants and gave the whole guide a line-by-line review and co-edit.
+* '''Autumn''' - confirmed the event multiplier law; review corrections.
+* '''bosnia123123''' - caught and corrected the flats and event-law mistakes in review.
+
+|-| Luck =
+=== <span style="color:#C4FFB4;">'''Luck'''</span> - what you dig up ===
+
+''See also: [[Luck Mechanics]]''
+
+<span style="color:#C4FFB4">Luck</span> decides which ores appear, which makes it central to almost every goal: filling the collection log, hunting Exotics, finding [[Museum|museum]] pieces, and earning. Each ore slot in a [[Pans|pan]] rolls one of three ways - a quarter of the time as if luck were 1, a quarter at half the panel value, and half the time at the full value:
+
+[[File:Stat guide 8-1 luck what you.png|center|700px]]
+
+Inside each roll, rare ores gain weight and common ores lose it as luck grows. The chart and table below use the '''Infernal Heart''' drop list; every location has its own ore pool, so the shapes carry over but the exact shares do not. Across the whole range:
+
+[[File:Stat guide 8-2 luck what you.png|center|700px]]
+
+{| class="wikitable" style="width:100%; text-align:center;"
+|- style="background:#33383F;"
+! <span style="color:#F0C419"><span style="color:#C4FFB4">Luck</span></span> !! <span style="color:#F0C419">Common</span> !! <span style="color:#F0C419">Legendary</span> !! <span style="color:#F0C419">Mythic</span> !! <span style="color:#F0C419">Exotic (all kinds combined)</span>
+|-
+| 1,000 || 25.2% || 3.7% || 0.05% || 0.002% - 1 per ~60,000 ores
+|-
+| 10,000 || 24.1% || 25.8% || 0.47% || 0.017% - 1 per ~5,900
+|-
+| 50,000 || 24.0% || 49.1% || 2.12% || 0.078% - 1 per ~1,280
+|-
+| 96,000 || 24.0% || 55.2% || 3.93% || 0.148% - 1 per ~670
+|}
+
+{| style="width:100%; background:#2F3A4A; border:1px solid #9BBCF2; border-left:6px solid #9BBCF2; border-radius:6px; margin:12px 0"
+| style="padding:7px 16px 2px 16px; text-align:left;" | <span style="color:#F0C419; font-size:95%">'''EXAMPLE'''</span>
+|-
+| style="padding:3px 16px 12px 16px; text-align:left;" | Past roughly 30,000 <span style="color:#C4FFB4">Luck</span>, Legendary becomes the most common ore in the pan.<br>The Exotic column combines every Exotic in the local pool. At Infernal Heart that pool is just the [[Dinosaur Skull]]: 1 per ~670 ores at 96,000 <span style="color:#C4FFB4">Luck</span>, i.e. one every 4 pans on a large build.<br>Individual Exotics differ enormously: [[Bloodstone]]'s listed base chance at [[Rotwood Swamp]] is about 1 in 1.2 billion. A per-ore chance always starts from that ore's own base rate in its own location, run through the same law.<br>Commons never disappear - about a quarter of drops at any luck - because one roll in four always acts as if luck were 1.
+|}
+
+<span style="color:#C4FFB4">Luck</span> also affects Ore [[Modifiers|Modifiers]] (‘Modifier <span style="color:#C4FFB4">Luck</span>’ = min(50, <span style="color:#C4FFB4">Luck</span> / 1000) + <span style="color:#2BFF4B">Modifier Boost</span> / 10).
+
+==== Credits ====
+
+* '''zexy_24''' - all testing and analysis in this tab: the multi-run drop composition dataset (25,000+ ores logged and counted), effective-<span style="color:#C4FFB4">Luck</span> testing, the drop-share curves and their fits, charts and writing.
+* '''PPatel772''' - stress-tested the drop analysis and set its standards of evidence; review and co-editing.
+
+|-| Capacity =
+=== <span style="color:#FFE9B4;">'''Capacity'''</span> ===
+
+<span style="color:#FFE9B4">Capacity</span> is the [[Pans|pan]]-fill bar, and it affects three primary things: How much effort is required to fill/empty your pan, the average number of items you receive per each pan, and how large your ore’s base weights are.
+
+Effort to fill/empty the pan - this is self explanatory: The more capacity you have, the more dig strength and shake strength is recommended so that it doesn’t take 3+ digs to fill a pan and 5 business days to empty it.
+
+Average number of items you receive per pan - 4 tests have shown that the average number of items you receive per each individual pan is equal to sqrt(capacity) * 1.08. The 8% bonus is believed to be caused from the following information given in-game: “Dig Quality increases the number of items per pan”. The sqrt(capacity) came from ‘hii’ (lead developer) himself, and a LOT of data shows this to be a true foundation.
+
+[[File:Stat guide v2 8-1 capacity.png|center|700px]]
+
+Unfortunately, capacity uses the same system as luck (explained above) where 25% of items have their base weight rolled assuming you have 5 (lowest in the game) capacity. 25% of items have their base weights rolled as if you have half of your capacity, and lastly, 50% of items have their base weights rolled as if you had your full capacity. So, as your capacity increases, base weight for ores generally tends to become more ‘healthy’ but after about 7-8k capacity, your average base weight starts to increase very slowly as you add more and more capacity.
+
+==== Credits ====
+
+* '''zexy_24''' - capacity testing and analysis: fitted and verified the size-factor and items-per-pan formulas against live panels and field data, charts and writing.
+* '''PPatel772''' - the original capacity rules, formulas and test datasets this tab is built on, plus the 10-test capacity distribution study; co-editing.
+
+|-| Dig Strength =
+=== <span style="color:#FFC1AE;">'''Dig Strength'''</span> and "The Dig Cliff" ===
+
+[[File:Stat guide 10-1 dig strength and.png|center|700px]]
+
+Starting a [[Pans|pan]] takes a whole number of [[Shovels|shovel]] digs. The round-up is what makes this stat unusual: nothing changes between boundaries, and everything changes at them. The moment <span style="color:#FFE9B4">Capacity</span> crosses a multiple of 1.5 × <span style="color:#FFC1AE">Dig Strength</span>, every future pan costs one more dig:
+
+[[File:Stat guide v2 9-1 dig strength the.png|center|700px]]
+
+{| style="width:100%; background:#2F3A4A; border:1px solid #9BBCF2; border-left:6px solid #9BBCF2; border-radius:6px; margin:12px 0"
+| style="padding:7px 16px 2px 16px; text-align:left;" | <span style="color:#F0C419; font-size:95%">'''EXAMPLE'''</span>
+|-
+| style="padding:3px 16px 12px 16px; text-align:left;" | <span style="color:#FFC1AE">Dig Strength</span> 3,549: one dig covers up to 1.5 × 3,549 = 5,324 <span style="color:#FFE9B4">Capacity</span>; two digs cover up to 10,647.<br>At <span style="color:#FFE9B4">Capacity</span> 10,468: 10,468 ÷ 5,324 = 1.97 → rounds up to 2 digs - 1.7% below the three-dig boundary.<br>A single capacity potion on top of that build would push it to 3 digs on every pan.
+|}
+
+Working rules: know which side of a boundary a build sits on (one division); avoid capacity additions near a boundary; and treat extra <span style="color:#FFC1AE">Dig Strength</span> between boundaries as inert - its value is holding the boundary in place, or reaching the next one.
+
+==== Credits ====
+
+* '''zexy_24''' - dig-count testing, the dig-cliff discovery and its analysis, formula verification against live panels, charts and writing.
+* '''PPatel772''' - the original dig rules, formulas and test datasets this tab is built on; verification and co-editing.
+
+|-| Dig Speed =
+=== <span style="color:#ACDBFF;">'''Dig Speed'''</span> ===
+
+[[File:Stat guide 11-1 dig speed.png|center|700px]]
+
+[[File:Stat guide 11-2 dig speed.png|center|700px]]
+
+{| style="width:100%; background:#2F3A4A; border:1px solid #9BBCF2; border-left:6px solid #9BBCF2; border-radius:6px; margin:12px 0"
+| style="padding:7px 16px 2px 16px; text-align:left;" | <span style="color:#F0C419; font-size:95%">'''EXAMPLE'''</span>
+|-
+| style="padding:3px 16px 12px 16px; text-align:left;" | <span style="color:#ACDBFF">Dig Speed</span> 1,598: each dig takes 143.9 × 1,598^(−0.93) ≈ 0.15 seconds.<br>Doubling to 3,200 saves about 0.07 seconds per dig - real but small.
+|}
+
+<span style="color:#ACDBFF">Dig Speed</span> shortens each dig smoothly, with no cliffs or steps. A couple of key sources cover most needs: the Summit Seeker [[Runes|Rune]], Luminant Totem, and Prismatic Ring of Champions (and Ring of the Stars) provide the bulk of a working dig speed without spending gear slots - usually, more dig speed than this is a of additional shake speed (oftentimes, shake speed equipment also gives dig speed). Its main day-to-day value is making multi-dig [[Pans|pans]] feel quick.<br>
+
+==== Credits ====
+
+* '''zexy_24''' - dig-timing testing, curve fitting and analysis, verification against live panels, charts and writing.
+* '''PPatel772''' - the original dig-timing rules and test datasets this tab is built on; verification and co-editing.
+
+|-| Shake =
+=== <span style="color:#FFC1AE;">'''Shake Strength'''</span> and <span style="color:#FFFFFF;">'''Shake Speed'''</span> - Big Bug… ===
+
+[[File:Stat guide 12-1 shake strength shake.png|center|700px]]
+
+<span style="color:#FFC1AE">Shake Strength</span> is dirt removed per shake: linear, dependable, and increasingly valuable the bigger the [[Pans|pan]]. <span style="color:#FFFFFF">Shake Speed</span> converts to shakes-per-second on an internal timer, and that conversion is bugged and doesn't work properly. As a result, there is a very irregular distribution:
+
+[[File:Stat guide v2 11-1 shake strength shake.png|center|700px]]
+
+{| style="width:100%; background:#2F3A4A; border:1px solid #9BBCF2; border-left:6px solid #9BBCF2; border-radius:6px; margin:12px 0"
+| style="padding:7px 16px 2px 16px; text-align:left;" | <span style="color:#F0C419; font-size:95%">'''EXAMPLE'''</span>
+|-
+| style="padding:3px 16px 12px 16px; text-align:left;" | So here’s the situation: Basically, you either want 400%, 600-650%, or 900-950% shake speed. Intentionally lowering your shake speed from values above 1000 when possible is recommended, as you shake slower from 1000-1700% than you do at 900%.
+|}
+
+==== Credits ====
+
+* '''zexy_24''' - shake-rate testing, the shake-step discovery and its analysis, charts and writing.
+* '''PPatel772''' - the original shake rules, formulas and test datasets this tab is built on, plus Shake Test 4.0 (the shakes-per-second series); co-editing.
+
+|-| Size Boost =
+=== <span style="color:#FF4646;">'''Size Boost'''</span> - heavier ores ===
+
+Every ore rolls a weight, and <span style="color:#FF4646">Size Boost</span> multiplies it. Weight matters in two places: sale prices scale with it, and [[Museum|museum]] displays require minimum weights for full effect - so size is as much a museum stat as an earning stat.
+
+[[File:Stat guide v2 12-1 size boost heavier.png|center|700px]]
+
+{| style="width:100%; background:#2F3A4A; border:1px solid #9BBCF2; border-left:6px solid #9BBCF2; border-radius:6px; margin:12px 0"
+| style="padding:7px 16px 2px 16px; text-align:left;" | <span style="color:#F0C419; font-size:95%">'''EXAMPLE'''</span>
+|-
+| style="padding:3px 16px 12px 16px; text-align:left;" | <span style="color:#FF4646">Size Boost</span> 4,633: weight multiplier = 1 + 46.33 = ×47.3, or x106.4 with Magnifier and Eruption both active.<br>Museum hunting: an ore that needs 100 kg for full display stats is far easier to find at ×142 weight than at ×47 - event windows are prime trophy time.<br>Selling: weight multiplies price directly, so +10% weight is +10% on everything.
+|}
+
+<span style="color:#FF4646">Size Boost</span> is smooth everywhere - no caps, cliffs or steps appeared in any tested range - which makes it a safe stat to add when in doubt (remember, you can still get small ores at like 6000+ sb because of the way capacity affects base weight… not just rng there but the 25-25-50 split.)
+
+==== Credits ====
+
+* '''zexy_24''' - size testing across gear and events, the weight-formula analysis and verification, charts and writing.
+* '''PPatel772''' - corrected and verified the event size multipliers and rebuilt the weight formula card; review and co-editing.
+
+|-| Sell Boost =
+=== <span style="color:#FFDD19;">'''Sell Boost'''</span> - The Price at The Counter ===
+
+[[File:Stat guide 14-1 sell boost the.png|center|700px]]
+
+<span style="color:#FFDD19">Sell Boost</span> applies at the moment of sale, not the moment of finding. Since loadouts can be swapped before selling, many players keep two: one to play in, and a maximum-Sell loadout for selling stored valuables. zexy_24's dedicated sell loadout reaches 7,110%, roughly double the sale price of a typical farming loadout (most people can reach 4k-4.3k with a dedicated build and [[Museum|museum]] alone) - and that is not the theoretical maximum.
+
+{| style="width:100%; background:#2F3A4A; border:1px solid #9BBCF2; border-left:6px solid #9BBCF2; border-radius:6px; margin:12px 0"
+| style="padding:7px 16px 2px 16px; text-align:left;" | <span style="color:#F0C419; font-size:95%">'''EXAMPLE'''</span>
+|-
+| style="padding:3px 16px 12px 16px; text-align:left;" | A farming loadout at <span style="color:#FFDD19">Sell Boost</span> 3,364% sells at ×34.6. The 7,110% sell build sells at ×72.1.<br>A stored Dinosaur Skull sold on the sell build instead: 72.1 ÷ 34.6 ≈ 2.1× the price, for thirty seconds of swapping.<br>The habit that follows: keep valuables (usually legendary+ when money farming in the late/end-game) in the backpack and sell them in bulk while wearing the sell build ([[#tabber-Inventory_and_Banking|the Inventory and Banking tab]]).
+|}
+
+==== Credits ====
+
+* '''zexy_24''' - sell-value testing and analysis, formula verification against logged sessions, charts and writing.
+* '''PPatel772''' - independent verification of the sell math; review and co-editing.
+
+|-| Modifier Boost =
+=== <span style="color:#2BFF4B;">'''Modifier Boost'''</span> - two different jobs ===
+
+[[Modifiers|Modifiers]] (Shiny, Pure … Cosmic, Mutated, Perfect) are the glowing prefixes on ores. They multiply sale price, and the rare ones are what [[Museum|museum]] builders and collectors chase - a Perfect ore is both a payday and the strongest display piece in the game. <span style="color:#2BFF4B">Modifier Boost</span> drives them through two separate mechanisms, and what counts in both is the EFFECTIVE value (NOTE: Solar Magnifier behaves differently across 14a and 14b below):
+
+[[File:Stat guide 15-1 modifier boost two.png|center|700px]]
+
+==== Job one - % of Ores That Get a Modifier ====
+
+[[File:Stat guide 15-2 modifier boost two.png|center|700px]]
+
+The modified fraction rises steeply and levels off near 1,900 effective, capping at 99.4% of ores. Two independent measurements (a 60,000-ore counting series and the ladder above) agree throughout. Past that point, additional <span style="color:#2BFF4B">Modifier Boost</span> creates no additional modified ores.
+
+==== Job two - Which Modifier? ====
+
+[[File:Stat guide 15-3 modifier boost two.png|center|700px]]
+
+The more ‘effective MB’ you have, the more perfect, lunar, mutated, cosmic, etc. ores you will get.
+
+'''VERY IMPORTANT NOTE: '''Modifier Surge increases effective MB for ‘which modifier’ (modifier surge should result in about 2x the perfect, lunar, mutated, etc. ores) whereas solar mag does NOT increase ‘effective MB’ for ‘which modifier’ - it only increases ‘effective MB’ for 14a (how many ores get a modifier).
+
+{| class="wikitable" style="width:100%; text-align:center;"
+|- style="background:#33383F;"
+! <span style="color:#F0C419">modifier</span> !! <span style="color:#F0C419">× price</span> !! <span style="color:#F0C419">modifier</span> !! <span style="color:#F0C419">× price</span> !! <span style="color:#F0C419">notes</span>
+|-
+| Perfect || 24× || Iridescent || 3.5× || Perfect is also the strongest museum rider (sometimes)
+|-
+| Treasured || 15× || Irradiated || 2.5× || Treasured: [[Treasure Chest|treasure chests]] only
+|-
+| Lunar || 14× || Scorching || 2× || Lunar: night only
+|-
+| Voidtorn || 11× || Glowing || 1.6× || Voidtorn: Void tools & The Void
+|-
+| Mutated || 9× || Pure || 1.35× ||  
+|-
+| Cosmic || 6× || Shiny || 1.2× ||  
+|}
+
+{| style="width:100%; background:#2F3A4A; border:1px solid #9BBCF2; border-left:6px solid #9BBCF2; border-radius:6px; margin:12px 0"
+| style="padding:7px 16px 2px 16px; text-align:left;" | <span style="color:#F0C419; font-size:95%">'''EXAMPLE'''</span>
+|-
+| style="padding:3px 16px 12px 16px; text-align:left;" | Panel <span style="color:#2BFF4B">Modifier Boost</span> 1,434 with a Solar Magnifier down: effective = 2,868 (for 14a - % of ores that receive a modifier, NOT which modifier you will get)<br>Job one is already capped - nearly every ore carries some modifier. Adding a modifier surge for example just pushes the 2,868 to effective 5,736 for 14a which means you really did nothing, as most to all<br> ores were already getting a modifier).During a Modifier Surge (effective 2,868 for 14b - which modifier you will get) the rare-tier odds roughly double again - the best window for museum-piece hunting.
+|}
+
+For museum and collection goals (14b matters: which modifier am I getting), <span style="color:#2BFF4B">Modifier Boost</span> keeps paying past 1900, which is why dedicated modifier hunters stack it far past the job-one cap. For money farming/earnings, most of the value arrives by the 1900 value, and the rest is a gentle increase due to better modifiers.
+
+==== Credits ====
+
+* '''zexy_24''' - the <span style="color:#2BFF4B">Modifier Boost</span> ladder testing, ore-composition counting and analysis, the two-jobs model and its verification, charts and writing.
+* '''PPatel772''' - the modified-fraction formula - the foundation of job one; verification and co-editing.
+* '''PobiQ''' - the 75,000+ ore modifier counting datasets.
+* '''emma''' - the 75,000+ ore modifier counting datasets.
+* '''Autumn''' - modifier counts and community testing.
+
+|-| Museum =
+=== The Museum ===
+
+[[File:Stat guide 16-1 the museum.png|center|700px]]
+
+Each displayed ore contributes twice: its own unique boost (fixed per ore type - Gold gives <span style="color:#FFDD19">Sell Boost</span>, Copper gives <span style="color:#FF4646">Size Boost</span>, and so on, listed on the wiki's [[Museum|Museum]] page) plus a rider from its [[Modifiers|modifier]] - a Perfect adds <span style="color:#C4FFB4">Luck</span> + <span style="color:#FFE9B4">Capacity</span> + Size, a Cosmic adds <span style="color:#FFE9B4">Capacity</span> + <span style="color:#FFC1AE">Shake Strength</span>, and Iridescent adds <span style="color:#C4FFB4">Luck</span>. Riders scale with the slot's rarity row, from 0.005 at Common to 0.08 at Exotic. The tooltip over any slot shows the combined result; tooltip minus one is exactly what the slot adds to the boost pile. Treasured additionally gives 2x the luck Iridescent does.
+
+{| style="width:100%; background:#2F3A4A; border:1px solid #9BBCF2; border-left:6px solid #9BBCF2; border-radius:6px; margin:12px 0"
+| style="padding:7px 16px 2px 16px; text-align:left;" | <span style="color:#F0C419; font-size:95%">'''EXAMPLE'''</span>
+|-
+| style="padding:3px 16px 12px 16px; text-align:left;" | A Cosmic [[Singularium]] in the Exotic slot shows <span style="color:#FFE9B4">Capacity</span> ×1.56.<br>Breakdown: 0.48 is Singularium's own display; 0.08 is the Cosmic rider at the Exotic row. 0.48 + 0.08 = 0.56, i.e. tooltip 1.56.<br>Weight gate: an ore gives its full display value only at or above its listed minimum weight - one reason <span style="color:#FF4646">Size Boost</span> matters to museum hunters.
+|}
+
+Ores with identical display lines are interchangeable - Copper and [[Obsidian]], [[Palladium]] and [[Tourmaline]], [[Ashvein]] and [[Bone]] - which is why build sheets write 'pick one of'. Which displays belong in the slots depends on the goal: an earner leans on Size and Sell displays, a modifier hunter on <span style="color:#2BFF4B">Modifier Boost</span> displays, and a collector building luck can fill slots with <span style="color:#C4FFB4">Luck</span> riders (Iridescent pieces everywhere is a respectable budget museum).<br>
+
+==== Credits ====
+
+* '''zexy_24''' - museum display and rider testing, the tooltip decomposition analysis, formulas and writing.
+* '''PPatel772''' - verification of the display and rider math; review and co-editing.
+
+|-| Quality and Autopan =
+=== Quality, autopan, and macros ===
+
+Quality multiplies the value of everything dug. Manual digging reaches 100% when the dig timing is hit properly; mistimed digs score lower. Autopan digs at 51% - which results in ⅔ luck - unless the [[Shovels|shovel]] carries the Mastered [[Enchanting|enchant]], which restores full quality (note autopan also does not give 1.5x <span style="color:#FFC1AE">Dig Strength</span> unless you have the mastered shovel enchant). Click-macros count as manual digging: full quality with any shovel, which lets macro users carry Mythical (+10% duplication on Mythic and Exotic finds) or another enchant instead.
+
+Autopan also paces itself: measured against the same build's theoretical cycle time, it completes roughly three quarters of the possible [[Pans|pans]] per hour. It remains the right tool for unattended play; the figures are simply worth knowing when comparing sessions.
+
+==== Credits ====
+
+* '''zexy_24''' - quality, autopan and macro testing and analysis, and writing.
+* '''PPatel772''' - verification of the quality findings; review and co-editing.
+
+|-| Inventory and Banking =
+=== <span style="color:#D88565;">'''Inventory'''</span> and the banking loop ===
+
+<span style="color:#D88565">Inventory</span> Size takes no multipliers from anything - the panel total always equals the parentheses. It comes from gear and from Traveler's Backpacks (+25 each, up to +500 max). It matters because of one hard rule: when the backpack is full, panning stops entirely until something is sold.
+
+[[File:Stat guide 18-1 inventory and the.png|center|700px]]
+
+{| style="width:100%; background:#2F3A4A; border:1px solid #9BBCF2; border-left:6px solid #9BBCF2; border-radius:6px; margin:12px 0"
+| style="padding:7px 16px 2px 16px; text-align:left;" | <span style="color:#F0C419; font-size:95%">'''EXAMPLE'''</span>
+|-
+| style="padding:3px 16px 12px 16px; text-align:left;" | <span style="color:#F0C419">'''AN EXAMPLE'''</span><br>A loadout with 2,744 inventory storing every Mythic and Exotic find (≈160 stored ores per minute at high luck): 2,744 ÷ 160 ≈ 17 minutes per backpack.<br>Each sell trip - swap to the sell build, sell, swap back - takes 2.5 to 4.5 minutes depending on setup.<br>Storing every Legendary and above using the same example build is a lot worse: at high luck Legendries alone arrive at ~2,500 per minute depending on the build (most end-game builds), filling any backpack in under 90 seconds.
+|}
+
+The same wall applies outside of selling: collectors holding pieces for the [[Museum|museum]] or the collection log will find that inventory gear and [[Traveler's Backpack|backpack upgrades]] set how long a hunting session can run between trips to a nearby [[Merchant|merchant]] (unless you have sell-anywhere…)
+
+==== Credits ====
+
+* '''zexy_24''' - inventory testing, the banking-loop model and its analysis, and writing.
+* '''PPatel772''' - verification of the inventory and banking math; review and co-editing.
+
+|-| Quick Reference =
+=== Events and boosts - quick reference ===
+
+{| class="wikitable" style="width:100%;"
+|- style="background:#33383F;"
+! <span style="color:#F0C419">event / item</span> !! <span style="color:#F0C419">what it does</span> !! <span style="color:#F0C419">Misc.</span>
+|-
+| Solar Magnifier || ore size ×1.5<br>effective <span style="color:#2BFF4B">Modifier Boost</span> ×2 (14a only - % of ores that receive a modifier) || It does not affect luck in the sense of mythic/exotic items dropped…
+|-
+| Volcanic Eruption || ore size ×1.5 · ores per pan ×1.5 || Summoned by the Infernal Idol relic
+|-
+| Modifier Surge || effective <span style="color:#2BFF4B">Modifier Boost</span> ×2 || Never appears on the stat panel
+|-
+| Meteor shower || ×2 on final <span style="color:#C4FFB4">Luck</span>, applied after all boosts || It is a real doubling - the one exception to the additive rule, alongside other weather bonuses
+|-
+| Nimue’s Blessing / Blizzard / Swamp Fog / Starfall || ×1.5 on final <span style="color:#C4FFB4">Luck</span>, same mechanism as the meteor (Nimue’s Blessing and Starfall also affect modifiers, we are unsure as to how for now) || stacks with the meteor: both together = ×3
+|-
+| XP Cookie || <span style="color:#8CE99A">+1.00 to most boost piles</span> || Not a ‘stat doubler’ 😭
+|}
+
+=== Glossary, method and credits ===
+
+==== Glossary ====
+
+{| class="wikitable" style="width:100%;"
+|- style="background:#33383F;"
+! <span style="color:#F0C419">term</span> !! <span style="color:#F0C419">meaning</span>
+|-
+| Base || the parenthesized number on a panel line: what gear alone provides
+|-
+| Flats || raw point bonuses (potions, quest rewards) added to Base before the multiply
+|-
+| Boosts || every percentage bonus added together, written as decimals (+150% = 1.50)
+|-
+| Effective <span style="color:#2BFF4B">Modifier Boost</span> || panel <span style="color:#2BFF4B">Modifier Boost</span> x2 per Solar Magnifier, x2 again in a Surge
+|-
+| Digs || the round-up dig count from [[#tabber-Dig_Strength|the Dig Strength tab]]
+|-
+| Quality || the value multiplier from dig execution ([[#tabber-Quality_and_Autopan|the Quality and Autopan tab]])
+|-
+| Rider || the museum bonus a modifier adds on top of an ore's display boost
+|-
+| General form || a formula with its event and location factors removed, for use anywhere
+|}
+
+==== Method ====
+
+Stat laws were measured by equipping one item or buff at a time and recording the panel, until every number on a full panel was accounted for. Drop and [[Modifiers|modifier]] behavior came from large counting datasets - PPatel's dig, shake and capacity series, and the modifier counts collected by PobiQ and emma - cross-checked against live backpack counts and logged sessions.'''Credits'''
+
+==== Credits ====
+
+* '''zexy_24''' - Designed and ran the testing program behind this entire guide; measured the stat panel law and the totem, cookie, booster and rune values in-game through equip-one-item panel series; ran the effective <span style="color:#C4FFB4">Luck</span> and drop-rate testing, the <span style="color:#2BFF4B">Modifier Boost</span> ladders, and the ore composition counting; derived every formula and cross-checked and verified it all against live stat panels and logged farming sessions; made all the charts, formula cards and worked examples; compiled and edited the full guide; co-authored the original Money Printer v2.
+* '''PPatel772''' - The original dig, shake and capacity rules, formulas and datasets that much of this research is built on; the modified-fraction formula; and a rigorous line-by-line review of the entire guide that sharpened, verified and polished every section.'''<br>
+* '''Autumn''' - Modifier counts and community testing; review corrections.
+* '''PobiQ''' - Modifier counts and community testing.
+* '''emma''' - Modifier counts and community testing.
+* '''UhKvri''' - Co-authored the original Money Printer v2, and community testing.
+* '''bosnia123123''' - Review corrections.
+* '''Thanks to the Prospecting Wiki and its maintainers, and the whole testing crew.'''
+
+</tabber></div>

@@ -1,0 +1,592 @@
+
+== Mutations ==
+
+[[File:MutationForge.png.png|thumb|The '''Mutation Forge''' at [[Frozen Peak]]]]
+'''Equipment Mutations''' enhance [[Equipment|equipment]] by altering their appearance and providing a universal stat multiplier. Every piece of equipment can receive '''one''' mutation.
+
+A piece of [[Equipment|equipment]] has a small chance to acquire a '''mutation''' when crafted. Certain [[Events]] may change the odds for obtaining a certain mutation.
+
+The player can also reroll a '''mutation''' by utilizing the '''Mutation Forge''' located at [[Frozen Peak]], which requires a specific [[Minerals|catalyst]] to use. The catalyst needed depends on the equipment. When a mutation is rolled, the player can choose to keep the existing mutation or apply the new mutation. 
+* The player can also use a [[Relics|Festive Catalyst]] to apply {{Enchant|Festive}} to a piece of equipment.
+* The player can also use a [[Relics|Prismatic Catalyst]] to apply {{Enchant|Prismatic}} to a piece of equipment.
+
+== Chances ==
+<tabber>
+Without Events=
+{| class="wikitable"
+|+ style="color:white;" | Mutation Chances
+|-
+! style='text-align:right;' | # Catalysts:
+! 1 !! 2 !! 3 !! 4 !! 5 !! 6 !! 7 !! 8 !! 9 !! 10 !! 11 !! 12 !! 13 !! 14 !! 15
+|-
+! {{Enchant|Prismatic}}
+| 0.56% || 1.1% || 1.7% || 2.2% || 2.7% || 3.3% || 3.8% || 4.4% || 4.9% || 5.4% || 5.9% || 6.5% || 7% || 7.5% || 8%
+|-
+! {{Enchant|Overclocked}}
+| 1.3% || 2.5% || 3.7% || 4.8% || 6% || 7.1% || 8.1% || 9.2% || 10% || 11% || 12% || 13% || 14% || 15% || 16%
+|-
+! {{Enchant|Granite}}
+| 1.2% || 2.4% || 3.6% || 4.6% || 5.7% || 6.6% || 7.6% || 8.4% || 9.2% || 10% || 11% || 11% || 12% || 13% || 13%
+|-
+! {{Enchant|Diamond}}
+| 2.5% || 4.8% || 6.9% || 8.8% || 10% || 12% || 13% || 15% || 16% || 17% || 18% || 19% || 19% || 20% || 20%
+|-
+! {{Enchant|Gold}}   
+| 5.6% || 10% || 14% || 17% || 20% || 22% || 23% || 24% || 25% || 26% || 26% || 26% || 26% || 26% || 25%
+|-
+! {{Enchant|Silver}}
+| 14% || 23% || 28% || 31% || 32% || 32% || 30% || 29% || 27% || 25% || 23% || 21% || 19% || 17% || 16%
+|-
+! {{Enchant|None}} 
+| 75% || 56% || 42% || 32% || 24% || 18% || 13% || 10% || 7.5% || 5.6% || 4.2% || 3.2% || 2.4% || 1.8% || 1.3%
+|-
+|}
+|-|
+
+Candy Canes Event - Limited=
+{| class="wikitable"
+|+ style="color:white;" | Mutation Chances
+|-
+! style='text-align:right;' | # Catalysts:
+! 1 !! 2 !! 3 !! 4 !! 5 !! 6 !! 7 !! 8 !! 9 !! 10 !! 11 !! 12 !! 13 !! 14 !! 15 !! 16 !! 17
+|-
+! {{Enchant|Prismatic}} 
+| 0.51% || 1% || 1.5% || 2% || 2.5% || 3% || 3.5% || 4% || 4.5% || 5% || 5.5% || 6% || 6.5% || 6.9% || 7.4% || 7.9% || 8.4%
+|-
+! {{Enchant|Festive}} 
+| 1.9% || 3.7% || 5.3% || 6.9% || 8.2% || 9.5% || 11% || 12% || 13% || 14% || 14% || 15% || 16% || 16% || 17% || 17% || 18%
+|-
+! {{Enchant|Overclocked}} 
+| 1.2% || 2.3% || 3.3% || 4.3% || 5.3% || 6.2% || 7.1% || 7.9% || 8.7% || 9.4% || 10% || 11% || 11% || 12% || 13% || 13% || 14%
+|-
+! {{Enchant|Granite}} 
+| 1.2% || 2.3% || 3.4% || 4.5% || 5.5% || 6.6% || 7.6% || 8.6% || 9.5% || 10% || 11% || 12% || 13% || 14% || 15% || 16% || 16%
+|-
+! {{Enchant|Diamond}} 
+| 2.3% || 4.3% || 6.1% || 7.7% || 9.1% || 10% || 11% || 12% || 13% || 13% || 14% || 14% || 15% || 15% || 15% || 15% || 15%
+|-
+! {{Enchant|Gold}} 
+| 5.1% || 9.3% || 13% || 15% || 17% || 19% || 20% || 20% || 21% || 21% || 21% || 21% || 20% || 20% || 19% || 19% || 18%
+|-
+! {{Enchant|Silver}} 
+| 13% || 21% || 26% || 28% || 29% || 28% || 27% || 25% || 24% || 22% || 20% || 18% || 16% || 14% || 13% || 12% || 10%
+|-
+! {{Enchant|None}} 
+| 75% || 56% || 42% || 32% || 24% || 18% || 13% || 10% || 7.5% || 5.6% || 4.2% || 3.2% || 2.4% || 1.8% || 1.3% || 1% || 0.75%
+|}
+|-|
+Rainbow Event=
+{| class="wikitable"
+|+ style="color:white;" | Mutation Chances
+|-
+! style='text-align:right;' | # Catalysts:
+! 1 !! 2 !! 3 !! 4 !! 5 !! 6 !! 7 !! 8
+|-
+! {{Enchant|Prismatic}} 
+| 1.8% || 3.5% || 5.2% || 6.8% || 8.5% || 10% || 12% || 13%
+|-
+! {{Enchant|Overclocked}} 
+| 2% || 3.8% || 5.6% || 7.3% || 8.8% || 10% || 12% || 13%
+|-
+! {{Enchant|Granite}} 
+| 2% || 3.8% || 5.4% || 6.8% || 8.1% || 9.3% || 10% || 11%
+|-
+! {{Enchant|Diamond}} 
+| 3.9% || 7.3% || 10% || 12% || 14% || 16% || 17% || 18%
+|-
+! {{Enchant|Gold}} 
+| 4.4% || 7.7% || 10% || 12% || 13% || 14% || 14% || 15%
+|-
+! {{Enchant|Silver}} 
+| 11% || 18% || 21% || 23% || 23% || 23% || 21% || 20%
+|-
+! {{Enchant|None}} 
+| 75% || 56% || 42% || 32% || 24% || 18% || 13% || 10%
+|}
+|-|
+Rainbow + Candy Cane=
+{| class="wikitable"
+|+ style="color:white;" | Mutation Chances
+|-
+! style='text-align:right;' | # Catalysts:
+! 1 !! 2 !! 3 !! 4 !! 5 !! 6 !! 7
+|-
+! {{Enchant|Prismatic}} 
+| 1.6% || 3.2% || 4.7% || 6.1% || 7.5% || 8.8% || 10%
+|-
+! {{Enchant|Festive}} 
+| 1.5% || 3.1% || 4.6% || 6% || 7.5% || 8.9% || 10%
+|-
+! {{Enchant|Overclocked}} 
+| 1.9% || 3.6% || 5.1% || 6.5% || 7.8% || 9% || 10%
+|-
+! {{Enchant|Granite}} 
+| 1.9% || 3.5% || 4.9% || 6.2% || 7.2% || 8.2% || 9%
+|-
+! {{Enchant|Diamond}} 
+| 3.7% || 6.8% || 9.3% || 11% || 13% || 14% || 15%
+|-
+! {{Enchant|Gold}} 
+| 4.1% || 7.2% || 9.4% || 11% || 12% || 13% || 13%
+|-
+! {{Enchant|Silver}} 
+| 10% || 16% || 20% || 21% || 21% || 21% || 19%
+|-
+! {{Enchant|None}} 
+| 75% || 56% || 42% || 32% || 24% || 18% || 13%
+|}
+</tabber>
+
+Adding more of the appropriate catalyst increases the appearance chance of better mutations.
+
+== Effects ==
+Each mutation provides a universal stat multiplier, with some giving additional additive bonuses:
+* {{Enchant|Silver}}: 1.1×
+* {{Enchant|Gold}}: 1.2× 
+* {{Enchant|Diamond}}: 1.35× 
+* {{Enchant|Granite}}: 1.36×, +24 {{Stat|Dig Strength}}, +6 {{Stat|Shake Strength}}
+* {{Enchant|Overclocked}}: 1.36×, +10% {{Stat|Dig Speed}}, +10% {{Stat|Shake Speed}}
+* {{Enchant|Festive}}: 1.4×, +50 {{Stat|Luck}}, +10% {{Stat|Size Boost}}
+* {{Enchant|Prismatic}}: 1.6×
+
+<templatestyles src="Template:EquipmentMutations/styles.css" />
+
+== List of Equipment Catalysts ==
+<tabber>
+|-|Common=
+{| class="wikitable sortable mutation-table" style="width:100%"
+! Equipment !! Mineral
+{{Mutations Row
+ | equip name=Gold Ring
+ | equip name color=#FFE88B
+ | mineral name=[[Gold]]
+}}
+{{Mutations Row
+ | equip name=Garden Glove
+ | equip name color=#DAA78A
+ | mineral name=[[Titanium]]
+ | mineral name color=#878681
+}}
+{{Mutations Row
+ | equip name=Amethyst Pendant
+ | equip name color=#F1BDFF
+ | mineral name=[[Amethyst]]
+ | mineral name color=#F1BDFF
+}}
+{{Mutations Row
+ | equip name=Titanium Ring
+ | equip name color=#DAA78A
+ | mineral name=[[Titanium]]
+ | mineral name color=#DAA78A
+}}
+|}
+
+|-|Uncommon=
+{| class="wikitable sortable mutation-table" style="width:100%"
+! Equipment !! Mineral
+{{Mutations Row
+ | equip name=Smoke Ring
+ | equip name color=#999999
+ | mineral name=[[Smoky Quartz]]
+ | mineral name color=#725F57
+}}
+{{Mutations Row
+ | equip name=Pearl Necklace
+ | equip name color=#FFFFFF
+ | mineral name=[[Pearl]]
+ | mineral name color=F9FFCF
+}}
+{{Mutations Row
+ | equip name=Jade Armband
+ | equip name color=#6FFF47
+ | mineral name=[[Jade]]
+ | mineral name color=#6FFF47
+}}
+{{Mutations Row
+ | equip name=Topaz Necklace
+ | equip name color=#FFC779
+ | mineral name=[[Topaz]]
+ | mineral name color=#FFC779
+}}
+|}
+
+|-|Rare=
+{| class="wikitable sortable mutation-table" style="width:100%"
+! Equipment !! Mineral
+{{Mutations Row
+ | equip name=Ruby Ring
+ | equip name color=#FF9B9B
+ | mineral name=[[Ruby]]
+ | mineral name color=#C41215
+}}
+{{Mutations Row
+ | equip name=Lapis Armband
+ | equip name color=#587CFF
+ | mineral name=[[Lapis Lazuli]]
+ | mineral name color=#587CFF
+}}
+{{Mutations Row
+ | equip name=Speed Coil
+ | equip name color=#FF595C
+ | mineral name=[[Meteoric Iron]]
+ | mineral name color=#E3A529
+}}
+{{Mutations Row
+ | equip name=Meteor Ring
+ | equip name color=#FF8418
+ | mineral name=[[Meteoric Iron]]
+ | mineral name color=#E3A529
+}}
+|}
+
+|-|Epic=
+{| class="wikitable sortable mutation-table" style="width:100%"
+! Equipment !! Mineral
+{{Mutations Row
+ | equip name=Opal Amulet
+ | equip name color=#D7EEFF
+ | mineral name=[[Opal]]
+ | mineral name color=#F1EDDF
+}}
+{{Mutations Row
+ | equip name=Moon Ring
+ | equip name color=#FFE0C1
+ | mineral name=[[Moonstone]]
+ | mineral name color=#C7C7AD
+}}
+{{Mutations Row
+ | equip name=Gravity Coil
+ | equip name color=#4EB2FF
+ | mineral name=[[Osmium]]
+ | mineral name color=#5F618C
+}}
+{{Mutations Row
+ | equip name=Heart of the Ocean
+ | equip name color=#3293a8
+ | mineral name=[[Golden Pearl]]
+ | mineral name color=#f4df00
+}}
+{{Mutations Row
+ | equip name=Lava Lantern
+ | equip name color=#a87932
+ | mineral name=[[Pyronium]]
+ | mineral name color=#FFED40
+}}
+|}
+
+|-|Legendary=
+{| class="wikitable sortable mutation-table" style="width:100%"
+! Equipment !! Mineral
+{{Mutations Row
+ | equip name=Guiding Light
+ | equip name color=#FFF395
+ | mineral name=[[Catseye]]
+ | mineral name color=#E8C85F
+}}
+{{Mutations Row
+ | equip name=Lightkeeper's Ring
+ | equip name color=#FFE770
+ | mineral name=[[Luminum]]
+ | mineral name color=#FFED26
+}}
+{{Mutations Row
+ | equip name=Mass Accumulator 
+ | equip name color=#9DFF52
+ | mineral name=[[Uranium]]
+ | mineral name color=#89FA20
+}}
+{{Mutations Row
+ | equip name=Eye of Fire
+ | equip name color=#f70707
+ | mineral name=[[Fire Opal]]
+ | mineral name color=#3EB489
+}}
+{{Mutations Row
+ | equip name=Crown
+ | equip name color=#FFCC00
+ | mineral name=[[Diamond]]
+ | mineral name color=#B9F2FF
+}}
+{{Mutations Row
+ | equip name=Ring of Harvest
+ | equip name color=#FA901E
+ | mineral name=[[Lost Soul]]
+ | mineral name color=#98D6CC
+}}
+{{Mutations Row
+ | equip name=Dragon Claw
+ | equip name color=#DAA78A
+ | mineral name=[[Dragon Bone]]
+ | mineral name color=#79518F
+}}
+{{Mutations Row
+ | equip name=Spider Bowtie
+ | equip name color=#F0D749
+ | mineral name=[[Catseye]]
+ | mineral name color=#E8C85F
+}}
+{{Mutations Row
+ | equip name=5 Gold Rings
+ | equip name color=#FFD700
+ | mineral name=[[Peppermint Prism]]
+ | mineral name color=#3EB489
+}}
+
+
+|-|Mythic=
+{| class="wikitable sortable mutation-table" style="width:100%"
+! Equipment !! Mineral
+{{Mutations Row
+ | equip name=Helm of the Round
+ | equip name color=#FFE0C1
+ | mineral name=[[Radiant Gold]]
+ | mineral name color=#DE4414
+}}
+{{Mutations Row
+ | equip name=Royal Federation Crown
+ | equip name color=#FFD5FC
+ | mineral name=[[Pink Diamond]]
+ | mineral name color=#FF42B6
+}}
+{{Mutations Row
+ | equip name=Phoenix Heart
+ | equip name color=#FF4102
+ | mineral name=[[Inferlume]]
+ | mineral name color=#DE4414
+}}
+{{Mutations Row
+ | equip name=Bunny Ears
+ | equip name color=#B9E6A1
+ | mineral name=[[Flarebloom]]
+ | mineral name color=#E39322
+}}
+{{Mutations Row
+ | equip name=Celestial Rings
+ | equip name color=#FFDC52
+ | mineral name=[[Vortessence]]
+ | mineral name color=#A88028
+}}
+{{Mutations Row
+ | equip name=Apocalypse Bringer
+ | equip name color=#A20000
+ | mineral name=[[Painite]]
+ | mineral name color=#7D0F68
+}}
+{{Mutations Row
+ | equip name=Amulet of Spirits
+ | equip name color=#FA901E
+ | mineral name=[[Vortessence]]
+ | mineral name color=#7D0F68
+}}
+{{Mutations Row
+ | equip name=Mythril Ring
+ | equip name color=#3EFF85
+ | mineral name=[[Mythril]]
+ | mineral name color=#2CD187
+}}
+{{Mutations Row
+ | equip name=Phoenix Wings
+ | equip name color=#FF4102
+ | mineral name=[[Flarebloom]]
+ | mineral name color=#E39322
+}}
+{{Mutations Row
+ | equip name=Prismatic Star
+ | equip name color=#3EFF85
+ | mineral name=[[Prismara]]
+ | mineral name color=#FF42B6
+}}
+{{Mutations Row
+ | equip name=Cryogenic Preserver 
+ | equip name color=#79D5FF
+ | mineral name=[[Frostshard]]
+ | mineral name color=#2CD187
+}}
+{{Mutations Row
+ | equip name=Ring of Thorns
+ | equip name color=#77FF3D
+ | mineral name=[[Chrysoberyl]]
+ | mineral name color=#7D0F68
+}}
+{{Mutations Row
+ | equip name=Purifying Ring
+ | equip name color=#8BFFF7
+ | mineral name=[[Chrysoberyl]]
+ | mineral name color=#99AA55
+}}
+{{Mutations Row
+ | equip name=Solar Ring
+ | equip name color=#FF7418
+ | mineral name=[[Volcanic Core]]
+ | mineral name color=#BD7613
+}}
+{{Mutations Row
+ | equip name=Shell Necklace
+ | equip name color=#ff7e14
+ | mineral name=[[Inferlume]]
+ | mineral name color=#DE4414
+}}
+{{Mutations Row
+ | equip name=Amulet of Life
+ | equip name color=#AAFF0B
+ | mineral name=[[Prismara]]
+ | mineral name color=#BD1354
+}}
+{{Mutations Row
+ | equip name=Candy Sack
+ | equip name color=#E80D8E
+ | mineral name=[[Vortessence]]
+ | mineral name color=#A88028
+}}
+{{Mutations Row
+ | equip name=Santa Hat
+ | equip name color=#ff0a0e
+ | mineral name=[[Frostshard]]
+ | mineral name color=#6ab7f1
+}}
+|-|Exotic=
+{| class="wikitable sortable mutation-table" style="width:100%"
+! Equipment !! Mineral
+{{Mutations Row
+ | equip name=Fossilized Crown
+ | equip name color=#FFE3CA
+ | mineral name=[[Dinosaur Skull]]
+ | mineral name color=#998B54
+}}
+{{Mutations Row
+ | equip name=Frosthorn Pendant
+ | equip name color=#05A7FF
+ | mineral name=[[Cryonic Artifact]]
+ | mineral name color=#1791BD
+}}
+{{Mutations Row
+ | equip name=Pumpkin Lord
+ | equip name color=#FA901E
+ | mineral name=[[Astral Spore]]
+ | mineral name color=#561575
+}}
+{{Mutations Row
+ | equip name=Antlers of Life
+ | equip name color=#67C800
+ | mineral name=[[Vineheart]]
+ | mineral name color=#B1F759
+}}
+{{Mutations Row
+ | equip name=Waverider
+ | equip name color=#1a39ff
+ | mineral name=[[Forgotten Totem]]
+ | mineral name color=#f5ca48 
+}}
+{{Mutations Row
+ | equip name=Vortex Ring
+ | equip name color=#3C00FF
+ | mineral name=[[Voidstone]]
+ | mineral name color=#755D5D
+}}
+{{Mutations Row
+ | equip name=Umbrite Ring
+ | equip name color=#3A19BE
+ | mineral name=[[Umbrite]]
+ | mineral name color=#852987
+}}
+{{Mutations Row
+ | equip name=Otherworldly Ring
+ | equip name color=#3A19BE
+ | mineral name=[[Astral Spore]]
+ | mineral name color=#B1F759
+}}
+{{Mutations Row
+ | equip name=Venomshank
+ | equip name color=#17613C
+ | mineral name=[[Bloodstone]]
+ | mineral name color=#17613C
+}}
+{{Mutations Row
+ | equip name=Excalibur
+ | equip name color=#FFDC52
+ | mineral name=[[Adamantine]]
+ | mineral name color=#A88028
+}}
+{{Mutations Row
+ | equip name=Timelocked Soul
+ | equip name color=#83fcce
+ | mineral name=[[Eternium]]
+ | mineral name color=#03fc84
+}}
+{{Mutations Row
+ | equip name=Sun's Gift
+ | equip name color=#f7620c
+ | mineral name=[[Starpiercer]]
+ | mineral name color=#63bac5
+}}
+{{Mutations Row
+ | equip name=Starlight Wings
+ | equip name color=#93cbf6
+ | mineral name=[[Starpiercer]]
+ | mineral name color=#2FDCFF
+}}
+{{Mutations Row
+ | equip name=Meteor Core
+ | equip name color=#ff91c1
+ | mineral name=[[Singularium]]
+ | mineral name color=#22075A
+}}
+{{Mutations Row
+ | equip name=Dredge Master's Ring
+ | equip name color=#6f7d6e
+ | mineral name=[[Adamantine]]
+ | mineral name color=#A88028
+}}
+{{Mutations Row
+ | equip name=Accretion Disk
+ | equip name color=#ffcc33
+ | mineral name=[[Eternium]]
+ | mineral name color=#03fc84
+}}
+{{Mutations Row
+ | equip name=Lunar Mask
+ | equip name color=#8181fd
+ | mineral name=[[Eye of the Sands]]
+ | mineral name color=
+}}
+{{Mutations Row
+ | equip name=Guardian Pendant
+ | equip name color=#fc770e
+ | mineral name=[[Key of Life]]
+ | mineral name color=
+}}
+{{Mutations Row
+ | equip name=Witch Hat
+ | equip name color=#D70C00
+ | mineral name=[[Cryonic Artifact]]
+ | mineral name color=#1791BD
+}}
+{{Mutations Row
+ | equip name=Santa's Bag
+ | equip name color=#B73E43
+ | mineral name=[[Eternium]]
+ | mineral name color=#FFFFEA
+}}
+|-|Ascended=
+{| class="wikitable sortable mutation-table" style="width:100%"
+! Equipment !! Mineral
+{{Mutations Row
+ | equip name=Ring of Champions
+ | equip name color=#dd33dd
+ | mineral name=[[Eternium]]
+ | mineral name color=#03fc84
+}}
+{{Mutations Row
+| equip name=Clockwork
+| equip name color=#EFC241
+| mineral name=[[Celestium]]
+| mineral name color=#E61D7E
+}}
+{{Mutations Row
+| equip name=Ring of the Stars
+| equip name color=#ff3377
+| mineral name=[[Celestium]]
+| mineral name color=#E61D7E
+}}
+|}
+</tabber>

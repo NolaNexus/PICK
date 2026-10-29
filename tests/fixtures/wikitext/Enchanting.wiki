@@ -1,0 +1,309 @@
+<templatestyles src="Template:Enchant/styles.css" />
+<templatestyles src="Template:Stat/styles.css" />
+
+== Enchanting ==
+''Notes''
+* Enchants apply '''only''' to your currently equipped [[Pans|pan]] and [[Shovels|shovel]]. Max '''1''' enchant per pan/shovel (you can re-enchant anytime).
+
+== Available Enchantments ==
+<tabber>
+
+|-| Pans =
+
+== How to Enchant ==
+[[File:Fortune Altar.png|thumb|The '''Fortune River Altar''']]
+* Head over to the Mysterious Altar located behind the Alchemist Store in {{Fortune River}}.
+* <span style="font-weight:bold;color:#ef437c;">Make sure that the pan you want to enchant is the one you have equipped.</span>
+* Interact with the altar and choose "Enchant my pan".
+* Click an ore ([[Aurorite]], [[Aetherite]], or [[Aetherium]]) on the left side. <span style="font-weight:bold;color:red;">Enchanting will happen immediately!</span> Make sure you don't accidentally click on an ore while scrolling through the list!
+* The name and stats of the resulting enchant will be shown on the right. If it's not the enchant you wanted, keep clicking ores; otherwise, close the interface.
+
+''Notes''  
+* As an alternative to taking your chances with the altar, [[Relics#Enchant_Relics|Enchant books]] are available from the [[Traveling Merchant]] and [[Excavations|Excavation Sites]] for some enchant types.
+* The weight or modifier of the ore does '''not''' affect the rarity of the enchant you might get.
+
+
+{| class="wikitable sortable" style="width:100%;"
+|+ Available Pan Enchantments
+! Enchant
+! Effects
+! Aurorite Chance
+! Aetherite Chance
+! Aetherium Chance
+! Source / Notes
+|-
+| {{Enchant|Forceful}}
+| style="white-space:nowrap;" class="stat-shake-strength" | +2 {{Stat|Shake Strength}}
+| style="text-align:right;padding-right:2em;" | 20%
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:2em;" | 0%
+| -
+|-
+| {{Enchant|Strong}}
+| style="white-space:nowrap;" class="stat-capacity" | +20 {{Stat|Capacity}}
+| style="text-align:right;padding-right:2em;" | 20%
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:2em;" | 0%
+| -
+|-
+| {{Enchant|Swift}}
+| style="white-space:nowrap;" class="stat-shake-speed" | +10% {{Stat|Shake Speed}}
+| style="text-align:right;padding-right:2em;" | 20%
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:2em;" | 0%
+| -
+|-
+| {{Enchant|Lucky}}
+| style="white-space:nowrap;" class="stat-luck" | +5 {{Stat|Luck}}
+| style="text-align:right;padding-right:2em;" | 10%
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:2em;" | 0%
+| -
+|-
+| {{Enchant|Boosting}}
+| style="white-space:nowrap;" class="stat-size-boost" | +10% {{Stat|Size Boost}}
+| style="text-align:right;padding-right:2em;" | 5%
+| style="text-align:right;padding-right:3ex;" | 16.6%
+| style="text-align:right;padding-right:2em;" | 0%
+| -
+|-
+| {{Enchant|Destructive}}
+| style="white-space:nowrap;" class="stat-shake-strength" | 1.1× Pan Shake Strength & +5 {{Stat|Shake Strength}}
+| style="text-align:right;padding-right:2em;" | 5%
+| style="text-align:right;padding-right:3ex;" | 16.6%
+| style="text-align:right;padding-right:2em;" | 0%
+| Also via [[Destructive Enchant Book]]
+|-
+| {{Enchant|Gigantic}}
+| style="white-space:nowrap;" class="stat-capacity" | 1.15× Pan Capacity & +40 {{Stat|Capacity}}
+| style="text-align:right;padding-right:2em;" | 5%
+| style="text-align:right;padding-right:3ex;" | 16.6%
+| style="text-align:right;padding-right:2em;" | 0%
+| -
+|-
+| {{Enchant|Glowing}}
+| style="white-space:nowrap;" class="stat-shake-speed" | +25% {{Stat|Shake Speed}}
+| style="text-align:right;padding-right:2em;" | 5%
+| style="text-align:right;padding-right:3ex;" | 16.6%
+| style="text-align:right;padding-right:2em;" | 0%
+| Also via [[Glowing Enchant Book]]
+|-
+| {{Enchant|Greedy}}
+| style="white-space:nowrap;" class="stat-sell-boost" | +20% {{Stat|Sell Boost}}
+| style="text-align:right;padding-right:2em;" | 5%
+| style="text-align:right;padding-right:3ex;" | 16.6%
+| style="text-align:right;padding-right:2em;" | 0%
+| -
+|-
+| {{Enchant|Unstable}}
+| style="white-space:nowrap;" class="stat-modifier-boost" | +25% {{Stat|Modifier Boost}}
+| style="text-align:right;padding-right:2em;" | 2%
+| style="text-align:right;padding-right:3ex;" | 6.7%
+| style="text-align:right;padding-right:2em;" | 0%
+| Also via [[Unstable Enchant Book]]
+|-
+| {{Enchant|Blessed}}
+| style="white-space:nowrap;" | <span class="stat-capacity">1.1× Pan Capacity & +25 {{Stat|Capacity}}</span><br><span class="stat-luck">1.1× Pan Luck & +10 {{Stat|Luck}}</span>
+| style="text-align:right;padding-right:2em;" | 1%
+| style="text-align:right;padding-right:3ex;" | 3.3%
+| style="text-align:right;padding-right:2em;" | 0%
+| Also via [[Blessed Enchant Book]]
+|-
+| {{Enchant|Midas}}
+| style="white-space:nowrap;" class="stat-sell-boost" | +50% {{Stat|Sell Boost}}
+| style="text-align:right;padding-right:2em;" | 1%
+| style="text-align:right;padding-right:3ex;" | 3.3%
+| style="text-align:right;padding-right:2em;" | 0%
+| Also via [[Midas Enchant Book]]
+|-
+| {{Enchant|Titanic}}
+| style="white-space:nowrap;" | <span class="stat-capacity">1.1× Pan Capacity & +30 {{Stat|Capacity}}</span><br><span class="stat-size-boost">+20% {{Stat|Size Boost}}</span>
+| style="text-align:right;padding-right:2em;" | 1%
+| style="text-align:right;padding-right:3ex;" | 3.3%
+| style="text-align:right;padding-right:2em;" | 0%
+| Also via [[Titanic Enchant Book]]
+|-
+| {{Enchant|Cosmic}}
+| style="white-space:nowrap;" | <span class="stat-capacity">1.3× Pan Capacity & +50 {{Stat|Capacity}}</span><br><span class="stat-shake-strength">1.15× Pan Shake Strength & +3 {{Stat|Shake Strength}}</span><br><span class="stat-size-boost">+25% {{Stat|Size Boost}}</span>
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:3ex;" | 0.1%
+| style="text-align:right;padding-right:1ex;" | 14.29%
+| Also via [[Cosmic Enchant Book]]
+|-
+| {{Enchant|Divine}}
+| style="white-space:nowrap;" | <span class="stat-capacity">1.2× Pan Capacity & +40 {{Stat|Capacity}}</span><br><span class="stat-luck">1.2× Pan Luck & +20 {{Stat|Luck}}</span>
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:3ex;" | 0.1%
+| style="text-align:right;padding-right:1ex;" | 14.29%
+| Also via [[Divine Enchant Book]]
+|-
+| {{Enchant|Infernal}}
+| style="white-space:nowrap;" | <span class="stat-luck">1.4× Pan Luck & +80 {{Stat|Luck}}</span><br><span class="stat-capacity">0.75× Pan Capacity & −20 {{Stat|Capacity}}</span><br><span class="stat-size-boost">−10% {{Stat|Size Boost}}</span>
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:1ex;" | 14.29%
+| Also via [[Infernal Enchant Book]]
+|- 
+| {{Enchant|Prismatic}}
+| style="white-space:nowrap;" | <span class="stat-capacity">1.15× Pan Capacity & +20 {{Stat|Capacity}}</span><br><span class="stat-shake-strength">1.15× Pan Shake Strength & +2 {{Stat|Shake Strength}}</span><br><span class="stat-luck">1.15× Pan Luck & +10 {{Stat|Luck}}</span><br><span class="stat-size-boost">+10% {{Stat|Size Boost}}</span><br><span class="stat-shake-speed">+10% {{Stat|Shake Speed}}</span><br><span class="stat-modifier-boost">+10% {{Stat|Modifier Boost}}</span>
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:1ex;" | 14.29%
+| Also via [[Prismatic Enchant Book]]
+|-
+| {{Enchant|Cursed}}
+| style="white-space:nowrap;" | <span class="stat-luck">0.7× Pan Luck & -100 {{Stat|Luck}}</span><br><span class="stat-capacity">0.7× Pan Capacity & -100 {{Stat|Capacity}}</span><br><span class="stat-modifier-boost">+50% {{Stat|Modifier Boost}}</span><br><span class="stat-size-boost">+50% {{Stat|Size Boost}}</span>
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:1ex;" | 7.14%
+| -
+|-
+| {{Enchant|Devouring}}
+| style="white-space:nowrap;" | <span class="stat-luck">1.5× Pan Luck & +200 {{Stat|Luck}}</span><br><span class="stat-size-boost">-50% {{Stat|Size Boost}}</span>
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:1ex;" | 7.14%
+| -
+|-
+| {{Enchant|Hyperspeed}}
+| style="white-space:nowrap;" | <span class="stat-shake-strength">1.3× Pan Shake Strength & +10 {{Stat|Shake Strength}}</span><br><span class="stat-shake-speed">+0.4 {{Stat|Shake Speed}}</span>
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:1ex;" | 7.14%
+| -
+|-
+| {{Enchant|Irregular}}
+| style="white-space:nowrap;" | <span class="stat-luck">1.25× Pan Luck & +66 {{Stat|Luck}}</span><br><span class="stat-modifier-boost">+66% {{Stat|Modifier Boost}}</span>
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:1ex;" | 7.14%
+| -
+|-
+| {{Enchant|Mystical}}
+| style="white-space:nowrap;" | <span class="stat-luck">1.4× Pan Luck & +100 {{Stat|Luck}}</span><br><span class="stat-capacity">1.4× Pan Capacity & +100 {{Stat|Capacity}}</span>
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:1ex;" | 7.14%
+| -
+|-
+| {{Enchant|Starstruck}}
+| style="white-space:nowrap;" | <span class="stat-luck">1.3× Pan Luck & +75 {{Stat|Luck}}</span><br><span class="stat-sell-boost">+50% {{Stat|Sell Boost}}</span><br><span class="stat-size-boost">+20% {{Stat|Size Boost}}</span>
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:2em;" | 0%
+| style="text-align:right;padding-right:1ex;" | 7.14%
+| -
+|}
+
+|-| Shovels =
+== How to Enchant ==
+[[File:Oasis Altar.png|thumb|The '''Oasis Altar''']]
+
+* Head over to the Mysterious Altar located in {{Azuralite Oasis}} in [[Crystal Caverns]].
+* <span style="font-weight:bold;color:#ef437c;">Make sure the shovel you want to enchant is the one you have equipped.</span>
+* Interact with the altar and choose "Enchant my shovel".
+* Click an [[Aetherite]] or [[Aetherium]] on the left side. <span style="font-weight:bold;color:red;">Enchanting will happen immediately!</span> Make sure you don't accidentally click on an ore while scrolling through the list!
+* The name and stats of the resulting enchant will be shown on the right. If it's not the enchant you wanted, keep clicking ores; otherwise, close the interface.
+
+''Notes''
+* Completing [[Quests#tabber-Azuralite_Oasis|'''The Seed of Light''']] quest is required in order to unlock certain rarer enchants.
+
+{| class="wikitable sortable" style="width:100%"
+|+ Available Shovel Enchantments
+! Enchant
+! Effects
+! Aetherite Chance
+! Aetherium Chance
+! SoL<ref>Locked behind [[Quests#tabber-Azuralite_Oasis|'''The Seed of Light''']] quest.</ref>
+|-
+| {{Enchant|Crystal Touch|solid}}
+| 10% chance for materials to be crystalline.
+| style="text-align:right;padding-right:2ex;" | 0%<span style="visibility:hidden;">00</span>
+| style="text-align:right;padding-right:2ex;" | 8.40%
+| style="text-align:center;" | Locked
+|- 
+| {{Enchant|Excavating|solid}}
+| 25% chance to get 2-4 extra ores when they are {{Common}} to {{Rare}}.
+| style="text-align:right;padding-right:2ex;" | 17.02%
+| style="text-align:right;padding-right:2ex;" | 0%<span style="visibility:hidden;">00</span>
+| style="text-align:center;" | Not locked
+|-
+| {{Enchant|Geothermal|solid}}
+| 2% base chance of getting a Geode when digging. (higher dig speed = lower chance)
+| style="text-align:right;padding-right:2ex;" | 17.02%
+| style="text-align:right;padding-right:2ex;" | 0%<span style="visibility:hidden;">00</span>
+| style="text-align:center;" | Not locked
+|-
+| {{Enchant|Mastered|solid}}
+| Auto-Panning now has 100% quality.
+| style="text-align:right;padding-right:2ex;" | 0%<span style="visibility:hidden;">00</span>
+| style="text-align:right;padding-right:2ex;" | 3.36%
+| style="text-align:center;" | Locked
+|-
+| {{Enchant|Mythical|solid}}
+| 10% Chance to get a duplicate {{Mythic}} or {{Exotic}} resource when found.
+| style="text-align:right;padding-right:2ex;" | 4.26%
+| style="text-align:right;padding-right:2ex;" | 8.40%
+| style="text-align:center;" | Locked
+|-
+| {{Enchant|Non Euclidean|solid}}
+| With each perfect dig streak, increase {{Stat|Capacity}} by .1× up to 2×.
+| style="text-align:right;padding-right:2ex;" | 8.51%
+| style="text-align:right;padding-right:2ex;" | 16.81%
+| style="text-align:center;" | Not locked
+|-
+| {{Enchant|Overdrive|solid}}
+| 60% chance to critically hit, giving 2&times; dig strength.
+| style="text-align:right;padding-right:2ex;" | 0%<span style="visibility:hidden;">00</span>
+| style="text-align:right;padding-right:2ex;" | 8.40%
+| style="text-align:center;" | Locked
+|-
+| {{Enchant|Rhythmic|solid}}
+| With each perfect dig streak, increase {{Stat|Luck}} by 0.2× up to 1.3×.
+| style="text-align:right;padding-right:2ex;" | 4.26%
+| style="text-align:right;padding-right:2ex;" | 8.40%
+| style="text-align:center;" | Locked
+|-
+| {{Enchant|Synergized|solid}}
+| Perfect digging next to your [[Sluices|sluice]] decreases its timer by 1s (0.25s cd).
+| style="text-align:right;padding-right:2ex;" | 2.13%
+| style="text-align:right;padding-right:2ex;" | 4.20%
+| style="text-align:center;" | Locked
+|-
+| {{Enchant|Tempered|solid}}
+| +5% items per pan for every toughness above the deposit's toughness (max 5).
+| style="text-align:right;padding-right:2ex;" | 0%<span style="visibility:hidden;">00</span>
+| style="text-align:right;padding-right:2ex;" | 8.40%
+| style="text-align:center;" | Locked
+|-
+| {{Enchant|Toughened|solid}}
+| Toughness increased by 2.
+| style="text-align:right;padding-right:2ex;" | 17.02%
+| style="text-align:right;padding-right:2ex;" | 0%<span style="visibility:hidden;">00</span>
+| style="text-align:center;" | Not locked
+|-
+| {{Enchant|Treasure Hunter|solid}}
+| 2× chance to find treasure map, and 2× map capacity
+| style="text-align:right;padding-right:2ex;" | 8.51%
+| style="text-align:right;padding-right:2ex;" | 16.81%
+| style="text-align:center;" | Not locked
+|-
+| {{Enchant|Void Touched|solid}}
+| 5% chance for ores to be <span style="color:#8307FF;">Voidtorn</span> once panned.
+| style="text-align:right;padding-right:2ex;" | 0%<span style="visibility:hidden;">00</span>
+| style="text-align:right;padding-right:2ex;" | 8.40%
+| style="text-align:center;" | Locked
+|-
+| {{Enchant|Well Balanced|solid}}
+| Increase the perfect dig threshold by 3×.
+| style="text-align:right;padding-right:2ex;" | 17.02%
+| style="text-align:right;padding-right:2ex;" | 0%<span style="visibility:hidden;">00</span>
+| style="text-align:center;" | Not locked
+|-
+| {{Enchant|Wormhole|solid}}
+| 10% chance to obtain materials from a different deposit when panning
+| style="text-align:right;padding-right:2ex;" | 4.26%
+| style="text-align:right;padding-right:2ex;" | 8.40%
+| style="text-align:center;" | Locked
+|}
+<references />
+</tabber>

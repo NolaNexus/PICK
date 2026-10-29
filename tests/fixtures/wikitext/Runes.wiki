@@ -1,0 +1,152 @@
+<templatestyles src="Template:Enchant/styles.css" />
+
+'''Runes''' are a unique class of items found all over the map that give the player a specific buff upon equipping. 
+[[File:Runes.png|thumb|250px|''A Rune'']]
+
+== Mechanics ==
+[[File:Runes UI.png|thumb|280px|''Runes UI'']]
+* Rune slots are found in the [[Equipment]] section of the [[Prospector Kit]].
+* There are a total of 5 Rune slots. Leveling up unlocks more slots.
+{| class="wikitable" style="text-align:center;font-size:smaller;margin-left:2em;"
+|-
+! Level !! Slots
+|-
+| 1 || 1
+|-
+| 10 || 2
+|-
+| 20 || 3
+|-
+| 30 || 4
+|-
+| 40 || 5
+|-
+|}
+
+== All Runes ==
+{| class="wikitable" style="width:100%; text-align:center;"
+! Runes !! Icon !! Description !! Location
+|- 
+ | [[Runes|<span style="color:#6A5ACD;">Abyssal</span>]]  
+ || [[File:Abyssal Rune.png|50px]]
+ || Gain 20% more luck during the night. Darkness increases 50% slower.
+ || In the {{Abyssal Depth}} Maze, just after crossing the obby, head left, then right.
+|-
+ | [[Runes|<span style="color:#FF4040;">Annihilation I</span>]]
+ || [[File:inh I.PNG|50px]]
+ || Automatically destroy {{common}} and {{uncommon}} ores when panning.<ref name="pin">[[Crafting_Anvil#Tracking_a_Recipe|Pinned recipe]] ingredients will not be destroyed.</ref>
+ || In the tunnel from {{Deeproot Spring}} to {{Enchanted Ruins}}.
+|-
+ | [[Runes|<span style="color:#FF4040;">Annihilation II</span>]]
+ || [[File:inh II.PNG|50px]]
+ || Automatically destroy {{rare}} and {{epic}} ores when panning.<ref name="pin" />
+ || Located at the far back right of {{Fungal Marsh}}, surrounded by red crystals.
+|-
+ | [[Runes|<span style="color:#FF4040;">Annihilation III</span>]]
+ || [[File:AnnihilationIII.png|50px]]
+ || Automatically destroy {{legendary}} ores when panning.<ref name="pin" />
+ || Located behind a tree at {{Starfall River}}, surrounded by red crystals.
+|-
+ | [[Runes|<span style="color:#8CFB93;">Bunny</span>]]
+ || [[File:Bunny.png|50px]]
+ || Gain +5% modifier boost for every +1 bonus jump power.
+ || Found on a cliff in {{Starfall River}} near the Meteor Golem NPC.
+|-
+ | [[Runes|<span style="color:#FFFF00;">Critical I</span>]]  
+ || [[File:Critical1 Rune.png|50px]]
+ || Digging has a 20% chance to have 2x strength.
+ || Inside the Merchant hut in {{Sunset Beach}}.
+|-
+ | [[Runes|<span style="color:#FFFF00;">Critical II</span>]]  
+ || [[File:Critical2 Rune.png|50px]]
+ || Digging has a 20% chance to have 2x strength.
+ || Inside one of the huts near the Ranger on {{Caldera Island}}.
+|-
+ | [[Runes|<span style="color:#FFFF00;">Discovery</span>]]  
+ || [[File:Discovery Rune.png|50px]]
+ || Chance of obtaining undiscovered ores is increased by 50%.
+ || Inside the Maze under the {{Windswept Beach}} Lighthouse, just at the entrance past the podium/pedestal.
+|-
+| [[Runes|<span style="color:#7CFF7C;">Eternity</span>]]
+ || [[File:Eternity Rune.PNG|50px]]
+ || Your totem timers decrease 20% slower.
+ || Found in the {{Timelocked Sanctuary}}.
+|-
+ | [[Runes|<span style="color:#FFC0CB;">Equalizer</span>]]  
+ || [[File:Equalizer Rune.png|50px]]
+ || Your dig speed and shake speed are equalized to their average.
+ || Inside the hut behind Old Prospector in {{Fortune River Delta}}.
+|-
+ | [[Runes|<span style="color:#F5DEB3;">Explorer</span>]]  
+ || [[File:Explorer Rune.png|50px]]
+ || When collecting geodes, gain a 20% chance to collect another geode.
+ || On top of the Stone Mountain in {{Fortune River Delta}}.
+|-
+ | [[Runes|<span style="color:#ADD8E6;">Mountain Climber</span>]]  
+ || [[File:Mountain Climber Rune.png|50px]]
+ || Gain 3 walkspeed.
+ || Find the [[Freezing Prospector]] at {{Frostbitten Path}} and go towards where he's looking. You'll find the rune down below.
+|-
+ | [[Runes|<span style="color:#ADD8E6;">Purity</span>]]  
+ || [[File:Purity Rune.png|50px]]
+ || +1x Luck multiplier, BUT MODIFIERS CAN NO LONGER BE OBTAINED.
+ || Received upon completing the [[Botanist]] quest. (Rejoining might be required.)
+|-
+ | [[Runes|<span style="color:#A25EF2;">Singularity I</span>]]  
+ || [[File:SingularityI.png|50px]]
+ || Status effect timers tick 10% slower. Does not apply if your status timer speed is already 0.5x lower before runes.
+ || Found on top of the big meteor at [[Excavations#tabber-Fungal_Marsh|Excavation Site E]] in {{Fungal Marsh}}.
+|-
+ | [[Runes|<span style="color:#6F4ACE;">Singularity II</span>]]  
+ || [[File:SingularityII.png|50px]]
+ || Status effect timers tick 10% slower. Does not apply if your status timer speed is already 0.5x lower before runes.
+ || Found at the back of {{The Void}} (opposite side from the entrance).
+|-
+ | [[Runes|<span style="color:#D8BFD8;">Solitude</span>]]  
+ || [[File:Solitude Rune.png|50px]]
+ || +20% Luck, but lose 10% Luck for every other player within 50 studs.
+ || Below the rocks near the Lighthouse in {{Windswept Beach}}.
+|-
+ | [[Runes|<span style="color:#FFFFFF;">Speed I</span>]]  
+ || [[File:Speed1 Rune.png|50px]]
+ || Gain 2 walkspeed.
+ || In {{Rubble Creek}}, behind the rock (behind the statue).
+|-
+ | [[Runes|<span style="color:#ADD8E6;">Summit Seeker</span>]]  
+ || [[File:Summit Seeker Rune.png|50px]]
+ || Gain 5% dig and shake speed for every +1 bonus walkspeed.
+ || In front of the entrance in {{Frozen Peak}}.
+|-
+ | [[Runes|<span style="color:#FFFF00;">Sunblessed</span>]]  
+ || [[File:Sunblessed Rune.png|50px]]
+ || Gain 20% more luck in the sunlight.
+ || Inside the area behind the waterfall/locked door in {{Crystal Caverns}}.
+|-
+ | [[Runes|<span style="color:#FF4500;">Volcanic</span>]]
+ || [[File:Volcanic Rune.png|50px]]
+ || Ores with the scorched modifier gain 25% size.
+ ||  On top of the Volcano. (You need to spam jump, or complete the [[Flame Priest]] quest, as lava deals damage)
+|}
+<references />
+
+== Gallery ==
+<gallery mode="packed">
+File:Annihilation I rune.png|Annihilation I
+File:Annihilation II rune.png|Annihilation II
+File:Rune Annihilation III.png|Annihilation III
+File:Rune_Bunny_location.png|Bunny
+File:Rune Critical I.png|Critical I
+File:Rune Critical II.png|Critical II
+File:Rune Discovery.png|Discovery
+File:Rune Equalizer.png|Equalizer
+File:Rune Eternity.png|Eternity
+File:Rune Explorer.png|Explorer
+File:Rune Mountain Climber.png|Mountain Climber
+File:Rune_Singularity I_location.png|Singularity I
+File:Rune_Singularity II_location.png|Singularity II
+File:Rune Solitude.png|Solitude
+File:Rune Speed I.png|Speed I
+File:Rune Summit Seeker.png|Summit Seeker
+File:Rune Sunblessed.png|Sunblessed
+File:Rune Volcanic.png|Volcanic
+</gallery>

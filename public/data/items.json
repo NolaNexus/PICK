@@ -1,0 +1,1721 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-29T02:44:46.094328Z",
+  "run_id": 1,
+  "items": [
+    {
+      "slug": "amethyst",
+      "name": "Amethyst",
+      "type": "mineral",
+      "data": {
+        "name": "Amethyst",
+        "image": "Amethyst.png",
+        "value": "3,500",
+        "locations": "{{Rubble Creek Sands}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}",
+        "description": "A purple amethyst gemstone."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "blue-ice",
+      "name": "Blue Ice",
+      "type": "mineral",
+      "data": {
+        "name": "Blue Ice",
+        "image": "Blue Ice.png",
+        "value": "1,500",
+        "locations": "{{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}",
+        "description": "A chunk of blue ice compressed in a glacier for millions of years."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "copper",
+      "name": "Copper",
+      "type": "mineral",
+      "data": {
+        "name": "Copper",
+        "image": "Copper.png",
+        "value": "800",
+        "locations": "{{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Volcanic Sands}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Fungal Marsh}}, {{Volcanic Springs}}",
+        "description": "A malleable metal commonly used in electronics."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "gold",
+      "name": "Gold",
+      "type": "mineral",
+      "data": {
+        "name": "Gold",
+        "image": "Gold.png",
+        "value": "1,000",
+        "locations": "{{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Volcanic Sands}}, {{Magma Furnace}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{North Pole}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Volcanic Springs}}, {{Enchanted Ruins}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "A nugget of gold."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "obsidian",
+      "name": "Obsidian",
+      "type": "mineral",
+      "data": {
+        "name": "Obsidian",
+        "image": "Obsidian.png",
+        "value": "3,000",
+        "locations": "{{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "A jet-black shard of obsidian. Formed when lava cools rapidly."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "pearl",
+      "name": "Pearl",
+      "type": "mineral",
+      "data": {
+        "name": "Pearl",
+        "image": "Pearl.png",
+        "value": "5,000",
+        "locations": "{{Sunset Beach}}, {{Fortune River Delta}}, {{Windswept Beach}}, {{Seashell Beach}}",
+        "description": "A round pearl from an oyster."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "platinum",
+      "name": "Platinum",
+      "type": "mineral",
+      "data": {
+        "name": "Platinum",
+        "image": "Platinum.png",
+        "value": "2,000",
+        "locations": "{{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "A nugget of platinum."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "pyrite",
+      "name": "Pyrite",
+      "type": "mineral",
+      "data": {
+        "name": "Pyrite",
+        "image": "Pyrite.png",
+        "value": "500",
+        "locations": "{{Rubble Creek Deposits}}, {{Meteor Falls}}, {{Starfall River}}",
+        "description": "Also known as \"Fool's Gold\". Essentially worthless."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "seashell",
+      "name": "Seashell",
+      "type": "mineral",
+      "data": {
+        "name": "Seashell",
+        "image": "Seashell.png",
+        "value": "2,200",
+        "locations": "{{Sunset Beach}}, {{Windswept Beach}}, {{Seashell Beach}}",
+        "description": "The shell of a clam."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "silver",
+      "name": "Silver",
+      "type": "mineral",
+      "data": {
+        "name": "Silver",
+        "image": "Silver.png",
+        "value": "700",
+        "locations": "{{Sunset Beach}}, {{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{North Pole}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}, {{Astral Caverns}}, {{Seashell Beach}}",
+        "description": "A nugget of silver."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "coral",
+      "name": "Coral",
+      "type": "mineral",
+      "data": {
+        "name": "Coral",
+        "image": "Coral.png",
+        "value": "23,000",
+        "locations": "{{Sunset Beach}}, {{Fortune River Delta}}, {{Windswept Beach}}, {{Seashell Beach}}",
+        "description": "A piece of coral from an endangered species."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "electrum",
+      "name": "Electrum",
+      "type": "mineral",
+      "data": {
+        "name": "Electrum",
+        "image": "Electrum.png",
+        "value": "13,000",
+        "locations": "{{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "An alloy of silver and gold. Also known as 'green gold'."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "glowberry",
+      "name": "Glowberry",
+      "type": "mineral",
+      "data": {
+        "name": "Glowberry",
+        "image": "Glowberry.png",
+        "value": "12,000",
+        "locations": "{{Overgrown Grotto}}, {{Deeproot Spring}}, {{Enchanted Ruins}}",
+        "description": "A luminescent berry."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "malachite",
+      "name": "Malachite",
+      "type": "mineral",
+      "data": {
+        "name": "Malachite",
+        "image": "Malachite.png",
+        "value": "18,000",
+        "locations": "{{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Windswept Beach}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}",
+        "description": "A vibrant green crystal, given its color by the copper within it."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "neodymium",
+      "name": "Neodymium",
+      "type": "mineral",
+      "data": {
+        "name": "Neodymium",
+        "image": "Neodymium.png",
+        "value": "10,000",
+        "locations": "{{Sunset Beach}}, {{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Enchanted Ruins}}, {{Seashell Beach}}",
+        "description": "A key ingredient in high-strength magnets."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "nickel",
+      "name": "Nickel",
+      "type": "mineral",
+      "data": {
+        "name": "Nickel",
+        "image": "nickel.PNG",
+        "value": "6,000",
+        "locations": "{{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}",
+        "description": "A tough nugget of nickel."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "rock-candy",
+      "name": "Rock Candy",
+      "type": "mineral",
+      "data": {
+        "name": "Rock Candy",
+        "image": "Rock Candy.png",
+        "value": "15,000",
+        "locations": "{{Haunted Creek}}",
+        "description": "A chunk of rock candy. Tasty!"
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "sapphire",
+      "name": "Sapphire",
+      "type": "mineral",
+      "data": {
+        "name": "Sapphire",
+        "image": "Sapphire.png",
+        "value": "25,000",
+        "locations": "{{Rubble Creek Deposits}}, {{Fortune River}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}",
+        "description": "A blue sapphire."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "smoky-quartz",
+      "name": "Smoky Quartz",
+      "type": "mineral",
+      "data": {
+        "name": "Smoky Quartz",
+        "image": "Smoky Quartz.png",
+        "value": "16,000",
+        "locations": "{{Sunset Beach}}, {{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}, {{Seashell Beach}}",
+        "description": "A type of quartz with a unique gray color."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "titanium",
+      "name": "Titanium",
+      "type": "mineral",
+      "data": {
+        "name": "Titanium",
+        "image": "Titanium.png",
+        "value": "7,500",
+        "locations": "{{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{North Pole}}",
+        "description": "A piece of pure titanium."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "topaz",
+      "name": "Topaz",
+      "type": "mineral",
+      "data": {
+        "name": "Topaz",
+        "image": "Topaz.png",
+        "value": "14,000",
+        "locations": "{{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Fortune River Delta}}, {{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Timelocked Sanctuary}}, {{Volcanic Springs}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "A topaz gemstone. A symbol of strength and honor."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "zircon",
+      "name": "Zircon",
+      "type": "mineral",
+      "data": {
+        "name": "Zircon",
+        "image": "Zircon.png",
+        "value": "25,000",
+        "locations": "{{Volcanic Sands}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}",
+        "description": "A dark orange gemstone that contains zirconium."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "amber",
+      "name": "Amber",
+      "type": "mineral",
+      "data": {
+        "name": "Amber",
+        "image": "Amberprospecting.png",
+        "value": "110,000",
+        "locations": "{{Deeproot Spring}}, {{Abyssal Depth}}, {{Enchanted Ruins}}",
+        "description": "A piece of fossilized amber."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "azuralite",
+      "name": "Azuralite",
+      "type": "mineral",
+      "data": {
+        "name": "Azuralite",
+        "image": "Azuralite.png",
+        "value": "120,000",
+        "locations": "{{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Enchanted Ruins}}",
+        "description": "A mysterious azure crystal with strange growth properties and unknown origin."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "candy-cane",
+      "name": "Candy Cane",
+      "type": "mineral",
+      "data": {
+        "name": "Candy Cane",
+        "image": "CandyCane.png",
+        "value": "65,000",
+        "locations": "{{North Pole}}",
+        "description": "A tasty candy cane."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "diopside",
+      "name": "Diopside",
+      "type": "mineral",
+      "data": {
+        "name": "Diopside",
+        "image": "Diopside.png",
+        "value": "99,000",
+        "locations": "{{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}",
+        "description": "A dull green gem."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "glacial-quartz",
+      "name": "Glacial Quartz",
+      "type": "mineral",
+      "data": {
+        "name": "Glacial Quartz",
+        "image": "Glacial Quartz.png",
+        "value": "100,000",
+        "locations": "{{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}",
+        "description": "An icicle-shaped variant of quartz that forms in extreme cold."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "gloomberry",
+      "name": "Gloomberry",
+      "type": "mineral",
+      "data": {
+        "name": "Gloomberry",
+        "image": "GloomberryFR.png",
+        "value": "80,000",
+        "locations": "{{Abyssal Depth}}",
+        "description": "A poisonous berry that grows deep underground."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "jade",
+      "name": "Jade",
+      "type": "mineral",
+      "data": {
+        "name": "Jade",
+        "image": "Jade.png",
+        "value": "40,000",
+        "locations": "{{Fortune River}}, {{Fortune River Delta}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}",
+        "description": "A piece of green jade."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "lapis-lazuli",
+      "name": "Lapis Lazuli",
+      "type": "mineral",
+      "data": {
+        "name": "Lapis Lazuli",
+        "image": "Lapis Lazuli.png",
+        "value": "40,000",
+        "locations": "{{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{Haunted Creek}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}",
+        "description": "A vibrant and intense stone of lapis lazuli."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "meteoric-iron",
+      "name": "Meteoric Iron",
+      "type": "mineral",
+      "data": {
+        "name": "Meteoric Iron",
+        "image": "Meteoric Iron.png",
+        "value": "80,000",
+        "locations": "{{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Volcanic Sands}}, {{Windswept Beach}}, {{Volcanic Springs}}, {{Astral Caverns}}",
+        "description": "A piece of iron infused with energy from exposure to the meteors."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "onyx",
+      "name": "Onyx",
+      "type": "mineral",
+      "data": {
+        "name": "Onyx",
+        "image": "Onyx.png",
+        "value": "75,000",
+        "locations": "{{Sunset Beach}}, {{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Volcanic Springs}}, {{Seashell Beach}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "A jet black onyx gem."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "peridot",
+      "name": "Peridot",
+      "type": "mineral",
+      "data": {
+        "name": "Peridot",
+        "image": "Peridot.png",
+        "value": "60,000",
+        "locations": "{{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "An olive-green gemstone that commonly appears in volcanic rock."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "pyrelith",
+      "name": "Pyrelith",
+      "type": "mineral",
+      "data": {
+        "name": "Pyrelith",
+        "image": "Pyrelith.png",
+        "value": "150,000",
+        "locations": "{{Magma Furnace}}, {{Infernal Heart}}",
+        "description": "An energetic crystal formed in the heart of a volcano."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "ruby",
+      "name": "Ruby",
+      "type": "mineral",
+      "data": {
+        "name": "Ruby",
+        "image": "Ruby.png",
+        "value": "30,000",
+        "locations": "{{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "A bright red ruby gemstone."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "sandsteel",
+      "name": "Sandsteel",
+      "type": "mineral",
+      "data": {
+        "name": "Sandsteel",
+        "image": "Sandsteel.png",
+        "value": "27,000",
+        "locations": "{{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "An uncharacteristically coarse metal found in deserts and dunes."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "silver-clamshell",
+      "name": "Silver Clamshell",
+      "type": "mineral",
+      "data": {
+        "name": "Silver Clamshell",
+        "image": "Silver Clamshell.png",
+        "value": "50,000",
+        "locations": "{{Sunset Beach}}, {{Fortune River Delta}}, {{Windswept Beach}}, {{Seashell Beach}}",
+        "description": "The shell of a rare silver clam."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "ammonite-fossil",
+      "name": "Ammonite Fossil",
+      "type": "mineral",
+      "data": {
+        "name": "Ammonite Fossil",
+        "image": "Ammonite Fossil.png",
+        "value": "200,000",
+        "locations": "{{Windswept Beach}}, {{Seashell Beach}}",
+        "description": "The remains of an ancient mollusk."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "ashvein",
+      "name": "Ashvein",
+      "type": "mineral",
+      "data": {
+        "name": "Ashvein",
+        "image": "Ashvein.png",
+        "value": "222,000",
+        "locations": "{{Sunset Beach}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Seashell Beach}}",
+        "description": "An obsidian-like crystal streaked with red."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "aurorite",
+      "name": "Aurorite",
+      "type": "mineral",
+      "data": {
+        "name": "Aurorite",
+        "image": "Aurorite.png",
+        "value": "444,444",
+        "locations": "{{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Fortune River Delta}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{North Pole}}, {{Enchanted Ruins}}",
+        "description": "A mysterious crystal filled with magical power. Perhaps I could use this for something..."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "bone",
+      "name": "Bone",
+      "type": "mineral",
+      "data": {
+        "name": "Bone",
+        "image": "Boneld.png",
+        "value": "200,000",
+        "locations": "{{Haunted Creek}}, {{Rotwood Swamp}}, {{Fungal Marsh}}",
+        "description": "...I should't have dug here."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "borealite",
+      "name": "Borealite",
+      "type": "mineral",
+      "data": {
+        "name": "Borealite",
+        "image": "Borealite.png",
+        "value": "280,000",
+        "locations": "{{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}",
+        "description": "A cold gemstone."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "cobalt",
+      "name": "Cobalt",
+      "type": "mineral",
+      "data": {
+        "name": "Cobalt",
+        "image": "Cobalt.png",
+        "value": "250,000",
+        "locations": "{{Overgrown Grotto}}, {{Deeproot Spring}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{North Pole}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}, {{Meteor Falls}}",
+        "description": "A strikingly blue piece of cobalt. Used in advanced electronics."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "emerald",
+      "name": "Emerald",
+      "type": "mineral",
+      "data": {
+        "name": "Emerald",
+        "image": "Emerald.png",
+        "value": "250,000",
+        "locations": "{{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Frostbite River}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}",
+        "description": "A rare emerald with a vibrant green hue."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "glowmoss",
+      "name": "Glowmoss",
+      "type": "mineral",
+      "data": {
+        "name": "Glowmoss",
+        "image": "Glowmoss.png",
+        "value": "175,000",
+        "locations": "{{Overgrown Grotto}}, {{Deeproot Spring}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}",
+        "description": "A rare species of moss that emits a bright light."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "golden-pearl",
+      "name": "Golden Pearl",
+      "type": "mineral",
+      "data": {
+        "name": "Golden Pearl",
+        "image": "Golden Pearl.png",
+        "value": "250,000",
+        "locations": "{{Sunset Beach}}, {{Fortune River Delta}}, {{Seashell Beach}}",
+        "description": "An incredibly rare pearl variant with a distinct gold color."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "iridium",
+      "name": "Iridium",
+      "type": "mineral",
+      "data": {
+        "name": "Iridium",
+        "image": "Iridium.png",
+        "value": "155,000",
+        "locations": "{{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Fortune River Delta}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}",
+        "description": "A rare celestial metal brought to the earth by the meteors."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "lightshard",
+      "name": "Lightshard",
+      "type": "mineral",
+      "data": {
+        "name": "Lightshard",
+        "image": "Lightshard.png",
+        "value": "300,000",
+        "locations": "{{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}",
+        "description": "A light-infused glass-like crystal."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "mercury",
+      "name": "Mercury",
+      "type": "mineral",
+      "data": {
+        "name": "Mercury",
+        "image": "Mercuryidi.png",
+        "value": "450,000",
+        "locations": "{{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Meteor Falls}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "A drop of toxic mercury, held together by an unknown force."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "meteoric-gold",
+      "name": "Meteoric Gold",
+      "type": "mineral",
+      "data": {
+        "name": "Meteoric Gold",
+        "image": "meteoricgold.png",
+        "value": "240,000",
+        "locations": "{{Starfall River}}, {{Astral Caverns}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "A nugget of gold from outer space."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "moonstone",
+      "name": "Moonstone",
+      "type": "mineral",
+      "data": {
+        "name": "Moonstone",
+        "image": "Moonstone.png",
+        "value": "200,000",
+        "locations": "{{Sunset Beach}}, {{Fortune River Delta}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}, {{Seashell Beach}}",
+        "description": "A piece of stone from the moon itself."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "opal",
+      "name": "Opal",
+      "type": "mineral",
+      "data": {
+        "name": "Opal",
+        "image": "Opal.png",
+        "value": "325,000",
+        "locations": "{{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Sunset Beach}}, {{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}, {{Seashell Beach}}",
+        "description": "An iridescent opal."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "osmium",
+      "name": "Osmium",
+      "type": "mineral",
+      "data": {
+        "name": "Osmium",
+        "image": "Osmium.png",
+        "value": "300,000",
+        "locations": "{{Rubble Creek Deposits}}, {{Fortune River}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Volcanic Springs}}, {{Sandstone Stream}}",
+        "description": "A dense and highly toxic metal prized for its rarity."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "pyronium",
+      "name": "Pyronium",
+      "type": "mineral",
+      "data": {
+        "name": "Pyronium",
+        "image": "Pyronium.png",
+        "value": "226,000",
+        "locations": "{{Volcanic Sands}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}",
+        "description": "A volcanic metal that constantly emits heat."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "selenite",
+      "name": "Selenite",
+      "type": "mineral",
+      "data": {
+        "name": "Selenite",
+        "image": "Selenite.png",
+        "value": "135,000",
+        "locations": "{{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "A soft pearly crystal."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "aetherite",
+      "name": "Aetherite",
+      "type": "mineral",
+      "data": {
+        "name": "Aetherite",
+        "image": "Aetherite.png",
+        "value": "4,444,444",
+        "locations": "{{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Sunset Beach}}, {{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{North Pole}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}, {{Seashell Beach}}",
+        "description": "A purified variant of aurorite used in enchanting rituals."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "aquamarine",
+      "name": "Aquamarine",
+      "type": "mineral",
+      "data": {
+        "name": "Aquamarine",
+        "image": "Aquamarine.png",
+        "value": "4,000,000",
+        "locations": "{{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}, {{Starfall River}}, {{Astral Caverns}}",
+        "description": "A pale blue-green crystal."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "bismuth",
+      "name": "Bismuth",
+      "type": "mineral",
+      "data": {
+        "name": "Bismuth",
+        "image": "Bismuthidi.png",
+        "value": "2,600,000",
+        "locations": "{{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}",
+        "description": "A chunk of bismuth, known for being one of the densest non-radioactive metals."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "catseye",
+      "name": "Catseye",
+      "type": "mineral",
+      "data": {
+        "name": "Catseye",
+        "image": "Catseye.png",
+        "value": "2,222,222",
+        "locations": "{{Rubble Creek Deposits}}, {{Fortune River}}, {{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Volcanic Springs}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "A golden catseye. Commonly believed to hold a deadly curse within."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "cinnabar",
+      "name": "Cinnabar",
+      "type": "mineral",
+      "data": {
+        "name": "Cinnabar",
+        "image": "Cinnabar.png",
+        "value": "900,000",
+        "locations": "{{Volcanic Sands}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}",
+        "description": "A vermillion chunk of cinnabar. Commonly used for extracting mercury."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "depleted-shard",
+      "name": "Depleted Shard",
+      "type": "mineral",
+      "data": {
+        "name": "Depleted Shard",
+        "image": "depleted.png.png",
+        "value": "4,500,000",
+        "locations": "{{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}, {{Lifespring Oasis}}",
+        "description": "The burnt-out remains of a once-powerful celestial fragment."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "diamond",
+      "name": "Diamond",
+      "type": "mineral",
+      "data": {
+        "name": "Diamond",
+        "image": "Diamond.png",
+        "value": "1,000,000",
+        "locations": "{{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Sunset Beach}}, {{Fortune River Delta}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{North Pole}}, {{Timelocked Sanctuary}}, {{Meteor Falls}}",
+        "description": "A rare diamond gem. Incredibly hard and reflective."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "dragon-bone",
+      "name": "Dragon Bone",
+      "type": "mineral",
+      "data": {
+        "name": "Dragon Bone",
+        "image": "Dragon Bone.png",
+        "value": "2,000,000",
+        "locations": "{{Magma Furnace}}, {{Infernal Heart}}, {{Windswept Beach}}",
+        "description": "The bone of an ancient dragon."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "fire-opal",
+      "name": "Fire Opal",
+      "type": "mineral",
+      "data": {
+        "name": "Fire Opal",
+        "image": "Fire Opal.png",
+        "value": "1,600,000",
+        "locations": "{{Volcanic Sands}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}, {{Sandstone Stream}}",
+        "description": "A type of opal with a brilliant orange shine."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "firefly-stone",
+      "name": "Firefly Stone",
+      "type": "mineral",
+      "data": {
+        "name": "Firefly Stone",
+        "image": "Firefly Stone.png",
+        "value": "1,500,000",
+        "locations": "{{Overgrown Grotto}}, {{Deeproot Spring}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}",
+        "description": "A glowing stone left behind by dying fireflies."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "gloomcap",
+      "name": "Gloomcap",
+      "type": "mineral",
+      "data": {
+        "name": "Gloomcap",
+        "image": "gloomcap.png",
+        "value": "2,340,000",
+        "locations": "{{Fungal Marsh}}",
+        "description": "An extraterrestrial lifeform that warps nearby matter."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "jasper",
+      "name": "Jasper",
+      "type": "mineral",
+      "data": {
+        "name": "Jasper",
+        "image": "Jasper.png",
+        "value": "380,000",
+        "locations": "{{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "A red stone with a smooth surface."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "lost-soul",
+      "name": "Lost Soul",
+      "type": "mineral",
+      "data": {
+        "name": "Lost Soul",
+        "image": "Lost Soul.png",
+        "value": "6,666,666",
+        "locations": "{{Haunted Creek}}",
+        "description": "A lost soul doomed to wander aimlessly for eternity."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "luminum",
+      "name": "Luminum",
+      "type": "mineral",
+      "data": {
+        "name": "Luminum",
+        "image": "Luminum.png",
+        "value": "1,500,000",
+        "locations": "{{Sunset Beach}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Enchanted Ruins}}, {{Seashell Beach}}",
+        "description": "A strange metal that constantly emits a bright yellow light."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "nautilus-shell",
+      "name": "Nautilus Shell",
+      "type": "mineral",
+      "data": {
+        "name": "Nautilus Shell",
+        "image": "Nautilus Shell.png",
+        "value": "2,100,000",
+        "locations": "{{Seashell Beach}}",
+        "description": "The shell of a nautilus."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "palladium",
+      "name": "Palladium",
+      "type": "mineral",
+      "data": {
+        "name": "Palladium",
+        "image": "Palladium.png",
+        "value": "500,000",
+        "locations": "{{Fortune River}}, {{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Frostbite River}}, {{Starfall River}}, {{Astral Caverns}}",
+        "description": "A lustrous piece of palladium known for its unique properties."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "peppermint-prism",
+      "name": "Peppermint Prism",
+      "type": "mineral",
+      "data": {
+        "name": "Peppermint Prism",
+        "image": "Peppermintprism.png",
+        "value": "2,800,000",
+        "locations": "{{North Pole}}",
+        "description": "A colorful crystal only found at the North Pole."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "radium",
+      "name": "Radium",
+      "type": "mineral",
+      "data": {
+        "name": "Radium",
+        "image": "radium.png.png",
+        "value": "1,500,000",
+        "locations": "{{Volcanic Springs}}, {{Meteor Falls}}, {{Sandstone Stream}}, {{Mystic Floodplains}}",
+        "description": "A radioactive and dangerous metal."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "rose-gold",
+      "name": "Rose Gold",
+      "type": "mineral",
+      "data": {
+        "name": "Rose Gold",
+        "image": "Rose Gold.png",
+        "value": "500,000",
+        "locations": "{{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}, {{Enchanted Ruins}}",
+        "description": "An extremely rare form of a gold with a distinct rose color."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "specterite",
+      "name": "Specterite",
+      "type": "mineral",
+      "data": {
+        "name": "Specterite",
+        "image": "Specterite.png",
+        "value": "2,800,000",
+        "locations": "{{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{Enchanted Ruins}}",
+        "description": "An extremely light and ghostly crystal."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "starshine",
+      "name": "Starshine",
+      "type": "mineral",
+      "data": {
+        "name": "Starshine",
+        "image": "Starshine.png",
+        "value": "2,500,000",
+        "locations": "{{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "An astral fragment rarely found in the core of large meteors."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "tourmaline",
+      "name": "Tourmaline",
+      "type": "mineral",
+      "data": {
+        "name": "Tourmaline",
+        "image": "Tourmaline.png",
+        "value": "2,888,000",
+        "locations": "{{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}",
+        "description": "A yellow tourmaline crystal."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "uranium",
+      "name": "Uranium",
+      "type": "mineral",
+      "data": {
+        "name": "Uranium",
+        "image": "Uranium.png",
+        "value": "1,500,000",
+        "locations": "{{Fortune River}}, {{Fortune River Delta}}, {{Azuralite Oasis}}, {{Infernal Heart}}",
+        "description": "A radioactive chunk of uranium."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "volcanic-key",
+      "name": "Volcanic Key",
+      "type": "mineral",
+      "data": {
+        "name": "Volcanic Key",
+        "image": "Volcanic Key.png",
+        "value": "1,500,000",
+        "locations": "{{Magma Furnace}}, {{Infernal Heart}}",
+        "description": "A mysterious key. Could sell for a lot, but maybe it has some other use?"
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "aetherium",
+      "name": "Aetherium",
+      "type": "mineral",
+      "data": {
+        "name": "Aetherium",
+        "image": "Aetherium ore.png",
+        "value": "4,444,444",
+        "locations": "{{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "An unnatural amalgamation of Aetherite and Iridium. Its unique properties make it a necessary ingredient in high-tier enchanting rituals."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "agate",
+      "name": "Agate",
+      "type": "mineral",
+      "data": {
+        "name": "Agate",
+        "image": "Agate.png",
+        "value": "3,500,000",
+        "locations": "{{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "A geode-like stone filled with bands of color."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "chrysoberyl",
+      "name": "Chrysoberyl",
+      "type": "mineral",
+      "data": {
+        "name": "Chrysoberyl",
+        "image": "Chrysoberyl.png",
+        "value": "21,000,000",
+        "locations": "{{Overgrown Grotto}}, {{Deeproot Spring}}, {{Rotwood Swamp}}",
+        "description": "..."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "flarebloom",
+      "name": "Flarebloom",
+      "type": "mineral",
+      "data": {
+        "name": "Flarebloom",
+        "image": "Flarebloom.png",
+        "value": "30,000,000",
+        "locations": "{{Volcanic Sands}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}",
+        "description": "A mythical flower that only grows in the extreme heat of the center of a volcano."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "frostshard",
+      "name": "Frostshard",
+      "type": "mineral",
+      "data": {
+        "name": "Frostshard",
+        "image": "Frostshard.png",
+        "value": "50,000,000",
+        "locations": "{{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}",
+        "description": "A jagged crystal formed in the mountains that constantly freezes the area around it."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "inferlume",
+      "name": "Inferlume",
+      "type": "mineral",
+      "data": {
+        "name": "Inferlume",
+        "image": "Inferlume.png",
+        "value": "14,000,000",
+        "locations": "{{Infernal Heart}}, {{Windswept Beach}}, {{Sunset Beach}}, {{Volcanic Sands}}, {{Azuralite Oasis}}, {{Crystal Cavern River}}, {{Volcanic Springs}}, {{Seashell Beach}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}",
+        "description": "A luminescent crystal with flame-like properties."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "mythril",
+      "name": "Mythril",
+      "type": "mineral",
+      "data": {
+        "name": "Mythril",
+        "image": "Mythril.png",
+        "value": "20,000,000",
+        "locations": "{{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Enchanted Ruins}}",
+        "description": "A nugget of the mythical metal mythril."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "painite",
+      "name": "Painite",
+      "type": "mineral",
+      "data": {
+        "name": "Painite",
+        "image": "Palnite.png",
+        "value": "10,000,000",
+        "locations": "{{Fortune River}}, {{Sunset Beach}}, {{Fortune River Delta}}, {{Infernal Heart}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Volcanic Springs}}, {{Seashell Beach}}",
+        "description": "An extremely rare gemstone with a vibrant red color."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "pink-diamond",
+      "name": "Pink Diamond",
+      "type": "mineral",
+      "data": {
+        "name": "Pink Diamond",
+        "image": "Pink Diamond.png",
+        "value": "6,000,000",
+        "locations": "{{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Fortune River Delta}}, {{Volcanic Sands}}, {{North Pole}}",
+        "description": "A variant of diamond with a unique pink tint."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "prismara",
+      "name": "Prismara",
+      "type": "mineral",
+      "data": {
+        "name": "Prismara",
+        "image": "Prismara.png",
+        "value": "25,000,000",
+        "locations": "{{Azuralite Oasis}}, {{Overgrown Grotto}}, {{Enchanted Ruins}}",
+        "description": "Formed by the world itself."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "radiant-gold",
+      "name": "Radiant Gold",
+      "type": "mineral",
+      "data": {
+        "name": "Radiant Gold",
+        "image": "Radiant Gold.png",
+        "value": "40,000,000",
+        "locations": "{{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}",
+        "description": "A nugget of gold exposed to powerful energy for millions of years."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "red-beryl",
+      "name": "Red Beryl",
+      "type": "mineral",
+      "data": {
+        "name": "Red Beryl",
+        "image": "redberyl.png",
+        "value": "28,000,000",
+        "locations": "{{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Astral Caverns}}, {{Seashell Beach}}",
+        "description": "An extremely rare form of beryl. Distinguished by its hexagonal crystals and distinctive red color."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "star-garnet",
+      "name": "Star Garnet",
+      "type": "mineral",
+      "data": {
+        "name": "Star Garnet",
+        "image": "Star Garnet.png",
+        "value": "44,000,000",
+        "locations": "{{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Meteor Falls}}, {{Starfall River}}",
+        "description": "A garnet with a star reflected within."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "sunstone",
+      "name": "Sunstone",
+      "type": "mineral",
+      "data": {
+        "name": "Sunstone",
+        "image": "sunstone.PNG",
+        "value": "28,000,000",
+        "locations": "{{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}",
+        "description": "A stone that pulses with solar energy."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "vortessence",
+      "name": "Vortessence",
+      "type": "mineral",
+      "data": {
+        "name": "Vortessence",
+        "image": "Vortessence.png",
+        "value": "20,000,000",
+        "locations": "{{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Windswept Beach}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Haunted Creek}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}",
+        "description": "A celestial stone with distinct rings. Believed to be formed by the collapse of a star."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "volcanic-core",
+      "name": "Volcanic Core",
+      "type": "mineral",
+      "data": {
+        "name": "Volcanic Core",
+        "image": "Volcanic Core.png",
+        "value": "40,000,000",
+        "locations": "{{Magma Furnace}}, {{Infernal Heart}}",
+        "description": "The unstable core of a volcano. Contains the potential to cause immense destruction."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "adamantine",
+      "name": "Adamantine",
+      "type": "mineral",
+      "data": {
+        "name": "Adamantine",
+        "image": "adam.PNG",
+        "value": "250,000,000",
+        "locations": "{{Enchanted Ruins}}",
+        "description": "The indestructible metal of many fables told and untold, Adamantine."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "astral-spore",
+      "name": "Astral Spore",
+      "type": "mineral",
+      "data": {
+        "name": "Astral Spore",
+        "image": "astralspore.png",
+        "value": "400,000,000",
+        "locations": "{{Fungal Marsh}}, {{Timelocked Sanctuary}}",
+        "description": "An extraterrestial lifeform that warps nearby matter."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "bloodstone",
+      "name": "Bloodstone",
+      "type": "mineral",
+      "data": {
+        "name": "Bloodstone",
+        "image": "Bloodstone.png",
+        "value": "250,000,000",
+        "locations": "{{Rotwood Swamp}}, {{Timelocked Sanctuary}}",
+        "description": "A tainted stone believed to siphon the life of those who hold it."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "celestium",
+      "name": "Celestium",
+      "type": "mineral",
+      "data": {
+        "name": "Celestium",
+        "image": "celestium.png",
+        "value": "800,000,000",
+        "locations": "{{Astral Caverns}}",
+        "description": "A celestial metal formed in the center of galaxies."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "cryonic-artifact",
+      "name": "Cryonic Artifact",
+      "type": "mineral",
+      "data": {
+        "name": "Cryonic Artifact",
+        "image": "Cryonic Artifact.png",
+        "value": "100,000,000",
+        "locations": "{{Frozen Peak}}",
+        "description": "A mysterious artifact. What is its purpose?"
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "dinosaur-skull",
+      "name": "Dinosaur Skull",
+      "type": "mineral",
+      "data": {
+        "name": "Dinosaur Skull",
+        "image": "Dinosaur Skull.png",
+        "value": "50,000,000",
+        "locations": "{{Infernal Heart}}",
+        "description": "A skull of a dinosaur. What's this doing here!"
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "eternium",
+      "name": "Eternium",
+      "type": "mineral",
+      "data": {
+        "name": "Eternium",
+        "image": "Eternium.png",
+        "value": "555,555,555",
+        "locations": "{{Timelocked Sanctuary}}",
+        "description": "An everlasting crystal that preserves its surroundings from the passage of time."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "eye-of-the-sands",
+      "name": "Eye of the Sands",
+      "type": "mineral",
+      "data": {
+        "name": "Eye of the Sands",
+        "image": "Eye_of_the_Sands_collection_small.png",
+        "value": "350,000,000",
+        "locations": "{{Mystic Floodplains}}",
+        "description": "A relic left behind by an ancient civilization."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "forgotten-totem",
+      "name": "Forgotten Totem",
+      "type": "mineral",
+      "data": {
+        "name": "Forgotten Totem",
+        "image": "Forgotten Totem.png",
+        "value": "42,500,000",
+        "locations": "{{Seashell Beach}}",
+        "description": "An mysterious, weathered totem. Its purpose remains unknown."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "key-of-life",
+      "name": "Key of Life",
+      "type": "mineral",
+      "data": {
+        "name": "Key of Life",
+        "image": "Key_of_Life_collection_small.png",
+        "value": "1,000,000,000",
+        "locations": "{{Lifespring Oasis}}",
+        "description": "A magical artifact created to protect life from the harsh conditions of the desert."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "moonspire",
+      "name": "Moonspire",
+      "type": "mineral",
+      "data": {
+        "name": "Moonspire",
+        "image": "Moonspire_sq.png",
+        "value": "45,000,000",
+        "locations": "{{Haunted Creek}}",
+        "description": "A spire of crystallised moonlight that only forms beneath Haunted Creek."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "north-star",
+      "name": "North Star",
+      "type": "mineral",
+      "data": {
+        "name": "North Star",
+        "image": "Northstar.png",
+        "value": "42,500,000",
+        "locations": "{{North Pole}}",
+        "description": "-"
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "pumpkin-soul",
+      "name": "Pumpkin Soul",
+      "type": "mineral",
+      "data": {
+        "name": "Pumpkin Soul",
+        "image": "Pumpkin Soul.png",
+        "value": "40,000,000",
+        "locations": "{{Haunted Creek}}",
+        "description": "The soul of a cruel tyrant."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "singularium",
+      "name": "Singularium",
+      "type": "mineral",
+      "data": {
+        "name": "Singularium",
+        "image": "single.PNG",
+        "value": "250,000,000",
+        "locations": "{{Starfall River}}",
+        "description": "An exotic substance that emits a gravitational pull."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "solarium",
+      "name": "Solarium",
+      "type": "mineral",
+      "data": {
+        "name": "Solarium",
+        "image": "Solarium.png",
+        "value": "350,000,000",
+        "locations": "{{Sandstone Stream}}",
+        "description": "A shining crystal, once believed by ancient civilizations to be a fragment of the sun."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "starpiercer",
+      "name": "Starpiercer",
+      "type": "mineral",
+      "data": {
+        "name": "Starpiercer",
+        "image": "starp.png",
+        "value": "450,000,000",
+        "locations": "{{Meteor Falls}}",
+        "description": "A mysterious alien artifact."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "umbrite",
+      "name": "Umbrite",
+      "type": "mineral",
+      "data": {
+        "name": "Umbrite",
+        "image": "Umbrite.png",
+        "value": "180,000,000",
+        "locations": "{{Abyssal Depth}}",
+        "description": "A crystal formed in complete darkness."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "vineheart",
+      "name": "Vineheart",
+      "type": "mineral",
+      "data": {
+        "name": "Vineheart",
+        "image": "Vineheart.png",
+        "value": "125,000,000",
+        "locations": "{{Deeproot Spring}}",
+        "description": "The heart of the caverns, believed to be formed by the spirits themselves."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    },
+    {
+      "slug": "voidstone",
+      "name": "Voidstone",
+      "type": "mineral",
+      "data": {
+        "name": "Voidstone",
+        "image": "Voidstone.png",
+        "value": "111,111,111",
+        "locations": "{{The Void}}",
+        "description": "A crystal formed from the void."
+      },
+      "image_url": null,
+      "source_revid": null,
+      "parser_version": "0.1"
+    }
+  ],
+  "source_rev_range": {
+    "min": 0,
+    "max": 0
+  }
+}

@@ -1,0 +1,229 @@
+[[File:TravelingCaldera.png|thumb|''The '''Traveling Merchant''' at {{Caldera Island}}''|331x331px]]
+
+The '''Traveling Merchant''' is a [[shopkeepers|Shopkeeper]] [[NPCs|NPC]] that spawns randomly around the world.  
+The Merchant is always active, and his stock refreshes every day.
+The Merchant sells powerful and exclusive items, with trades available for either money or {{Meteor Shards|meteor shards}}.  
+Unless they refresh the Merchant's stock (for Robux), each player sees the '''same set of items''' (globally), and purchases are client-sided.
+
+== Locations ==
+The Merchant can appear at multiple preset locations.  
+
+* {{Azuralite Oasis}} - in the back right corner
+* {{Caldera Park}} - two locations:
+** Next to the [[Shard Merchant]]
+** Between the {{Volcanic Springs}} hill and the entrance to {{Magma Furnace}}
+* {{Fortune River}} - two locations:
+** On the riverbank, upstream from the dock
+** In the park between the town and Sunset Beach
+* {{Fortune River Delta}} - on the next island over from the waypoint, a bit upstream
+* {{Sunset Beach}} - near the rocks that separate the waypoint and lighthouse from the beach
+
+{| class="mw-collapsible mw-collapsed fandom-table"
+|+ Images
+!Location
+!Image 
+|-
+|{{Azuralite Oasis}}
+|[[File:AzuraliteOsasisMerchant.png|center|250x250px]]
+|-
+|{{Caldera Island}}
+|[[File:Traveling Merchant at Caldera near excavation site A.png|center|250px]]
+[[File:Traveling Merchant at Volcanic Springs.png|center|250px]]
+|-
+|{{Fortune River}}
+|[[File:FortuneRiverMerchant1.png|center|250x250px]]
+[[File:FortuneRiverMerchant2.png|center|250x250px]]
+|-
+|{{Fortune River Delta}}
+|[[File:FortuneRiverDeltaMerchant.png|center|250x250px]]
+|-
+|{{Sunset Beach}}
+|[[File:SunsetBeachMerchant.png|center|250x250px]]
+|}
+
+== Dialogue ==
+(Note that it is not necessary to talk to the Merchant to purchase the items he has in stock.)
+{{Dialogue Start}}
+: ''Traveling Merchant'': Have a look, Prospector! You won't find these anywhere else!
+: {{Choice|Restock [R$(regionally-adjusted price)]}}
+: {{Choice|What can you sell? [?]}}
+:: (Displays the Merchant Stock Info list, see below)
+: {{Choice|Sure!}}
+:: ''Traveling Merchant'': I move around and change my stock every day! Come back tomorrow for new items!
+{{Dialogue End}}
+
+== Items Sold ==
+This is the list of items from which the Merchant's stock is randomly selected. The Merchant displays the item names and chances &mdash; the first two columns of the table &mdash; if asked (not including the items that are no longer available, of course). The rest of the columns are based on observation.
+{| class="wikitable sortable" style="width:100%; font-size:110%; border-collapse:collapse; border:none; background-color:transparent; margin:0; padding:0;"
+|-
+! colspan="2" | Merchant Stock Info
+! colspan="3" | Additional Information
+|-
+! Item
+! style="text-align:center;" | Chances
+! style="text-align:right; white-space:nowrap;" | $ Price
+! style="text-align:right; white-space:nowrap;" | Shard Price
+! style="text-align:center;" | Stock
+|-
+| {{Perfect Reforge Token}} ''(Removed from the merchant stock)''
+| style="text-align:center;" | -
+| style="text-align:right; white-space:nowrap;" data-sort-value="50000000000" | {{$|50,000,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="5000" | {{Meteor Shards|5,000}}
+| style="text-align:center;" | 1
+|-
+| {{Void Shard}} ''(Removed from the merchant stock)''
+| style="text-align:center;" | -
+| style="text-align:right; white-space:nowrap;" data-sort-value="10000000000" | {{$|10,000,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="4000" | {{Meteor Shards|4,000}}
+| style="text-align:center;" | 1
+|-
+| {{Meteor Fragment}} ''(Removed from the merchant stock)''
+| style="text-align:center;" | -
+| style="text-align:right; white-space:nowrap;" data-sort-value="5000000000" | {{$|5,000,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="1500" | {{Meteor Shards|1,500}}
+| style="text-align:center;" | 1
+|-
+| [[Traveler's Backpack]]
+| style="text-align:center;" | 11%
+| style="text-align:right; white-space:nowrap;" data-sort-value="1000000000" | {{$|1,000,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="500" | {{Meteor Shards|500}}
+| style="text-align:center;" | 10
+|-
+| {{Warp Device}}
+| style="text-align:center;" | 11%
+| style="text-align:right; white-space:nowrap;" data-sort-value="100000000" | {{$|10,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="100" | {{Meteor Shards|50}}
+| style="text-align:center;" | 15
+|-
+| [[Quake Potion]]
+| style="text-align:center;" | 9.5%
+| style="text-align:right; white-space:nowrap;" data-sort-value="200000000" | {{$|200,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="200" | {{Meteor Shards|250}}
+| style="text-align:center;" | 15
+|-
+| {{Solar Token}}
+| style="text-align:center;" | 7.6%
+| style="text-align:right; white-space:nowrap;" data-sort-value="500000000" | {{$|500,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="600" | {{Meteor Shards|300}}
+| style="text-align:center;" | 2
+|-
+| [[Blitz Potion]]
+| style="text-align:center;" | 7.6%
+| style="text-align:right; white-space:nowrap;" data-sort-value="200000000" | {{$|200,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="300" | {{Meteor Shards|300}}
+| style="text-align:center;" | 15
+|-
+| [[Instability Potion]]
+| style="text-align:center;" | 7.6%
+| style="text-align:right; white-space:nowrap;" data-sort-value="200000000" | {{$|200,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="150" | {{Meteor Shards|200}}
+| style="text-align:center;" | 15
+|-
+| {{Snow Globe}}
+| style="text-align:center;" | 5.7%
+| style="text-align:right; white-space:nowrap;" data-sort-value="1000000000" | {{$|1,000,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="500" | {{Meteor Shards|500}}
+| style="text-align:center;" | 2
+|-
+| {{Infernal Idol}}
+| style="text-align:center;" | 5.7%
+| style="text-align:right; white-space:nowrap;" data-sort-value="1000000000" | {{$|1,000,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="400" | {{Meteor Shards|400}}
+| style="text-align:center;" | 2
+|-
+| {{Friendship Totem}}
+| style="text-align:center;" | 3.8%
+| style="text-align:right;white-space:nowrap;" data-sort-value="Unknown" | {{$|?}}</span>
+| style="text-align:right;white-space:nowrap;" data-sort-value="500" | {{Meteor Shards|500}}
+| style="text-align:center;" | 5
+|-
+| {{XP Cookie}}
+| style="text-align:center;" | 3.8%
+| style="text-align:right;white-space:nowrap;" data-sort-value="Unknown" | {{$|?}}</span>
+| style="text-align:right;white-space:nowrap;" data-sort-value="500" | {{Meteor Shards|500}}
+| style="text-align:center;" | 30
+|-
+| {{Cosmic Resonator}}
+| style="text-align:center;" | 3.8%
+| style="text-align:right; white-space:nowrap;" data-sort-value="1000000000" | {{$|1,000,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="400" | {{Meteor Shards|400}}
+| style="text-align:center;" | 1
+|-
+| {{Mythic Summon}}
+| style="text-align:center;" | 1.9%
+| style="text-align:right; white-space:nowrap;" data-sort-value="1000000000" | {{$|1,000,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="1000" | {{Meteor Shards|1000}}
+| style="text-align:center;" | 1
+|-
+! colspan="5" | Enchant Books
+|-
+| [[Prismatic Enchant Book]]
+| style="text-align:center;" | 0.76%
+| style="text-align:right; white-space:nowrap;" data-sort-value="20000000000" | {{$|20,000,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="5000" | {{Meteor Shards|5,000}}
+| style="text-align:center;" | 1
+|-
+| [[Infernal Enchant Book]]
+| style="text-align:center;" | 0.76%
+| style="text-align:right; white-space:nowrap;" data-sort-value="20000000000" | {{$|20,000,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="5000" | {{Meteor Shards|5,000}}
+| style="text-align:center;" | 1
+|-
+| [[Cosmic Enchant Book]]
+| style="text-align:center;" | 1.9%
+| style="text-align:right; white-space:nowrap;" data-sort-value="10000000000" | {{$|10,000,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="2000" | {{Meteor Shards|2,000}}
+| style="text-align:center;" | 1
+|-
+| [[Divine Enchant Book]]
+| style="text-align:center;" | 1.9%
+| style="text-align:right; white-space:nowrap;" data-sort-value="10000000000" | {{$|10,000,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="2000" | {{Meteor Shards|2,000}}
+| style="text-align:center;" | 1
+|-
+| [[Blessed Enchant Book]]
+| style="text-align:center;" | 3.8%
+| style="text-align:right; white-space:nowrap;" data-sort-value="200000000" | {{$|200,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="750" | {{Meteor Shards|750}}
+| style="text-align:center;" | 1
+|-
+| [[Destructive Enchant Book]] ''(Removed from the merchant stock)''
+| style="text-align:center;" | -
+| style="text-align:right; white-space:nowrap;" data-sort-value="200000000" | {{$|200,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="750" | {{Meteor Shards|750}}
+| style="text-align:center;" | 1
+|-
+| [[Midas Enchant Book]]
+| style="text-align:center;" | 3.8%
+| style="text-align:right; white-space:nowrap;" data-sort-value="200000000" | {{$|200,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="750" | {{Meteor Shards|750}}
+| style="text-align:center;" | 1
+|-
+| [[Glowing Enchant Book]]
+| style="text-align:center;" | 3.8%
+| style="text-align:right; white-space:nowrap;" data-sort-value="50000000" | {{$|50,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="400" | {{Meteor Shards|400}}
+| style="text-align:center;" | 1
+|-
+| [[Titanic Enchant Book]]
+| style="text-align:center;" | 3.8%
+| style="text-align:right; white-space:nowrap;" data-sort-value="50000000" | {{$|50,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="400" | {{Meteor Shards|400}}
+| style="text-align:center;" | 1
+|-
+| [[Unstable Enchant Book]] ''(Removed from the merchant stock)''
+| style="text-align:center;" | -
+| style="text-align:right; white-space:nowrap;" data-sort-value="50000000" | {{$|50,000,000}}
+| style="text-align:right; white-space:nowrap;" data-sort-value="400" | {{Meteor Shards|400}}
+| style="text-align:center;" | 1
+|}
+
+== Notes ==
+* The Traveling Merchant’s inventory '''resets each spawn'''.  
+* Announcements appear above the hotbar when they spawn, revealing the location.  
+<!-- this is no longer true, but I don't actually know whether there's still two spawn spots on caldera, and if so, what the game calls them.
+* '''Fun Fact:''' When the Traveling Merchant spawns on Caldera Island Volcano, it is referring to the spawn spot near the waypoint. When it spawns on Caldera Island ''only'', it is referring to the spawn spot at the foot of the volcano. -->
+
+[[Category:NPCs]]
+[[Category:Shopkeepers]]
+[[Category:Vendors]]

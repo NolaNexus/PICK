@@ -1,0 +1,849 @@
+<templatestyles src="Template:Mineral/styles.css" />
+'''Minerals''' can be obtained by prospecting, and can later be sold at a [[Merchant]]. Minerals come in different rarities, and are found in different deposits. Every Mineral found by the player gets documented in the "Collection" item, which is part of the gear you get when first joining the game.
+
+== Modifiers ==
+See also: [[Modifiers]] - special effects that can change the value of minerals.  
+
+== All Minerals ==
+<tabber>
+Common=
+{| class="wikitable sortable mineral-table" style="width:100%"
+! Mineral !! data-sort-type="number" | $/kg !! Location(s) !! Description
+{{Mineral row slim
+ | name        = Amethyst
+ | image       = Amethyst.png
+ | value       = 3,500
+ | locations   = {{Rubble Creek Sands}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}
+ | description = A purple amethyst gemstone.
+}}
+{{Mineral row slim
+ | name        = Blue Ice
+ | image       = Blue Ice.png
+ | value       = 1,500
+ | locations   = {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}
+ | description = A chunk of blue ice compressed in a glacier for millions of years.
+}}
+{{Mineral row slim
+ | name        = Copper
+ | image       = Copper.png
+ | value       = 800
+ | locations   = {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Volcanic Sands}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Fungal Marsh}}, {{Volcanic Springs}}
+ | description = A malleable metal commonly used in electronics.
+}}
+{{Mineral row slim
+ | name        = Gold
+ | image       = Gold.png
+ | value       = 1,000
+ | locations   = {{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Volcanic Sands}}, {{Magma Furnace}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{North Pole}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Volcanic Springs}}, {{Enchanted Ruins}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = A nugget of gold.
+}}
+{{Mineral row slim
+ | name        = Obsidian
+ | image       = Obsidian.png
+ | value       = 3,000
+ | locations   = {{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = A jet-black shard of obsidian. Formed when lava cools rapidly.
+}}
+{{Mineral row slim
+ | name        = Pearl
+ | image       = Pearl.png
+ | value       = 5,000
+ | locations   = {{Sunset Beach}}, {{Fortune River Delta}}, {{Windswept Beach}}, {{Seashell Beach}}
+ | description = A round pearl from an oyster.
+}}
+{{Mineral row slim
+ | name        = Platinum
+ | image       = Platinum.png
+ | value       = 2,000
+ | locations   = {{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = A nugget of platinum.
+}}
+{{Mineral row slim
+ | name        = Pyrite
+ | image       = Pyrite.png
+ | value       = 500
+ | locations   = {{Rubble Creek Deposits}}, {{Meteor Falls}}, {{Starfall River}}
+ | description = Also known as "Fool's Gold". Essentially worthless.
+}}
+{{Mineral row slim
+ | name        = Seashell
+ | image       = Seashell.png
+ | value       = 2,200
+ | locations   = {{Sunset Beach}}, {{Windswept Beach}}, {{Seashell Beach}}
+ | description = The shell of a clam.
+}}
+{{Mineral row slim
+ | name        = Silver
+ | image       = Silver.png
+ | value       = 700
+ | locations   = {{Sunset Beach}}, {{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{North Pole}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}, {{Astral Caverns}}, {{Seashell Beach}}
+ | description = A nugget of silver.
+}}
+|}
+|-|
+Uncommon=
+{| class="wikitable sortable mineral-table" style="width:100%"
+|+ Click a header to sort (A→Z by default; click “$/kg” to sort by value)
+! Mineral !! data-sort-type="number" | $/kg !! Location(s) !! Description
+{{Mineral row slim
+ | name        = Coral
+ | image       = Coral.png
+ | value       = 23,000
+ | locations   = {{Sunset Beach}}, {{Fortune River Delta}}, {{Windswept Beach}}, {{Seashell Beach}}
+ | description = A piece of coral from an endangered species.
+}}
+{{Mineral row slim
+ | name        = Electrum
+ | image       = Electrum.png
+ | value       = 13,000
+ | locations   = {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = An alloy of silver and gold. Also known as 'green gold'.
+}}
+{{Mineral row slim
+ | name        = Glowberry
+ | image       = Glowberry.png
+ | value       = 12,000
+ | locations   = {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Enchanted Ruins}}
+ | description = A luminescent berry.
+}}
+{{Mineral row slim
+ | name        = Malachite
+ | image       = Malachite.png
+ | value       = 18,000
+ | locations   = {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Windswept Beach}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}
+ | description = A vibrant green crystal, given its color by the copper within it.
+}}
+{{Mineral row slim
+ | name        = Neodymium
+ | image       = Neodymium.png
+ | value       = 10,000
+ | locations   = {{Sunset Beach}}, {{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Enchanted Ruins}}, {{Seashell Beach}}
+ | description = A key ingredient in high-strength magnets.
+}}
+{{Mineral row slim
+ | name        = Nickel
+ | image       = nickel.PNG
+ | value       = 6,000
+ | locations   = {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}
+ | description = A tough nugget of nickel.
+}}
+{{Mineral row slim
+ | name        = Rock Candy
+ | image       = Rock Candy.png
+ | value       = 15,000
+ | locations   = {{Haunted Creek}}
+ | description = A chunk of rock candy. Tasty!
+}}
+{{Mineral row slim
+ | name        = Sapphire
+ | image       = Sapphire.png
+ | value       = 25,000
+ | locations   = {{Rubble Creek Deposits}}, {{Fortune River}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}
+ | description = A blue sapphire.
+}}
+{{Mineral row slim
+ | name        = Smoky Quartz
+ | image       = Smoky Quartz.png
+ | value       = 16,000
+ | locations   = {{Sunset Beach}}, {{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}, {{Seashell Beach}}
+ | description = A type of quartz with a unique gray color.
+}}
+{{Mineral row slim
+ | name        = Titanium
+ | image       = Titanium.png
+ | value       = 7,500
+ | locations   = {{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{North Pole}}
+ | description = A piece of pure titanium.
+}}
+{{Mineral row slim
+ | name        = Topaz
+ | image       = Topaz.png
+ | value       = 14,000
+ | locations   = {{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Fortune River Delta}}, {{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Timelocked Sanctuary}}, {{Volcanic Springs}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = A topaz gemstone. A symbol of strength and honor.
+}}
+{{Mineral row slim
+ | name        = Zircon
+ | image       = Zircon.png
+ | value       = 25,000
+ | locations   = {{Volcanic Sands}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}
+ | description = A dark orange gemstone that contains zirconium.
+}}
+|}
+|-|
+Rare=
+{| class="wikitable sortable mineral-table" style="width:100%"
+|+ Click a header to sort (A–Z by default; click “$/kg” to sort by value)
+! Mineral !! data-sort-type="number" | $/kg !! Location(s) !! Description
+{{Mineral row slim
+ | name        = Amber
+ | image       = Amberprospecting.png
+ | value       = 110,000
+ | locations   = {{Deeproot Spring}}, {{Abyssal Depth}}, {{Enchanted Ruins}}
+ | description = A piece of fossilized amber.
+}}
+{{Mineral row slim
+ | name        = Azuralite
+ | image       = Azuralite.png
+ | value       = 120,000
+ | locations   = {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Enchanted Ruins}}
+ | description = A mysterious azure crystal with strange growth properties and unknown origin.
+}}
+{{Mineral row slim
+ | name        = Candy Cane
+ | image       = CandyCane.png
+ | value       = 65,000
+ | locations   = {{North Pole}}
+ | description = A tasty candy cane.
+}}
+
+{{Mineral row slim
+ | name        = Diopside
+ | image       = Diopside.png
+ | value       = 99,000
+ | locations   = {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}
+ | description = A dull green gem.
+}}
+{{Mineral row slim
+ | name        = Glacial Quartz
+ | image       = Glacial Quartz.png
+ | value       = 100,000
+ | locations   = {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}
+ | description = An icicle-shaped variant of quartz that forms in extreme cold.
+}}
+{{Mineral row slim
+| name         = Gloomberry
+| image        = GloomberryFR.png
+| value        = 80,000
+| locations    = {{Abyssal Depth}}
+| description  = A poisonous berry that grows deep underground.
+}}
+{{Mineral row slim
+ | name        = Jade
+ | image       = Jade.png
+ | value       = 40,000
+ | locations   = {{Fortune River}}, {{Fortune River Delta}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}
+ | description = A piece of green jade.
+}}
+{{Mineral row slim
+ | name        = Lapis Lazuli
+ | image       = Lapis Lazuli.png
+ | value       = 40,000
+ | locations   = {{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{Haunted Creek}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}
+ | description = A vibrant and intense stone of lapis lazuli.
+}}
+{{Mineral row slim
+ | name        = Meteoric Iron
+ | image       = Meteoric Iron.png
+ | value       = 80,000
+ | locations   = {{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Volcanic Sands}}, {{Windswept Beach}}, {{Volcanic Springs}}, {{Astral Caverns}}
+ | description = A piece of iron infused with energy from exposure to the meteors.
+}}
+{{Mineral row slim
+ | name        = Onyx
+ | image       = Onyx.png
+ | value       = 75,000
+ | locations   = {{Sunset Beach}}, {{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Volcanic Springs}}, {{Seashell Beach}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = A jet black onyx gem.
+}}
+{{Mineral row slim
+ | name        = Peridot
+ | image       = Peridot.png
+ | value       = 60,000
+ | locations   = {{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = An olive-green gemstone that commonly appears in volcanic rock.
+}}
+{{Mineral row slim
+ | name        = Pyrelith
+ | image       = Pyrelith.png
+ | value       = 150,000
+ | locations   = {{Magma Furnace}}, {{Infernal Heart}}
+ | description = An energetic crystal formed in the heart of a volcano.
+}}
+{{Mineral row slim
+ | name        = Ruby
+ | image       = Ruby.png
+ | value       = 30,000
+ | locations   = {{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = A bright red ruby gemstone.
+}}
+{{Mineral row slim
+ | name        = Sandsteel
+ | image       = Sandsteel.png
+ | value       = 27,000
+ | locations   = {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = An uncharacteristically coarse metal found in deserts and dunes.
+}}
+{{Mineral row slim
+ | name        = Silver Clamshell
+ | image       = Silver Clamshell.png
+ | value       = 50,000
+ | locations   = {{Sunset Beach}}, {{Fortune River Delta}}, {{Windswept Beach}}, {{Seashell Beach}}
+ | description = The shell of a rare silver clam.
+}}
+|}
+|-|
+Epic=
+{| class="wikitable sortable mineral-table" style="width:100%"
+|+ Click a header to sort (A–Z by default; click “$/kg” to sort by value)
+! Mineral !! data-sort-type="number" | $/kg !! Location(s) !! Description
+{{Mineral row slim
+ | name        = Ammonite Fossil
+ | image       = Ammonite Fossil.png
+ | value       = 200,000
+ | locations   = {{Windswept Beach}}, {{Seashell Beach}}
+ | description = The remains of an ancient mollusk.
+}}
+{{Mineral row slim
+ | name        = Ashvein
+ | image       = Ashvein.png
+ | value       = 222,000
+ | locations   = {{Sunset Beach}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Seashell Beach}}
+ | description = An obsidian-like crystal streaked with red.
+}}
+{{Mineral row slim
+ | name        = Aurorite
+ | image       = Aurorite.png
+ | value       = 444,444
+ | locations   = {{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Fortune River Delta}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{North Pole}}, {{Enchanted Ruins}}
+ | description = A mysterious crystal filled with magical power. Perhaps I could use this for something...
+}}
+{{Mineral row slim
+ | name        = Bone
+ | image       = Boneld.png
+ | value       = 200,000
+ | locations   = {{Haunted Creek}}, {{Rotwood Swamp}}, {{Fungal Marsh}}
+ | description = ...I should't have dug here.
+}}
+{{Mineral row slim
+ | name        = Borealite
+ | image       = Borealite.png
+ | value       = 280,000
+ | locations   = {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}
+ | description = A cold gemstone.
+}}
+{{Mineral row slim
+ | name        = Cobalt
+ | image       = Cobalt.png
+ | value       = 250,000
+ | locations   = {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{North Pole}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}, {{Meteor Falls}}
+ | description = A strikingly blue piece of cobalt. Used in advanced electronics.
+}}
+{{Mineral row slim
+ | name        = Emerald
+ | image       = Emerald.png
+ | value       = 250,000
+ | locations   = {{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Frostbite River}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}
+ | description = A rare emerald with a vibrant green hue.
+}}
+{{Mineral row slim
+ | name        = Glowmoss
+ | image       = Glowmoss.png
+ | value       = 175,000
+ | locations   = {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}
+ | description = A rare species of moss that emits a bright light.
+}}
+{{Mineral row slim
+ | name        = Golden Pearl
+ | image       = Golden Pearl.png
+ | value       = 250,000
+ | locations   = {{Sunset Beach}}, {{Fortune River Delta}}, {{Seashell Beach}}
+ | description = An incredibly rare pearl variant with a distinct gold color.
+}}
+{{Mineral row slim
+ | name        = Iridium
+ | image       = Iridium.png
+ | value       = 155,000
+ | locations   = {{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Fortune River Delta}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}
+ | description = A rare celestial metal brought to the earth by the meteors.
+}}
+{{Mineral row slim
+ | name        = Lightshard
+ | image       = Lightshard.png
+ | value       = 300,000
+ | locations   = {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}
+ | description = A light-infused glass-like crystal.
+}}
+{{Mineral row slim
+ | name        = Mercury
+ | image       = Mercuryidi.png
+ | value       = 450,000
+ | locations   = {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Meteor Falls}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = A drop of toxic mercury, held together by an unknown force.
+}}
+{{Mineral row slim
+ | name        = Meteoric Gold
+ | image       = meteoricgold.png
+ | value       = 240,000
+ | locations   = {{Starfall River}}, {{Astral Caverns}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = A nugget of gold from outer space.
+}}
+{{Mineral row slim
+ | name        = Moonstone
+ | image       = Moonstone.png
+ | value       = 200,000
+ | locations   = {{Sunset Beach}}, {{Fortune River Delta}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}, {{Seashell Beach}}
+ | description = A piece of stone from the moon itself.
+}}
+{{Mineral row slim
+ | name        = Opal
+ | image       = Opal.png
+ | value       = 325,000
+ | locations   = {{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Sunset Beach}}, {{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}, {{Seashell Beach}}
+ | description = An iridescent opal.
+}}
+{{Mineral row slim
+ | name        = Osmium
+ | image       = Osmium.png
+ | value       = 300,000
+ | locations   = {{Rubble Creek Deposits}}, {{Fortune River}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Volcanic Springs}}, {{Sandstone Stream}}
+ | description = A dense and highly toxic metal prized for its rarity.
+}}
+{{Mineral row slim
+ | name        = Pyronium
+ | image       = Pyronium.png
+ | value       = 226,000
+ | locations   = {{Volcanic Sands}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}
+ | description = A volcanic metal that constantly emits heat.
+}}
+{{Mineral row slim
+ | name        = Selenite
+ | image       = Selenite.png
+ | value       = 135,000
+ | locations   = {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = A soft pearly crystal.
+}}
+
+|}
+|-|
+Legendary=
+{| class="wikitable sortable mineral-table" style="width:100%"
+|+ Click a header to sort (A–Z by default; click “$/kg” to sort by value)
+! Mineral !! data-sort-type="number" | $/kg !! Location(s) !! Description
+{{Mineral row slim
+ | name        = Aetherite
+ | image       = Aetherite.png
+ | value       = 4,444,444
+ | locations   = {{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Sunset Beach}}, {{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{North Pole}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}, {{Seashell Beach}}
+ | description = A purified variant of aurorite used in enchanting rituals.
+}}
+{{Mineral row slim
+ | name        = Aquamarine
+ | image       = Aquamarine.png
+ | value       = 4,000,000
+ | locations   = {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}, {{Starfall River}}, {{Astral Caverns}}
+ | description = A pale blue-green crystal.
+}}
+{{Mineral row slim
+ | name        = Bismuth
+ | image       = Bismuthidi.png
+ | value       = 2,600,000
+ | locations   = {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}
+ | description = A chunk of bismuth, known for being one of the densest non-radioactive metals.
+}}
+{{Mineral row slim
+ | name        = Catseye
+ | image       = Catseye.png
+ | value       = 2,222,222
+ | locations   = {{Rubble Creek Deposits}}, {{Fortune River}}, {{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Volcanic Springs}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = A golden catseye. Commonly believed to hold a deadly curse within.
+}}
+{{Mineral row slim
+ | name        = Cinnabar
+ | image       = Cinnabar.png
+ | value       = 900,000
+ | locations   = {{Volcanic Sands}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}
+ | description = A vermillion chunk of cinnabar. Commonly used for extracting mercury.
+}}
+{{Mineral row slim
+ | name        = Depleted Shard
+ | image       = depleted.png.png
+ | value       = 4,500,000
+ | locations   = {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}, {{Lifespring Oasis}}
+ | description = The burnt-out remains of a once-powerful celestial fragment.
+}}
+{{Mineral row slim
+ | name        = Diamond
+ | image       = Diamond.png
+ | value       = 1,000,000
+ | locations   = {{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Sunset Beach}}, {{Fortune River Delta}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{North Pole}}, {{Timelocked Sanctuary}}, {{Meteor Falls}}
+ | description = A rare diamond gem. Incredibly hard and reflective.
+}}
+{{Mineral row slim
+ | name        = Dragon Bone
+ | image       = Dragon Bone.png
+ | value       = 2,000,000
+ | locations   = {{Magma Furnace}}, {{Infernal Heart}}, {{Windswept Beach}}
+ | description = The bone of an ancient dragon.
+}}
+{{Mineral row slim
+ | name        = Fire Opal
+ | image       = Fire Opal.png
+ | value       = 1,600,000
+ | locations   = {{Volcanic Sands}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}, {{Sandstone Stream}}
+ | description = A type of opal with a brilliant orange shine.
+}}
+{{Mineral row slim
+ | name        = Firefly Stone
+ | image       = Firefly Stone.png
+ | value       = 1,500,000
+ | locations   = {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}
+ | description = A glowing stone left behind by dying fireflies.
+}}
+{{Mineral row slim
+ | name        = Gloomcap
+ | image       = gloomcap.png
+ | value       = 2,340,000
+ | locations   = {{Fungal Marsh}}
+ | description = An extraterrestrial lifeform that warps nearby matter.
+}}
+{{Mineral row slim
+ | name        = Jasper
+ | image       = Jasper.png
+ | value       = 380,000
+ | locations   = {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = A red stone with a smooth surface.
+}}
+{{Mineral row slim
+ | name        = Lost Soul
+ | image       = Lost Soul.png
+ | value       = 6,666,666
+ | locations   = {{Haunted Creek}}
+ | description = A lost soul doomed to wander aimlessly for eternity.
+}}
+{{Mineral row slim
+ | name        = Luminum
+ | image       = Luminum.png
+ | value       = 1,500,000
+ | locations   = {{Sunset Beach}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Enchanted Ruins}}, {{Seashell Beach}}
+ | description = A strange metal that constantly emits a bright yellow light.
+}}
+{{Mineral row slim
+ | name        = Nautilus Shell
+ | image       = Nautilus Shell.png
+ | value       = 2,100,000
+ | locations   = {{Seashell Beach}}
+ | description = The shell of a nautilus.
+}}
+{{Mineral row slim
+ | name        = Palladium
+ | image       = Palladium.png
+ | value       = 500,000
+ | locations   = {{Fortune River}}, {{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Frostbite River}}, {{Starfall River}}, {{Astral Caverns}}
+ | description = A lustrous piece of palladium known for its unique properties.
+}}
+{{Mineral row slim
+ | name        = Peppermint Prism
+ | image       = Peppermintprism.png
+ | value       = 2,800,000
+ | locations   = {{North Pole}}
+ | description = A colorful crystal only found at the North Pole.
+}}
+{{Mineral row slim
+ | name        = Radium
+ | image       = radium.png.png
+ | value       = 1,500,000
+ | locations   = {{Volcanic Springs}}, {{Meteor Falls}}, {{Sandstone Stream}}, {{Mystic Floodplains}}
+ | description = A radioactive and dangerous metal.
+}}
+{{Mineral row slim
+ | name        = Rose Gold
+ | image       = Rose Gold.png
+ | value       = 500,000
+ | locations   = {{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Volcanic Sands}}, {{Windswept Beach}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}, {{Enchanted Ruins}}
+ | description = An extremely rare form of a gold with a distinct rose color.
+}}
+{{Mineral row slim
+ | name        = Specterite
+ | image       = Specterite.png
+ | value       = 2,800,000
+ | locations   = {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Rotwood Swamp}}, {{Enchanted Ruins}}
+ | description = An extremely light and ghostly crystal.
+}}
+{{Mineral row slim
+ | name        = Starshine
+ | image       = Starshine.png
+ | value       = 2,500,000
+ | locations   = {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Abyssal Depth}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = An astral fragment rarely found in the core of large meteors.
+}}
+{{Mineral row slim
+ | name        = Tourmaline
+ | image       = Tourmaline.png
+ | value       = 2,888,000
+ | locations   = {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}
+ | description = A yellow tourmaline crystal.
+}}
+{{Mineral row slim
+ | name        = Uranium
+ | image       = Uranium.png
+ | value       = 1,500,000
+ | locations   = {{Fortune River}}, {{Fortune River Delta}}, {{Azuralite Oasis}}, {{Infernal Heart}}
+ | description = A radioactive chunk of uranium.
+}}
+{{Mineral row slim
+ | name        = Volcanic Key
+ | image       = Volcanic Key.png
+ | value       = 1,500,000
+ | locations   = {{Magma Furnace}}, {{Infernal Heart}}
+ | description = A mysterious key. Could sell for a lot, but maybe it has some other use?
+}}
+|}
+|-|
+Mythic=
+{| class="wikitable sortable mineral-table" style="width:100%"
+|+ Click a header to sort (A–Z by default; click “$/kg” to sort by value)
+! Mineral !! data-sort-type="number" | $/kg !! Location(s) !! Description
+{{Mineral row slim
+ | name        = Aetherium
+ | image       = Aetherium ore.png
+ | value       = 4,444,444
+ | locations   = {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = An unnatural amalgamation of Aetherite and Iridium. Its unique properties make it a necessary ingredient in high-tier enchanting rituals.
+}}
+{{Mineral row slim
+ | name        = Agate
+ | image       = Agate.png
+ | value       = 3,500,000
+ | locations   = {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = A geode-like stone filled with bands of color.
+}}
+{{Mineral row slim
+ | name        = Chrysoberyl
+ | image       = Chrysoberyl.png
+ | value       = 21,000,000
+ | locations   = {{Overgrown Grotto}}, {{Deeproot Spring}}, {{Rotwood Swamp}}
+ | description = ...
+}}
+{{Mineral row slim
+ | name        = Flarebloom
+ | image       = Flarebloom.png
+ | value       = 30,000,000
+ | locations   = {{Volcanic Sands}}, {{Magma Furnace}}, {{Infernal Heart}}, {{Volcanic Springs}}
+ | description = A mythical flower that only grows in the extreme heat of the center of a volcano.
+}}
+{{Mineral row slim
+ | name        = Frostshard
+ | image       = Frostshard.png
+ | value       = 50,000,000
+ | locations   = {{Frostbite Waterfall}}, {{Frozen Peak}}, {{North Pole}}
+ | description = A jagged crystal formed in the mountains that constantly freezes the area around it.
+}}
+{{Mineral row slim
+ | name        = Inferlume
+ | image       = Inferlume.png
+ | value       = 14,000,000
+ | locations   = {{Infernal Heart}}, {{Windswept Beach}}, {{Sunset Beach}}, {{Volcanic Sands}}, {{Azuralite Oasis}}, {{Crystal Cavern River}}, {{Volcanic Springs}}, {{Seashell Beach}}, {{Sandstone Stream}}, {{Mystic Floodplains}}, {{Lifespring Oasis}}
+ | description = A luminescent crystal with flame-like properties.
+}}
+{{Mineral row slim
+ | name        = Mythril
+ | image       = Mythril.png
+ | value       = 20,000,000
+ | locations   = {{Frostbite River}}, {{Frostbite Waterfall}}, {{Frozen Peak}}, {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Enchanted Ruins}}
+ | description = A nugget of the mythical metal mythril.
+}}
+{{Mineral row slim
+ | name        = Painite
+ | image       = Palnite.png
+ | value       = 10,000,000
+ | locations   = {{Fortune River}}, {{Sunset Beach}}, {{Fortune River Delta}}, {{Infernal Heart}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Volcanic Springs}}, {{Seashell Beach}}
+ | description = An extremely rare gemstone with a vibrant red color.
+}}
+{{Mineral row slim
+ | name        = Pink Diamond
+ | image       = Pink Diamond.png
+ | value       = 6,000,000
+ | locations   = {{Rubble Creek Sands}}, {{Rubble Creek Deposits}}, {{Fortune River}}, {{Fortune River Delta}}, {{Volcanic Sands}}, {{North Pole}}
+ | description = A variant of diamond with a unique pink tint.
+}}
+{{Mineral row slim
+ | name        = Prismara
+ | image       = Prismara.png
+ | value       = 25,000,000
+ | locations   = {{Azuralite Oasis}}, {{Overgrown Grotto}}, {{Enchanted Ruins}}
+ | description = Formed by the world itself.
+}}
+{{Mineral row slim
+ | name        = Radiant Gold
+ | image       = Radiant Gold.png
+ | value       = 40,000,000
+ | locations   = {{Deeproot Spring}}, {{Abyssal Depth}}, {{Haunted Creek}}, {{Timelocked Sanctuary}}, {{Enchanted Ruins}}
+ | description = A nugget of gold exposed to powerful energy for millions of years.
+}}
+{{Mineral row slim
+ | name        = Red Beryl
+ | image       = redberyl.png
+ | value       = 28,000,000
+ | locations   = {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Astral Caverns}}, {{Seashell Beach}}
+ | description = An extremely rare form of beryl. Distinguished by its hexagonal crystals and distinctive red color.
+}}
+{{Mineral row slim
+ | name        = Star Garnet
+ | image       = Star Garnet.png
+ | value       = 44,000,000
+ | locations   = {{Rotwood Swamp}}, {{Fungal Marsh}}, {{Timelocked Sanctuary}}, {{Meteor Falls}}, {{Starfall River}}
+ | description = A garnet with a star reflected within.
+}}
+{{Mineral row slim
+ | name        = Sunstone
+ | image       = sunstone.PNG
+ | value       = 28,000,000
+ | locations   = {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}
+ | description = A stone that pulses with solar energy.
+}}
+{{Mineral row slim
+ | name        = Vortessence
+ | image       = Vortessence.png
+ | value       = 20,000,000
+ | locations   = {{Fortune River Delta}}, {{Crystal Cavern River}}, {{Azuralite Oasis}}, {{Windswept Beach}}, {{Frostbite River}}, {{Frostbite Waterfall}}, {{Haunted Creek}}, {{Meteor Falls}}, {{Starfall River}}, {{Astral Caverns}}
+ | description = A celestial stone with distinct rings. Believed to be formed by the collapse of a star.
+}}
+{{Mineral row slim
+ | name        = Volcanic Core
+ | image       = Volcanic Core.png
+ | value       = 40,000,000
+ | locations   = {{Magma Furnace}}, {{Infernal Heart}}
+ | description = The unstable core of a volcano. Contains the potential to cause immense destruction.
+}}
+|}
+|-|
+Exotic=
+{| class="wikitable sortable mineral-table" style="width:100%"
+|+ Click a header to sort (A–Z by default; click “$/kg” to sort by value)
+! Mineral !! data-sort-type="number" | $/kg !! Location(s) !! Description
+{{Mineral row slim
+ | name        = Adamantine
+ | image       = adam.PNG
+ | value       = 250,000,000
+ | locations   = {{Enchanted Ruins}}
+ | description = The indestructible metal of many fables told and untold, Adamantine.
+}}
+{{Mineral row slim
+ | name        = Astral Spore
+ | image       = astralspore.png
+ | value       = 400,000,000
+ | locations   = {{Fungal Marsh}}, {{Timelocked Sanctuary}}
+ | description = An extraterrestial lifeform that warps nearby matter.
+}}
+{{Mineral row slim
+ | name        = Bloodstone
+ | image       = Bloodstone.png
+ | value       = 250,000,000
+ | locations   = {{Rotwood Swamp}}, {{Timelocked Sanctuary}}
+ | description = A tainted stone believed to siphon the life of those who hold it.
+}}
+{{Mineral row slim
+ | name        = Celestium
+ | image       = celestium.png
+ | value       = 800,000,000
+ | locations   = {{Astral Caverns}}
+ | description = A celestial metal formed in the center of galaxies.
+}}
+{{Mineral row slim
+ | name        = Cryonic Artifact
+ | image       = Cryonic Artifact.png
+ | value       = 100,000,000
+ | locations   = {{Frozen Peak}}
+ | description = A mysterious artifact. What is its purpose?
+}}
+{{Mineral row slim
+ | name        = Dinosaur Skull
+ | image       = Dinosaur Skull.png
+ | value       = 50,000,000
+ | locations   = {{Infernal Heart}}
+ | description = A skull of a dinosaur. What's this doing here!
+}}
+{{Mineral row slim
+ | name        = Eternium
+ | image       = Eternium.png
+ | value       = 555,555,555
+ | locations   = {{Timelocked Sanctuary}}
+ | description = An everlasting crystal that preserves its surroundings from the passage of time. 
+}}
+{{Mineral row slim
+ | name        = Eye of the Sands
+ | image       = Eye_of_the_Sands_collection_small.png
+ | value       = 350,000,000
+ | locations   = {{Mystic Floodplains}}
+ | description = A relic left behind by an ancient civilization.
+}}
+{{Mineral row slim
+ | name        = Forgotten Totem
+ | image       = Forgotten Totem.png
+ | value       = 42,500,000
+ | locations   = {{Seashell Beach}}
+ | description = An mysterious, weathered totem. Its purpose remains unknown. 
+}}
+{{Mineral row slim
+ | name        = Key of Life
+ | image       = Key_of_Life_collection_small.png
+ | value       = 1,000,000,000
+ | locations   = {{Lifespring Oasis}}
+ | description = A magical artifact created to protect life from the harsh conditions of the desert.
+}}
+{{Mineral row slim
+ | name        = Moonspire
+ | image       = Moonspire_sq.png
+ | value       = 45,000,000
+ | locations   = {{Haunted Creek}}
+ | description = A spire of crystallised moonlight that only forms beneath Haunted Creek.
+}}
+{{Mineral row slim
+ | name        = North Star
+ | image       = Northstar.png
+ | value       = 42,500,000
+ | locations   = {{North Pole}}
+ | description = -
+}}
+{{Mineral row slim
+ | name        = Pumpkin Soul
+ | image       = Pumpkin Soul.png
+ | value       = 40,000,000
+ | locations   = {{Haunted Creek}}
+ | description = The soul of a cruel tyrant.
+}}
+{{Mineral row slim
+ | name        = Singularium
+ | image       = single.PNG
+ | value       = 250,000,000
+ | locations   = {{Starfall River}}
+ | description = An exotic substance that emits a gravitational pull.
+}}
+{{Mineral row slim
+ | name        = Solarium
+ | image       = Solarium.png
+ | value       = 350,000,000
+ | locations   = {{Sandstone Stream}}
+ | description = A shining crystal, once believed by ancient civilizations to be a fragment of the sun.
+}}
+{{Mineral row slim
+ | name        = Starpiercer
+ | image       = starp.png
+ | value       = 450,000,000
+ | locations   = {{Meteor Falls}}
+ | description = A mysterious alien artifact.
+}}
+{{Mineral row slim
+| name         = Umbrite
+| image        = Umbrite.png
+| value        = 180,000,000
+| locations    = {{Abyssal Depth}}
+| description  = A crystal formed in complete darkness.
+}}
+{{Mineral row slim
+ | name        = Vineheart
+ | image       = Vineheart.png
+ | value       = 125,000,000
+ | locations   = {{Deeproot Spring}}
+ | description = The heart of the caverns, believed to be formed by the spirits themselves.
+}}
+{{Mineral row slim
+ | name        = Voidstone
+ | image       = Voidstone.png
+ | value       = 111,111,111
+ | locations   = {{The Void}}
+ | description = A crystal formed from the void.
+}}
+|}
+</tabber>

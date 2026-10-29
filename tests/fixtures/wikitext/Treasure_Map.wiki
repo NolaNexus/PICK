@@ -1,0 +1,43 @@
+{{Tocright}}
+
+== Treasure Map ==
+A '''Treasure Map''' is a special item you can uncover while digging on various locations around the map. Equipping it guides you to the exact spot where a hidden [[Treasure Chest]] is buried. 
+
+== Overview ==
+A Treasure Map is easier to discover when your digspeed is lower. Its base 0.2% drop chance scales inversely to your digspeed. Players can have a maximum of '''5''' Treasure Maps in their inventory at a time. This limit increases to '''10''' with the {{Enchant|Treasure Hunter}} [[Enchanting#tabber-Shovels|shovel enchant]].
+
+[[File:Treasuremap.png|thumb|right|280px|''Equipped Treasure Map'']]
+
+== Obtainment ==
+* Dig in any location.
+** If you dig in a location that has treasure chests, you have an increased chance of finding that type of map.
+* Once a map is found, yellow text will appear on your screen that says "You have found a mysterious map!" 
+* Check your inventory (backpack) to see what type of map you found.
+
+== Usage ==
+* Head to the location specified on the map.
+* Once at the location, click on the map in your inventory to equip it.
+* A colored arrow will appear on the screen. Follow the arrow. 
+* When you arrive at the correct location, the colored arrow will point at the ground and the text "X Marks the Spot! Dig down!" will appear. 
+* When you dig in the location marked by the X, text will appear on the screen that says "You have found buried treasure!!" 
+* A [[Treasure Chest]] will appear in your inventory.
+
+=== Troubleshooting ===
+* If the arrow points down at a location that is not a deposit, meaning you can't dig there, try digging anywhere in the general vicinity: the hitbox for treasure chests is pretty generous.
+* If the arrow keeps going around in circles instead of turning vertical, it might be trying to point at a location that's above you or below you. Try climbing up or down, then checking the map again.
+* If, despite your best efforts, you cannot dig up the treasure chest the map is pointing to, '''sell the map''' to a [[Merchant]].
+[[File:Tip treasure.png|thumb|center|500px|alt=Tip: Treasure maps can be sold at a merchant if you cannot find their treasure!|Server chat message about recalcitrant treasure maps]]
+
+== Map Types ==
+Treasure maps can be obtained anywhere, but they can only point to the following locations:
+* {{Fortune River}}
+* {{Fortune River Delta}}
+* {{Sunset Beach}}
+* {{Volcanic Sands}}
+* {{Windswept Beach}}
+* {{Frostbite River}}
+* {{Rotwood Swamp}}
+* {{Starfall River}}
+
+
+[[Category:Items]]

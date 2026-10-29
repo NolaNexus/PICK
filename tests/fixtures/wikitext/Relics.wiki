@@ -1,0 +1,584 @@
+<templatestyles src="Template:Enchant/styles.css" />
+
+'''Relics''' are a unique class of items used for enchanting and special event mechanics.
+
+== Acquisition ==
+Relics can be obtained through:
+* [[Excavations]] – Advanced dig sites.
+* [[Traveling Merchant]] – Occasionally sells relics in his rotating stock, often in limited quantities.
+* [[Treasure Chest|Treasure Chests]] - Some relics can be found in treasure chests from certain locations.
+* From the [[Prospector's_Shop#Forever_Pack|Forever Pack (Robux)]]
+* The [[Relic Crafting]] altar
+
+== Usage ==
+* Ingredients for enchanting.  
+* Can be sold to a [[Merchant]] for {{$|10,000}}. 
+* Activate unique in-game events.
+
+----
+
+== Event Relics ==
+The following relics can be used to trigger events:
+
+<tabber>
+|-|Cosmic Resonator =
+[[File:Cosmic Resonator.png|thumb|The '''Cosmic Resonator''']]
+An extraterrestrial artifact that attracts geodic meteors.
+
+The <span style="background:linear-gradient(90deg,#1e3c72,#2a5298,#7029d4,#b19cd9); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Cosmic_Resonator|Cosmic Resonator]]</span> is a consumable item that can be used to trigger the '''[[Events#tabber-Geode_Shower|Geode Shower]]''' event.
+
+== Obtainment ==
+* [[Excavations#tabber-Frozen_Fortress_2|Frozen Fortress excavation]] in {{Snowy Shores}}.  
+* [[Treasure Chest|Treasure Chests]]:
+** Fortune River Delta
+** Sunset Beach
+** Windswept Beach
+** Frostbite River
+* [[Traveling Merchant]]
+* [[Dredge Master]] random reward
+
+== Usage ==
+* Using the relic prompts a confirmation: ''Are you sure you want to use Cosmic Resonator? Use again to activate.''  
+* Prevents accidental consumption.  
+* Triggers the Geode Shower event.
+
+|-|Infernal Idol =
+[[File:Infernal Idol.png|thumb|The '''Infernal Idol''']]
+An artifact that brings forth the wrath of the volcano.
+
+The <span style="background:linear-gradient(90deg,#4b0000,#8b0000,#ff4500,#ff8c00); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Infernal_Idol|Infernal Idol]]</span> is a consumable item that can be used to trigger the '''[[Events#tabber-Volcanic_Eruption|Volcanic Eruption]]''' event.
+
+== Obtainment ==
+* [[Excavations#tabber-Magma_Temple_2|Magma Temple excavation]] in {{Windswept Beach}}.
+* <span style="color:orange;">150</span> {{Candy}} (5 stock) in the {{Haunted Creek}}.
+* [[Treasure Chest|Treasure Chests]]:
+** Volcanic Sands
+** Windswept Beach
+* [[Traveling Merchant]]
+* [[Dredge Master]] random reward
+* [[Seashell_Isle#Relic_Vendor|Relic Vendor]] on [[Seashell Isle]]
+
+== Usage ==
+* Using the relic prompts a confirmation: ''Are you sure you want to use Infernal Idol? Use again to activate.''  
+* Prevents accidental consumption.  
+* Triggers the Volcanic Eruption event.
+
+|-|Meteor Fragment =
+[[File:Meteor Fragment.png|thumb|The '''Meteor Fragment''']]
+
+The <span style="background:linear-gradient(90deg,#2c3e50,#434343,#e67e22,#f39c12); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Meteor_Fragment|Meteor Fragment]]</span> is a consumable item that can be used to trigger the '''[[Events#tabber-Meteor_Shower|Meteor Shower]]''' event. The duration of the event can be extended ("stacked").
+
+== Obtainment ==
+* [[Excavations#tabber-Magma_Temple_2|Excavation Site B: Magma Temple]] in {{Caldera Park}}.
+* [[Excavations#tabber-Lost_City_2|Excavation Site D: Lost City]] in {{Deeproot Spring}}.
+* [[Excavations#tabber-Alien_Wreckage_2|Excavation Site F: Alien Wreckage]] in {{Starfall River}}.
+* [[Prospector's_Shop#Forever_Pack|Forever Pack]]
+* [[Dredge Master]] milestone reward
+* [[Seashell_Isle#Relic_Vendor|Relic Vendor]] on [[Seashell Isle]]
+* [[Relic Crafting]]
+
+== Usage ==
+* Using the fragment prompts a confirmation: ''Are you sure you want to use Meteor Fragment? Use again to activate.''  
+* Prevents accidental consumption.  
+* Triggers the Meteor Shower event.
+* To extend the duration, simply use another fragment.
+
+|-|Mythic Summon =
+[[File:Mythic Summon.png|thumb|The '''Mythic Summon''']]
+
+The <span style="background:linear-gradient(90deg,#6a0572,#ab83a1,#ffd700,#fdbb2d); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Mythic_Summon|Mythic Summon]]</span> is a consumable item that can be used to trigger the '''[[Events#tabber-Mythic_Rift|Mythic Rift]]''' event.
+
+''Note: The Mythic Rift spawns at your location. Therefore, go to an area where you want a mythic from and then use the mythic summon.''
+
+== Obtainment ==
+* [[Excavations#tabber-Frozen_Fortress_2|Frozen Fortress excavation]] in {{Snowy Shores}}.
+* [[Excavations#tabber-Lost_City_2|Lost City excavation]] in {{Deeproot Spring}}.
+* [[Excavations#tabber-Mysterious_Meteors|Mysterious Meteors excavation]] in {{Fungal Marsh}}.
+* [[Excavations#tabber-Alien_Wreckage_2|Alien Wreckage excavation]] in {{Starfall River}}.
+* [[Traveling Merchant]]
+* [[Dredge Master]] random reward
+
+== Usage ==
+* Using the relic prompts a confirmation: ''Are you sure you want to use Mythic Summon? Use again to activate.''  
+* Prevents accidental consumption.  
+* Triggers the Mythic Rift event.
+
+|-|Rain Stone =
+[[File:Rain Stone.png|thumb|The '''Rain Stone''']]
+An artifact that causes the rivers to overflow.
+
+The <span style="background:linear-gradient(90deg,#000046,#1cb5e0,#00008b,#4facfe); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Rain_Stone|Rain Stone]]</span> is a consumable item that can be used to trigger the '''[[Events#tabber-River_Rapids|River Rapids]]''' event.
+
+== Obtainment ==
+* [[Excavations#tabber-Volcanic_Ruins_2|Volcanic Ruins excavation]] in {{Caldera Park}}. 
+* [[Excavations#tabber-Lost_City_2|Lost City excavation]] in {{Deeproot Spring}}.
+* <span style="color:orange;">60</span> {{Candy}} (5 stock) in the {{Haunted Creek}}.
+* [[Treasure Chest|Treasure Chests]]:
+** Fortune River
+** Fortune River Delta
+* [[Dredge Master]] random reward
+
+== Usage ==
+* Using the relic prompts a confirmation: ''Are you sure you want to use Rain Stone? Use again to activate.''  
+* Prevents accidental consumption.  
+* Triggers the River Rapids event.
+
+|-|Sand Spirit =
+[[File:Sand Spirit at crafting altar.png|thumb|The '''Sand Spirit''' at the crafting altar]]
+The <span style="background:linear-gradient(90deg,#f7a062,#e7955b,#ffd2b2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">Sand Spirit</span> is a consumable item that can be used to trigger the '''[[Events#tabber-Sandstorm|Sandstorm]]''' event.
+
+== Obtainment ==
+* [[Relic Crafting]]
+
+== Usage ==
+* Using the relic prompts a confirmation: ''Are you sure you want to use Sand Spirit? Use again to activate.''  
+* Prevents accidental consumption.  
+* Triggers the Sandstorm event.
+
+|-|Snow Globe =
+[[File:Snow_Globe.png|thumb|The '''Snow Globe''']]
+A magical snow globe that starts a blizzard once broken.
+
+The <span style="background:linear-gradient(90deg,#83a4d4,#b6fbff,#ffffff,#a1c4fd); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Snow_Globe|Snow Globe]]</span> is a consumable item that can be used to trigger the '''[[Events#tabber-Blizzard|Blizzard]]''' event.
+
+== Obtainment ==
+* [[Excavations#tabber-Frozen_Fortress_2|Frozen Fortress excavation]] in {{Snowy Shores}}.
+* <span style="color:orange;">200</span> {{Candy}} (5 stock) in the {{Haunted Creek}}. 
+* [[Treasure Chest|Treasure Chests]]:
+** Frostbite River
+* [[Traveling Merchant]]
+* [[Dredge Master]] random reward
+
+== Usage ==
+* Using the relic prompts a confirmation: ''Are you sure you want to use Snow Globe? Use again to activate.''  
+* Prevents accidental consumption.  
+* Triggers the Blizzard event.
+
+|-|Solar Magnifier =
+[[File:Solar Magnifier.png|thumb|The '''Solar Magnifier''']]
+
+The <span style="background:linear-gradient(90deg,#f12711,#f5af19,#f8ff00,#fffc00); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Solar_Magnifier|Solar Magnifier]]</span> is a consumable item that can be used to trigger a focused '''[[Events#tabber-Solar_Flare|Solar Flare]]''' event at your position for 10 minutes. The duration can be extended ("stacked").
+
+== Obtainment ==
+* [[Excavations#tabber-Volcanic_Ruins_2|Volcanic Ruins excavation]] in {{Caldera Park}}. 
+* [[Excavations#tabber-Magma_Temple_2|Magma Temple excavation]] in {{Windswept Beach}}.
+* [[Excavations#tabber-Alien_Wreckage_2|Alien Wreckage excavation]] in {{Starfall River}}.
+* <span style="color:orange;">150</span> {{Candy}} (10 stock) in the {{Haunted Creek}}.
+* [[Treasure Chest|Treasure Chests]]:
+** Sunset Beach
+** Volcanic Sands
+** Rotwood Swamp
+* [[Dredge Master]] random reward
+* [[Seashell_Isle#Relic_Vendor|Relic Vendor]] on [[Seashell Isle]]
+* [[Relic Crafting]]
+
+== Usage ==
+* Using the relic prompts a confirmation: ''Are you sure you want to use Solar Magnifier? Use again to activate.''  
+* Prevents accidental consumption.  
+* Triggers a focused Solar Flare event for 10 minutes.
+* To extend the duration, stand in the effect radius of a previous Solar Magnifier and use another magnifier.
+
+|-|Solar Token =
+[[File:Solar Token.png|thumb|The '''Solar Token''']]
+
+The <span style="background:linear-gradient(90deg,#f12711,#f5af19,#f8ff00,#fffc00); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Solar_Token|Solar Token]]</span> is a consumable item that can be used to trigger the '''[[Events#tabber-Solar_Flare|Solar Flare]]''' event.
+
+== Obtainment ==
+* [[Excavations#tabber-Volcanic_Ruins_2|Volcanic Ruins excavation]] in {{Caldera Park}}. 
+* [[Excavations#tabber-Lost_City_2|Lost City excavation]] in {{Deeproot Spring}}.
+* [[Treasure Chest|Treasure Chests]]:
+** Sunset Beach
+** Volcanic Sands
+* [[Traveling Merchant]]
+
+== Usage ==
+* Using the token prompts a confirmation: ''Are you sure you want to use Solar Token? Use again to activate.''  
+* Prevents accidental consumption.  
+* Triggers the Solar Flare event.
+
+|-|Void Shard =
+[[File:Void Shard.png|thumb|The '''Void Shard''']]
+
+The <span style="background:linear-gradient(90deg,#000000,#0f0c29,#302b63,#24243e); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Void_Shard|Void Shard]]</span> is a consumable item that can be used to summon a portal to [[The Void]].
+
+== Obtainment ==
+* (No longer available from the [[Traveling Merchant]].)  
+* [[Excavations#tabber-Mysterious_Meteors|Mysterious Meteors excavation]] in {{Fungal Marsh}}.
+* [[Dredge Master]] milestone reward
+* [[Seashell_Isle#Relic_Vendor|Relic Vendor]] on {{Seashell Isle}}
+
+== Usage ==
+* Using the shard prompts a confirmation: ''Are you sure you want to use Void Shard? Use again to activate.''  
+* Prevents accidental consumption.  
+* Triggers the Void event.
+
+|-|Concentrated Chaos =
+[[File:Sealed_fog.png|thumb|The '''Concentrated Chaos''']]
+A condensed ball of energy. Can be broken to release a [[Events#tabber-Modifier_Surge|Modifier Surge]].
+
+<span style="background:linear-gradient(90deg,#30cfd0,#330867,#5f2c82,#49a09d); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Concentrated_Chaos|Concentrated Chaos]]</span> is a relic that can be used to trigger the '''[[Events#tabber-Modifier_Surge|Modifier Surge]]''' event.
+
+== Obtainment ==
+* [[Excavations#tabber-Mysterious_Meteors|Mysterious Meteors excavation]] in {{Fungal Marsh}}.
+* [[Dredge Master]] random reward
+* [[Relic Crafting]]
+
+== Usage ==
+* Using the relic prompts a confirmation: ''Are you sure you want to use Concentrated Chaos? Use again to activate.''
+* Prevents accidental consumption.
+* Triggers the Modifier Surge event.
+
+|-|Sealed Fog =
+[[File:Concentrated_chaos.png|thumb|The '''Sealed Fog''']]
+A crystal that can be shattered to create [[Events#tabber-Swamp_Fog|Swamp Fog]].
+
+<span style="background:linear-gradient(90deg,#3e5151,#decba4,#757f9a,#d7dde8); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Sealed_Fog|Sealed Fog]]</span> is a relic that can be used to trigger the '''[[Events#tabber-Swamp_Fog|Swamp Fog]]''' event.
+
+== Obtainment ==
+* [[Excavations#tabber-Mysterious_Meteors|Mysterious Meteors excavation]] in {{Fungal Marsh}}.
+* [[Treasure_Chest#tabber-Starfall_River|Starfall River treasure chests]]
+* [[Dredge Master]] milestone reward
+* [[Dredge Master]] random reward
+* [[Relic Crafting]]
+
+== Usage ==
+* Using the relic prompts a confirmation: ''Are you sure you want to use Sealed Fog? Use again to activate.''
+* Prevents accidental consumption.
+* Triggers the Swamp Fog event.
+
+|-|Spirit Orb =
+[[File:spiritorb.png|thumb|The '''Spirit Orb''']]
+The physical form of a spirit. Can be released to call [[Events#tabber-Nimue's_Blessing|Nimue's Blessing]].
+
+The <span style="background:linear-gradient(90deg,#134e5e,#71b280,#2af598,#009efd); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Spirit_Orb|Spirit Orb]]</span> is a relic that can be used to trigger the '''[[Events#tabber-Nimue's_Blessing|Nimue's Blessing]]''' event.
+
+== Obtainment ==
+* [[Excavations#tabber-Lost_City_2|Lost City excavation]] in {{Deeproot Spring}}.
+* Rotwood Swamp [[Treasure Chest]]
+* [[Dredge Master]] random reward
+* [[Relic Crafting]]
+
+== Usage ==
+* Using the relic prompts a confirmation: ''Are you sure you want to use Spirit Orb? Use again to activate.''  
+* Prevents accidental consumption.  
+* Triggers the '''[[Events#tabber-Nimue's_Blessing|Nimue's Blessing]]''' event.
+
+|-|Starcaller =
+[[File:Starcaller.png|thumb|The '''Starcaller''']]
+Triggers the [[Events#tabber-Starfall|Starfall]] event.
+== Obtainment ==
+* [[Excavations#tabber-Alien_Wreckage_2|Alien Wreckage excavation]] in {{Starfall River}}.
+* [[Treasure_Chest#tabber-Starfall_River|Starfall River treasure chests]]
+* [[Relic Crafting]]
+
+</tabber>
+
+----
+
+== Boost Relics ==
+The following relics can be used to grant boosts:
+
+<tabber>
+|-|Ghost Gummy =
+[[File:ghostgummy.webp|thumb|The '''Ghost Gummy''']]
+A chewy ghost gummy. Grants a +0.5x strength multiplier for 10 minutes when eaten.
+
+== Obtainment ==
+* Bought from the {{Haunted Creek}} shop 
+* Obtainable from the Cauldron. 
+
+== Usage ==
+* Using the <span style="background:linear-gradient(90deg,#2b5876,#4e4376,#00cdac,#02aab0); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Ghost_Gummy|Ghost Gummy]]</span> prompts a confirmation: ''Are you sure you want to use Ghost Gummy? Use again to activate.''  
+* Prevents accidental consumption.  
+* Gives a +0.5% strength multiplier.
+* Costs <span style="color:orange;">10</span> {{Candy}}
+
+|-|Candy Corn =
+[[File:candycorn.webp|thumb|A '''Candy Corn''']]
+A sweet piece of candy corn. Grants a +0.5x luck multiplier for 10 minutes when eaten.
+
+== Obtainment ==
+* Bought from the {{Haunted Creek}} shop   
+* Obtainable from the Cauldron.
+
+== Usage ==
+* Using the <span style="background:linear-gradient(90deg,#ffffff,#ff9900,#ff6600,#ffcc00); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Candy_Corn|Candy Corn]]</span> prompts a confirmation: ''Are you sure you want to use Candy Corn? Use again to activate.''  
+* Prevents accidental consumption.  
+* Gives a +0.5% luck multiplier.
+* Costs <span style="color:orange;">20</span> {{Candy}}
+
+|-|XP Cookie =
+[[File:xpcookie.png|thumb|The '''XP Cookie''']]
+[[File:xpcookieeffect.png|thumb|The '''XP Cookie Effects.''']]
+A large cookie full of experience... and sugar
+
+The <span style="background:linear-gradient(90deg,#4b2c20,#8d6e63,#ffd700,#ff8c00); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-XP_Cookie|XP Cookie]]</span> is a consumable item obtained from the '''[[Events#tabber-Cookie_Time!|Cookie Time]]''' Admin-Exclusive event. It can be used to give the player 2x of almost every stat for 1 minute.
+
+== Obtainment ==
+* Chance of finding it while digging during the '''[[Events#tabber-Cookie_Time!|Cookie Time]]''' Admin-Exclusive event.
+* Purchase from Shopkeeper at [[North Pole]].
+* [[Dredge Master]] random reward
+* Purchase on [[Seashell_Isle#Bonfire_Shop|Seashell Isle]] next to the Bonfire.
+* [[Traveling Merchant]]
+* [[Relic Crafting]]
+
+== Usage ==
+* The cookie will be consumed after you left click on your screen once, with it in hand. Beware of accidentally using it!
+* Upon consumption, you gain 2x stats for 1 minute.
+
+|-| Gingerbread Cookie =
+[[File:GingerbreadCookie.png|thumb|A '''Gingerbread Cookie''']]
+A consumable that grants a +0.5x boost to luck for 10 minutes. 
+
+The <span style="background:linear-gradient(90deg,#5d4037,#8d6e63,#f4a460,#ffffff); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Gingerbread_Cookie|Gingerbread Cookie]]</span> is a festive gingerbread cookie. Grants a +0.5x boost to luck for 10 minutes. 
+
+== Obtainment ==
+* Purchase from Shopkeeper at [[North Pole]].
+
+== Usage ==
+* Using the Gingerbread Cookie prompts a confirmation: ''Are you sure you want to use Gingerbread Cookie? Use again to activate.''  
+* Prevents accidental consumption.  
+* Grants +0.5x boost to luck for 10 minutes.
+
+
+|-|Luck Booster =
+[[File:Luck_Booster.png|thumb|The '''Luck Booster''']]
+
+The <span style="background:linear-gradient(90deg,#00b09b,#96c93d,#45a247,#283c86); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics#tabber-Luck_Booster|Luck Booster]]</span> is a consumable item that gives a 2x luck multiplier for 15 minutes.
+
+== Obtainment ==
+* [[Excavations#tabber-Mysterious_Meteors|Mysterious Meteors excavation]] in {{Fungal Marsh}}.
+* [[Excavations#tabber-Alien_Wreckage_2|Alien Wreckage excavation]] in {{Starfall River}}.
+* [[Prospector's_Shop#Forever_Pack|Forever Pack (Robux)]]
+* [[Dredge Master]] random reward
+* [[Relic Crafting]]
+
+== Usage ==
+* Using the fragment prompts a confirmation: ''Are you sure you want to use Luck Booster? Use again to activate.''
+* Prevents accidental consumption.
+* Triggers 2x Luck Boost for player for 15m
+
+|-|Luck Totem =
+[[File:Luck_Totem.png|right|100px]]
+Luck Totems can be placed in a dig site to grant all players in the effect radius a 2&times; {{stat|Luck}} boost. Each totem lasts 30 minutes, but multiple totems can be stacked to extend the time.
+
+== Obtainment ==
+* Purchase from the [[Shard Merchant]] in {{Fortune River}} or {{Caldera Park}} for {{Meteor Shards|300}}
+* [[Treasure Chest]] rewards:
+** {{Fortune River}}
+** {{Fortune River Delta}}
+** {{Sunset Beach}}
+** {{Frostbite River}}
+** {{Rotwood Swamp}}
+** {{Starfall River}}
+* [[Prospector's_Shop#Forever_Pack|Forever Pack (Robux)]]
+* [[Prospector's_Shop#Totems|Prospector's Shop (Robux)]]
+* [[Dredge Master]] random reward
+
+== Usage ==
+* Stand where you want to place the totem, select it from your backpack (or hotbar), and click '''once'''.
+* To extend the time, stand in the effect radius of an already-placed totem (yours or someone else's), select the totem from your backpack/hotbar, and click once for each half-hour you want to add to the time.
+* Totems cannot be moved once placed, so be careful when selecting one in your inventory, especially on mobile.
+
+|-|Strength Totem =
+[[File:Strength_Totem.png|right|100px]]
+Strength Totems can be placed in a dig site to grant all players in the effect radius a 2&times; {{stat|Dig Strength}} and {{stat|Shake Strength}} boost. Each totem lasts 30 minutes, but multiple totems can be stacked to extend the time.
+
+== Obtainment ==
+* Purchase from the [[Shard Merchant]] in {{Fortune River}} or {{Caldera Park}} for {{Meteor Shards|180}}
+* [[Treasure Chest]] rewards:
+** {{Fortune River}}
+** {{Fortune River Delta}}
+** {{Sunset Beach}}
+** {{Volcanic Sands}}
+** {{Windswept Beach}}
+* [[Prospector's_Shop#Forever_Pack|Forever Pack (Robux)]]
+* [[Prospector's_Shop#Totems|Prospector's Shop (Robux)]]
+* [[Dredge Master]] random reward
+
+== Usage ==
+* Stand where you want to place the totem, select it from your backpack (or hotbar), and click '''once'''.
+* To extend the time, stand in the effect radius of an already-placed totem (yours or someone else's), select the totem from your backpack/hotbar, and click once for each half-hour you want to add to the time.
+* Totems cannot be moved once placed, so be careful when selecting one in your inventory, especially on mobile.
+
+|-|Luminant Totem =
+Luminant Totems can be placed in a dig site to grant all players in the effect radius a boost of 1.5&times; {{stat|Capacity}}, +50% {{stat|Dig Speed}}, and +50% {{stat|Shake Speed}}. In addition, Luminant totems give immunity from the darkness in the {{Abyssal Depth}}, and keep the swamp monsters away in {{Rotwood Swamp}}. Each totem lasts 30 minutes, but multiple totems can be stacked to extend the time.
+
+== Obtainment ==
+* Purchase in {{Rotwood Swamp}} for {{Meteor Shards|600}}
+* [[Treasure Chest]] rewards:
+** {{Rotwood Swamp}}
+** {{Starfall River}}
+* Purchase in {{Haunted Creek}} shop for <span style="color:orange;">60</span> {{Candy}}
+* [[Prospector's_Shop#Forever_Pack|Forever Pack (Robux)]]
+* [[Dredge Master]] random reward
+
+== Usage ==
+* Stand where you want to place the totem, select it from your backpack (or hotbar), and click '''once'''.
+* To extend the time, stand in the effect radius of an already-placed totem (yours or someone else's), select the totem from your backpack/hotbar, and click once for each half-hour you want to add to the time.
+* Totems cannot be moved once placed, so be careful when selecting one in your inventory, especially on mobile.
+
+
+|-|Friendship Totem =
+Friendship Totems can be placed in a dig site to grant all players in the effect radius a {{stat|Luck}} boost. The amount of boost starts at 1.2&times; and increases by 0.2&times; for each additional player in the circle. If all 20 players on a server are in the totem's effect radius, it gives a 5&times; {{stat|Luck}} boost. Each totem lasts 30 minutes, but multiple totems can be stacked to extend the time.
+
+== Obtainment ==
+* Purchase from the [[Valentines Event Shop]] for {{Heart Crystals|200}}
+* Purchase from the [[Easter Event Shop]] for 5 {{Eggs}}
+* [[Dredge Master]] random reward
+* [[Traveling Merchant]]
+* [[Seashell_Isle#Relic_Vendor|Relic Vendor]] on [[Seashell Isle]]
+* [[Prospector's_Shop#Forever_Pack|Forever Pack (Robux)]]
+* [[Relic Crafting]]
+
+== Usage ==
+* Stand where you want to place the totem, select it from your backpack (or hotbar), and click '''once'''.
+* To extend the time, stand in the effect radius of an already-placed totem (yours or someone else's), select the totem from your backpack/hotbar, and click once for each half-hour you want to add to the time.
+* Totems cannot be moved once placed, so be careful when selecting one in your inventory, especially on mobile.
+</tabber>
+
+----
+
+== Enchant Relics ==
+The following [[Enchanting|Enchant]] relics can currently be obtained through [[Excavations]] or the [[Traveling Merchant]]:
+
+{| class="wikitable sortable"
+|+ All Relics
+! Relic !! Description !! Source
+|-
+| [[Blessed Enchant Book]] || A tome that enchants the user's equipped pan with {{Enchant|Blessed|solid}}. || [[Excavations|Volcanic Ruins Excavation]] or Traveling Merchant
+|-
+| [[Cosmic Enchant Book]] || A tome that enchants the user's equipped pan with {{Enchant|Cosmic}}. || [[Excavations|Magma Temple Excavation]] or Traveling Merchant
+|-
+| [[Destructive Enchant Book]] || A tome that enchants the user's equipped pan with {{Enchant|Destructive|solid}}. || not available anymore; used to be sold by the Traveling Merchant
+|-
+| <span style="background:linear-gradient(90deg,#e6e6e6,#ffffff,#ffd700,#e6e6e6); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics|Divine Enchant Book]]</span> || A tome that enchants the user's equipped pan with {{Enchant|Divine}}. || [[Excavations|Volcanic Ruins Excavation]] or Traveling Merchant
+|-
+| [[Glowing Enchant Book]] || A tome that enchants the user's equipped pan with {{Enchant|Glowing|solid}}. || Traveling Merchant
+|-
+| <span style="background:linear-gradient(90deg,#ff416c,#ff4b2b,#4b0000,#ff416c); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics|Infernal Enchant Book]]</span> || A tome that enchants the user's equipped pan with {{Enchant|Infernal}}. || [[Excavations|Magma Temple Excavation]] or Traveling Merchant
+|-
+| <span style="background:linear-gradient(90deg,#bf953f,#fcf6ba,#b38728,#fbf5b7,#aa771c); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent; background-clip:text !important; text-fill-color:transparent; white-space:nowrap;">[[Relics|Midas Enchant Book]]</span> || A tome that enchants the user's equipped pan with {{Enchant|Midas|solid}}. || [[Excavations|Frozen Fortress Excavation]] or Traveling Merchant
+|-
+| [[Prismatic Enchant Book]] || A tome that enchants the user's equipped pan with {{Enchant|Prismatic}}. || [[Excavations|Frozen Fortress Excavation]] or Traveling Merchant
+|-
+| [[Titanic Enchant Book]] || A tome that enchants the user's equipped pan with {{Enchant|Titanic|solid}}. || Traveling Merchant
+|-
+| [[Unstable Enchant Book]] || A tome that enchants the user's equipped pan with {{Enchant|Unstable|solid}}. || not available anymore; used to be sold by the Traveling Merchant
+|}
+ 
+----
+
+== Miscellaneous Relics ==
+
+<tabber>
+|-|Warp Device =
+[[File:warpdevice.webp|thumb|A '''Warp Device''']]
+A device that allows you to resonate with waypoints around the world.
+
+The {{Warp Device}} is a device that allows you to teleport to different waypoints from any point on the map.
+
+== Obtainment ==
+* [[Excavations#tabber-Lost_City_2|Lost City excavation]] (site D) in {{Deeproot Spring}}
+* [[Excavations#tabber-Mysterious_Meteors|Mysterious Meteors excavation]] (site E) in {{Fungal Marsh}}
+* [[Excavations#tabber-Alien_Wreckage_2|Alien Wreckage excavation]] (site F) in {{Starfall River}}
+* [[Treasure Chest|Treasure Chests]]:
+** {{Volcanic Sands}}
+** {{Windswept Beach}}
+** {{Frostbite River}}
+** {{Rotwood Swamp}}
+** {{Starfall River}}
+* {{Haunted_Creek#The_Cauldron|The Cauldron}} (Halloween event)
+* [[Traveling_Merchant#Items_Sold|Traveling Merchant]]
+
+== Usage ==
+* Using the Warp Device prompts a confirmation: ''Are you sure you want to use Warp Device? Use again to activate.''  
+* Prevents accidental consumption.  
+* Choose a [[Waypoints|waypoint]] from the list to teleport there.
+
+|-|Enchanted Scissors =
+[[File:Enchanted Scissors.png|thumb|The '''Enchanted Scissors''']]
+A pair of enchanted scissors. Can cut through tough vines.
+
+The {{Enchanted Scissors}} can be acquired from completing the [[Quests#tabber-Overgrown_Grotto|Cutting Through]] quest given by the [[Old Druid]] in {{Overgrown Grotto}}. It can be used to cut the vines blocking the entrance to {{Deeproot Spring}} and those blocking the path to the Lifetouched tools.
+
+== Obtainment ==
+* Completing the '''Cutting Through''' quest.   
+
+== Usage ==
+* Walk to a vine and press the interact button to cut it. If done successfully, a message saying ''"You cut through the vines."'' will pop up.
+* If you interact with the vine without the enchanted scissors equipped, a message saying ''"My shovel can't cut through these vines. I need something else."'' will pop up.
+
+|-|Perfect Reforge Token =
+[[File:Perfect Reforge Token.png|thumb|The '''Perfect Reforge Token''']]
+
+A token that can be exchanged with the blacksmith to perfectly reforge a piece of equipment.
+
+The {{Perfect Reforge Token}} is a consumable item that can be used to give a perfect (100%) reforge to any piece of [[Equipment|equipment]].
+
+== Obtainment ==
+* (No longer available from the [[Traveling Merchant]].)
+* [[Excavations#tabber-Lost_City_2|Lost City excavation]] (site D) in {{Deeproot Spring}}.
+* [[Excavations#tabber-Mysterious_Meteors|Mysterious Meteors excavation]] (site E) in {{Fungal Marsh}}.
+* [[Excavations#tabber-Alien_Wreckage_2|Alien Wreckage excavation]] (site F) in {{Starfall River}}.
+* [[Prospector's_Shop#Forever_Pack|Forever Pack (Robux)]]
+* [[Dredge Master]] milestone reward
+
+== Usage ==
+To use the token, approach the '''[[Blacksmith]]''' [[NPCs|NPC]] while holding the desired equipment to reforge. In the first set of options, choose option 1, "Can you reforge this?" After the blacksmith tells you how much it will cost to reforge, choose option 3, "Use a perfect reforge token".
+
+|-| Diamond Catalyst =
+[[File:Prismatic.png|thumb|A '''Diamond Catalyst''']]
+[[File:Diamond_catalyst.png|200px|thumb|A '''Diamond Catalyst''' in the Backpack]]
+
+A relic that guarantees the '''Diamond''' mutation on equipment. 
+
+The {{Diamond Catalyst}} is a legendary material that can be used to guarantee '''Diamond''' [[Mutations]] on any equipment. 
+
+== Obtainment ==
+* Day 9 [[Daily Login Bonus|daily login reward]]
+* [[Excavations#tabber-Alien_Wreckage_2|Alien Wreckage excavation]] (site F) in {{Starfall River}}.
+* [[Dredge Master]] milestone reward
+
+== Usage ==
+* Hold the equipment you wish to mutate.
+* Interact with the [[Mutations|Mutation Forge]] at {{Frozen Peak}}.
+* Select a single Diamond Catalyst in the list of ores on the left. ''Do not select any ores.''
+* Click the Reroll Mutation button, then the Apply button, then click Yes when it warns about removing the previous mutation.
+
+|-| Festive Catalyst =
+[[File:FestiveCatalyst.png|thumb|A '''Festive Catalyst''']]
+A relic that guarantees the '''Festive''' mutation on equipment. 
+
+The {{Festive Catalyst}} is a legendary material that can be used to guarantee '''Festive''' [[Mutations]] on any equipment. 
+
+== Obtainment ==
+* Purchase from Shopkeeper at [[North Pole]].
+* Present from Santa.
+
+== Usage ==
+* Hold the equipment you wish to mutate.
+* Interact with the [[Mutations|Mutation Forge]] at {{Frozen Peak}}.
+* Select a single Festive Catalyst in the list of ores on the left. ''Do not select any ores.''
+* Click the Reroll Mutation button, then the Apply button, then click Yes when it warns about removing the previous mutation.
+
+|-| Prismatic Catalyst =
+[[File:Prismatic.png|thumb|A '''Prismatic Catalyst''']]
+A relic that guarantees the '''Prismatic''' mutation on equipment. 
+
+The {{Prismatic Catalyst}}is a legendary material that can be used to guarantee '''Prismatic''' [[Mutations]] on any equipment. 
+
+== Obtainment ==
+* From Presents during limited event in [[North Pole]]
+* From Advent Calendar during limited event in [[North Pole]] as long as the entire Advent Calendar is completed. 
+* [[Dredge Master]] milestone reward
+* [[Relic Crafting]]
+
+== Usage ==
+* Hold the equipment you wish to mutate.
+* Interact with the [[Mutations|Mutation Forge]] at {{Frozen Peak}}.
+* Select a single Prismatic Catalyst in the list of ores on the left. ''Do not select any ores.''
+* Click the Reroll Mutation button, then the Apply button, then click Yes when it warns about removing the previous mutation.
+
+
+</tabber>

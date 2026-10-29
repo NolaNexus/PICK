@@ -1,0 +1,16 @@
+name: Validate data
+on:
+  push:
+    paths: ['data/**']
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm install -g ajv-cli 2>/dev/null || true
+      - run: |
+          echo "Schema validation would run ajv here against data/_schema/*.json"
+          echo "Meta freshness check: meta.json generated_at within 48h"

@@ -1,0 +1,594 @@
+== Overview == 
+Mastery is a long-term progression system where you can complete milestones across [[Locations]], [[Treasure Map]]s, [[Sluices]], and [[Equipment]] Crafting to earn permanent luck, faster sluice speeds, improved crafting stats, and higher map spawn rates. As you advance, you can also unlock unique [[Titles|titles]] that showcase your experience and progression. 
+
+== Location Mastery ==
+The luck boost '''does not stack'''. You only receive the multiplier for the highest level completed.
+
+<tabber>
+
+Rubble Creek=
+=== Rubble Creek Mastery ===
+'''Boost:''' Rubble Creek Luck.
+
+{{Quest
+|Quest = Rubble Creek Mastery: 1
+|QuestStep1 = Collect 100 Uncommon materials
+|QuestStep2 = Collect 1,000 total materials
+|Rewards = {{EXP| 1,000}} • {{Meteor Shards|50}} • Rubble Creek Luck: 1.05&times;
+}}
+
+{{Quest
+|Quest = Rubble Creek Mastery: 2
+|QuestStep1 = Collect 500 rare materials
+|QuestStep2 = Collect 5,000 total materials
+|Rewards = {{EXP| 5,000}} • {{Meteor Shards|100}} • Rubble Creek Luck: 1.10&times;
+}}
+
+{{Quest
+|Quest = Rubble Creek Mastery: 3
+|QuestStep1 = Collect 100 Legendary materials
+|QuestStep2 = Collect 25,000 total materials
+|Rewards = {{EXP| 10,000}} • {{Meteor Shards|200}} • Rubble Creek Luck: 1.15&times;
+}}
+
+{{Quest
+|Quest = Rubble Creek Mastery: 4
+|QuestStep1 = Collect 25 Mythic materials
+|QuestStep2 = Collect 100,000 total materials
+|Rewards = <span style="color:#D58B30">[[Titles#Rubble_Creek|Title]] Hometown Hero </span> • {{EXP| 10,000}} • {{Meteor Shards|200}} • Rubble Creek Luck: 1.20&times;
+}}
+
+{{Quest
+|Quest = Rubble Creek Mastery: Complete
+|QuestStep1 = Rubble Creek Luck: 1.20×
+}}
+
+|-|
+
+Fortune River=
+=== Fortune River Mastery ===
+'''Boost:''' Fortune River Luck.   
+
+{{Quest
+|Quest = Fortune River Mastery: 1
+|QuestStep1 = Collect 100 Rare materials
+|QuestStep2 = Collect 1,000 total materials
+|Rewards = {{EXP| 1,000}} • {{Meteor Shards|100}} • Fortune River Luck: 1.05&times;
+}}
+
+{{Quest
+|Quest = Fortune River Mastery: 2
+|QuestStep1 = Collect 200 Epic materials
+|QuestStep2 = Collect 5,000 total materials
+|Rewards = {{EXP| 5,000}} • {{Meteor Shards|200}} • Fortune River Luck: 1.10&times;
+}}
+
+{{Quest
+|Quest = Fortune River Mastery: 3
+|QuestStep1 = Collect 1,000 Epic materials
+|QuestStep2 = Collect 25,000 total materials
+|Rewards = {{EXP| 10,000}} • {{Meteor Shards|300}} • Fortune River Luck: 1.15&times;
+}}
+
+{{Quest
+|Quest = Fortune River Mastery: 4
+|QuestStep1 = Collect 100 Mythic materials
+|QuestStep2 = Collect 5,000 Legendary materials
+|QuestStep3 = Collect 100,000 total materials
+|Rewards = <span style="color:#4763FF;">[[Titles#Fortune_River|Title]] Rain Dancer </span> • {{EXP| 15,000}} • {{Meteor Shards|400}} • Fortune River Luck: 1.20&times;
+}}
+
+{{Quest
+|Quest = Fortune River Mastery: Complete
+|QuestStep1 = Fortune River Luck: 1.20×
+}}
+
+|-|
+
+Sunset Beach=
+=== Sunset Beach Mastery ===
+'''Boost:''' Sunset Beach Luck. 
+
+{{Quest
+|Quest = Sunset Beach Mastery: 1
+|QuestStep1 = Collect 150 Rare materials
+|QuestStep2 = Collect 1,000 total materials
+|Rewards = {{EXP| 1,000}} • {{Meteor Shards|100}} • Sunset Beach Luck: 1.05&times;
+}}
+
+{{Quest
+|Quest = Sunset Beach Mastery: 2
+|QuestStep1 = Collect 100 Epic materials
+|QuestStep2 = Collect 5,000 total materials
+|Rewards = {{EXP| 5,000}} • {{Meteor Shards|200}} • Sunset Beach Luck: 1.10&times;
+}}
+
+{{Quest
+|Quest = Sunset Beach Mastery: 3
+|QuestStep1 = Collect 1,000 Legendary materials
+|QuestStep2 = Collect 25,000 total materials
+|Rewards = {{EXP| 10,000}} • {{Meteor Shards|300}} • Sunset Beach Luck: 1.15&times;
+}}
+
+{{Quest
+|Quest = Sunset Beach Mastery: 4
+|QuestStep1 = Collect 100 Mythic materials
+|QuestStep2 = Collect 5,000 Legendary materials
+|QuestStep3 = Collect 100,000 total materials
+|Rewards = <span style="color:#FFCF3E;">[[Titles#Sunset_Beach|Title]] Bringer of Tides </span> • {{EXP| 15,000}} • {{Meteor Shards|500}} • Sunset Beach Luck: 1.20&times;
+}}
+
+{{Quest
+|Quest = Sunset Beach Mastery: Complete
+|QuestStep1 = Sunset Beach Luck: 1.20×
+}}
+
+|-|
+
+Crystal Cavern=
+=== Crystal Cavern Mastery ===
+'''Boost:''' Crystal Cavern Luck. 
+
+{{Quest
+|Quest = Crystal Cavern Mastery: 1
+|QuestStep1 = Collect 500 Azuralite
+|QuestStep2 = Collect 1,000 total materials
+|Rewards = {{EXP| 1,000}} • {{Meteor Shards|100}} • Crystal Cavern Luck: 1.05×
+}}
+
+{{Quest
+|Quest = Crystal Cavern Mastery: 2
+|QuestStep1 = Collect 1,500 Epic materials
+|QuestStep2 = Collect 5,000 total materials
+|Rewards = {{EXP| 5,000}} • {{Meteor Shards|200}} • Crystal Cavern Luck: 1.10×
+}}
+
+{{Quest
+|Quest = Crystal Cavern Mastery: 3
+|QuestStep1 = Collect 1,000 Legendary materials
+|QuestStep2 = Collect 25,000 total materials
+|Rewards = {{EXP| 10,000}} • {{Meteor Shards|300}} • Crystal Cavern Luck: 1.15×
+}}
+
+{{Quest
+|Quest = Crystal Cavern Mastery: 4
+|QuestStep1 = Collect 100 Mythic materials
+|QuestStep2 = Collect 100,000 total materials
+|Rewards = <span style="color:#7bffd7;">[[Titles#Crystal_Cavern|Title]] Soul of Light </span> • {{EXP| 15,000}} • {{Meteor Shards|500}} • Crystal Cavern Luck: 1.20×
+}}
+
+{{Quest
+|Quest = Crystal Cavern Mastery: Complete
+|QuestStep1 = Crystal Cavern Luck: 1.20×
+}}
+
+|-|
+
+Caldera Park=
+=== Caldera Park Mastery ===
+'''Boost:''' Volcano Luck.  
+
+{{Quest
+|Quest = Caldera Park Mastery: 1
+|QuestStep1 = Collect 100 Epic materials
+|QuestStep2 = Collect 1,000 total materials
+|Rewards = {{EXP| 1,000}} • {{Meteor Shards|100}} • Volcano Luck 1.05×
+}}
+
+{{Quest
+|Quest = Caldera Park Mastery: 2
+|QuestStep1 = Collect 1,000 Legendary materials
+|QuestStep2 = Collect 5,000 total materials
+|Rewards = {{EXP| 5,000}} • {{Meteor Shards|200}} • Volcano Luck 1.10×
+}}
+
+{{Quest
+|Quest = Caldera Park Mastery: 3
+|QuestStep1 = Collect 5000 Legendary materials
+|QuestStep2 = Collect 20,000 total materials
+|Rewards = <span style="color:#ff4406;">[[Titles#Caldera_Park|Title]] Infernal </span> • {{EXP| 10,000}} • {{Meteor Shards|300}} • Volcano Luck 1.15×
+}}
+
+{{Quest
+|Quest = Caldera Park Mastery: 4
+|QuestStep1 = Collect 100 Mythic materials
+|QuestStep2 = Collect 100,000 total materials
+|Rewards = {{EXP| 15,000}} • {{Meteor Shards|500}} • Volcano Luck 1.20×
+}}
+
+{{Quest
+|Quest = Caldera Park Mastery: 5
+|QuestStep1 = Collect 5 Exotic materials
+|QuestStep2 = Collect 125,000 materials
+|Rewards = <span style="color:#ff0f0f;">[[Titles#Caldera_Park|Title]] Volcanic Lord </span> • {{EXP| 25,000}} • {{Meteor Shards|500}} • Volcano Luck 1.25×
+}}
+
+{{Quest
+|Quest = Caldera Park Mastery: Complete
+|QuestStep1 = Volcano Luck: 1.25×
+}}
+
+|-|
+
+Snowy Mountain=
+=== Snowy Mountain Mastery ===
+'''Boost:''' Snowy Mountain Luck.  
+
+{{Quest
+|Quest = Snowy Mountain Mastery: 1
+|QuestStep1 = Collect 75 Legendary materials
+|QuestStep2 = Collect 1,000 total materials
+|Rewards = {{EXP| 2,000}} • {{Meteor Shards|100}} • Snowy Mountain Luck: 1.05×
+}}
+
+{{Quest
+|Quest = Snowy Mountain Mastery: 2
+|QuestStep1 = Collect 125 Legendary materials
+|QuestStep2 = Collect 5,000 total materials
+|Rewards = {{EXP| 7,500}} • {{Meteor Shards|200}} • Snowy Mountain Luck: 1.10×
+}}
+
+{{Quest
+|Quest = Snowy Mountain Mastery: 3
+|QuestStep1 = Collect 10 Mythic materials
+|QuestStep2 = Collect 20,000 total materials
+|Rewards = <span style="color:#66b0ff;">[[Titles#Snowy_Mountain|Title]] Frostbitten </span> • {{EXP| 15,000}} • {{Meteor Shards|300}} • Snowy Mountain Luck: 1.15×
+}}
+
+{{Quest
+|Quest = Snowy Mountain Mastery: 4
+|QuestStep1 = Collect 30 Mythic materials
+|QuestStep2 = Collect 50,000 total materials
+|Rewards = {{EXP| 30,000}} • {{Meteor Shards|400}} • Snowy Mountain Luck: 1.20×
+}}
+
+{{Quest
+|Quest = Snowy Mountain Mastery: 5
+|QuestStep1 = Collect 5 Exotic materials
+|QuestStep2 = Collect 175,000 materials
+|Rewards = <span style="color:#458cff;">[[Titles#Snowy_Mountain|Title]] Summit Seeker </span> • {{EXP| 30,000}} • {{Meteor Shards|500}} • Snowy Mountain Luck: 1.25×
+}}
+
+{{Quest
+|Quest = Snowy Mountain Mastery: Complete
+|QuestStep1 = Snowy Mountain Luck: 1.25×
+}}
+
+|-|
+
+Overgrown Caves=
+=== Overgrown Caves Mastery ===
+'''Boost:''' Overgrown Caves Luck. 
+
+{{Quest
+|Quest = Overgrown Caves Mastery: 1
+|QuestStep1 = Collect 100 Legendary materials
+|QuestStep2 = Collect 1,000 total materials
+|Rewards = {{EXP| 2,000}} • {{Meteor Shards|100}} • Overgrown Caves Luck: 1.05×
+}}
+
+{{Quest
+|Quest = Overgrown Caves Mastery: 2
+|QuestStep1 = Collect 50 Firefly Stones
+|QuestStep2 = Collect 5,000 total materials
+|Rewards = {{EXP| 7,500}} • {{Meteor Shards|200}} • Overgrown Caves Luck: 1.10×
+}}
+
+{{Quest
+|Quest = Overgrown Caves Mastery: 3
+|QuestStep1 = Collect 10 Mythic materials
+|QuestStep2 = Collect 20,000 total materials
+|Rewards = <span style="color:#458cff;">[[Titles#Overgrown_Caves|Title]] Deepdelver </span> • {{EXP| 15,000}} • {{Meteor Shards|300}} • Overgrown Caves Luck: 1.15×
+}}
+
+{{Quest
+|Quest = Overgrown Caves Mastery: 4
+|QuestStep1 = Collect 25 Mythic materials
+|QuestStep2 = Collect 5 Exotic materials
+|QuestStep3 = Collect 60,000 total materials
+|Rewards = {{EXP| 30,000}} • {{Meteor Shards|400}} • Overgrown Caves Luck: 1.20×
+}}
+
+{{Quest
+|Quest = Overgrown Caves Mastery: 5
+|QuestStep1 = Collect 10 Exotic materials
+|QuestStep2 = Collect 200,000 materials
+|Rewards = <span style="color:#2eab5c;">[[Titles#Overgrown_Caves|Title]] Master Explorer </span> • {{EXP| 30,000}} • {{Meteor Shards|500}} • Overgrown Caves Luck: 1.25×
+}}
+
+{{Quest
+|Quest = Overgrown Caves Mastery: Complete
+|QuestStep1 = Overgrown Caves Luck: 1.25×
+}}
+
+|-|
+
+Rotwood Swamp=
+=== Rotwood Swamp Mastery ===
+'''Boost:''' Rotwood Swamp Luck.  
+
+{{Quest
+|Quest = Rotwood Swamp Mastery: 1
+|QuestStep1 = Collect 100 Legendary materials
+|QuestStep2 = Collect 2,000 total materials
+|Rewards = {{EXP| 2,000}} • {{Meteor Shards|100}} • Rotwood Swamp Luck: 1.05×
+}}
+
+{{Quest
+|Quest = Rotwood Swamp Mastery: 2
+|QuestStep1 = Collect 10,000 total materials
+|Rewards = {{EXP| 7,500}} • {{Meteor Shards|200}} • Rotwood Swamp Luck: 1.10×
+}}
+
+{{Quest
+|Quest = Rotwood Swamp Mastery: 3
+|QuestStep1 = Collect 10 Mythic materials
+|QuestStep2 = Collect 25,000 total materials
+|Rewards = <span style="color:#9058ff;">[[Titles#Rotwood_Swamp|Title]] Cursed </span> • {{EXP| 15,000}} • {{Meteor Shards|300}} • Rotwood Swamp Luck: 1.15×
+}}
+
+{{Quest
+|Quest = Rotwood Swamp Mastery: 4
+|QuestStep1 = Collect 100 Mythic materials
+|QuestStep2 = Collect 5 Exotic materials
+|QuestStep3 = Collect 75,000 total materials
+|Rewards = {{EXP| 30,000}} • {{Meteor Shards|400}} • Rotwood Swamp Luck: 1.20×
+}}
+
+{{Quest
+|Quest = Rotwood Swamp Mastery: 5
+|QuestStep1 = Collect 20 Exotic materials
+|QuestStep2 = Collect 250,000 materials
+|Rewards = <span style="color:#ff3131;">[[Titles#Rotwood_Swamp|Title]] Beast Hunter </span> • {{EXP| 30,000}} • {{Meteor Shards|500}} • Rotwood Swamp Luck: 1.25×
+}}
+
+{{Quest
+|Quest = Rotwood Swamp Mastery: Complete
+|QuestStep1 = Rotwood Swamp Luck: 1.25×
+}}
+
+|-|
+
+Meteor Valley=
+=== Meteor Valley Mastery ===
+'''Boost:''' Meteor Valley Luck.  
+
+{{Quest
+|Quest = Meteor Valley Mastery: 1
+|QuestStep1 = Collect 500 Legendary Materials from Meteor Valley
+|QuestStep2 = Collect 5,000 Materials from Meteor Valley
+|Rewards = {{EXP| 5,000}} • {{Meteor Shards|125}} • Meteor Valley Luck: 1.05×
+}}
+
+{{Quest
+|Quest = Meteor Valley Mastery: 2
+|QuestStep1 = Collect 25,000 Materials from Meteor Valley
+|Rewards = {{EXP| 25,000}} • {{Meteor Shards|250}} • Meteor Valley Luck: 1.10×
+}}
+
+{{Quest
+|Quest = Meteor Valley Mastery: 3
+|QuestStep1 = Collect 50 Mythic Materials from Meteor Valley
+|QuestStep2 = Collect 80,000 Materials from Meteor Valley
+|Rewards = <span style="color:#8258ff;">[[Titles#Meteor_Valley|Title]] Astronomer </span> • {{EXP| 100,000}} • {{Meteor Shards|400}} • Meteor Valley Luck: 1.15×
+}}
+
+{{Quest
+|Quest = Meteor Valley Mastery: 4
+|QuestStep1 = Collect 200 mythic materials from Meteor Valley
+|QuestStep2 = Collect 10 Exotic Materials from Meteor Valley
+|QuestStep3 = Collect 200,000 Materials from Meteor Valley
+|Rewards = {{EXP| 200,000}} • {{Meteor Shards|500}} • Meteor Valley Luck: 1.20×
+}}
+
+{{Quest
+|Quest = Meteor Valley Mastery: 5
+|QuestStep1 = Collect 50 Exotic Materials from Meteor Valley
+|QuestStep2 = Collect 800,000 Materials from Meteor Valley
+|Rewards = <span style="color:#ff1c73;">[[Titles#Meteor_Valley|Title]] Stardust </span> • {{EXP| 500,000}} • {{Meteor Shards|500}} • Meteor Valley Luck: 1.25×
+}}
+
+{{Quest
+|Quest = Meteor Valley Mastery: Complete
+|QuestStep1 = Meteor Valley Luck: 1.25×
+}}
+
+|-|
+Sunscorched Desert =
+'''Boost:''' Desert Luck
+{{Quest
+|Quest = Desert Mastery: 1
+|QuestStep1 = Collect 2,000 Legendary Materials from Sunscorched Desert.
+|QuestStep2 = Collect 10,000 Materials from the Sunscorched Desert.
+|Rewards = {{EXP|5,000}} • {{Meteor Shards|125}} • Desert Luck: 1.05&times;
+}}
+{{Quest
+|Quest = Desert Mastery: 2
+|QuestStep1 = Collect 40,000 Materials from Sunscorched Desert.
+|Rewards = {{EXP|25,000}} • {{Meteor Shards|250}} • Desert Luck: 1.10&times;
+}}
+{{Quest
+|Quest = Desert Mastery:3
+|QuestStep1 = Collect 200 Mythic Materials from Sunscorched Desert.
+|QuestStep2 = Collect 120,000 Materials from Sunscorched Desert.
+|Rewards = <span style="color:#ffd966;">[[Titles#Sunscorched_Desert|Title]] Dunestrider</span> • {{EXP|100,000}} • {{Meteor Shards|400}} • Desert Luck: 1.15&times;
+}}
+{{Quest
+|Quest = Desert Mastery: 4
+|QuestStep1 = Collect 500 Mythic Materials from Sunscorched Desert.
+|QuestStep2 = Collect 20 Exotic Materials from Sunscorched Desert.
+|QuestStep3 = Collect 400,000 Materials from Sunscorched Desert.
+|Rewards = {{EXP|200,000}} • {{Meteor Shards|500}} • Desert Luck: 1.20&times;
+}}
+{{Quest
+|Quest = Desert Mastery: 5
+|QuestStep1 = Collect 100 Exotic Materials from Sunscorched Desert.
+|QuestStep2 = Collect 2,000,000 Materials from Sunscorched Desert.
+|Rewards = <span style="color:#ffc58a;">[[Titles#Sunscorched_Desert|Title]] Emperor of the Sands</span> • {{EXP|500,000}} • {{Meteor Shards|500}} • Desert Luck: 1.25&times;
+}}
+{{Quest
+|Quest = Desert Mastery: Complete
+|QuestStep1 = Desert Luck: 1.25×
+}}
+</tabber>
+
+-----
+
+== Crafting Mastery ==
+
+{{Quest
+|Quest = Crafting Mastery: 1
+|QuestStep1 = Craft 20 Equipment
+|Rewards = {{EXP| 2,000}} • {{Meteor Shards|100}} • Crafting Minimum Quality: +5%
+}}
+
+{{Quest
+|Quest = Crafting Mastery: 2
+|QuestStep1 = Craft 40 Equipment
+|QuestStep2 = Craft 10 Rare Equipment
+|Rewards = {{EXP| 5,000}} • {{Meteor Shards|200}} • Crafting Minimum Quality: +10%
+}}
+
+{{Quest
+|Quest = Crafting Mastery: 3
+|QuestStep1 = Craft 100 Equipment
+|QuestStep2 = Craft 20 Epic Equipment
+|Rewards =  <span style="color:#ff6734;">[[Titles#Crafting_Mastery|Title]] Master Blacksmith </span> • {{EXP| 10,000}} • {{Meteor Shards|300}} • Crafting Minimum Quality: +15%
+}}
+
+{{Quest
+|Quest = Crafting Mastery: 4
+|QuestStep1 = Craft 250 Equipment
+|QuestStep2 = Craft 20 Mythic Equipment
+|Rewards = {{EXP| 20,000}} • {{Meteor Shards|400}} • Crafting Minimum Quality: +20%
+}}
+
+{{Quest
+|Quest = Crafting Mastery: 5
+|QuestStep1 = Craft 500 Equipment 
+|QuestStep2 = Craft 20 Exotic Equipment
+|Rewards = <span style="color:#a201ff;">[[Titles#Crafting_Mastery|Title]] Ancient Forgemaster </span> • {{EXP| 30,000}} • {{Meteor Shards|500}} • Crafting Minimum Quality: +25%
+}}
+
+{{Quest
+|Quest = Crafting Mastery: Complete
+|QuestStep1 = Crafting Minimum Quality: +25%
+}}
+
+
+-----
+
+== Sluice Mastery ==
+
+{{Quest
+|Quest = Sluice Mastery: 1
+|QuestStep1 = Collect 100 items from your sluice
+|Rewards = {{EXP| 2,000}} • {{Meteor Shards|100}} • Sluice Speed: +5%
+}}
+
+{{Quest
+|Quest = Sluice Mastery: 2
+|QuestStep1 = Collect 500 items from your sluice
+|Rewards = {{EXP| 5,000}} • {{Meteor Shards|200}} • Sluice Speed: +10%
+}}
+
+{{Quest
+|Quest = Sluice Mastery: 3
+|QuestStep1 = Collect 5,000 items from your sluice
+|Rewards = <span style="color:#ffbbf0;">[[Titles#Sluice_Mastery|Title]] Patient </span> • {{EXP| 10,000}} • {{Meteor Shards|300}} • Sluice Speed: +15%
+}}
+
+{{Quest
+|Quest = Sluice Mastery: 4
+|QuestStep1 = Collect 8,000 items from your sluice
+|Rewards = {{EXP| 20,000}} • {{Meteor Shards|400}} • Sluice Speed: +20%
+}}
+
+{{Quest
+|Quest = Sluice Mastery: 5
+|QuestStep1 = Collect 25,000 items from your sluice
+|Rewards = <span style="color:#c0f3ff;">[[Titles#Sluice_Mastery|Title]] Tranquility </span> • {{EXP| 30,000}} • {{Meteor Shards|500}} • Sluice Speed: +25%
+}}
+
+{{Quest
+|Quest = Sluice Mastery: Complete
+|QuestStep1 = Sluice Speed: +25%
+}}
+
+
+-----
+== Geode Mastery ==
+
+{{Quest
+|Quest = Geode Mastery: 1
+|QuestStep1 = Open 100 Geodes
+|Rewards = {{EXP| 2,000}} • {{Meteor Shards|100}} • Geode Luck: 1.05×
+}}
+
+{{Quest
+|Quest = Geode Mastery: 2
+|QuestStep1 = Open 400 Geodes
+|Rewards = {{EXP| 5,000}} • {{Meteor Shards|200}} • Geode Luck: 1.10×
+}}
+
+{{Quest
+|Quest = Geode Mastery: 3
+|QuestStep1 = Open 1,000 Geodes
+|Rewards = <span style="color:#90e5ff;">[[Titles#Geode_Mastery|Title]] Crystalline </span> • {{EXP| 10,000}} • {{Meteor Shards|300}} • Geode Luck: 1.15×
+}}
+
+{{Quest
+|Quest = Geode Mastery: 4
+|QuestStep1 = Open 2,500 Geodes
+|Rewards = {{EXP| 20,000}} • {{Meteor Shards|400}} • Geode Luck: 1.20×
+}}
+
+{{Quest
+|Quest = Geode Mastery: 5
+|QuestStep1 = Open 10,000 Geodes
+|Rewards = <span style="color:#00ffe1;">[[Titles#Geode_Mastery|Title]] Crystal Sovereign </span> • {{EXP| 30,000}} • {{Meteor Shards|500}} • Geode Luck: 1.25×
+}}
+
+{{Quest
+|Quest = Geode Mastery: 6
+|QuestStep1 = Geode Luck: 1.25×
+}}
+
+
+-----
+== Treasure Map Mastery ==
+
+{{Quest
+|Quest = Treasure Mastery: 1
+|QuestStep1 = Open 5 Treasure Chests
+|Rewards = {{EXP| 2,000}} • {{Meteor Shards|100}} • Treasure Chance: 1.05×
+}}
+
+{{Quest
+|Quest = Treasure Mastery: 2
+|QuestStep1 = Open 20 Treasure Chests
+|Rewards = {{EXP| 5,000}} • {{Meteor Shards|200}} • Treasure Chance: 1.10×
+}}
+
+{{Quest
+|Quest = Treasure Mastery: 3
+|QuestStep1 = Open 50 Treasure Chests
+|Rewards =  <span style="color:#ffd735;">[[Titles#Treasure_Mastery|Title]] Pirate </span> • {{EXP| 10,000}} • {{Meteor Shards|300}} • Treasure Chance: 1.15×
+}}
+
+{{Quest
+|Quest = Treasure Mastery: 4
+|QuestStep1 = Open 125 Treasure Chests
+|Rewards = {{EXP| 20,000}} • {{Meteor Shards|400}} • Treasure Chance: 1.20×
+}}
+
+{{Quest
+|Quest = Treasure Mastery: 5
+|QuestStep1 = Open 300 Treasure Chests
+|Rewards = <span style="color:#0693ff;">[[Titles#Treasure_Mastery|Title]] Ruler of the Seas </span> • {{EXP| 30,000}} • {{Meteor Shards|500}} • Treasure Chance: 1.25×
+}}
+
+{{Quest
+|Quest = Treasure Mastery: Complete
+|QuestStep1 = Treasure Chance: 1.25×
+}}

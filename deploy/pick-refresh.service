@@ -1,0 +1,12 @@
+[Unit]
+Description=PICK data refresh (local -> DB -> JSON -> git push)
+After=network.target docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/nola/Desktop/PICK!
+ExecStart=/home/nola/Desktop/PICK!/.venv/bin/python -m pick.cli refresh --mode=incremental
+EnvironmentFile=/home/nola/Desktop/PICK!/.env
+StandardOutput=append:/home/nola/Desktop/PICK!/logs/refresh.log
+StandardError=append:/home/nola/Desktop/PICK!/logs/refresh.log

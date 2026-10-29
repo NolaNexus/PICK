@@ -1,0 +1,457 @@
+
+{{Tocright}}
+
+[[File:Museum.png|thumb|300px|''The Museum'']]
+
+= Museum =
+The '''Museum''' is an indoor [[Locations|location]] in {{Caldera Park}} where players can place minerals into display pedestals to earn permanent stat boosts.  
+Each display accepts minerals of a specific rarity, ranging from '''Common''' to '''Exotic'''. The '''Museum''' also has a [[Vault]] to the right of the [[Receptionist]], as well as a [[Manage Museums Board]] and [[Visit Museums Globe]]. 
+
+== Staff ==
+* [[Receptionist]] — Quest-giving NPC who manages the Museum.
+
+== Extras ==
+* [[Vault]] — Allows players to store extra minerals and materials 
+* [[MVP|Voting box]] — Vote for the next [[MVP]]
+* [[Manage Museums Board]] — Save different museum setups and quickly switch between them
+* [[Visit Museums Globe]] — See what other players have in their museums
+
+== Displays ==
+[[File:Museum_Display.png|thumb|280px|''A Display Pedestal'']]
+The Museum contains rarity-based displays.  
+
+* For '''Common''' through '''Legendary''' rarities, each rarity has '''1 free display''' and '''2 locked displays''', one unlockable with money, the other with [[Meteor Shards]].  
+* For the '''Mythic''' rarity, there are only 2 displays (money + shards, no free).  
+* The '''Exotic''' rarity has only 1 display (shards only).  
+
+{| class="wikitable" style="width:100%; text-align:center;"
+! Rarity !! Free Displays !! Locked Displays !! Price (Money) !! Price (Shards) !! Total Displays
+|-
+| <span style="background:linear-gradient(90deg,#cccccc,#919191); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''Common''</span> || 1 || 2 || <span style="color:#FFFF00;">$1,000,000</span> || 400 [[File:Meteor Shard Icon.png|18px|link=Meteor Shards]] || 3
+|-
+| <span style="background:linear-gradient(90deg,#1fd13a,#05b302); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''Uncommon''</span> || 1 || 2 || <span style="color:#FFFF00;">$5,000,000</span> || 800 [[File:Meteor Shard Icon.png|18px|link=Meteor Shards]] || 3
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''Rare''</span> || 1 || 2 || <span style="color:#FFFF00;">$10,000,000</span> || 1,500 [[File:Meteor Shard Icon.png|18px|link=Meteor Shards]] || 3
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''Epic''</span> || 1 || 2 || <span style="color:#FFFF00;">$100,000,000</span> || 2,250 [[File:Meteor Shard Icon.png|18px|link=Meteor Shards]] || 3
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''Legendary''</span> || 1 || 2 || <span style="color:#FFFF00;">$1,000,000,000</span> || 3,000 [[File:Meteor Shard Icon.png|18px|link=Meteor Shards]] || 3
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''Mythic''</span> || 0 || 2 || <span style="color:#FFFF00;">$10,000,000,000</span> || 5,000 [[File:Meteor Shard Icon.png|18px|link=Meteor Shards]] || 2
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''Exotic''</span> || 0 || 1 || <span style="color:#FF0000;">N/A</span> || 10,000 [[File:Meteor Shard Icon.png|18px|link=Meteor Shards]] || 1
+|}
+
+
+=== How it Works ===
+* Place a mineral matching the display’s rarity to grant a '''permanent stat bonus'''.  
+* Each display holds one mineral. '''Bonuses stack''' across unlocked displays.  
+* You can replace a mineral at any time to change the bonus.  
+
+== Ore Bonuses by Rarity ==
+Below are all minerals that can be placed into displays, their stat bonuses, and the minimum weight required to achieve the max bonus.  
+
+<templatestyles src="Template:Stat/styles.css"/>
+=== <span style="background:linear-gradient(90deg,#cccccc,#919191); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''Common Ores''</span> ===
+{| class="wikitable" style="width:100%; text-align:center;"
+! Ore !! Minimum KG !! Bonus !! Maximum Boost
+|-
+| <span style="background:linear-gradient(90deg,#cccccc,#919191); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Amethyst]]''</span> || 20 || {{Stat|Dig Speed}} || 0.05×
+|-
+| <span style="background:linear-gradient(90deg,#cccccc,#919191); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Blue Ice]]''</span> || 40 || {{Stat|Dig Speed}} || 0.05×
+|-
+| <span style="background:linear-gradient(90deg,#cccccc,#919191); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Copper]]''</span> || 60 || {{Stat|Size Boost}} || 0.04×
+|-
+| <span style="background:linear-gradient(90deg,#cccccc,#919191); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Gold]]''</span> || 40 || {{Stat|Sell Boost}} || 0.05×
+|-
+| <span style="background:linear-gradient(90deg,#cccccc,#919191); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Obsidian]]''</span> || 30 || {{Stat|Size Boost}} || 0.04×
+|-
+| <span style="background:linear-gradient(90deg,#cccccc,#919191); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Pearl]]''</span> || 20 || {{Stat|Shake Speed}} || 0.05×
+|-
+| <span style="background:linear-gradient(90deg,#cccccc,#919191); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Platinum]]''</span> || 40 || {{Stat|Dig Speed}} || 0.05×
+|-
+| <span style="background:linear-gradient(90deg,#cccccc,#919191); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Pyrite]]''</span> || 60 || {{Stat|Capacity}} || 0.05×
+|-
+| <span style="background:linear-gradient(90deg,#cccccc,#919191); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Seashell]]''</span> || 20 || {{Stat|Capacity}} || 0.05×
+|-
+| <span style="background:linear-gradient(90deg,#cccccc,#919191); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Silver]]''</span> || 40 || {{Stat|Shake Speed}} || 0.05×
+|}
+
+<templatestyles src="Template:Stat/styles.css"/>
+
+=== <span style="background:linear-gradient(90deg,#1fd13a,#05b302); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''Uncommon Ores''</span> ===
+{| class="wikitable" style="width:100%; text-align:center;"
+! Ore !! Minimum KG !! Bonus !! Maximum Boost
+|-
+| <span style="background:linear-gradient(90deg,#1fd13a,#05b302); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Coral]]''</span> || 10 || {{Stat|Capacity}} || 0.08×
+|-
+| <span style="background:linear-gradient(90deg,#1fd13a,#05b302); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Electrum]]''</span> || 40 || {{Stat|Sell Boost}} || 0.08×
+|-
+| <span style="background:linear-gradient(90deg,#1fd13a,#05b302); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Glowberry]]''</span> || 40 || {{Stat|Sell Boost}} || 0.08×
+|-
+| <span style="background:linear-gradient(90deg,#1fd13a,#05b302); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Malachite]]''</span> || 20 || {{Stat|Modifier Boost}} || 0.08×
+|-
+| <span style="background:linear-gradient(90deg,#1fd13a,#05b302); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Neodymium]]''</span> || 40 || {{Stat|Shake Strength}} || 0.08×
+|-
+| <span style="background:linear-gradient(90deg,#1fd13a,#05b302); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Nickel]]''</span> || 40 || {{Stat|Capacity}} || 0.08×
+|-
+| <span style="background:linear-gradient(90deg,#1fd13a,#05b302); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Rock Candy]]''</span> || 60 || {{Stat|Size Boost}} || 0.05×
+|-
+| <span style="background:linear-gradient(90deg,#1fd13a,#05b302); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Sapphire]]''</span> || 20 || {{Stat|Dig Speed}} || 0.08×
+|-
+| <span style="background:linear-gradient(90deg,#1fd13a,#05b302); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Smoky Quartz]]''</span> || 20 || {{Stat|Shake Strength}} || 0.08×
+|-
+| <span style="background:linear-gradient(90deg,#1fd13a,#05b302); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Titanium]]''</span> || 40 || {{Stat|Dig Speed}} || 0.08×
+|-
+| <span style="background:linear-gradient(90deg,#1fd13a,#05b302); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Topaz]]''</span> || 20|| {{Stat|Capacity}} || 0.08×
+|-
+| <span style="background:linear-gradient(90deg,#1fd13a,#05b302); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Zircon]]''</span> || 20 || {{Stat|Size Boost}} || 0.05×
+|}
+
+<templatestyles src="Template:Stat/styles.css"/>
+
+=== <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''Rare Ores''</span> ===
+{| class="wikitable" style="width:100%; text-align:center;"
+! Ore !! Minimum KG !! Bonus !! Maximum Boost
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Amber]]''</span> || 20 || {{Stat|Sell Boost}} || 0.13×
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Azuralite]]''</span> || 30 || {{Stat|Dig Speed}} || 0.13×
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Candy Cane]]''</span> || 40 || {{Stat|Size Boost}} || 0.09×
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Diopside]]''</span> || 20 || {{Stat|Modifier Boost}} || 0.13×
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Glacial Quartz]]''</span> || 40 || {{Stat|Dig Speed}} || 0.13×
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Gloomberry]]''</span> || 40 || {{Stat|Dig Speed}} || 0.13×
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Jade]]''</span> || 40 || {{Stat|Modifier Boost}} || 0.13×
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Lapis Lazuli]]''</span> || 30 || {{Stat|Dig Speed}} || 0.13×
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Meteoric Iron]]''</span> || 40 || {{Stat|Shake Strength}} || 0.13×
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Onyx]]''</span> || 30 || {{Stat|Modifier Boost}} || 0.13×
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Peridot]]''</span> || 20 || {{Stat|Luck}} || 0.13×
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Pyrelith]]''</span> || 30 || {{Stat|Sell Boost}} || 0.13×
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Ruby]]''</span> || 20 || {{Stat|Shake Strength}} || 0.13×
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Sandsteel]]''</span> || 30 || {{Stat|Sell Boost}} || 0.13&times;
+|-
+| <span style="background:linear-gradient(90deg,#0059ff,#0062c4); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Silver Clamshell]]''</span> || 20 || {{Stat|Shake Speed}} || 0.13×
+|}
+ 
+<templatestyles src="Template:Stat/styles.css"/>
+
+=== <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''Epic Ores''</span> ===
+{| class="wikitable" style="width:100%; text-align:center;"
+! Ore !! Minimum KG !! Bonus !! Maximum Boost
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Ammonite Fossil]]''</span> || 50 || {{Stat|Capacity}} || 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Ashvein]]''</span> || 20 || {{Stat|Size Boost}} || 0.14×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Aurorite]]''</span> || 30 || {{Stat|Dig Speed}} || 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Bone]]''</span> || 50 || {{Stat|Size Boost}} || 0.14×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Borealite]]''</span> || 20 || {{Stat|Dig Speed}} || 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Cobalt]]''</span> || 40 || {{Stat|Dig Speed}} || 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Emerald]]''</span> || 20 || {{Stat|Luck}} || 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Glowmoss]]''</span> || 60 || {{Stat|Modifier Boost}} || 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Golden Pearl]]''</span> || 20 || {{Stat|Capacity}} || 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Iridium]]''</span> || 40 || {{Stat|Dig Speed}} || 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Lightshard]]''</span> || 20 || {{Stat|Dig Speed}} || 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Mercury]]''</span> || 80 || {{Stat|Shake Strength}} || 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Meteoric Gold]]''</span> || 40 || {{Stat|Sell Boost}} || 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Moonstone]]''</span> || 50 || {{Stat|Shake Speed}} || 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Opal]]''</span> || 20 || {{Stat|Shake Speed}} || 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Osmium]]''</span> || 80 || {{Stat|Size Boost}} || 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Pyronium]]''</span> || 50 || {{Stat|Sell Boost}} || 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#b11ae8,#a100c2); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Selenite]]''</span> || 30 || {{Stat|Shake Speed}} || 0.2×
+|}
+ 
+<templatestyles src="Template:Stat/styles.css"/>
+
+=== <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''Legendary Ores''</span> ===
+{| class="wikitable" style="width:100%; text-align:Center;"
+! Ore !! Minimum KG !! Bonus !! Maximum Boost
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Aetherite]]''</span> || 20 || {{Stat|Dig Speed}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Aquamarine]]''</span> || 20 || {{Stat|Dig Speed}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Bismuth]]''</span> || 80 || {{Stat|Dig Speed}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Catseye]]''</span> || 20 || {{Stat|Capacity}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Cinnabar]]''</span> || 20 || {{Stat|Size Boost}} || 0.21×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Depleted Shard]]''</span> || 40 || {{Stat|Dig Strength}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Diamond]]''</span> || 20 || {{Stat|Luck}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Dragon Bone]]''</span> || 50 || {{Stat|Size Boost}} || 0.21×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Fire Opal]]''</span> || 20 || {{Stat|Size Boost}} || 0.21×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Firefly Stone]]''</span> || 60 || {{Stat|Capacity}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Gloomcap]]''</span> || 20 || {{Stat|Dig Speed}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Jasper]]''</span> || 30 || {{Stat|Sell Boost}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Lost Soul]]''</span> || 20 || {{Stat|Dig Speed}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Luminum]]''</span> || 40 || {{Stat|Capacity}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Nautilus Shell]]''</span> || 50 || {{Stat|Capacity}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Palladium]]''</span> || 40 || {{Stat|Sell Boost}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Peppermint Prism]]''</span> || 20 || {{Stat|Modifier Boost}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Rose Gold]]''</span> || 40 || {{Stat|Shake Strength}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Specterite]]''</span> || 10 || {{Stat|Shake Speed}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Starshine]]''</span> || 20 || {{Stat|Dig Speed}}, {{Stat|Shake Speed}} || 0.15×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Tourmaline]]''</span> || 24 || {{Stat|Sell Boost}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Uranium]]''</span> || 60 || {{Stat|Modifier Boost}} || 0.3×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Volcanic Key]]''</span> || 20 || {{Stat|Size Boost}} || 0.21×
+|-
+| <span style="background:linear-gradient(90deg,#FFFF00,#e66300); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Radium]]''</span> || 60 || {{Stat|Modifier Boost}} || 0.3×
+|}
+ 
+<templatestyles src="Template:Stat/styles.css"/>
+
+=== <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''Mythic Ores''</span> ===
+
+{| class="wikitable" style="width:100%; text-align:center;"
+! Ore !! Minimum KG !! Bonus !! Maximum Boost
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Aetherium]]''</span> || 20 || {{Stat|Dig Speed}} || 0.5×
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Agate]]''</span> || 40 || {{Stat|Sell Boost}} || 0.5×
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Chrysoberyl]]''</span> || 20 || {{Stat|Luck}} || 0.5×
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Flarebloom]]''</span> || 20 || +{{Stat|Luck}}, –{{Stat|Size Boost}} || 0.75×, -0.5×
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Frostshard]]''</span> || 20 || {{Stat|Dig Strength}} || 0.5×
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Inferlume]]''</span> || 20 || {{Stat|Luck}} || 0.5×
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Mythril]]''</span> || 60 || {{Stat|Shake Strength}} || 0.5×
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Painite]]''</span> || 20 || {{Stat|Size Boost}} || 0.35×
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Pink Diamond]]''</span> || 20 || {{Stat|Luck}} || 0.5×
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Prismara]]''</span> || 20 || {{Stat|Luck}}, {{Stat|Capacity}}, {{Stat|Dig Strength}}, {{Stat|Shake Strength}} || 0.25×
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Radiant Gold]]''</span> || 60 || {{Stat|Sell Boost}} || 0.5×
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Red Beryl]]''</span> || 20 || {{Stat|Size Boost}} || 0.35×
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Star Garnet]]''</span> || 20 || {{Stat|Size Boost}} || 0.35×
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Sunstone]]''</span> || 40 || {{Stat|Sell Boost}} || 0.5×
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Volcanic Core]]''</span> || 20 || {{Stat|Dig Strength}}, {{Stat|Size Boost}} || 0.25×, 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#81008a,#cf0064); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Vortessence]]''</span> || 20 || {{Stat|Capacity}} || 0.5×
+|}
+ 
+<templatestyles src="Template:Stat/styles.css"/>
+
+=== <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''Exotic Ores''</span> ===
+{| class="wikitable" style="width:100%; text-align:center;"
+! Ore !! Minimum KG !! Bonus !! Maximum Boost
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Adamantine]]''</span>
+ || 40 || {{Stat|Modifier Boost}} || 0.8×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Astral Spore]]''</span>
+ || 20 || {{Stat|Dig Speed}} || 0.8×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Bloodstone]]''</span>
+ || 40 || {{Stat|Size Boost}} || 0.56×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Celestium]]''</span>
+ || 40 || {{Stat|Luck}}, {{Stat|Shake Speed}} || 0.48×, 0.48×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Cryonic Artifact]]''</span>
+ || 20 || {{Stat|Dig Strength}}, {{Stat|Shake Strength}}, –{{Stat|Dig Speed}}, –{{Stat|Shake Speed}} || 1.2×, 1.2×, -0.8×, -0.8×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Dinosaur Skull]]''</span>
+ || 100 || {{Stat|Sell Boost}}, {{Stat|Size Boost}} || 0.4×, 0.32×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Eternium]]''</span>
+ || 20 || {{Stat|Luck}}, {{Stat|Dig Speed}}, {{Stat|Shake Speed}} || 0.32×, 0.32×, 0.32×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Eye of the Sands]]''</span>
+ || 50 || {{Stat|Sell Boost}} || 0.88×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Forgotten Totem]]''</span>
+ || 40 || {{Stat|Sell Boost}} || 0.8×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Key of Life]]''</span>
+ || 40 || {{Stat|Luck}} || 0.88×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Moonspire]]</span>
+| 40 ||  {{Stat|Dig Speed}}, {{Stat|Shake Speed}}, {{Stat|WalkSpeed}} || 0.32×, 0.32×, 0.32×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[North Star]]''</span>
+ || 40 || {{Stat|Luck}}, {{Stat|Capacity}}, {{Stat|Dig Speed}}, {{Stat|Shake Speed}} || 0.2×, 0.2×, 0.2×, 0.2×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Pumpkin Soul]]''</span>
+ || 40 || {{Stat|Size Boost}} || 0.56×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Singularium]]''</span>
+ || 100 || {{Stat|Capacity}}, {{Stat|Size Boost}} || 0.48×, 0.48×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Solarium]]''</span>
+ || 40 || {{Stat|Size Boost}} || 0.64×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Starpiercer]]''</span>
+ || 40 || {{Stat|Dig Strength}}, {{Stat|Shake Strength}} || 0.48×, 0.48×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Umbrite]]''</span>
+ || 40 || {{Stat|Dig Speed}}, {{Stat|Shake Speed}} || 0.4×, 0.4×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Vineheart]]''</span>
+ || 40 || {{Stat|Luck}} || 0.8×
+|-
+| <span style="background:linear-gradient(90deg,#ff0011,#d60059); -webkit-background-clip:text !important; -webkit-text-fill-color:transparent;">''[[Voidstone]]''</span>
+ || 20 || {{Stat|Luck}}, {{Stat|Capacity}} || 0.4×, 0.4×
+|}
+
+<templatestyles src="Template:Stat/styles.css"/>
+
+== Modifier Bonuses ==
+These are the bonuses given by ore [[Modifiers|modifiers]], as well as the chances for getting those modifiers by digging.
+{| class="wikitable" style="width:100%; text-align:center;"
+! Modifier  !! Bonus || Chance
+|-
+| <span style="color:#00FFE1;">Perfect</span> 
+| {{Stat|Luck}} + {{Stat|Capacity}} + {{Stat|Size Boost}} 
+| 0.003736%
+|-
+| <span style="color:#FFD849;">Treasured</span> 
+| 2&times;{{Stat|Luck}}
+| 0 <ref>[[Treasure Chest|Treasure chests]] only</ref>
+|-
+| <span style="color:#FFE99B;">Lunar</span> 
+| {{Stat|Dig Speed}} + {{Stat|Shake Speed}} + {{Stat|Walkspeed}}
+| 0.009341%
+|-
+| <span style="color:#8307FF;">Voidtorn</span> 
+| {{Stat|Luck}} + {{Stat|Capacity}}
+| 0 <ref>Panning in {{The Void}}, using the [[Galactic Pan]] or [[Galactic Shovel|shovel]], or using a shovel with the Voidtouched [[Enchanting#tabber-Shovels|enchant]]</ref>
+|-
+| <span style="color:#7F43FF;">Mutated</span> 
+| {{Stat|Luck}} + {{Stat|Dig Strength}} + {{Stat|Modifier Boost}}
+| 0.03736%
+|-
+| <span style="color:#FF478E;">Cosmic</span> 
+| {{Stat|Capacity}} + {{Stat|Shake Strength}}
+| 0.1868%
+|-
+| <span style="color:#FFEB0B;">Electrified</span> 
+| {{Stat|Dig Speed}} + {{Stat|Shake Speed}}
+| 0 <ref>Panning during [[Events#tabber-Thunderstorm|Thunderstorm]] Admin-exclusive event only</ref>
+|-
+| <span style="color:#F36BFF;">Iridescent</span> 
+| {{Stat|Luck}}
+| 0.7473%
+|-
+| <span style="color:#B7E6FF;">Crystalline</span> 
+| {{Stat|Size Boost}}
+| 0 <ref>From [[Geodes|geodes]] only</ref>
+|-
+| <span style="color:#67FF20;">Irradiated</span> 
+| {{Stat|Modifier Boost}}
+| 3.736%
+|-
+| <span style="color:#FF861C;">Scorching</span> 
+| {{Stat|Dig Strength}}
+| 9.341%
+|-
+| <span style="color:#FFF292;">Glowing</span> 
+| {{Stat|Shake Speed}}
+| 18.68%
+|-
+| <span style="color:#ffffff;">Pure</span> 
+| {{Stat|Dig Speed}}
+| 29.89%
+|-
+| <span style="color:#D4E7FF;">Shiny</span> 
+| {{Stat|Shake Strength}}
+| 37.36%
+|-
+| <span style="color:#FFFFFF;">Purified</span> || (none) || 0 <ref>[[Runes|Purity rune]]</ref>
+|-
+| <span style="color:#79E252;">Ghostly</span> || (none) || 0 <ref>Panning during Halloween event</ref>
+|-
+| <span style="color:#41FFB6;">Spooky</span> || (none) || 0 <ref>Panning during [[Events#tabber-Hallows'_Eve_-_Limited|Hallows' Eve]] hourly event at Halloween</ref>
+|-
+| <span style="color:#FF4040;">Jolly</span> || (none) || 0 <ref>Christmas event</ref>
+|-
+| <span style="color:#FFA7DC;">Charming</span> || (none) || 0 <ref name="Valentine">Panning during the [[Events#tabber-Rose_Rain-_Limited|Rose Rain]] hourly event (Valentine's Day)</ref>
+|-
+| <span style="color:#AC1441;">Rosy</span> || (none) || 0 <ref name="Valentine" />
+|-
+| <span style="color:#e18114;">Summer</span> || (none) || 0 <ref>Panning during [[Seashell Isle|Summer Event]]</ref>
+|-
+| <span style="color:#1c4899;">Tidal</span> || (none) || 0 <ref>Panning at beaches during [[Events#tabber-Shifting_Tides_-_Limited|Shifting Tides]] hourly event in Summer</ref>
+|-
+| <span style="color:#e2400b;">Hearthflame</span> || (none) || 0 <ref>Panning during [[Events#tabber-Night_of_the_Bonfire_-_Limited|Night of the Bonfire]] event in Summer</ref>
+|-
+|}
+=== Notes on Chances ===
+<references />
+
+== Modifier Multiplier Per Rarity ==
+{| class="wikitable" style="width:100%; text-align:center;"
+! Modifier !! Multiplier
+|-
+| <span style="color:#cccccc;">Common</span>  || 0.005&times;
+|-
+| <span style="color:#1fd13a;">Uncommon</span>  || 0.0075&times;
+|-
+| <span style="color:#0059ff;">Rare</span> || 0.0125&times;
+|-
+| <span style="color:#b11ae8;">Epic</span> || 0.02&times;
+|-
+| <span style="color:#FFFF00;">Legendary</span> || 0.03&times; 
+|-
+| <span style="color:#81008a;">Mythic</span> || 0.05&times;
+|-
+| <span style="color:#ff0011;">Exotic</span> || 0.08&times;
+|}
+
+* Note: The <span style="color:#c9ba0a;">Treasured</span> modifier gives 2&times; the amounts listed above (e.g., Legendary: 0.03&times; → 0.06&times;).
+* Modifier bonuses apply to all ores of that rarity, regardless of weight.
+[[Category:Locations]]
+[[Category:Mainland]]

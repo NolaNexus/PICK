@@ -1,0 +1,30 @@
+---
+// Minimal index page for PICK site
+const siteTitle = "PICK! - Prospecting Wiki Data"
+const itemCount = 114
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{siteTitle}</title>
+    <style>
+      body { font-family: system-ui, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+      h1 { color: #333; }
+      .stats { background: #f5f5f5; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+    </style>
+  </head>
+  <body>
+    <h1>{siteTitle}</h1>
+    <div class="stats">
+      <p><strong>Items in database:</strong> {itemCount}</p>
+      <p><strong>Data source:</strong> <a href="https://prospecting.miraheze.org">Prospecting Wiki (Miraheze)</a></p>
+      <p><strong>Pipeline:</strong> pick-pipeline v0.1.0</p>
+    </div>
+    <p>This static site is generated from the PICK pipeline export.</p>
+    <p><a href="/pick-site/data/items.json">View raw data (items.json)</a></p>
+    <p><a href="/pick-site/data/meta.json">View metadata (meta.json)</a></p>
+  </body>
+</html>

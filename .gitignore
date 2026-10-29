@@ -1,0 +1,39 @@
+# Pipeline artifacts (not source)
+.venv/
+.venv-3.14/
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Tooling / data
+.tools/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+uv.lock
+
+# Env / secrets (never commit)
+.env
+.env.local
+*.pem
+*.key
+
+# DB persistence (development only)
+pgdata/
+*.db
+
+# Public repo seed — build outputs
+site/dist/
+site/node_modules/
+
+# Generated / temporary
+/tmp/
+*.log
+logs/
+
+# IDE
+.idea/
+.vscode/
